@@ -1,4 +1,4 @@
-package be.syntra.devshop.DevshopBack.controller;
+package be.syntra.devshop.DevshopBack.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
