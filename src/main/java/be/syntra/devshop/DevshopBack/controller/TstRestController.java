@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/devshop")
 public class TstRestController {
 
-    @GetMapping(value = "/test", produces ="application/JSON")
-    public ResponseEntity<String> displayTstString(){
+    @GetMapping(value = "/test", produces = "application/JSON")
+    public ResponseEntity<String> displayTstString() {
         return ResponseEntity.ok().body("DevShop");
     }
 }

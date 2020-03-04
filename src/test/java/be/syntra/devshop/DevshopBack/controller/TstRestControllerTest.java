@@ -22,6 +22,5 @@ class TstRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().string("DevShop"));
-
     }
 }
