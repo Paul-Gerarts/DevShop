@@ -17,9 +17,9 @@ import java.math.BigDecimal;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final long id;
-    @Column (name = "Name")
+    private Long id;
+    @Column(name = "name")
     private final String name;
-    @Column (name = "Price")
+    @Column(name = "price")
     private final BigDecimal price;
 }

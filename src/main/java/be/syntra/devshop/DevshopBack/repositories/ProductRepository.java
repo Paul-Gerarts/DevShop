@@ -2,6 +2,8 @@ package be.syntra.devshop.DevshopBack.repositories;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ProductRepository extends JpaRepository<Long, Product> {
+@Repository
+public interface ProductRepository extends JpaRepository<Product, Long> {
 }
