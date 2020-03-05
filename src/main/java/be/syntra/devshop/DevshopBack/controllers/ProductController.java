@@ -1,6 +1,6 @@
 package be.syntra.devshop.DevshopBack.controllers;
 
-import be.syntra.devshop.DevshopBack.model.ProductDTO;
+import be.syntra.devshop.DevshopBack.models.ProductDTO;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
 import be.syntra.devshop.DevshopBack.services.DTOMapperService;
 import org.springframework.http.ResponseEntity;
