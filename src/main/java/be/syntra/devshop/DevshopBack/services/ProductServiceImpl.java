@@ -3,9 +3,9 @@ package be.syntra.devshop.DevshopBack.services;
 import be.syntra.devshop.DevshopBack.models.ProductDTO;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
 import be.syntra.devshop.DevshopBack.services.mappers.DTOToEntityMapperService;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
     private DTOToEntityMapperService dtoToEntityMapperService;
