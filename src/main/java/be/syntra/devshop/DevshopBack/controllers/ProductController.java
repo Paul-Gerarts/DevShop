@@ -1,8 +1,8 @@
 package be.syntra.devshop.DevshopBack.controllers;
 
 import be.syntra.devshop.DevshopBack.models.ProductDTO;
-import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
-import be.syntra.devshop.DevshopBack.services.DTOMapperService;
+import be.syntra.devshop.DevshopBack.services.ProductService;
+import be.syntra.devshop.DevshopBack.services.mappers.DTOToEntityMapperService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,18 +13,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/products")
 public class ProductController {
-    private ProductRepository productRepository;
-    private DTOMapperService dtoMapperService;
+    private ProductService productService;
+    private DTOToEntityMapperService dtoToEntityMapperService;
 
-    public ProductController(ProductRepository productRepository, DTOMapperService dtoMapperService) {
-        this.productRepository = productRepository;
-        this.dtoMapperService = dtoMapperService;
+    public ProductController(ProductService productService, DTOToEntityMapperService dtoToEntityMapperService) {
+        this.productService = productService;
+        this.dtoToEntityMapperService = dtoToEntityMapperService;
     }
 
 
     @PostMapping
     public ResponseEntity<?> postProductToDB(@RequestBody ProductDTO productDTO) {
-        productRepository.save(dtoMapperService.convertToProduct(productDTO));
+        productService.productToDataBase(dtoToEntityMapperService.convertToProduct(productDTO));
         return ResponseEntity.ok(productDTO);
     }
 

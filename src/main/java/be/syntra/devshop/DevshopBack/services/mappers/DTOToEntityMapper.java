@@ -1,4 +1,4 @@
-package be.syntra.devshop.DevshopBack.services;
+package be.syntra.devshop.DevshopBack.services.mappers;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.ProductDTO;
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class DTOMapper implements DTOMapperService {
+public class DTOToEntityMapper implements DTOToEntityMapperService {
     public Product convertToProduct(ProductDTO productDTO) {
         return Product.builder()
                 .name(productDTO.getName())
