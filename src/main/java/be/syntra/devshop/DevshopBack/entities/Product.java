@@ -5,8 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 
 @Entity
@@ -24,6 +26,7 @@ public class Product {
     private final String name;
     @Column(name = "price")
     @NotNull
-    @NotBlank
+    @Digits(integer = 5, fraction = 2)
+    @PositiveOrZero
     private final BigDecimal price;
 }
