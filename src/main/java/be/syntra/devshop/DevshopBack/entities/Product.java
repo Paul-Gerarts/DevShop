@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
@@ -19,8 +20,10 @@ public class Product {
     private Long id;
     @Column(name = "name")
     @NotNull
+    @NotBlank
     private final String name;
     @Column(name = "price")
     @NotNull
+    @NotBlank
     private final BigDecimal price;
 }
