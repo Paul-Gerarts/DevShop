@@ -20,10 +20,12 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "name")
     @NotNull
     @NotBlank
     private final String name;
+
     @Column(name = "price")
     @NotNull
     @Digits(integer = 5, fraction = 2)

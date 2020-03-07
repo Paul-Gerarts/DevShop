@@ -1,8 +1,9 @@
 package be.syntra.devshop.DevshopBack.services;
 
-import be.syntra.devshop.DevshopBack.models.ProductDTO;
+import be.syntra.devshop.DevshopBack.models.ProductDto;
 
 
 public interface ProductService {
-    void productToDataBase(ProductDTO productDTO);
+
+    ProductDto save(ProductDto productDTO);
 }

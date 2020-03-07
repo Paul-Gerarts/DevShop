@@ -2,16 +2,16 @@ package be.syntra.devshop.DevshopBack.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.math.BigDecimal;
 
-@Getter
-@Setter
+@Data
 @Builder
 @AllArgsConstructor
-public class ProductDTO {
+public class ProductDto {
+
     private String name;
     private BigDecimal price;
+
 }
