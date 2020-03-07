@@ -1,8 +1,6 @@
 package be.syntra.devshop.DevshopBack.entities;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
@@ -16,7 +14,10 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,11 +25,11 @@ public class Product {
     @Column(name = "name")
     @NotNull
     @NotBlank
-    private final String name;
+    private String name;
 
     @Column(name = "price")
     @NotNull
     @Digits(integer = 5, fraction = 2)
     @PositiveOrZero
-    private final BigDecimal price;
+    private BigDecimal price;
 }

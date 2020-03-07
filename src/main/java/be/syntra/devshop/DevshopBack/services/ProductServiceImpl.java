@@ -5,6 +5,8 @@ import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
 import be.syntra.devshop.DevshopBack.services.utilities.MapperUtility;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductServiceImpl implements ProductService {
 
@@ -14,6 +16,11 @@ public class ProductServiceImpl implements ProductService {
     public ProductServiceImpl(ProductRepository productRepository, MapperUtility mapperUtility) {
         this.productRepository = productRepository;
         this.mapperUtility = mapperUtility;
+    }
+
+    @Override
+    public List<ProductDto> findAll() {
+        return mapperUtility.convertListToDtos(productRepository.findAll());
     }
 
     @Override
