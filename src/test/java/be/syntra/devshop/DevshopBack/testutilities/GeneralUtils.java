@@ -2,7 +2,7 @@ package be.syntra.devshop.DevshopBack.testutilities;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public final class TestUtils {
+public final class GeneralUtils {
 
     public static String asJsonString(final Object object) {
         try {

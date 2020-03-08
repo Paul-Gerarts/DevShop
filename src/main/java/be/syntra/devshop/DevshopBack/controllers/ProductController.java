@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/products")
 public class ProductController {
 
-    @Autowired
     private ProductServiceImpl productService;
 
+    @Autowired
     public ProductController(ProductServiceImpl productService) {
         this.productService = productService;
     }
