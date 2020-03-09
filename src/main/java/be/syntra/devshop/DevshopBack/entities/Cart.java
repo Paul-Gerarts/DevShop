@@ -1,11 +1,14 @@
 package be.syntra.devshop.DevshopBack.entities;
 
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static org.hibernate.annotations.CascadeType.ALL;
 
 @Entity
 @Table
@@ -20,15 +23,31 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
+    @Column(name = "customer")
     private Customer customer;
     @NotNull
+    @Column(name = "cartCreationDate")
     private LocalDateTime cartCreationDateTime;
     @NotNull
+    @OneToMany(mappedBy = "cart", orphanRemoval = true)
+    @Cascade(ALL)
     private List<Product> products;
     @NotNull
+    @Column(name = "activeCart")
     private boolean activeCart;
     @NotNull
+    @Column(name = "finalizedCart")
     private boolean finalizedCart;
     @NotNull
+    @Column(name = "paidCart")
     private boolean paidCart;
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "id=" + id +
+                ", customer=" + customer +
+                ", cartCreationDateTime=" + cartCreationDateTime +
+                '}';
+    }
 }

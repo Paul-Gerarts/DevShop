@@ -1,11 +1,14 @@
 package be.syntra.devshop.DevshopBack.entities;
 
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+
+import static org.hibernate.annotations.CascadeType.ALL;
 
 @Entity
 @Table
@@ -40,5 +43,8 @@ public class Address {
     @NotNull
     @NotBlank
     private String country;
+    @OneToOne(mappedBy = "address", orphanRemoval = true)
+    @Cascade(ALL)
+    private Customer customer;
 
 }

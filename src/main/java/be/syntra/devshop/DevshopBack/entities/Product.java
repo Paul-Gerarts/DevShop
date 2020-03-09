@@ -32,4 +32,23 @@ public class Product {
     @Digits(integer = 5, fraction = 2)
     @PositiveOrZero
     private BigDecimal price;
+
+    @ManyToOne
+    @JoinColumn(name = "CartId")
+    private Cart cart;
+
+    @ManyToOne
+    @JoinColumn(name = "CustomerId")
+    private Customer customer;
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", cartId=" + cart.getId() +
+                ", customerId=" + customer.getId() +
+                '}';
+    }
 }
