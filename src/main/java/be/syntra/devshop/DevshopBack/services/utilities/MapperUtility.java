@@ -4,9 +4,6 @@ import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 
 @Service
 public class MapperUtility {
@@ -25,10 +22,4 @@ public class MapperUtility {
                 .build();
     }
 
-    public List<ProductDto> convertListToDtos(List<Product> products) {
-        return products
-                .stream()
-                .map(this::convertToProductDto)
-                .collect(Collectors.toUnmodifiableList());
-    }
 }
