@@ -22,22 +22,28 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotNull
     @Column(name = "customer")
     private Customer customer;
+
     @NotNull
-    @Column(name = "cartCreationDate")
+    @Column(name = "cartCreationDateTime")
     private LocalDateTime cartCreationDateTime;
+
     @NotNull
     @OneToMany(mappedBy = "cart", orphanRemoval = true)
     @Cascade(ALL)
     private List<Product> products;
+
     @NotNull
     @Column(name = "activeCart")
     private boolean activeCart;
+
     @NotNull
     @Column(name = "finalizedCart")
     private boolean finalizedCart;
+
     @NotNull
     @Column(name = "paidCart")
     private boolean paidCart;

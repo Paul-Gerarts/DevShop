@@ -37,10 +37,6 @@ public class Product {
     @JoinColumn(name = "CartId")
     private Cart cart;
 
-    @ManyToOne
-    @JoinColumn(name = "CustomerId")
-    private Customer customer;
-
     @Override
     public String toString() {
         return "Product{" +
@@ -48,7 +44,6 @@ public class Product {
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", cartId=" + cart.getId() +
-                ", customerId=" + customer.getId() +
                 '}';
     }
 }
