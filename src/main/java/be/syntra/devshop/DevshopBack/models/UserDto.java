@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @Builder
 @AllArgsConstructor
-public class CustomerDto {
+public class UserDto {
     private String firstName;
     private String lastName;
     private String fullName;

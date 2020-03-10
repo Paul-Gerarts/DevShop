@@ -18,7 +18,7 @@ import static org.hibernate.annotations.CascadeType.ALL;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Customer {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,16 +46,16 @@ public class Customer {
 
     @NotNull
     @Column(name = "address")
-    @OneToOne(mappedBy = "customer", orphanRemoval = true)
+    @OneToOne(mappedBy = "user", orphanRemoval = true)
     @Cascade(ALL)
     private Address address;
 
-    @OneToMany(mappedBy = "customer", orphanRemoval = true)
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
     @Cascade(ALL)
     private List<Cart> archivedCarts = new ArrayList<>();
 
     @NotNull
-    @OneToOne(mappedBy = "customer", orphanRemoval = true)
+    @OneToOne(mappedBy = "user", orphanRemoval = true)
     @Cascade(ALL)
     private Cart activeCart = new Cart();
 

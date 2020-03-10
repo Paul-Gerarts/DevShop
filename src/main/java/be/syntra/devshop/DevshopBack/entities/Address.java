@@ -53,6 +53,6 @@ public class Address {
 
     @OneToOne(mappedBy = "address", orphanRemoval = true)
     @Cascade(ALL)
-    private Customer customer;
+    private User user;
 
 }

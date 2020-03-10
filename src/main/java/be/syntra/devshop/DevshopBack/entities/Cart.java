@@ -24,8 +24,8 @@ public class Cart {
     private Long id;
 
     @NotNull
-    @Column(name = "customer")
-    private Customer customer;
+    @Column(name = "user")
+    private User user;
 
     @NotNull
     @Column(name = "cartCreationDateTime")
@@ -52,7 +52,7 @@ public class Cart {
     public String toString() {
         return "Cart{" +
                 "id=" + id +
-                ", customer=" + customer +
+                ", customer=" + user +
                 ", cartCreationDateTime=" + cartCreationDateTime +
                 '}';
     }
