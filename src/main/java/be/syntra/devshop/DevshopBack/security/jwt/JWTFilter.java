@@ -16,11 +16,11 @@ import java.io.IOException;
 @Slf4j
 public class JWTFilter extends GenericFilterBean {
 
-    private static final String AUTHORIZATION_HEADER = "Authorization";
-    private JWTTokenProvider JWTTokenProvider;
+    private static final String AUTHORIZATION_HEADER = "auth";
+    private JWTTokenProvider jwtTokenProvider;
 
-    public JWTFilter(JWTTokenProvider JWTTokenProvider) {
-        this.JWTTokenProvider = JWTTokenProvider;
+    public JWTFilter(JWTTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
@@ -31,13 +31,15 @@ public class JWTFilter extends GenericFilterBean {
         String jwt = resolveToken(httpServletRequest);
         String requestURI = httpServletRequest.getRequestURI();
 
-        if (StringUtils.hasText(jwt) && JWTTokenProvider.validateToken(jwt)) {
-            Authentication authentication = JWTTokenProvider.getAuthentication(jwt);
+        if (StringUtils.hasText(jwt) && jwtTokenProvider.validateToken(jwt)) {
+            Authentication authentication = jwtTokenProvider.getAuthentication(jwt);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             log.debug("set Authentication to security context for '{}', uri: {} ", authentication.getName(), requestURI);
         } else {
             log.debug("no valid JWT token found, uri: {} ", requestURI);
         }
+
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     private String resolveToken(HttpServletRequest request) {

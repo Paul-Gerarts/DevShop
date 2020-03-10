@@ -1,7 +1,7 @@
 package be.syntra.devshop.DevshopBack.services;
 
+import be.syntra.devshop.DevshopBack.dtos.ProductDto;
 import be.syntra.devshop.DevshopBack.entities.Product;
-import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
 import be.syntra.devshop.DevshopBack.services.utilities.MapperUtility;
 import org.springframework.beans.factory.annotation.Autowired;

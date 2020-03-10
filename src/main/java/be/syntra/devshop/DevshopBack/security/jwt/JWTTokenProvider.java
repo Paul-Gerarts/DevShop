@@ -29,11 +29,15 @@ public class JWTTokenProvider implements InitializingBean {
     private final Long tokenValidityInMilliseconds;
     public Key key;
 
+    /*
+     * Validity in seconds is retrieved from navigating through secured pages
+     * Every time you send a new request, you're time logged in is permitted for 20min
+     */
     public JWTTokenProvider(
             @Value("${jwt.base64-secret}") String base64Secret,
             @Value("${jwt.token-validity-in-seconds}") Long tokenValidityInSeconds) {
         this.base64Secret = base64Secret;
-        this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
+        this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1200;
     }
 
     @Override
@@ -63,7 +67,9 @@ public class JWTTokenProvider implements InitializingBean {
                 Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toUnmodifiableList());
-        Integer gebruikerId = null != claims.get(USER_ID) ? (Integer) claims.get(USER_ID) : null;
+        Long gebruikerId = null != claims.get(USER_ID)
+                ? (Long) claims.get(USER_ID)
+                : null;
         CustomUser principal = new CustomUser(claims.getSubject(), "", authorities, gebruikerId);
 
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);

@@ -8,6 +8,11 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 public class CorsConfiguration {
 
+    /*
+     * Adding the Cross Origin Resource Sharing Filter allows us to communicate between ALL domains
+     * if we want to restrict access, we should properly set the addAllowed-methods
+     *@See https://howtodoinjava.com/servlets/java-cors-filter-example/
+     */
     @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

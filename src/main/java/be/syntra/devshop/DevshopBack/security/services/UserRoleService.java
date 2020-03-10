@@ -1,8 +1,9 @@
 package be.syntra.devshop.DevshopBack.security.services;
 
-import be.syntra.devshop.DevshopBack.entities.UserRole;
 import be.syntra.devshop.DevshopBack.security.exceptions.UserRoleNotFoundException;
+import be.syntra.devshop.DevshopBack.security.models.UserRole;
 import be.syntra.devshop.DevshopBack.security.repositories.UserRoleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -10,6 +11,7 @@ public class UserRoleService {
 
     private UserRoleRepository userRoleRepository;
 
+    @Autowired
     public UserRoleService(UserRoleRepository userRoleRepository) {
         this.userRoleRepository = userRoleRepository;
     }

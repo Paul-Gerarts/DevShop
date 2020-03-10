@@ -1,4 +1,4 @@
-package be.syntra.devshop.DevshopBack.entities;
+package be.syntra.devshop.DevshopBack.security.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

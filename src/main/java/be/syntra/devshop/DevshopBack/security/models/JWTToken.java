@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @Builder
 @RequiredArgsConstructor
-public class JwtToken {
+public class JWTToken {
 
     private final String token;
 }

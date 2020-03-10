@@ -13,12 +13,18 @@ import java.util.Collection;
 @Builder
 public class CustomUser extends User {
 
-    private Integer userID;
+    private Long userID;
 
+    /*
+     * This is a custom Object upon which we set our actual security
+     * it seperates our User business logic from the little that's needed for security
+     * when changing userDetails, one should use the @AuthenticaionPrincipal CustomUser userDetails
+     *@See https://github.com/spring-projects/spring-security/blob/aaa9708b952409269f2829e60126344a1288019e/web/src/main/java/org/springframework/security/web/method/annotation/AuthenticationPrincipalArgumentResolver.java#L116-L121
+     */
     public CustomUser(String username,
                       String password,
                       Collection<? extends GrantedAuthority> authorities,
-                      Integer userID) {
+                      Long userID) {
         super(username, password, authorities);
         this.userID = userID;
     }

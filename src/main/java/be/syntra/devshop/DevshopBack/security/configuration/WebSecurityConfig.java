@@ -1,10 +1,9 @@
 package be.syntra.devshop.DevshopBack.security.configuration;
 
+import be.syntra.devshop.DevshopBack.security.jwt.JWTAccessDeniedHandler;
+import be.syntra.devshop.DevshopBack.security.jwt.JWTAuthenticationEntryPoint;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTConfigurer;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
-import be.syntra.devshop.DevshopBack.security.jwt.JwtAccessDeniedHandler;
-import be.syntra.devshop.DevshopBack.security.jwt.JwtAuthenticationEntryPoint;
-import org.apache.catalina.filters.CorsFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -13,28 +12,36 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.CorsFilter;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final JWTTokenProvider tokenProvider;
     private final CorsFilter corsFilter;
-    private final JwtAuthenticationEntryPoint authenticationErrorHandler;
-    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final JWTTokenProvider tokenProvider;
+    private final JWTAuthenticationEntryPoint authenticationErrorHandler;
+    private final JWTAccessDeniedHandler jwtAccessDeniedHandler;
 
-    public WebSecurityConfig(JWTTokenProvider tokenProvider,
-                             CorsFilter corsFilter,
-                             JwtAuthenticationEntryPoint authenticationErrorHandler,
-                             JwtAccessDeniedHandler jwtAccessDeniedHandler) {
-        this.tokenProvider = tokenProvider;
+    public WebSecurityConfig(CorsFilter corsFilter,
+                             JWTTokenProvider tokenProvider,
+                             JWTAuthenticationEntryPoint authenticationErrorHandler,
+                             JWTAccessDeniedHandler jwtAccessDeniedHandler) {
         this.corsFilter = corsFilter;
+        this.tokenProvider = tokenProvider;
         this.authenticationErrorHandler = authenticationErrorHandler;
         this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
     }
 
     @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Override
     public void configure(WebSecurity webSecurity) {
         webSecurity.ignoring()
                 .antMatchers(HttpMethod.OPTIONS, "/**")

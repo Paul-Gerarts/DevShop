@@ -1,7 +1,7 @@
 package be.syntra.devshop.DevshopBack.testutilities;
 
+import be.syntra.devshop.DevshopBack.dtos.ProductDto;
 import be.syntra.devshop.DevshopBack.entities.Product;
-import be.syntra.devshop.DevshopBack.models.ProductDto;
 
 import java.math.BigDecimal;
 import java.util.LinkedList;
