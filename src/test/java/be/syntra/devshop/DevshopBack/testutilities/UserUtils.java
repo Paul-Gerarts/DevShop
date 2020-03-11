@@ -16,6 +16,7 @@ public class UserUtils {
                 .number("1")
                 .boxNumber("")
                 .postalCode("1234")
+                .user(createUser())
                 .city("Somewhere")
                 .province("Provence")
                 .country("Belgium")
@@ -33,6 +34,7 @@ public class UserUtils {
                 .build();
     }
 
+
     public static User createUser() {
         return User.builder()
                 .firstName("Someone")
@@ -41,6 +43,7 @@ public class UserUtils {
                 .password("password")
                 .address(createAddress())
                 .activeCart(createActiveCart())
+                .archivedCarts(createArchivedCartList())
                 .build();
     }
 
@@ -62,5 +65,14 @@ public class UserUtils {
         }
         return users;
     }
+
+    public static List<Cart> createArchivedCartList() {
+        List<Cart> carts = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            carts.add(createActiveCart());
+        }
+        return carts;
+    }
+
 
 }

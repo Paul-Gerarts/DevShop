@@ -21,7 +21,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(UserController.class)
@@ -32,6 +31,9 @@ public class UserControllerTest {
 
     @MockBean
     private UserService userService;
+
+    @MockBean
+    private UserController userController;
 
     @Mock
     private MapperUtility mapperUtility;
@@ -46,10 +48,9 @@ public class UserControllerTest {
         // When
         when(userService.save(any(UserDto.class))).thenReturn(newUser);
         //then
-        mockMvc.perform(post("/users"))
-                .andExpect(content(asJsonString(newUser))
-                        .contenType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(post("/users")
+                .content(asJsonString(newUser))
+                .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 

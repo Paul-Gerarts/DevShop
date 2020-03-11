@@ -21,10 +21,13 @@ public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "cart_id")
     private Long id;
 
     @NotNull
     @Column(name = "user")
+    @JoinColumn(name = "user_id")
+    @OneToOne
     private User user;
 
     @NotNull
@@ -32,7 +35,7 @@ public class Cart {
     private LocalDateTime cartCreationDateTime;
 
     @NotNull
-    @OneToMany(mappedBy = "cart", orphanRemoval = true)
+    @OneToOne(mappedBy = "cart", orphanRemoval = true)
     @Cascade(ALL)
     private List<Product> products;
 
