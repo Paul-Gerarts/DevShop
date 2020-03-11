@@ -3,6 +3,7 @@ package be.syntra.devshop.DevshopBack.testutilities;
 import be.syntra.devshop.DevshopBack.entities.Address;
 import be.syntra.devshop.DevshopBack.entities.Cart;
 import be.syntra.devshop.DevshopBack.entities.User;
+import be.syntra.devshop.DevshopBack.models.UserDto;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -34,6 +35,17 @@ public class UserUtils {
 
     public static User createUser() {
         return User.builder()
+                .firstName("Someone")
+                .lastName("First")
+                .fullName("Someone First")
+                .password("password")
+                .address(createAddress())
+                .activeCart(createActiveCart())
+                .build();
+    }
+
+    public static UserDto createUserDto() {
+        return UserDto.builder()
                 .firstName("Someone")
                 .lastName("First")
                 .fullName("Someone First")
