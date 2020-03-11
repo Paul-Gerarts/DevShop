@@ -33,7 +33,7 @@ public class Product {
     @PositiveOrZero
     private BigDecimal price;
 
-    @Column(name = "cart")
+    @ManyToOne
     private Cart cart;
 
     @Override
