@@ -56,7 +56,7 @@ public class Address {
     @Column(name = "country")
     private String country;
 
-    @OneToMany(targetEntity = User.class, mappedBy = "address")
+    @OneToOne(targetEntity = User.class, mappedBy = "address")
     @JoinColumn(name = "user_id")
     private User user;
 

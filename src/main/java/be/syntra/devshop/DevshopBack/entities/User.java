@@ -43,18 +43,16 @@ public class User {
     private String password;
 
     @NotNull
-    @Column(name = "address")
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "address_id")
     private Address address;
 
     @Column(name = "archived_carts")
-    @OneToOne
+    @OneToMany(targetEntity = Cart.class, mappedBy = "user", fetch = FetchType.LAZY)
     private List<Cart> archivedCarts;
 
     @NotNull
     @Column(name = "active_cart")
-    @OneToOne
     private Cart activeCart;
 
     @Override

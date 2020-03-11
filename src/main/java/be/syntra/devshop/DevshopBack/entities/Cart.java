@@ -1,14 +1,11 @@
 package be.syntra.devshop.DevshopBack.entities;
 
 import lombok.*;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
-
-import static org.hibernate.annotations.CascadeType.ALL;
 
 @Entity
 @Table
@@ -27,7 +24,6 @@ public class Cart {
     @NotNull
     @Column(name = "user")
     @JoinColumn(name = "user_id")
-    @OneToOne
     private User user;
 
     @NotNull
@@ -35,8 +31,8 @@ public class Cart {
     private LocalDateTime cartCreationDateTime;
 
     @NotNull
-    @OneToOne(mappedBy = "cart", orphanRemoval = true)
-    @Cascade(ALL)
+    @Column(name = "products")
+    @OneToMany(targetEntity = Product.class, mappedBy = "cart", fetch = FetchType.LAZY)
     private List<Product> products;
 
     @NotNull

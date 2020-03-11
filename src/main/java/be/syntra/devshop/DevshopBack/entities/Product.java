@@ -33,8 +33,6 @@ public class Product {
     @PositiveOrZero
     private BigDecimal price;
 
-    @ManyToOne
-    @JoinColumn(name = "cart_id")
     private Cart cart;
 
     @Override
