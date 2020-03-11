@@ -22,8 +22,7 @@ public class Cart {
     private Long id;
 
     @NotNull
-    @Column(name = "user")
-    @JoinColumn(name = "user_id")
+    @OneToOne(targetEntity = User.class, mappedBy = "activeCart")
     private User user;
 
     @NotNull

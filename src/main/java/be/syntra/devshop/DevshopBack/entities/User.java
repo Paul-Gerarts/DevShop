@@ -48,11 +48,16 @@ public class User {
     private Address address;
 
     @Column(name = "archived_carts")
-    @OneToMany(targetEntity = Cart.class, mappedBy = "user", fetch = FetchType.LAZY)
+    @ManyToMany
+    @JoinTable(
+            name = "USER_CART",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "cart_id", referencedColumnName = "cart_id")},
+            foreignKey = @ForeignKey(name = "cart_fk"))
     private List<Cart> archivedCarts;
 
     @NotNull
-    @Column(name = "active_cart")
+    @OneToOne
     private Cart activeCart;
 
     @Override

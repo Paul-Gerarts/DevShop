@@ -33,6 +33,7 @@ public class Product {
     @PositiveOrZero
     private BigDecimal price;
 
+    @Column(name = "cart")
     private Cart cart;
 
     @Override
