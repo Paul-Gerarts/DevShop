@@ -1,9 +1,11 @@
 package be.syntra.devshop.DevshopBack.security.controllers.dtos;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Data
+@Builder
 @RequiredArgsConstructor
 public class RegisterDto {
 

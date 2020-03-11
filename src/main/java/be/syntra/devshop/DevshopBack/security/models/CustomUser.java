@@ -1,6 +1,5 @@
 package be.syntra.devshop.DevshopBack.security.models;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,7 +9,6 @@ import java.util.Collection;
 
 @Getter
 @Setter
-@Builder
 public class CustomUser extends User {
 
     private Long userID;

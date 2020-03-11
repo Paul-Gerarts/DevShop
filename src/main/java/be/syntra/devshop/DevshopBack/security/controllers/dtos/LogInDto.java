@@ -7,6 +7,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LogInDto {
 
-    private String email;
-    private String password;
+    private final String email;
+    private final String password;
 }
