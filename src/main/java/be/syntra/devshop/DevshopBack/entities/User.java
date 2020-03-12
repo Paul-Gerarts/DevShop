@@ -1,10 +1,7 @@
 package be.syntra.devshop.DevshopBack.entities;
 
 import be.syntra.devshop.DevshopBack.security.models.UserRole;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -16,6 +13,9 @@ import java.util.List;
 @Setter
 @ToString
 @Builder
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id

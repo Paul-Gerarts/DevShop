@@ -1,10 +1,13 @@
 package be.syntra.devshop.DevshopBack.security;
 
+import be.syntra.devshop.DevshopBack.entities.User;
+import be.syntra.devshop.DevshopBack.repositories.UserRepository;
 import be.syntra.devshop.DevshopBack.security.controllers.AuthorizationController;
 import be.syntra.devshop.DevshopBack.security.controllers.dtos.LogInDto;
 import be.syntra.devshop.DevshopBack.security.controllers.dtos.RegisterDto;
 import be.syntra.devshop.DevshopBack.security.exceptions.UserAlreadyRegisteredException;
 import be.syntra.devshop.DevshopBack.security.models.JWTToken;
+import be.syntra.devshop.DevshopBack.security.services.PasswordEncoderService;
 import be.syntra.devshop.DevshopBack.security.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
@@ -16,6 +19,7 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -28,6 +32,8 @@ import java.util.ArrayList;
 import static be.syntra.devshop.DevshopBack.testutilities.GeneralUtils.asJsonString;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AuthorizationController.class)
@@ -45,8 +51,14 @@ public class SecurityIntegrationTest {
     @Mock
     private static RegisterDto registerDto2;
 
-    @Mock
+    @MockBean
     private UserService userService;
+
+    @MockBean
+    private PasswordEncoderService passwordEncoderService;
+
+    @Mock
+    private UserRepository userRepository;
 
     @BeforeAll
     public static void setUp() {
@@ -65,7 +77,7 @@ public class SecurityIntegrationTest {
     }
 
     @Test
-    public void gebruikerCanLoginTest() throws Exception {
+    public void userCanLoginTest() throws Exception {
         userService.registerUser("paul.gerarts@email.com", "noop", "Paul", "Gerarts", new ArrayList<>());
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
                 .post("/auth/login")
@@ -80,18 +92,33 @@ public class SecurityIntegrationTest {
     }
 
     @Test
-    public void gebruikerCanRegister() {
+    public void userCanRegister() {
         assertThrows(UserAlreadyRegisteredException.class, () -> {
             registerUser(status().is2xxSuccessful(), registerDto);
         });
     }
 
     @Test
-    public void gebruikerCannotRegisterTwice() throws Exception {
+    public void userCannotRegisterTwice() throws Exception {
         assertThat(registerUser(status().is2xxSuccessful(), registerDto2)).isEqualTo(HttpStatus.OK);
         assertThrows(UserAlreadyRegisteredException.class, () -> {
             registerUser(status().isBadRequest(), registerDto2);
         });
+    }
+
+    @Test
+    public void canChangePassword() throws Exception {
+        User user = User.builder()
+                .firstName("firstName")
+                .lastName("lastName")
+                .password("password")
+                .email("email@address.be")
+                .userRoles(new ArrayList<>())
+                .build();
+        when(passwordEncoderService.encode(any())).thenReturn("$2a$10$/fDjzeCFntx5VEv0cUjYG.heiUpSfloYQsn7Y2HID/ROGrtzAZmqC");
+        when(userRepository.save(any())).thenReturn(user);
+        verify(passwordEncoderService, times(1)).encode("password");
+        verify(userService, times(1)).changeUserPassword(user, "newPassword");
     }
 
     private HttpStatus registerUser(ResultMatcher status, RegisterDto registerDto) throws Exception {

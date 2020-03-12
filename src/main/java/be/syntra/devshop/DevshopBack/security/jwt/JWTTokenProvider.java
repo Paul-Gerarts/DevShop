@@ -29,10 +29,6 @@ public class JWTTokenProvider implements InitializingBean {
     private final Long tokenValidityInMilliseconds;
     public Key key;
 
-    /*
-     * Validity in seconds is retrieved from navigating through secured pages
-     * Every time you send a new request, you're time logged in is permitted for 20min
-     */
     public JWTTokenProvider(
             @Value("${jwt.base64-secret}") String base64Secret,
             @Value("${jwt.token-validity-in-seconds}") Long tokenValidityInSeconds) {
