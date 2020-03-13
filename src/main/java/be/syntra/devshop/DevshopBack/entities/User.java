@@ -42,7 +42,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @NotNull
+
     @OneToOne
     @JoinColumn(name = "address_id")
     private Address address;
@@ -56,7 +56,7 @@ public class User {
             foreignKey = @ForeignKey(name = "cart_fk"))
     private List<Cart> archivedCarts;
 
-    @NotNull
+
     @OneToOne
     private Cart activeCart;
 

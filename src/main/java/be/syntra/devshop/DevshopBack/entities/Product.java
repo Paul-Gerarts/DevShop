@@ -1,5 +1,6 @@
 package be.syntra.devshop.DevshopBack.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -34,6 +35,7 @@ public class Product {
     private BigDecimal price;
 
     @ManyToOne
+    @JsonIgnore
     private Cart cart;
 
     @Override

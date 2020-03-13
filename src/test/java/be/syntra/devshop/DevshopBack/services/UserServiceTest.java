@@ -30,4 +30,6 @@ public class UserServiceTest {
         //then
         assertThat(userService.findAll().size()).isEqualTo(users.size());
     }
+
+
 }

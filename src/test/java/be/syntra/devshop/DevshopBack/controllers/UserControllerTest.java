@@ -41,6 +41,7 @@ public class UserControllerTest {
     @Mock
     private UserDto userDto;
 
+
     @Test
     void addUserTest() throws Exception {
         // Given
@@ -66,5 +67,6 @@ public class UserControllerTest {
         mockMvc.perform(get("/users"))
                 .andExpect(status().isOk());
     }
+
 
 }

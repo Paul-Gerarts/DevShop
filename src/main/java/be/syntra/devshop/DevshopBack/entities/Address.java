@@ -1,5 +1,6 @@
 package be.syntra.devshop.DevshopBack.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -58,6 +59,7 @@ public class Address {
 
     @OneToOne(targetEntity = User.class, mappedBy = "address")
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
 }

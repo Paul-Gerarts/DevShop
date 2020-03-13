@@ -1,5 +1,7 @@
 package be.syntra.devshop.DevshopBack.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,10 +25,13 @@ public class Cart {
 
     @NotNull
     @OneToOne(targetEntity = User.class, mappedBy = "activeCart")
+    @JsonIgnore
     private User user;
 
     @NotNull
     @Column(name = "cartCreationDateTime")
+    @JsonFormat
+            (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime cartCreationDateTime;
 
     @NotNull
