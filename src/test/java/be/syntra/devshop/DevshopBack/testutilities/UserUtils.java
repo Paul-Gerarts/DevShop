@@ -59,11 +59,9 @@ public class UserUtils {
                 .lastName("First")
                 .fullName("Someone First")
                 .password("password")
-                .address(createAddress())
-                .activeCart(createActiveCart())
-                .archivedCarts(createArchivedCartList())
                 .build();
     }
+
 
     public static List<User> createUserList() {
         List<User> users = new ArrayList<>();

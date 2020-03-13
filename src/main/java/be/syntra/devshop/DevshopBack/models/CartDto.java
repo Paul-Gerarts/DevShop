@@ -1,7 +1,6 @@
 package be.syntra.devshop.DevshopBack.models;
 
-import be.syntra.devshop.DevshopBack.entities.Product;
-import be.syntra.devshop.DevshopBack.entities.User;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,9 +12,9 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class CartDto {
-    private User customer;
+    private UserDto customer;
     private LocalDateTime cartCreationDateTime;
-    private List<Product> products;
+    private List<ProductDto> products;
     private boolean activeCart;
     private boolean finalizedCart;
     private boolean paidCart;
