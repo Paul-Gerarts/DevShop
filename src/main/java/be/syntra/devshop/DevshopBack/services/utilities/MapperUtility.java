@@ -39,6 +39,7 @@ public class MapperUtility {
                 .password(userDto.getPassword())
                 .address(convertToAddress(userDto.getAddress()))
                 .activeCart(convertToCart(userDto.getActiveCart()))
+                .archivedCarts(convertToCartList(userDto.getArchivedCarts()))
                 .build();
     }
 
@@ -47,8 +48,10 @@ public class MapperUtility {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .fullName(user.getFullName())
+                .password(user.getPassword())
                 .address(convertToAddressDto(user.getAddress()))
                 .activeCart(convertToCartDto(user.getActiveCart()))
+                .archivedCarts(convertToCartDtoList(user.getArchivedCarts()))
                 .build();
     }
 
@@ -86,9 +89,6 @@ public class MapperUtility {
                 .build();
     }
 
-    public List<ProductDto> convertToProductDtoList(List<Product> products) {
-        return products.stream().map(this::convertToProductDto).collect(Collectors.toList());
-    }
 
     public Cart convertToCart(CartDto cartDto) {
         return Cart.builder()
@@ -104,5 +104,16 @@ public class MapperUtility {
         return productDtoList.stream().map(this::convertToProduct).collect(Collectors.toList());
     }
 
+    public List<CartDto> convertToCartDtoList(List<Cart> carts) {
+        return carts.stream().map(this::convertToCartDto).collect(Collectors.toList());
+    }
+
+    public List<Cart> convertToCartList(List<CartDto> cartDtoList) {
+        return cartDtoList.stream().map(this::convertToCart).collect(Collectors.toList());
+    }
+
+    public List<ProductDto> convertToProductDtoList(List<Product> products) {
+        return products.stream().map(this::convertToProductDto).collect(Collectors.toList());
+    }
 
 }
