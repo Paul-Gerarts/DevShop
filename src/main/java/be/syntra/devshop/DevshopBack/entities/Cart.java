@@ -28,9 +28,6 @@ public class Cart {
     @JsonIgnore
     private User user;
 
-    @ManyToMany(mappedBy = "carts")
-    private List<User> users;
-
     @NotNull
     @Column(name = "cartCreationDateTime")
     @JsonFormat
