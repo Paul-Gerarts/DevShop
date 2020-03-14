@@ -28,6 +28,9 @@ public class Cart {
     @JsonIgnore
     private User user;
 
+    @ManyToMany(mappedBy = "carts")
+    private List<User> users;
+
     @NotNull
     @Column(name = "cartCreationDateTime")
     @JsonFormat
@@ -35,7 +38,6 @@ public class Cart {
     private LocalDateTime cartCreationDateTime;
 
     @NotNull
-    @Column(name = "products")
     @OneToMany(targetEntity = Product.class, mappedBy = "cart", fetch = FetchType.LAZY)
     private List<Product> products;
 
