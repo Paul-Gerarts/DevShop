@@ -1,7 +1,6 @@
 package be.syntra.devshop.DevshopBack.entities;
 
 import lombok.*;
-import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -46,7 +45,6 @@ public class User {
 
     @OneToOne
     @JoinColumn(name = "address_id")
-    @RestResource(path = "userAddress", rel = "address")
     private Address address;
 
     @Column(name = "archived_carts")
