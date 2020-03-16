@@ -3,7 +3,7 @@ package be.syntra.devshop.DevshopBack.controllers;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.services.ProductServiceImpl;
-import be.syntra.devshop.DevshopBack.services.utilities.MapperUtility;
+import be.syntra.devshop.DevshopBack.services.utilities.ProductMapperUtility;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ class ProductControllerTest {
     private ProductDto productDto;
 
     @Mock
-    private MapperUtility mapperUtility;
+    private ProductMapperUtility mapperUtility;
 
     @Test
     void addProductTest() throws Exception {
@@ -58,7 +58,7 @@ class ProductControllerTest {
     void allProductsEndPointTest() throws Exception {
         // Given
         List<Product> products = createProductList();
-        ProductDto singleProduct = mapperUtility.convertToProductDto(products.get(0));
+        ProductDto singleProduct = ProductMapperUtility.convertToProductDto(products.get(0));
         // When
         when(productService.save(singleProduct)).thenReturn(singleProduct);
         when(productService.findAll()).thenReturn(products);

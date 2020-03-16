@@ -3,7 +3,7 @@ package be.syntra.devshop.DevshopBack.controllers;
 import be.syntra.devshop.DevshopBack.entities.User;
 import be.syntra.devshop.DevshopBack.models.UserDto;
 import be.syntra.devshop.DevshopBack.services.UserService;
-import be.syntra.devshop.DevshopBack.services.utilities.MapperUtility;
+import be.syntra.devshop.DevshopBack.services.utilities.UserMapperUtility;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class UserControllerTest {
     private UserController userController;
 
     @Mock
-    private MapperUtility mapperUtility;
+    private UserMapperUtility mapperUtility;
 
     @Mock
     private UserDto userDto;

@@ -3,22 +3,23 @@ package be.syntra.devshop.DevshopBack.services;
 import be.syntra.devshop.DevshopBack.entities.User;
 import be.syntra.devshop.DevshopBack.models.UserDto;
 import be.syntra.devshop.DevshopBack.repositories.UserRepository;
-import be.syntra.devshop.DevshopBack.services.utilities.MapperUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static be.syntra.devshop.DevshopBack.services.utilities.UserMapperUtility.convertToUser;
+
 @Service
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
-    private MapperUtility mapperUtility;
+
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, MapperUtility mapperUtility) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.mapperUtility = mapperUtility;
+
     }
 
     @Override
@@ -28,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto save(UserDto userDto) {
-        userRepository.save(mapperUtility.convertToUser(userDto));
+        userRepository.save(convertToUser(userDto));
         return userDto;
     }
 }
