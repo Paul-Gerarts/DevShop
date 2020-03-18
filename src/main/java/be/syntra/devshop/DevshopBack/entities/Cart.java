@@ -3,6 +3,7 @@ package be.syntra.devshop.DevshopBack.entities;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -36,6 +37,7 @@ public class Cart {
 
     @NotNull
     @OneToMany(targetEntity = Product.class, mappedBy = "cart", fetch = FetchType.LAZY)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<Product> products;
 
     @NotNull

@@ -1,6 +1,7 @@
 package be.syntra.devshop.DevshopBack.entities;
 
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -45,6 +46,7 @@ public class User {
 
     @OneToOne
     @JoinColumn(name = "address_id")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Address address;
 
     @Column(name = "archived_carts")
@@ -54,10 +56,12 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "cart_id", referencedColumnName = "cart_id")},
             foreignKey = @ForeignKey(name = "cart_fk"))
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<Cart> archivedCarts;
 
 
     @OneToOne
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Cart activeCart;
 
     @Override

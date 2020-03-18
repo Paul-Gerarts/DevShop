@@ -40,7 +40,7 @@ public class Address {
     @NotNull
     @NotBlank
     @Column(name = "postal_code")
-    @Pattern(regexp = "\\d")
+    @Pattern(regexp = "(\\d{4})")
     private String postalCode;
 
     @NotNull
