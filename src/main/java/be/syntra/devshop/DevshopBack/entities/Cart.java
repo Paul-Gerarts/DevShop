@@ -36,7 +36,8 @@ public class Cart {
     private LocalDateTime cartCreationDateTime;
 
     @NotNull
-    @OneToMany(targetEntity = Product.class, mappedBy = "cart", fetch = FetchType.LAZY)
+    @Column(name = "products")
+    @OneToMany
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<Product> products;
 
