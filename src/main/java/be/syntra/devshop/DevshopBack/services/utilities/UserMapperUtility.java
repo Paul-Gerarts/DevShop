@@ -8,7 +8,7 @@ import static be.syntra.devshop.DevshopBack.services.utilities.AddressMapperUtil
 import static be.syntra.devshop.DevshopBack.services.utilities.CartMapperUtility.*;
 
 public class UserMapperUtility {
-    public UserDto convertToUserDto(User user) {
+    public static UserDto convertToUserDto(User user) {
         return UserDto.builder()
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())

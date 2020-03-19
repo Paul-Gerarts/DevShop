@@ -1,27 +1,24 @@
 package be.syntra.devshop.DevshopBack.controllers;
 
-import be.syntra.devshop.DevshopBack.entities.User;
 import be.syntra.devshop.DevshopBack.models.UserDto;
 import be.syntra.devshop.DevshopBack.services.UserService;
 import be.syntra.devshop.DevshopBack.services.utilities.UserMapperUtility;
+import be.syntra.devshop.DevshopBack.testutilities.UserUtils;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.List;
+import org.springframework.test.web.servlet.ResultActions;
 
 import static be.syntra.devshop.DevshopBack.testutilities.GeneralUtils.asJsonString;
 import static be.syntra.devshop.DevshopBack.testutilities.UserUtils.createUserDto;
-import static be.syntra.devshop.DevshopBack.testutilities.UserUtils.createUserList;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.mockito.Mockito.*;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserController.class)
 public class UserControllerTest {
@@ -43,7 +40,7 @@ public class UserControllerTest {
 
 
     @Test
-    void addUserTest() throws Exception {
+    void retrieveAllUsersEndPointTest() throws Exception {
         // Given
         UserDto newUser = createUserDto();
         // When
@@ -51,21 +48,36 @@ public class UserControllerTest {
         //then
         mockMvc.perform(post("/users")
                 .content(asJsonString(newUser))
-                .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .contentType(APPLICATION_JSON).accept(APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void allUserEndPointsTest() throws Exception {
-        // Given
-        List<User> users = createUserList();
-        UserDto singleUser = mapperUtility.convertToUserDto(users.get(0));
-        //when
-        when(userService.save(singleUser)).thenReturn(singleUser);
-        when(userService.findAll()).thenReturn(users);
-        //then
-        mockMvc.perform(get("/users"))
-                .andExpect(status().isOk());
+    void createUserEndPointsTest() throws Exception {
+        // given
+        UserDto userDtoDummy = UserUtils.createUserDto();
+        // when
+        ResultActions resultActions =
+                mockMvc.perform(
+                        post("/users")
+                                .contentType(APPLICATION_JSON)
+                                .content(asJsonString(userDtoDummy))
+                );
+        // then
+        resultActions
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$.firstName").value(userDtoDummy.getFirstName()))
+                .andExpect(jsonPath("$.lastName").value(userDtoDummy.getLastName()))
+                .andExpect(jsonPath("$.fullName").value(userDtoDummy.getFullName()))
+                .andExpect(jsonPath("$.password").value(userDtoDummy.getPassword()))
+                .andExpect(jsonPath("$.address").value(userDtoDummy.getAddress()))
+                .andExpect(jsonPath("$.activeCart").value(userDtoDummy.getActiveCart()))
+                .andExpect(jsonPath("$.archivedCarts").value(userDtoDummy.getArchivedCarts()));
+
+
+        verify(userService, times(1)).save(userDtoDummy);
+
     }
 
 

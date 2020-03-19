@@ -15,6 +15,7 @@ import javax.validation.constraints.Pattern;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Address {
 
     @Id
