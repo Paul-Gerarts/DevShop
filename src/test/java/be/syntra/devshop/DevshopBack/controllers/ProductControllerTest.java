@@ -3,7 +3,6 @@ package be.syntra.devshop.DevshopBack.controllers;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.services.ProductServiceImpl;
-import be.syntra.devshop.DevshopBack.services.utilities.CartMapperUtility;
 import be.syntra.devshop.DevshopBack.testutilities.ProductUtils;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -33,10 +32,6 @@ class ProductControllerTest {
 
     @MockBean
     private ProductServiceImpl productService;
-
-    @MockBean
-    private CartMapperUtility mapperUtility;
-
 
     @Test
     void testRetrieveAllProductsEndpoint() throws Exception {

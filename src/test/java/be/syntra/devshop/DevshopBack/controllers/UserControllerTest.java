@@ -1,24 +1,26 @@
 package be.syntra.devshop.DevshopBack.controllers;
 
+import be.syntra.devshop.DevshopBack.entities.User;
 import be.syntra.devshop.DevshopBack.models.UserDto;
-import be.syntra.devshop.DevshopBack.services.UserService;
-import be.syntra.devshop.DevshopBack.services.utilities.UserMapperUtility;
+import be.syntra.devshop.DevshopBack.services.UserServiceImpl;
 import be.syntra.devshop.DevshopBack.testutilities.UserUtils;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.List;
+
 import static be.syntra.devshop.DevshopBack.testutilities.GeneralUtils.asJsonString;
-import static be.syntra.devshop.DevshopBack.testutilities.UserUtils.createUserDto;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(UserController.class)
 public class UserControllerTest {
@@ -27,30 +29,8 @@ public class UserControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private UserService userService;
+    private UserServiceImpl userService;
 
-    @MockBean
-    private UserController userController;
-
-    @Mock
-    private UserMapperUtility mapperUtility;
-
-    @Mock
-    private UserDto userDto;
-
-
-    @Test
-    void retrieveAllUsersEndPointTest() throws Exception {
-        // Given
-        UserDto newUser = createUserDto();
-        // When
-        when(userService.save(any(UserDto.class))).thenReturn(newUser);
-        //then
-        mockMvc.perform(post("/users")
-                .content(asJsonString(newUser))
-                .contentType(APPLICATION_JSON).accept(APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
 
     @Test
     void createUserEndPointsTest() throws Exception {
@@ -66,18 +46,30 @@ public class UserControllerTest {
         // then
         resultActions
                 .andExpect(status().isCreated())
-                .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$.firstName").value(userDtoDummy.getFirstName()))
-                .andExpect(jsonPath("$.lastName").value(userDtoDummy.getLastName()))
-                .andExpect(jsonPath("$.fullName").value(userDtoDummy.getFullName()))
-                .andExpect(jsonPath("$.password").value(userDtoDummy.getPassword()))
-                .andExpect(jsonPath("$.address").value(userDtoDummy.getAddress()))
-                .andExpect(jsonPath("$.activeCart").value(userDtoDummy.getActiveCart()))
-                .andExpect(jsonPath("$.archivedCarts").value(userDtoDummy.getArchivedCarts()));
+                .andExpect(content().contentType(APPLICATION_JSON));
 
 
         verify(userService, times(1)).save(userDtoDummy);
 
+    }
+
+    @Test
+    void testRetrieveAllUserEndpoint() throws Exception {
+        // given
+        List<User> userList = UserUtils.createUserList();
+        when(userService.findAll()).thenReturn(userList);
+        // when
+        ResultActions resultActions =
+                mockMvc.perform(
+                        get("/users")
+                );
+        // then
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
+
+        verify(userService, times(1)).findAll();
     }
 
 
