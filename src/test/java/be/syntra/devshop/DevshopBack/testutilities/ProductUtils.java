@@ -35,7 +35,7 @@ public class ProductUtils {
     public static List<Product> createProductList() {
         List<Product> products = new LinkedList<>();
         for (int i = 0; i < 3; i++) {
-            products.add(createProduct());
+            products.add(createProductWithId());
         }
         return products;
     }

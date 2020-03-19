@@ -28,9 +28,10 @@ public class UserUtils {
                 .lastName("First")
                 .fullName("Someone First")
                 .password("password")
-                .archivedCarts(CartUtils.createDummyCartDtoList())
-                .activeCart(CartUtils.createCartDto())
                 .address(AddressUtils.createAddressDto())
+                .activeCart(CartUtils.createCartDto())
+                .archivedCarts(CartUtils.createDummyCartDtoList())
+
                 .build();
     }
 
@@ -50,7 +51,7 @@ public class UserUtils {
     public static List<User> createUserList() {
         List<User> users = new LinkedList<>();
         for (int i = 0; i < 3; i++) {
-            users.add(createUser());
+            users.add(createUserWithId());
         }
         return users;
     }

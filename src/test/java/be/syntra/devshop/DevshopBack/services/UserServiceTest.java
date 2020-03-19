@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
 import java.util.List;
@@ -18,6 +17,7 @@ import static be.syntra.devshop.DevshopBack.testutilities.UserUtils.createUserLi
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 @WebMvcTest(UserServiceImpl.class)
 public class UserServiceTest {
@@ -33,7 +33,7 @@ public class UserServiceTest {
 
     @BeforeEach
     public void init() {
-        MockitoAnnotations.initMocks(this);
+        initMocks(this);
     }
 
     @Test
