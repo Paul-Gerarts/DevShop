@@ -3,10 +3,11 @@ package be.syntra.devshop.DevshopBack.controllers;
 import be.syntra.devshop.DevshopBack.models.CartDto;
 import be.syntra.devshop.DevshopBack.services.CartService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/carts")
 public class CartController {
     private CartService cartService;
 
@@ -14,12 +15,6 @@ public class CartController {
         this.cartService = cartService;
     }
 
-    @GetMapping()
-    public ResponseEntity<?> retrieveAllCarts() {
-        return ResponseEntity
-                .status(200)
-                .body(cartService.findAll());
-    }
 
     @PostMapping()
     public ResponseEntity<?> createCart(@RequestBody CartDto cartDto) {
