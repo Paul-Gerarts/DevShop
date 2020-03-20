@@ -3,10 +3,12 @@ package be.syntra.devshop.DevshopBack.controllers;
 import be.syntra.devshop.DevshopBack.entities.User;
 import be.syntra.devshop.DevshopBack.models.UserDto;
 import be.syntra.devshop.DevshopBack.services.UserServiceImpl;
+import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -14,7 +16,6 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
-import static be.syntra.devshop.DevshopBack.testutilities.GeneralUtils.asJsonString;
 import static be.syntra.devshop.DevshopBack.testutilities.UserUtils.createUserDto;
 import static be.syntra.devshop.DevshopBack.testutilities.UserUtils.createUserList;
 import static org.mockito.Mockito.*;
@@ -24,11 +25,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Import(JsonUtils.class)
 @WebMvcTest(UserController.class)
 public class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private JsonUtils jsonUtils;
 
     @MockBean
     private UserServiceImpl userService;
@@ -43,7 +48,7 @@ public class UserControllerTest {
                 mockMvc.perform(
                         post("/users")
                                 .contentType(APPLICATION_JSON)
-                                .content(asJsonString(userDtoDummy))
+                                .content(jsonUtils.asJsonString(userDtoDummy))
                 );
         // then
         resultActions
