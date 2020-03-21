@@ -14,6 +14,5 @@ public class AddressDto {
     private String boxNumber;
     private String postalCode;
     private String city;
-    private String province;
     private String country;
 }

@@ -11,7 +11,6 @@ public class AddressUtils {
                 .boxNumber("")
                 .postalCode("1234")
                 .city("Somewhere")
-                .province("Provence")
                 .country("Belgium")
                 .build();
     }
@@ -23,7 +22,6 @@ public class AddressUtils {
                 .boxNumber("")
                 .postalCode("1234")
                 .city("Somewhere")
-                .province("Provence")
                 .country("Belgium")
                 .build();
     }
@@ -36,7 +34,6 @@ public class AddressUtils {
                 .boxNumber("")
                 .postalCode("1234")
                 .city("Somewhere")
-                .province("Provence")
                 .country("Belgium")
                 .build();
 

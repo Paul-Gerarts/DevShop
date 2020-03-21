@@ -31,7 +31,7 @@ public class Address {
     @NotNull
     @NotBlank
     @Column(name = "number")
-    @Pattern(regexp = "\\d")
+    @Pattern(regexp = "\\d*\\w[a-zA-Z]")
     private String number;
 
     @NotNull
@@ -41,17 +41,12 @@ public class Address {
     @NotNull
     @NotBlank
     @Column(name = "postal_code")
-    @Pattern(regexp = "(\\d{4})")
     private String postalCode;
 
     @NotNull
     @NotBlank
     @Column(name = "city")
     private String city;
-
-    @NotNull
-    @Column(name = "province")
-    private String province;
 
     @NotNull
     @NotBlank

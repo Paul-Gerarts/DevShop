@@ -16,7 +16,6 @@ class ProductMapperUtilityTest {
     @Test
     void convertToProductTest() {
         // given
-        Product product = ProductUtils.createProduct();
         ProductDto productDto = ProductUtils.createProductDto();
 
         // when
@@ -24,23 +23,22 @@ class ProductMapperUtilityTest {
 
         // then
         assertEquals(mappedProduct.getClass(), Product.class);
-        assertEquals(mappedProduct.getName(), product.getName());
-        assertEquals(mappedProduct.getPrice(), product.getPrice());
+        assertEquals(mappedProduct.getName(), productDto.getName());
+        assertEquals(mappedProduct.getPrice(), productDto.getPrice());
     }
 
     @Test
     void convertToProductDtoTest() {
         // given
         Product product = ProductUtils.createProductWithId();
-        ProductDto productDto = ProductUtils.createProductDto();
 
         // when
         ProductDto mappedProductDto = ProductMapperUtility.convertToProductDto(product);
 
         // then
         assertEquals(mappedProductDto.getClass(), ProductDto.class);
-        assertEquals(mappedProductDto.getName(), productDto.getName());
-        assertEquals(mappedProductDto.getPrice(), productDto.getPrice());
+        assertEquals(mappedProductDto.getName(), product.getName());
+        assertEquals(mappedProductDto.getPrice(), product.getPrice());
     }
 
     @Test

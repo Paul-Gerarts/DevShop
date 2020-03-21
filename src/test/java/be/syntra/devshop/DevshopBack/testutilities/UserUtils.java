@@ -35,9 +35,9 @@ public class UserUtils {
                 .build();
     }
 
-    public static User createUserWithId() {
+    public static User createUserWithId(Long id) {
         return User.builder()
-                .id(1L)
+                .id(id)
                 .firstName("Someone")
                 .lastName("First")
                 .fullName("Someone First")
@@ -49,9 +49,10 @@ public class UserUtils {
     }
 
     public static List<User> createUserList() {
+        long id = 1L;
         List<User> users = new LinkedList<>();
         for (int i = 0; i < 3; i++) {
-            users.add(createUserWithId());
+            users.add(createUserWithId(id++));
         }
         return users;
     }

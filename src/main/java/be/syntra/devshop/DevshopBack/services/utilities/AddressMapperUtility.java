@@ -11,7 +11,6 @@ public class AddressMapperUtility {
                 .boxNumber(addressDto.getBoxNumber())
                 .postalCode(addressDto.getPostalCode())
                 .city(addressDto.getCity())
-                .province(addressDto.getProvince())
                 .country(addressDto.getCountry())
                 .build();
     }
@@ -23,7 +22,6 @@ public class AddressMapperUtility {
                 .boxNumber(address.getBoxNumber())
                 .postalCode(address.getPostalCode())
                 .city(address.getCity())
-                .province(address.getProvince())
                 .country(address.getCountry())
                 .build();
     }
