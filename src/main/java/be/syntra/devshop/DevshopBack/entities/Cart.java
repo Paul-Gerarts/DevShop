@@ -29,7 +29,7 @@ public class Cart {
     private User user;
 
     @NotNull
-    @Column(name = "cartCreationDateTime")
+    @Column(name = "cart_creation_date_time")
     @JsonFormat
             (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime cartCreationDateTime;
@@ -40,15 +40,15 @@ public class Cart {
     private List<Product> products;
 
     @NotNull
-    @Column(name = "activeCart")
+    @Column(name = "active_cart")
     private boolean activeCart;
 
     @NotNull
-    @Column(name = "finalizedCart")
+    @Column(name = "finalized_cart")
     private boolean finalizedCart;
 
     @NotNull
-    @Column(name = "paidCart")
+    @Column(name = "paid_cart")
     private boolean paidCart;
 
     @Override
