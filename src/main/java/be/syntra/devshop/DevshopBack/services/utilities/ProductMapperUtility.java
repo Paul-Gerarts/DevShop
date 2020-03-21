@@ -5,8 +5,7 @@ import be.syntra.devshop.DevshopBack.models.ProductDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -30,14 +29,14 @@ public class ProductMapperUtility {
     static List<Product> convertToProductList(List<ProductDto> productDtoList) {
         return productDtoList.stream()
                 .map(ProductMapperUtility::convertToProduct)
-                .collect(toList());
+                .collect(Collectors.toUnmodifiableList());
     }
 
 
     static List<ProductDto> convertToProductDtoList(List<Product> products) {
         return products.stream()
                 .map(ProductMapperUtility::convertToProductDto)
-                .collect(toList());
+                .collect(Collectors.toUnmodifiableList());
     }
 
 }

@@ -3,7 +3,6 @@ package be.syntra.devshop.DevshopBack.entities;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -25,7 +24,7 @@ public class Cart {
     private Long id;
 
 
-    @OneToOne(targetEntity = User.class, mappedBy = "activeCart")
+    @OneToOne(targetEntity = User.class, mappedBy = "active_cart")
     @JsonIgnore
     private User user;
 
@@ -33,13 +32,11 @@ public class Cart {
     @Column(name = "cartCreationDateTime")
     @JsonFormat
             (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-
     private LocalDateTime cartCreationDateTime;
 
     @NotNull
     @Column(name = "products")
-    @OneToMany
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Product> products;
 
     @NotNull
