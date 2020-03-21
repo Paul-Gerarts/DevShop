@@ -1,5 +1,6 @@
 package be.syntra.devshop.DevshopBack.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
     private Long id;
 
     @Column(name = "name")
@@ -32,4 +34,22 @@ public class Product {
     @Digits(integer = 5, fraction = 2)
     @PositiveOrZero
     private BigDecimal price;
+
+    @ManyToOne
+    @JoinTable(
+            name = "PRODUCT_CART",
+            joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")},
+            inverseJoinColumns = {@JoinColumn(name = "cart_id", referencedColumnName = "cart_id")},
+            foreignKey = @ForeignKey(name = "cart_fk"))
+    @JsonIgnore
+    private Cart cart;
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }

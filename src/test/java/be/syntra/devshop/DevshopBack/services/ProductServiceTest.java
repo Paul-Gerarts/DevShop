@@ -3,7 +3,7 @@ package be.syntra.devshop.DevshopBack.services;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
-import be.syntra.devshop.DevshopBack.services.utilities.MapperUtility;
+import be.syntra.devshop.DevshopBack.services.utilities.CartMapperUtility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 public class ProductServiceTest {
 
     @Mock
-    private MapperUtility mapperUtility;
+    private CartMapperUtility mapperUtility;
 
     @Mock
     private ProductRepository productRepository;
@@ -29,7 +29,7 @@ public class ProductServiceTest {
     private ProductServiceImpl productService;
 
     @BeforeEach
-    public void init(){
+    public void init() {
         MockitoAnnotations.initMocks(this);
     }
 
@@ -43,12 +43,12 @@ public class ProductServiceTest {
         List<Product> resultProductList = productService.findAll();
 
         // then
-        assertEquals(resultProductList,dummyProducts);
-        verify(productRepository,times(1)).findAll();
+        assertEquals(resultProductList, dummyProducts);
+        verify(productRepository, times(1)).findAll();
     }
 
     @Test
-    void saveProductTest(){
+    void saveProductTest() {
         // given
         ProductDto dummyDto = createProductDto();
 
@@ -56,7 +56,7 @@ public class ProductServiceTest {
         ProductDto resultProductDto = productService.save(dummyDto);
 
         // then
-        assertEquals(dummyDto,resultProductDto);
-        verify(productRepository,times(1)).save(any());
+        assertEquals(dummyDto, resultProductDto);
+        verify(productRepository, times(1)).save(any());
     }
 }

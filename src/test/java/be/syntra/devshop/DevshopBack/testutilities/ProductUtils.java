@@ -35,7 +35,15 @@ public class ProductUtils {
     public static List<Product> createProductList() {
         List<Product> products = new LinkedList<>();
         for (int i = 0; i < 3; i++) {
-            products.add(createProduct());
+            products.add(createProductWithId());
+        }
+        return products;
+    }
+
+    public static List<ProductDto> createProductDtoList() {
+        List<ProductDto> products = new LinkedList<>();
+        for (int i = 0; i < 3; i++) {
+            products.add(createProductDto());
         }
         return products;
     }
@@ -44,6 +52,15 @@ public class ProductUtils {
         Product product1 = Product.builder().name("test").price(new BigDecimal("55.99")).build();
         Product product2 = Product.builder().name("product").price(new BigDecimal("110")).build();
         List<Product> productList = new ArrayList<>();
+        productList.add(product1);
+        productList.add(product2);
+        return productList;
+    }
+
+    public static List<ProductDto> createDummyProductDtoList() {
+        ProductDto product1 = ProductDto.builder().name("test").price(new BigDecimal("55.99")).build();
+        ProductDto product2 = ProductDto.builder().name("product").price(new BigDecimal("110")).build();
+        List<ProductDto> productList = new ArrayList<>();
         productList.add(product1);
         productList.add(product2);
         return productList;
