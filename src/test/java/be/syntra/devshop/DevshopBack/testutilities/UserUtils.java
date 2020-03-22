@@ -8,8 +8,6 @@ import java.util.List;
 
 public class UserUtils {
 
-
-
     public static User createUser() {
         return User.builder()
                 .firstName("Someone")

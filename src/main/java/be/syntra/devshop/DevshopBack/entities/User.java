@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 
@@ -44,6 +45,9 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Email
+    @Column(name = "email")
+    private String email;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
@@ -58,6 +62,14 @@ public class User {
             foreignKey = @ForeignKey(name = "cart_fk"))
     private List<Cart> archivedCarts;
 
+    @Size(min = 1)
+    @ManyToMany
+    @JoinTable(
+            name = "USER_USERROLE",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "userrole_id", referencedColumnName = "userrole_id")},
+            foreignKey = @ForeignKey(name = "user_role_fk"))
+    private List<UserRole> userRoles;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Cart activeCart;

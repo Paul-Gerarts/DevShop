@@ -1,6 +1,6 @@
 package be.syntra.devshop.DevshopBack.controllers;
 
-import be.syntra.devshop.DevshopBack.dtos.ProductDto;
+import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.services.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

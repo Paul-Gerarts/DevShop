@@ -1,7 +1,7 @@
 package be.syntra.devshop.DevshopBack.controllers;
 
-import be.syntra.devshop.DevshopBack.dtos.ProductDto;
 import be.syntra.devshop.DevshopBack.entities.Product;
+import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.services.ProductServiceImpl;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import be.syntra.devshop.DevshopBack.testutilities.ProductUtils;

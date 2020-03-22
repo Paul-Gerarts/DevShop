@@ -6,9 +6,11 @@ import be.syntra.devshop.DevshopBack.security.controllers.AuthorizationControlle
 import be.syntra.devshop.DevshopBack.security.controllers.dtos.LogInDto;
 import be.syntra.devshop.DevshopBack.security.controllers.dtos.RegisterDto;
 import be.syntra.devshop.DevshopBack.security.exceptions.UserAlreadyRegisteredException;
+import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
 import be.syntra.devshop.DevshopBack.security.models.JWTToken;
 import be.syntra.devshop.DevshopBack.security.services.PasswordEncoderService;
 import be.syntra.devshop.DevshopBack.security.services.UserService;
+import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -19,9 +21,9 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
@@ -29,7 +31,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 
-import static be.syntra.devshop.DevshopBack.testutilities.GeneralUtils.asJsonString;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -42,6 +43,9 @@ public class SecurityIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private JsonUtils jsonUtils;
+
     @Value("${jwt.base64-secret}")
     private String jwtKey;
 
@@ -51,11 +55,17 @@ public class SecurityIntegrationTest {
     @Mock
     private static RegisterDto registerDto2;
 
-    @MockBean
+    @Mock
     private UserService userService;
 
-    @MockBean
+    @Mock
     private PasswordEncoderService passwordEncoderService;
+
+    @Mock
+    AuthenticationManagerBuilder authenticationManagerBuilder;
+
+    @Mock
+    JWTTokenProvider jwtTokenProvider;
 
     @Mock
     private UserRepository userRepository;
@@ -82,7 +92,7 @@ public class SecurityIntegrationTest {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
                 .post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(new LogInDto("paul.gerarts@email.com", "noop"))))
+                .content(jsonUtils.asJsonString(new LogInDto("paul.gerarts@email.com", "noop"))))
                 .andExpect(status().isOk()).andReturn();
         String json = mvcResult.getResponse().getContentAsString();
         JWTToken jwtToken = new ObjectMapper().readValue(json, JWTToken.class);
@@ -125,7 +135,7 @@ public class SecurityIntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(registerDto)))
+                .content(jsonUtils.asJsonString(registerDto)))
                 .andExpect(status);
         return HttpStatus.valueOf(String.valueOf(status));
     }
