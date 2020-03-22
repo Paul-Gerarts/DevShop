@@ -3,7 +3,7 @@ package be.syntra.devshop.DevshopBack.services;
 import be.syntra.devshop.DevshopBack.dtos.ProductDto;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
-import be.syntra.devshop.DevshopBack.services.utilities.MapperUtility;
+import be.syntra.devshop.DevshopBack.services.utilities.ProductMapperUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +13,10 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     private ProductRepository productRepository;
-    private MapperUtility mapperUtility;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, MapperUtility mapperUtility) {
+    public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
-        this.mapperUtility = mapperUtility;
     }
 
     @Override
@@ -28,7 +26,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto save(ProductDto productDTO) {
-        productRepository.save(mapperUtility.convertToProduct(productDTO));
+        productRepository.save(ProductMapperUtility.convertToProduct(productDTO));
         return productDTO;
     }
 }

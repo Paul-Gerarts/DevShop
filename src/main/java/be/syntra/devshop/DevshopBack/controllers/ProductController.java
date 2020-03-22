@@ -26,7 +26,7 @@ public class ProductController {
     }
 
     /*
-     *@Returns: 201-created code when our product's succesfully saved
+     *@Returns: 201-created code when our product's successfully saved
      */
     @PostMapping()
     public ResponseEntity<?> createProduct(@RequestBody ProductDto productDto) {
