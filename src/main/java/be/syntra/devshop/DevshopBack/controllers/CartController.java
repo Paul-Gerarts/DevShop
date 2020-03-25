@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users/{user_id}/carts")
+@RequestMapping("/users/{userId}/carts")
 public class CartController {
     private CartService cartService;
 
@@ -16,8 +16,8 @@ public class CartController {
 
 
     @PostMapping()
-    public ResponseEntity<?> createFinalizedCart(@RequestBody CartDto cartDto, @PathVariable Long user_id) {
-
+    public ResponseEntity<?> createFinalizedCart(@RequestBody CartDto cartDto, @PathVariable Long userId) {
+        cartService.saveFinalizedCart(cartDto, userId);
         return ResponseEntity
                 .status(201)
                 .body(cartDto);

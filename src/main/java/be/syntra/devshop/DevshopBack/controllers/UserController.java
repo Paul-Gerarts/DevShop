@@ -27,7 +27,7 @@ public class UserController {
     public ResponseEntity<?> retrieveUserById(@PathVariable Long userId) {
         return ResponseEntity
                 .status(200)
-                .body(userService.findById(userId));
+                .body(userService.findUserById(userId));
     }
 
     /*
