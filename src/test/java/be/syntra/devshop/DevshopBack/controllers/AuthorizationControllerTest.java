@@ -6,10 +6,11 @@ import be.syntra.devshop.DevshopBack.security.configuration.WebSecurityConfig;
 import be.syntra.devshop.DevshopBack.security.controllers.AuthorizationController;
 import be.syntra.devshop.DevshopBack.security.controllers.dtos.LogInDto;
 import be.syntra.devshop.DevshopBack.security.controllers.dtos.RegisterDto;
+import be.syntra.devshop.DevshopBack.security.entities.JWTToken;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTAccessDeniedHandler;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTAuthenticationEntryPoint;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
-import be.syntra.devshop.DevshopBack.security.models.JWTToken;
+import be.syntra.devshop.DevshopBack.security.services.UserRoleService;
 import be.syntra.devshop.DevshopBack.security.services.UserService;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import io.jsonwebtoken.Claims;
@@ -37,7 +38,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(value = AuthorizationController.class)
+@WebMvcTest(AuthorizationController.class)
 @Import({JsonUtils.class, WebSecurityConfig.class, CorsConfiguration.class, JWTTokenProvider.class, JWTAuthenticationEntryPoint.class, JWTAccessDeniedHandler.class})
 public class AuthorizationControllerTest {
 
@@ -55,6 +56,9 @@ public class AuthorizationControllerTest {
 
     @MockBean
     private UserService userService;
+
+    @MockBean
+    private UserRoleService userRoleService;
 
     @BeforeEach
     public void setUp() {

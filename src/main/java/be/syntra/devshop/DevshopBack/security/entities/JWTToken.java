@@ -1,4 +1,4 @@
-package be.syntra.devshop.DevshopBack.security.models;
+package be.syntra.devshop.DevshopBack.security.entities;
 
 import lombok.*;
 

@@ -1,7 +1,7 @@
 package be.syntra.devshop.DevshopBack.datafiller;
 
+import be.syntra.devshop.DevshopBack.services.DataFillerImpl;
 import be.syntra.devshop.DevshopBack.services.DataFillerService;
-import be.syntra.devshop.DevshopBack.services.ProductServiceImpl;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -13,18 +13,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @Transactional(propagation = Propagation.REQUIRED)
 @NoArgsConstructor
-public class DataFillerImpl implements DataFillerService, ApplicationRunner {
+public class DataFillerExecutor implements DataFillerService, ApplicationRunner {
 
-    private ProductServiceImpl productService;
+    private DataFillerImpl dataFiller;
 
     @Autowired
-    public DataFillerImpl(ProductServiceImpl productService) {
-        this.productService = productService;
+    public DataFillerExecutor(DataFillerImpl dataFiller) {
+        this.dataFiller = dataFiller;
     }
 
     @Override
     public void importData() {
-        productService.initialize();
+        dataFiller.initialize();
     }
 
     @Override

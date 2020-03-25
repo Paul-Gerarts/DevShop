@@ -58,7 +58,19 @@ public class UserControllerTest {
         // then
         resultActions
                 .andExpect(status().isCreated())
-                .andExpect(content().contentType(APPLICATION_JSON));
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$.firstName").value(userDtoDummy.getFirstName()))
+                .andExpect(jsonPath("$.lastName").value(userDtoDummy.getLastName()))
+                .andExpect(jsonPath("$.fullName").value(userDtoDummy.getFullName()))
+                .andExpect(jsonPath("$.password").value(userDtoDummy.getPassword()))
+                .andExpect(jsonPath("$.address.number").value(userDtoDummy.getAddress().getNumber()))
+                .andExpect(jsonPath("$.address.postalCode").value(userDtoDummy.getAddress().getPostalCode()))
+                .andExpect(jsonPath("$.activeCart.cartCreationDateTime").value("2019-03-28T14:33:48.123456789"))
+                .andExpect(jsonPath("$.activeCart.products[0].name").value(userDtoDummy.getActiveCart().getProducts().get(0).getName()))
+                .andExpect(jsonPath("$.activeCart.products[0].price").value(userDtoDummy.getActiveCart().getProducts().get(0).getPrice()))
+                .andExpect(jsonPath("$.archivedCarts[0].cartCreationDateTime").value("2019-03-28T14:33:48.123456789"))
+                .andExpect(jsonPath("$.archivedCarts[0].products[0].name").value(userDtoDummy.getArchivedCarts().get(0).getProducts().get(0).getName()))
+                .andExpect(jsonPath("$.archivedCarts[0].products[0].price").value(userDtoDummy.getArchivedCarts().get(0).getProducts().get(0).getPrice()));
 
 
         verify(userService, times(1)).save(any());

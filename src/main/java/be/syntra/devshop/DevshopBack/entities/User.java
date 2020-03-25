@@ -1,6 +1,6 @@
 package be.syntra.devshop.DevshopBack.entities;
 
-import be.syntra.devshop.DevshopBack.security.models.UserRole;
+import be.syntra.devshop.DevshopBack.security.entities.UserRole;
 import lombok.*;
 
 import javax.persistence.*;
@@ -58,12 +58,12 @@ public class User {
     private List<Cart> archivedCarts;
 
     @Size(min = 1)
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "USER_USERROLE",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "userrole_id", referencedColumnName = "userrole_id")},
-            foreignKey = @ForeignKey(name = "user_role_fk"))
+            foreignKey = @ForeignKey(name = "userrole_fk"))
     private List<UserRole> userRoles;
 
     @OneToOne(cascade = CascadeType.ALL)

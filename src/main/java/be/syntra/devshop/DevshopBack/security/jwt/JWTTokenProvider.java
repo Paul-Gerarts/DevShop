@@ -1,6 +1,6 @@
 package be.syntra.devshop.DevshopBack.security.jwt;
 
-import be.syntra.devshop.DevshopBack.security.models.CustomUser;
+import be.syntra.devshop.DevshopBack.security.entities.CustomUser;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

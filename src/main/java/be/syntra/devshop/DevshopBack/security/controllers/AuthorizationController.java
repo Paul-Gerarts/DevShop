@@ -4,8 +4,8 @@ import be.syntra.devshop.DevshopBack.exceptions.UserAlreadyRegisteredException;
 import be.syntra.devshop.DevshopBack.exceptions.UserRoleNotFoundException;
 import be.syntra.devshop.DevshopBack.security.controllers.dtos.LogInDto;
 import be.syntra.devshop.DevshopBack.security.controllers.dtos.RegisterDto;
-import be.syntra.devshop.DevshopBack.security.models.JWTToken;
-import be.syntra.devshop.DevshopBack.security.models.UserRole;
+import be.syntra.devshop.DevshopBack.security.entities.JWTToken;
+import be.syntra.devshop.DevshopBack.security.entities.UserRole;
 import be.syntra.devshop.DevshopBack.security.services.UserRoleService;
 import be.syntra.devshop.DevshopBack.security.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static be.syntra.devshop.DevshopBack.security.entities.UserRoles.ROLE_USER;
 
 @RestController
 @RequestMapping("/auth")
@@ -46,7 +48,7 @@ public class AuthorizationController {
     @PostMapping("/register")
     public ResponseEntity<?> registerNewCustomer(@RequestBody RegisterDto registerDto) throws UserRoleNotFoundException, UserAlreadyRegisteredException {
         List<UserRole> userRoles = new ArrayList<>();
-        userRoles.add(userRoleService.findByRolName("ROLE_USER"));
+        userRoles.add(userRoleService.findByRolName(ROLE_USER.name()));
         userService.registerUser(
                 registerDto.getEmail(),
                 registerDto.getPassword(),
