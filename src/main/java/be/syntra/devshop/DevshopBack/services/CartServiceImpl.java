@@ -1,11 +1,8 @@
 package be.syntra.devshop.DevshopBack.services;
 
-import be.syntra.devshop.DevshopBack.entities.Cart;
 import be.syntra.devshop.DevshopBack.models.CartDto;
 import be.syntra.devshop.DevshopBack.repositories.CartRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 import static be.syntra.devshop.DevshopBack.services.utilities.CartMapperUtility.convertToCart;
 
@@ -19,13 +16,10 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartDto save(CartDto cartDto) {
+    public CartDto saveActiveCart(CartDto cartDto) {
+        cartDto.setActiveCart(true);
         cartRepository.save(convertToCart(cartDto));
         return cartDto;
     }
 
-    @Override
-    public List<Cart> findAll() {
-        return cartRepository.findAll();
-    }
 }

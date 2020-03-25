@@ -23,6 +23,13 @@ public class UserController {
                 .body(userService.findAll());
     }
 
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> retrieveUserById(@PathVariable Long userId) {
+        return ResponseEntity
+                .status(200)
+                .body(userService.findById(userId));
+    }
+
     /*
      *@Returns: 201-created code when our user's successfully saved
      */

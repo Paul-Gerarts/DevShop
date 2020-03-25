@@ -3,13 +3,10 @@ package be.syntra.devshop.DevshopBack.controllers;
 import be.syntra.devshop.DevshopBack.models.CartDto;
 import be.syntra.devshop.DevshopBack.services.CartService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/carts")
+@RequestMapping("/users/{user_id}/carts")
 public class CartController {
     private CartService cartService;
 
@@ -19,8 +16,8 @@ public class CartController {
 
 
     @PostMapping()
-    public ResponseEntity<?> createCart(@RequestBody CartDto cartDto) {
-        cartService.save(cartDto);
+    public ResponseEntity<?> createFinalizedCart(@RequestBody CartDto cartDto, @PathVariable Long user_id) {
+
         return ResponseEntity
                 .status(201)
                 .body(cartDto);
