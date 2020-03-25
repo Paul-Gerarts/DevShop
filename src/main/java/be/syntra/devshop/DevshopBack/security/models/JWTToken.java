@@ -1,13 +1,13 @@
 package be.syntra.devshop.DevshopBack.security.models;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @Builder
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class JWTToken {
 
-    private final String token;
+    private String token;
 }

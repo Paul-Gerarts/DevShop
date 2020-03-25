@@ -1,9 +1,9 @@
 package be.syntra.devshop.DevshopBack.security.controllers;
 
+import be.syntra.devshop.DevshopBack.exceptions.UserAlreadyRegisteredException;
+import be.syntra.devshop.DevshopBack.exceptions.UserRoleNotFoundException;
 import be.syntra.devshop.DevshopBack.security.controllers.dtos.LogInDto;
 import be.syntra.devshop.DevshopBack.security.controllers.dtos.RegisterDto;
-import be.syntra.devshop.DevshopBack.security.exceptions.UserAlreadyRegisteredException;
-import be.syntra.devshop.DevshopBack.security.exceptions.UserRoleNotFoundException;
 import be.syntra.devshop.DevshopBack.security.models.JWTToken;
 import be.syntra.devshop.DevshopBack.security.models.UserRole;
 import be.syntra.devshop.DevshopBack.security.services.UserRoleService;
@@ -34,10 +34,10 @@ public class AuthorizationController {
     /*
      *@Return 200 OK code when securely logged in
      */
-    @PostMapping("/login")
+    @PostMapping(value = "/login")
     public ResponseEntity<?> login(@RequestBody LogInDto logInDto) {
         JWTToken jwtToken = userService.getNewJwtToken(logInDto.getEmail(), logInDto.getPassword());
-        return ResponseEntity.ok(jwtToken);
+        return ResponseEntity.ok().header("Content-Type", "application/json").body(jwtToken);
     }
 
     /*

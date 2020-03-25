@@ -1,16 +1,18 @@
 package be.syntra.devshop.DevshopBack.security.controllers.dtos;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class RegisterDto {
 
-    private final String email;
-    private final String password;
-    private final String firstName;
-    private final String lastName;
+    private String email;
+    private String password;
+    private String firstName;
+    private String lastName;
 }

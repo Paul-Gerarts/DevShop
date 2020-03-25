@@ -1,12 +1,13 @@
 package be.syntra.devshop.DevshopBack.security.services;
 
 import be.syntra.devshop.DevshopBack.entities.User;
+import be.syntra.devshop.DevshopBack.exceptions.UserAlreadyRegisteredException;
 import be.syntra.devshop.DevshopBack.repositories.UserRepository;
-import be.syntra.devshop.DevshopBack.security.exceptions.UserAlreadyRegisteredException;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
 import be.syntra.devshop.DevshopBack.security.models.JWTToken;
 import be.syntra.devshop.DevshopBack.security.models.UserRole;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -28,6 +29,7 @@ public class UserService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JWTTokenProvider jwtTokenProvider;
 
+    @Autowired
     public UserService(UserRepository userRepository,
                        PasswordEncoderService passWordEncoderService,
                        AuthenticationManagerBuilder authManageBuilder,

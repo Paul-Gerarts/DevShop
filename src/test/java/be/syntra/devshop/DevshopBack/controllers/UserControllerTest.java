@@ -2,6 +2,11 @@ package be.syntra.devshop.DevshopBack.controllers;
 
 import be.syntra.devshop.DevshopBack.entities.User;
 import be.syntra.devshop.DevshopBack.models.UserDto;
+import be.syntra.devshop.DevshopBack.security.configuration.CorsConfiguration;
+import be.syntra.devshop.DevshopBack.security.configuration.WebSecurityConfig;
+import be.syntra.devshop.DevshopBack.security.jwt.JWTAccessDeniedHandler;
+import be.syntra.devshop.DevshopBack.security.jwt.JWTAuthenticationEntryPoint;
+import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
 import be.syntra.devshop.DevshopBack.services.UserServiceImpl;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import org.junit.jupiter.api.Test;
@@ -25,7 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Import(JsonUtils.class)
+@Import({JsonUtils.class, WebSecurityConfig.class, CorsConfiguration.class, JWTTokenProvider.class, JWTAuthenticationEntryPoint.class, JWTAccessDeniedHandler.class})
 @WebMvcTest(UserController.class)
 public class UserControllerTest {
 
@@ -56,7 +61,7 @@ public class UserControllerTest {
                 .andExpect(content().contentType(APPLICATION_JSON));
 
 
-        verify(userService, times(1)).save(userDtoDummy);
+        verify(userService, times(1)).save(any());
 
     }
 

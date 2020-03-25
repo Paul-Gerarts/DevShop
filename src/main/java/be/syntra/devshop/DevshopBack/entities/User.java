@@ -6,7 +6,6 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -25,28 +24,24 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    @NotNull
     @NotBlank
     @Column(name = "first_name")
     private String firstName;
 
-    @NotNull
     @NotBlank
     @Column(name = "last_name")
     private String lastName;
 
-    @NotNull
     @NotBlank
     @Column(name = "full_name")
     private String fullName;
 
-    @NotNull
     @NotBlank
     @Column(name = "password")
     private String password;
 
     @Email
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @OneToOne(cascade = CascadeType.ALL)

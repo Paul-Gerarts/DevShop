@@ -4,6 +4,7 @@ import be.syntra.devshop.DevshopBack.security.jwt.JWTAccessDeniedHandler;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTAuthenticationEntryPoint;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTConfigurer;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -28,6 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private JWTAuthenticationEntryPoint authenticationErrorHandler;
     private JWTAccessDeniedHandler jwtAccessDeniedHandler;
 
+    @Autowired
     public WebSecurityConfig(CorsFilter corsFilter,
                              JWTTokenProvider tokenProvider,
                              JWTAuthenticationEntryPoint authenticationErrorHandler,
@@ -77,6 +79,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                .antMatchers("/**").permitAll()
                 .antMatchers("/auth/**/").permitAll()
                 .anyRequest().authenticated()
                 .and()
