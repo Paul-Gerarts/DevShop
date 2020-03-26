@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 import static be.syntra.devshop.DevshopBack.services.utilities.UserMapperUtility.convertToUser;
 
@@ -28,10 +27,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
-    @Override
-    public Optional<User> findUserById(Long id) {
-        return userRepository.findById(id);
-    }
 
     @Override
     public UserDto save(UserDto userDto) {

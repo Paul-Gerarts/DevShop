@@ -5,9 +5,9 @@ import be.syntra.devshop.DevshopBack.entities.User;
 import be.syntra.devshop.DevshopBack.exceptions.UserNotFoundException;
 import be.syntra.devshop.DevshopBack.models.CartDto;
 import be.syntra.devshop.DevshopBack.repositories.UserRepository;
-import be.syntra.devshop.DevshopBack.services.utilities.CartMapperUtility;
 import org.springframework.stereotype.Service;
 
+import static be.syntra.devshop.DevshopBack.services.utilities.CartMapperUtility.convertToCart;
 
 
 @Service
@@ -25,8 +25,10 @@ public class CartServiceImpl implements CartService {
                 .stream()
                 .findFirst()
                 .orElseThrow(() -> new UserNotFoundException(String.format("User with id %s could not be found", userId)));
+
         user.getArchivedCarts()
-                .add(CartMapperUtility.convertToCart(cartDto));
+                .add(convertToCart(cartDto));
+
         userRepository.save(user);
 
         return cartDto;
