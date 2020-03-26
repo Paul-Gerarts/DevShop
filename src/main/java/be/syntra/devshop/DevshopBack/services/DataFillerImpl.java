@@ -47,13 +47,18 @@ public class DataFillerImpl {
     }
 
     private UserRole retrieveUserRole() {
-        return userRoleService.findByRolName(ROLE_USER.name());
+        return userRoleService.findByRoleName(ROLE_USER.name());
     }
 
     private UserRole retrieveAdminRole() {
-        return userRoleService.findByRolName(ROLE_ADMIN.name());
+        return userRoleService.findByRoleName(ROLE_ADMIN.name());
     }
 
+    /*
+     * Checks the database for values present
+     * Fills the corresponding tables that are empty with values generated
+     * All generated data is optional, except the one(s) marked with DO NOT DELETE
+     */
     public void initialize() {
         if (productRepository.count() == 0) {
             productRepository.saveAll(List.of(
@@ -66,6 +71,9 @@ public class DataFillerImpl {
             ));
         }
 
+        /*
+         * DO NOT DELETE - otherwise Spring Security won't know what roles there are -
+         */
         if (userRoleRepository.count() == 0) {
             userRoleRepository.saveAll(List.of(
                     userRoleFactory.of(ROLE_USER.name()),
@@ -79,17 +87,20 @@ public class DataFillerImpl {
                             "Lens",
                             "Lens",
                             List.of(retrieveUserRole(), retrieveAdminRole()),
-                            "Huygh"),
+                            "Huygh",
+                            "lens.huygh@gmail.com"),
                     userFactory.ofSecurity(
                             "Thomas",
                             "Thomas",
                             List.of(retrieveUserRole(), retrieveAdminRole()),
-                            "Fontaine"),
+                            "Fontaine",
+                            "thomasf0n7a1n3@gmail.com"),
                     userFactory.ofSecurity(
                             "Paul",
                             "Paul",
                             List.of(retrieveUserRole(), retrieveAdminRole()),
-                            "Gerarts")
+                            "Gerarts",
+                            "paul.gerarts@juvo.be")
             ));
         }
     }

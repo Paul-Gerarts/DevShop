@@ -7,7 +7,7 @@ import be.syntra.devshop.DevshopBack.security.controllers.dtos.RegisterDto;
 import be.syntra.devshop.DevshopBack.security.entities.JWTToken;
 import be.syntra.devshop.DevshopBack.security.entities.UserRole;
 import be.syntra.devshop.DevshopBack.security.services.UserRoleService;
-import be.syntra.devshop.DevshopBack.security.services.UserService;
+import be.syntra.devshop.DevshopBack.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,11 +24,11 @@ import static be.syntra.devshop.DevshopBack.security.entities.UserRoles.ROLE_USE
 @RequestMapping("/auth")
 public class AuthorizationController {
 
-    private UserService userService;
+    private UserServiceImpl userService;
     private UserRoleService userRoleService;
 
     @Autowired
-    public AuthorizationController(UserService userService, UserRoleService userRoleService) {
+    public AuthorizationController(UserServiceImpl userService, UserRoleService userRoleService) {
         this.userService = userService;
         this.userRoleService = userRoleService;
     }
@@ -39,7 +39,7 @@ public class AuthorizationController {
     @PostMapping(value = "/login")
     public ResponseEntity<?> login(@RequestBody LogInDto logInDto) {
         JWTToken jwtToken = userService.getNewJwtToken(logInDto.getEmail(), logInDto.getPassword());
-        return ResponseEntity.ok().header("Content-Type", "application/json").body(jwtToken);
+        return ResponseEntity.ok(jwtToken);
     }
 
     /*
@@ -48,13 +48,14 @@ public class AuthorizationController {
     @PostMapping("/register")
     public ResponseEntity<?> registerNewCustomer(@RequestBody RegisterDto registerDto) throws UserRoleNotFoundException, UserAlreadyRegisteredException {
         List<UserRole> userRoles = new ArrayList<>();
-        userRoles.add(userRoleService.findByRolName(ROLE_USER.name()));
+        userRoles.add(userRoleService.findByRoleName(ROLE_USER.name()));
         userService.registerUser(
                 registerDto.getEmail(),
                 registerDto.getPassword(),
                 registerDto.getFirstName(),
                 registerDto.getLastName(),
-                userRoles);
+                userRoles,
+                registerDto.getAddress());
         return ResponseEntity.status(201).body(registerDto);
     }
 

@@ -16,7 +16,7 @@ public class UserRoleService {
         this.userRoleRepository = userRoleRepository;
     }
 
-    public UserRole findByRolName(String name) throws UserRoleNotFoundException {
+    public UserRole findByRoleName(String name) throws UserRoleNotFoundException {
         return userRoleRepository.findUserRoleByName(name).orElseThrow(
                 () -> new UserRoleNotFoundException("This userRole: " + name + " cannot be found ")
         );

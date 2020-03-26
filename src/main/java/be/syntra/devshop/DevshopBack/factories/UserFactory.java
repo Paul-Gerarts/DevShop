@@ -13,7 +13,8 @@ public class UserFactory {
             String firstName,
             String password,
             List<UserRole> authorities,
-            String lastName
+            String lastName,
+            String email
     ) {
         return User.builder()
                 .firstName(firstName)
@@ -21,6 +22,7 @@ public class UserFactory {
                 .userRoles(authorities)
                 .lastName(lastName)
                 .fullName(firstName + " " + lastName)
+                .email(email)
                 .build();
     }
 }
