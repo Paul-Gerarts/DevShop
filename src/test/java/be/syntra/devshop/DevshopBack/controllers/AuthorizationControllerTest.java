@@ -1,6 +1,5 @@
 package be.syntra.devshop.DevshopBack.controllers;
 
-import be.syntra.devshop.DevshopBack.entities.Address;
 import be.syntra.devshop.DevshopBack.exceptions.UserAlreadyRegisteredException;
 import be.syntra.devshop.DevshopBack.security.configuration.CorsConfiguration;
 import be.syntra.devshop.DevshopBack.security.configuration.WebSecurityConfig;
@@ -8,12 +7,15 @@ import be.syntra.devshop.DevshopBack.security.controllers.AuthorizationControlle
 import be.syntra.devshop.DevshopBack.security.controllers.dtos.LogInDto;
 import be.syntra.devshop.DevshopBack.security.controllers.dtos.RegisterDto;
 import be.syntra.devshop.DevshopBack.security.entities.JWTToken;
+import be.syntra.devshop.DevshopBack.security.entities.UserRole;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTAccessDeniedHandler;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTAuthenticationEntryPoint;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
+import be.syntra.devshop.DevshopBack.security.repositories.UserRoleRepository;
 import be.syntra.devshop.DevshopBack.security.services.UserRoleService;
 import be.syntra.devshop.DevshopBack.services.UserServiceImpl;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
+import be.syntra.devshop.DevshopBack.testutilities.UserUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -27,13 +29,15 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.ArrayList;
-
+import static be.syntra.devshop.DevshopBack.security.entities.UserRoles.ROLE_USER;
+import static be.syntra.devshop.DevshopBack.testutilities.UserUtils.createRegisterDto;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AuthorizationController.class)
@@ -58,30 +62,33 @@ public class AuthorizationControllerTest {
     @MockBean
     private UserRoleService userRoleService;
 
+    @MockBean
+    private UserRoleRepository userRoleRepository;
+
     @BeforeEach
     public void setUp() {
-        registerDto = RegisterDto.builder()
-                .firstName("Paul")
-                .lastName("Gerarts")
-                .email("paul.gerarts@juvo.be")
-                .password("noop")
-                .build();
+        registerDto = UserUtils.createRegisterDto();
     }
 
     @Test
     @WithMockUser
     public void userCanLoginTest() throws Exception {
         // given
-        userService.registerUser("paul.gerarts@juvo.be", "noop", "Paul", "Gerarts", new ArrayList<>(), new Address());
+        RegisterDto dummyUser = createRegisterDto();
+        userService.registerUser(dummyUser);
         when(userService.getNewJwtToken("paul.gerarts@juvo.be", "noop")).thenReturn(new JWTToken("eyJ1c2VySWQiOjIsImFsZyI6IkhTNTEyIn0.eyJzdWIiOiJwYXVsLmdlcmFydHNAanV2by5iZSIsImF1dGgiOlt7ImF1dGhvcml0eSI6IlJPTEVfQURNSU4ifSx7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XSwiZXhwIjoxNTg1MjI5MjUxfQ.5ywx-83yFfg7rc65NAr194OeNV6MUUZQXh20t7kKSIg67MPt6uEShngwjFAVaV0IqZxlaUTSnaiss41EC3eKbg"));
+
         // when
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders
                 .post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonUtils.asJsonString(new LogInDto("paul.gerarts@juvo.be", "noop"))))
-                .andExpect(status().isOk()).andReturn();
+                .content(jsonUtils.asJsonString(new LogInDto("paul.gerarts@juvo.be", "noop"))));
 
         // then
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+        MvcResult mvcResult = resultActions.andReturn();
         String json = mvcResult.getResponse().getContentAsString();
         JWTToken jwtToken = (JWTToken) jsonUtils.readValue(json, JWTToken.class);
         assertThat(jwtToken).isNotNull();
@@ -89,16 +96,25 @@ public class AuthorizationControllerTest {
 
     @Test
     public void userCanRegister() throws Exception {
-        // given - when - then
-        assertThat(registerUser(HttpStatus.CREATED, registerDto)).isEqualTo(HttpStatus.CREATED);
+        // given
+        when(userRoleService.findByRoleName(ROLE_USER.name())).thenReturn(UserRole.builder().name(ROLE_USER.name()).build());
+
+        // when
+        HttpStatus resultStatus = registerUser(HttpStatus.CREATED, registerDto);
+
+        // then
+        assertThat(resultStatus).isEqualTo(HttpStatus.CREATED);
     }
 
     @Test
     public void userCannotRegisterTwice() throws Exception {
         // given
-        when(userService.registerUser(any(), any(), any(), any(), any(), any())).thenThrow(new UserAlreadyRegisteredException("test"));
+        when(userService.registerUser(any())).thenThrow(new UserAlreadyRegisteredException("test"));
+        when(userRoleService.findByRoleName(ROLE_USER.name())).thenReturn(UserRole.builder().name(ROLE_USER.name()).build());
 
-        // when - then
+        // when
+
+        // then
         registerUser(HttpStatus.BAD_REQUEST, registerDto);
     }
 

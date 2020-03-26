@@ -3,6 +3,7 @@ package be.syntra.devshop.DevshopBack.services;
 import be.syntra.devshop.DevshopBack.entities.User;
 import be.syntra.devshop.DevshopBack.models.UserDto;
 import be.syntra.devshop.DevshopBack.repositories.UserRepository;
+import be.syntra.devshop.DevshopBack.security.controllers.dtos.RegisterDto;
 import be.syntra.devshop.DevshopBack.security.services.PasswordEncoderService;
 import be.syntra.devshop.DevshopBack.services.utilities.UserMapperUtility;
 import org.junit.jupiter.api.BeforeEach;
@@ -70,18 +71,13 @@ public class UserServiceTest {
     @Test
     void canRegisterUserTest() throws Exception {
         // given
+        RegisterDto dummyUserDto = createRegisterDto();
         User dummyUser = createUser();
         when(passwordEncoderService.encode(any())).thenReturn("$2a$10$/fDjzeCFntx5VEv0cUjYG.heiUpSfloYQsn7Y2HID/ROGrtzAZmqC");
         when(userRepository.save(any())).thenReturn(dummyUser);
 
         // when
-        User registeredUser = spy(userService.registerUser(
-                dummyUser.getEmail(),
-                dummyUser.getPassword(),
-                dummyUser.getFirstName(),
-                dummyUser.getLastName(),
-                dummyUser.getUserRoles(),
-                dummyUser.getAddress()));
+        User registeredUser = spy(userService.registerUser(dummyUserDto));
 
         // then
         assertNotNull(registeredUser.getId());

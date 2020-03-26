@@ -1,13 +1,12 @@
 package be.syntra.devshop.DevshopBack.services;
 
-import be.syntra.devshop.DevshopBack.entities.Address;
 import be.syntra.devshop.DevshopBack.entities.Cart;
 import be.syntra.devshop.DevshopBack.entities.User;
 import be.syntra.devshop.DevshopBack.exceptions.UserAlreadyRegisteredException;
 import be.syntra.devshop.DevshopBack.models.UserDto;
 import be.syntra.devshop.DevshopBack.repositories.UserRepository;
+import be.syntra.devshop.DevshopBack.security.controllers.dtos.RegisterDto;
 import be.syntra.devshop.DevshopBack.security.entities.JWTToken;
-import be.syntra.devshop.DevshopBack.security.entities.UserRole;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
 import be.syntra.devshop.DevshopBack.security.services.PasswordEncoderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,16 +66,16 @@ public class UserServiceImpl implements UserService {
      * all of which have to do with persisting data to our database
      * in our case, it'll happen when an email-address has already been registered
      */
-    public User registerUser(String email, String password, String firstName, String lastName, List<UserRole> userRoles, Address address) throws UserAlreadyRegisteredException {
+    public User registerUser(RegisterDto registerDto) throws UserAlreadyRegisteredException {
         try {
             User user = User.builder()
-                    .email(email)
-                    .password(passWordEncoderService.encode(password))
-                    .firstName(firstName)
-                    .lastName(lastName)
-                    .userRoles(userRoles)
+                    .email(registerDto.getEmail())
+                    .password(passWordEncoderService.encode(registerDto.getPassword()))
+                    .firstName(registerDto.getFirstName())
+                    .lastName(registerDto.getLastName())
+                    .userRoles(registerDto.getUserRoles())
                     .archivedCarts(new ArrayList<>())
-                    .address(address)
+                    .address(registerDto.getAddress())
                     .activeCart(new Cart())
                     .build();
             return userRepository.save(user);

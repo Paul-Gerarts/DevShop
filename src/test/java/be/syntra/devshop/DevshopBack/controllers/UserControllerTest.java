@@ -43,7 +43,6 @@ public class UserControllerTest {
     @MockBean
     private UserServiceImpl userService;
 
-
     @Test
     void createUserEndPointsTest() throws Exception {
         // given
@@ -72,9 +71,7 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.archivedCarts[0].products[0].name").value(userDtoDummy.getArchivedCarts().get(0).getProducts().get(0).getName()))
                 .andExpect(jsonPath("$.archivedCarts[0].products[0].price").value(userDtoDummy.getArchivedCarts().get(0).getProducts().get(0).getPrice()));
 
-
         verify(userService, times(1)).save(any());
-
     }
 
     @Test
@@ -86,7 +83,6 @@ public class UserControllerTest {
         ResultActions resultActions =
                 mockMvc.perform(
                         get("/users"));
-
 
         // then
         resultActions
@@ -194,6 +190,4 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$[2].activeCart.paidCart").value(equalTo(false)));
         verify(userService, times(1)).findAll();
     }
-
-
 }

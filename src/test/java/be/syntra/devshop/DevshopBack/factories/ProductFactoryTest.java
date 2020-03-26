@@ -1,37 +1,28 @@
 package be.syntra.devshop.DevshopBack.factories;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
 
-import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.createProduct;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 
 public class ProductFactoryTest {
 
-    @Mock
-    private ProductFactory productFactory;
-
-    @BeforeEach
-    public void init() {
-        MockitoAnnotations.initMocks(this);
-    }
+    private ProductFactory productFactory = new ProductFactory();
 
     @Test
     void canCreateProductTest() {
         // given
-        Product dummyProduct = createProduct();
-        when(productFactory.of("test", new BigDecimal(5))).thenReturn(dummyProduct);
+        String productName = "test";
+        BigDecimal productPrice = new BigDecimal(5);
 
         // when
-        Product resultProduct = productFactory.of("test", new BigDecimal(5));
+        Product resultProduct = productFactory.of(productName, productPrice);
 
         // then
-        assertThat(resultProduct).isEqualTo(dummyProduct);
+        assertThat(resultProduct.getClass()).isEqualTo(Product.class);
+        assertThat(resultProduct.getName()).isEqualTo(productName);
+        assertThat(resultProduct.getPrice()).isEqualTo(productPrice);
     }
 }

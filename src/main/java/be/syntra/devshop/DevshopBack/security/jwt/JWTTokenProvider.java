@@ -1,6 +1,6 @@
 package be.syntra.devshop.DevshopBack.security.jwt;
 
-import be.syntra.devshop.DevshopBack.security.entities.CustomUser;
+import be.syntra.devshop.DevshopBack.security.entities.SecurityUser;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -33,7 +33,11 @@ public class JWTTokenProvider implements InitializingBean {
             @Value("${jwt.base64-secret}") String base64Secret,
             @Value("${jwt.token-validity-in-seconds}") Long tokenValidityInSeconds) {
         this.base64Secret = base64Secret;
-        this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1200;
+        this.tokenValidityInMilliseconds = convertSecondsToMilliseconds(tokenValidityInSeconds);
+    }
+
+    private Long convertSecondsToMilliseconds(Long validityInSeconds) {
+        return validityInSeconds * 1000;
     }
 
     @Override
@@ -48,7 +52,7 @@ public class JWTTokenProvider implements InitializingBean {
         return Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authentication.getAuthorities())
-                .setHeaderParam(USER_ID, ((CustomUser) authentication.getPrincipal()).getUserID())
+                .setHeaderParam(USER_ID, ((SecurityUser) authentication.getPrincipal()).getUserID())
                 .signWith(key, SignatureAlgorithm.HS512)
                 .setExpiration(validity)
                 .compact();
@@ -66,7 +70,7 @@ public class JWTTokenProvider implements InitializingBean {
         Long gebruikerId = null != claims.get(USER_ID)
                 ? (Long) claims.get(USER_ID)
                 : null;
-        CustomUser principal = new CustomUser(claims.getSubject(), "", authorities, gebruikerId);
+        SecurityUser principal = new SecurityUser(claims.getSubject(), "", authorities, gebruikerId);
 
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }

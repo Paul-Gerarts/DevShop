@@ -52,10 +52,10 @@ public class UserRoleServiceTest {
         UserRole dummyUserRole = Optional.ofNullable(UserRole.builder().name(ROLE_USER.name()).build()).orElse(null);
         UserRole dummyAdminRole = Optional.ofNullable(UserRole.builder().name(ROLE_ADMIN.name()).build()).orElse(null);
         Optional<List<UserRole>> dummyRoles = Optional.of(List.of(dummyUserRole, dummyAdminRole));
-        when(userRoleRepository.findAll()).thenReturn(dummyRoles.get());
+        when(userRoleService.findAll()).thenReturn(dummyRoles.get());
 
         // when
-        Optional<List<UserRole>> resultRoles = Optional.of(userRoleRepository.findAll());
+        Optional<List<UserRole>> resultRoles = Optional.of(userRoleService.findAll());
 
         // then
         assertThat(dummyRoles).isEqualTo(resultRoles);

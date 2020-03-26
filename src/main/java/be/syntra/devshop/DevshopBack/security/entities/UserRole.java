@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "userrole")
+@Table(name = "user_role")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -15,7 +15,7 @@ public class UserRole {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userrole_id")
+    @Column(name = "user_role_id")
     private Long userRoleId;
 
     @Column(unique = true)

@@ -2,6 +2,7 @@ package be.syntra.devshop.DevshopBack.testutilities;
 
 import be.syntra.devshop.DevshopBack.entities.User;
 import be.syntra.devshop.DevshopBack.models.UserDto;
+import be.syntra.devshop.DevshopBack.security.controllers.dtos.RegisterDto;
 import be.syntra.devshop.DevshopBack.security.entities.UserRole;
 
 import java.util.LinkedList;
@@ -20,7 +21,8 @@ public class UserUtils {
                 .fullName("Someone First")
                 .password("password")
                 .email("test@email.com")
-                .userRoles(List.of(UserRole.builder().name(ROLE_USER.name()).build(),
+                .userRoles(List.of(
+                        UserRole.builder().name(ROLE_USER.name()).build(),
                         UserRole.builder().name(ROLE_ADMIN.name()).build()))
                 .address(AddressUtils.createAddress())
                 .activeCart(CartUtils.createActiveCart())
@@ -37,6 +39,19 @@ public class UserUtils {
                 .address(AddressUtils.createAddressDto())
                 .activeCart(CartUtils.createCartDto())
                 .archivedCarts(CartUtils.createDummyCartDtoList())
+                .build();
+    }
+
+    public static RegisterDto createRegisterDto() {
+        return RegisterDto.builder()
+                .firstName("Someone")
+                .lastName("First")
+                .password("password")
+                .email("test@email.com")
+                .userRoles(List.of(
+                        UserRole.builder().name(ROLE_USER.name()).build(),
+                        UserRole.builder().name(ROLE_ADMIN.name()).build()))
+                .address(AddressUtils.createAddress())
                 .build();
     }
 
