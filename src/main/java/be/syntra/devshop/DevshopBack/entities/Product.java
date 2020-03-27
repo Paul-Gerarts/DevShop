@@ -35,7 +35,7 @@ public class Product {
     @PositiveOrZero
     private BigDecimal price;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinTable(
             name = "PRODUCT_CART",
             joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")},

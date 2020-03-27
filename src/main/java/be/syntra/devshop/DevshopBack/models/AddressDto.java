@@ -9,6 +9,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class AddressDto {
+
     private String street;
     private String number;
     private String boxNumber;

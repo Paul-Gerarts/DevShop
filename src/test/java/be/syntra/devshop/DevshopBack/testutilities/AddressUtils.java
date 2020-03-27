@@ -4,6 +4,7 @@ import be.syntra.devshop.DevshopBack.entities.Address;
 import be.syntra.devshop.DevshopBack.models.AddressDto;
 
 public class AddressUtils {
+
     public static Address createAddress() {
         return Address.builder()
                 .street("somewhere street")

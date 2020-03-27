@@ -14,7 +14,6 @@ public class CartController {
         this.cartService = cartService;
     }
 
-
     @PostMapping()
     public ResponseEntity<?> createFinalizedCart(@RequestBody CartDto cartDto, @PathVariable Long userId) {
         cartService.saveFinalizedCart(cartDto, userId);

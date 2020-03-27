@@ -33,7 +33,7 @@ public class UserMapperUtilityTest {
         assertEquals(mappedUser.getAddress().getPostalCode(), userDto.getAddress().getPostalCode());
         assertEquals(mappedUser.getAddress().getCity(), userDto.getAddress().getCity());
         assertEquals(mappedUser.getAddress().getCountry(), userDto.getAddress().getCountry());
-        assertEquals(mappedUser.getActiveCart().getProducts(), convertToProductList(userDto.getActiveCart().getProducts()));
+        assertEquals(mappedUser.getActiveCart().getProducts().toString(), convertToProductList(userDto.getActiveCart().getProducts()).toString());
         assertEquals(mappedUser.getActiveCart().getCartCreationDateTime(), userDto.getActiveCart().getCartCreationDateTime());
         assertEquals(mappedUser.getArchivedCarts().get(0).getCartCreationDateTime(), userDto.getArchivedCarts().get(0).getCartCreationDateTime());
         assertEquals(mappedUser.getArchivedCarts().get(0).getProducts().get(0).getName(), userDto.getArchivedCarts().get(0).getProducts().get(0).getName());
