@@ -25,13 +25,11 @@ public class ProductMapperUtility {
                 .build();
     }
 
-
     static List<Product> convertToProductList(List<ProductDto> productDtoList) {
         return productDtoList.stream()
                 .map(ProductMapperUtility::convertToProduct)
                 .collect(Collectors.toUnmodifiableList());
     }
-
 
     static List<ProductDto> convertToProductDtoList(List<Product> products) {
         return products.stream()

@@ -3,14 +3,17 @@ package be.syntra.devshop.DevshopBack.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 public class UserDto {
+
     private String firstName;
     private String lastName;
     private String fullName;

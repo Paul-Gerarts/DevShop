@@ -2,6 +2,11 @@ package be.syntra.devshop.DevshopBack.controllers;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
+import be.syntra.devshop.DevshopBack.security.configuration.CorsConfiguration;
+import be.syntra.devshop.DevshopBack.security.configuration.WebSecurityConfig;
+import be.syntra.devshop.DevshopBack.security.jwt.JWTAccessDeniedHandler;
+import be.syntra.devshop.DevshopBack.security.jwt.JWTAuthenticationEntryPoint;
+import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
 import be.syntra.devshop.DevshopBack.services.ProductServiceImpl;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import be.syntra.devshop.DevshopBack.testutilities.ProductUtils;
@@ -25,7 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Import(JsonUtils.class)
+@Import({JsonUtils.class, WebSecurityConfig.class, CorsConfiguration.class, JWTTokenProvider.class, JWTAuthenticationEntryPoint.class, JWTAccessDeniedHandler.class})
 @WebMvcTest(ProductController.class)
 class ProductControllerTest {
 

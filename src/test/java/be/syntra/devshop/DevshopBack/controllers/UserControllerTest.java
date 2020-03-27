@@ -2,6 +2,11 @@ package be.syntra.devshop.DevshopBack.controllers;
 
 import be.syntra.devshop.DevshopBack.entities.User;
 import be.syntra.devshop.DevshopBack.models.UserDto;
+import be.syntra.devshop.DevshopBack.security.configuration.CorsConfiguration;
+import be.syntra.devshop.DevshopBack.security.configuration.WebSecurityConfig;
+import be.syntra.devshop.DevshopBack.security.jwt.JWTAccessDeniedHandler;
+import be.syntra.devshop.DevshopBack.security.jwt.JWTAuthenticationEntryPoint;
+import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
 import be.syntra.devshop.DevshopBack.services.UserServiceImpl;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import org.junit.jupiter.api.Test;
@@ -25,7 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Import(JsonUtils.class)
+@Import({JsonUtils.class, WebSecurityConfig.class, CorsConfiguration.class, JWTTokenProvider.class, JWTAuthenticationEntryPoint.class, JWTAccessDeniedHandler.class})
 @WebMvcTest(UserController.class)
 public class UserControllerTest {
 
@@ -37,7 +42,6 @@ public class UserControllerTest {
 
     @MockBean
     private UserServiceImpl userService;
-
 
     @Test
     void createUserEndPointsTest() throws Exception {
@@ -53,11 +57,21 @@ public class UserControllerTest {
         // then
         resultActions
                 .andExpect(status().isCreated())
-                .andExpect(content().contentType(APPLICATION_JSON));
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$.firstName").value(userDtoDummy.getFirstName()))
+                .andExpect(jsonPath("$.lastName").value(userDtoDummy.getLastName()))
+                .andExpect(jsonPath("$.fullName").value(userDtoDummy.getFullName()))
+                .andExpect(jsonPath("$.password").value(userDtoDummy.getPassword()))
+                .andExpect(jsonPath("$.address.number").value(userDtoDummy.getAddress().getNumber()))
+                .andExpect(jsonPath("$.address.postalCode").value(userDtoDummy.getAddress().getPostalCode()))
+                .andExpect(jsonPath("$.activeCart.cartCreationDateTime").value("2019-03-28T14:33:48.123456789"))
+                .andExpect(jsonPath("$.activeCart.products[0].name").value(userDtoDummy.getActiveCart().getProducts().get(0).getName()))
+                .andExpect(jsonPath("$.activeCart.products[0].price").value(userDtoDummy.getActiveCart().getProducts().get(0).getPrice()))
+                .andExpect(jsonPath("$.archivedCarts[0].cartCreationDateTime").value("2019-03-28T14:33:48.123456789"))
+                .andExpect(jsonPath("$.archivedCarts[0].products[0].name").value(userDtoDummy.getArchivedCarts().get(0).getProducts().get(0).getName()))
+                .andExpect(jsonPath("$.archivedCarts[0].products[0].price").value(userDtoDummy.getArchivedCarts().get(0).getProducts().get(0).getPrice()));
 
-
-        verify(userService, times(1)).save(userDtoDummy);
-
+        verify(userService, times(1)).save(any());
     }
 
     @Test
@@ -69,7 +83,6 @@ public class UserControllerTest {
         ResultActions resultActions =
                 mockMvc.perform(
                         get("/users"));
-
 
         // then
         resultActions
@@ -177,6 +190,4 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$[2].activeCart.paidCart").value(equalTo(false)));
         verify(userService, times(1)).findAll();
     }
-
-
 }
