@@ -67,10 +67,10 @@ public class JWTTokenProvider implements InitializingBean {
                 Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toUnmodifiableList());
-        Long gebruikerId = null != claims.get(USER_ID)
+        Long userId = null != claims.get(USER_ID)
                 ? (Long) claims.get(USER_ID)
                 : null;
-        SecurityUser principal = new SecurityUser(claims.getSubject(), "", authorities, gebruikerId);
+        SecurityUser principal = new SecurityUser(claims.getSubject(), "", authorities, userId);
 
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }

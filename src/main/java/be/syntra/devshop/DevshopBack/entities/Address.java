@@ -31,7 +31,7 @@ public class Address {
     @NotNull
     @NotBlank
     @Column(name = "number")
-    @Pattern(regexp = "\\d*\\w[a-zA-Z]")
+    @Pattern(regexp = "\\d*\\w[a-zA-Z]?")
     private String number;
 
     @NotNull
