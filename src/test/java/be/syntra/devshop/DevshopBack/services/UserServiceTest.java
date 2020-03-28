@@ -102,9 +102,12 @@ public class UserServiceTest {
         Long userId = 1L;
         User dummyUser = createUserWithId(userId);
         when(userRepository.findById(userId)).thenReturn(ofNullable(dummyUser));
+
         //when
         User resultUser = userService.getUserById(userId);
+
         //then
         assertEquals(userId, resultUser.getId());
+        verify(userRepository, times(1)).findById(anyLong());
     }
 }

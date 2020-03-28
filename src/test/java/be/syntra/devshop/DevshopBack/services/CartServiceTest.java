@@ -10,8 +10,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static be.syntra.devshop.DevshopBack.testutilities.CartUtils.createCartDto;
-import static be.syntra.devshop.DevshopBack.testutilities.CartUtils.createCartWithId;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class CartServiceTest {
     @Mock
@@ -32,17 +34,16 @@ public class CartServiceTest {
     void saveFinalizedCartTest() {
         // given
         CartDto dummyDto = createCartDto();
-        Long userId = createCartWithId().getId();
-
+        Long userId = 1L;
         // when
         CartDto resultCartDto = cartService.saveFinalizedCart(dummyDto, userId);
-
         // then
         assertEquals(dummyDto.getCartCreationDateTime(), resultCartDto.getCartCreationDateTime());
         assertEquals(dummyDto.getProducts().get(0).getName(), resultCartDto.getProducts().get(0).getName());
         assertEquals(dummyDto.getProducts().get(0).getPrice(), resultCartDto.getProducts().get(0).getPrice());
         assertEquals(dummyDto.getProducts().get(1).getName(), resultCartDto.getProducts().get(1).getName());
         assertEquals(dummyDto.getProducts().get(1).getPrice(), resultCartDto.getProducts().get(1).getPrice());
+        verify(userRepository, times(1)).save(any());
     }
 
 }
