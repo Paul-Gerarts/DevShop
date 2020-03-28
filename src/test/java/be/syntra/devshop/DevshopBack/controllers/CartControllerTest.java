@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static be.syntra.devshop.DevshopBack.testutilities.CartUtils.createCartDto;
+import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -56,5 +57,6 @@ public class CartControllerTest {
                 .andExpect(jsonPath("$.products[1].name").value(cartDtoDummy.getProducts().get(1).getName()))
                 .andExpect(jsonPath("$.products[1].price").value(cartDtoDummy.getProducts().get(1).getPrice()));
 
+        verify(cartService, times(1)).saveFinalizedCart(any(), anyLong());
     }
 }

@@ -15,6 +15,7 @@ import java.util.List;
 
 import static be.syntra.devshop.DevshopBack.testutilities.SpyHelper.assertAllGettersCalled;
 import static be.syntra.devshop.DevshopBack.testutilities.UserUtils.*;
+import static java.util.Optional.ofNullable;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -93,5 +94,17 @@ public class UserServiceTest {
         assertAllGettersCalled(registeredUser);
         verify(userRepository, times(1)).save(any());
         verify(passwordEncoderService, times(1)).encode("password");
+    }
+
+    @Test
+    void canGetUserByIdTest() {
+        //given
+        Long userId = 1L;
+        User dummyUser = createUserWithId(userId);
+        when(userRepository.findById(userId)).thenReturn(ofNullable(dummyUser));
+        //when
+        User resultUser = userService.getUserById(userId);
+        //then
+        assertEquals(userId, resultUser.getId());
     }
 }
