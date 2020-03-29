@@ -1,17 +1,22 @@
 package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.factories.ProductFactory;
+import be.syntra.devshop.DevshopBack.factories.SecurityUserFactory;
 import be.syntra.devshop.DevshopBack.factories.UserFactory;
 import be.syntra.devshop.DevshopBack.factories.UserRoleFactory;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
 import be.syntra.devshop.DevshopBack.repositories.UserRepository;
 import be.syntra.devshop.DevshopBack.security.entities.UserRole;
+import be.syntra.devshop.DevshopBack.security.repositories.SecurityUserRepository;
 import be.syntra.devshop.DevshopBack.security.repositories.UserRoleRepository;
 import be.syntra.devshop.DevshopBack.security.services.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 
 import static be.syntra.devshop.DevshopBack.security.entities.UserRoles.ROLE_ADMIN;
@@ -20,6 +25,10 @@ import static be.syntra.devshop.DevshopBack.security.entities.UserRoles.ROLE_USE
 @Service
 public class DataFillerImpl {
 
+    @Value("${frontend.userName}")
+    private String userName;
+    @Value("${frontend.password}")
+    private String password;
     private ProductRepository productRepository;
     private ProductFactory productFactory;
     private UserRoleRepository userRoleRepository;
@@ -27,6 +36,8 @@ public class DataFillerImpl {
     private UserRepository userRepository;
     private UserFactory userFactory;
     private UserRoleService userRoleService;
+    private SecurityUserRepository securityUserRepository;
+    private SecurityUserFactory securityUserFactory;
 
     @Autowired
     public DataFillerImpl(ProductRepository productRepository,
@@ -35,7 +46,9 @@ public class DataFillerImpl {
                           UserRoleFactory userRoleFactory,
                           UserRepository userRepository,
                           UserFactory userFactory,
-                          UserRoleService userRoleService
+                          UserRoleService userRoleService,
+                          SecurityUserRepository securityUserRepository,
+                          SecurityUserFactory securityUserFactory
     ) {
         this.productRepository = productRepository;
         this.productFactory = productFactory;
@@ -44,6 +57,8 @@ public class DataFillerImpl {
         this.userRepository = userRepository;
         this.userFactory = userFactory;
         this.userRoleService = userRoleService;
+        this.securityUserRepository = securityUserRepository;
+        this.securityUserFactory = securityUserFactory;
     }
 
     private UserRole retrieveUserRole() {
@@ -60,16 +75,6 @@ public class DataFillerImpl {
      * All generated data is optional, except the one(s) marked with DO NOT DELETE
      */
     public void initialize() {
-        if (productRepository.count() == 0) {
-            productRepository.saveAll(List.of(
-                    productFactory.of(
-                            "keyboard",
-                            new BigDecimal(150)),
-                    productFactory.of(
-                            "mousepad",
-                            new BigDecimal(3))
-            ));
-        }
 
         /*
          * DO NOT DELETE - otherwise Spring Security won't know what roles there are -
@@ -81,24 +86,41 @@ public class DataFillerImpl {
             ));
         }
 
+        /*
+         * DO NOT DELETE - otherwise Spring Security won't authorize frontend calls -
+         */
+        if (securityUserRepository.count() == 0) {
+            securityUserRepository.save(
+                    securityUserFactory.of(
+                            userName,
+                            new BCryptPasswordEncoder().encode(password),
+                            Collections.singletonList(retrieveAdminRole())
+                    ));
+        }
+
+        if (productRepository.count() == 0) {
+            productRepository.saveAll(List.of(
+                    productFactory.of(
+                            "keyboard",
+                            new BigDecimal(150)),
+                    productFactory.of(
+                            "mousepad",
+                            new BigDecimal(3))
+            ));
+        }
+
         if (userRepository.count() == 0) {
             userRepository.saveAll(List.of(
                     userFactory.ofSecurity(
                             "Lens",
-                            "Lens",
-                            List.of(retrieveUserRole(), retrieveAdminRole()),
                             "Huygh",
                             "lens.huygh@gmail.com"),
                     userFactory.ofSecurity(
                             "Thomas",
-                            "Thomas",
-                            List.of(retrieveUserRole(), retrieveAdminRole()),
                             "Fontaine",
                             "thomasf0n7a1n3@gmail.com"),
                     userFactory.ofSecurity(
                             "Paul",
-                            "Paul",
-                            List.of(retrieveUserRole(), retrieveAdminRole()),
                             "Gerarts",
                             "paul.gerarts@juvo.be")
             ));

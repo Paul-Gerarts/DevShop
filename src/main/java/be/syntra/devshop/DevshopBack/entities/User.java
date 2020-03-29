@@ -1,12 +1,10 @@
 package be.syntra.devshop.DevshopBack.entities;
 
-import be.syntra.devshop.DevshopBack.security.entities.UserRole;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.util.List;
 
 
@@ -36,10 +34,6 @@ public class User {
     @Column(name = "full_name")
     private String fullName;
 
-    @NotBlank
-    @Column(name = "password")
-    private String password;
-
     @Email
     @NotBlank
     @Column(name = "email", unique = true)
@@ -58,15 +52,6 @@ public class User {
             foreignKey = @ForeignKey(name = "cart_fk"))
     private List<Cart> archivedCarts;
 
-    @Size(min = 1)
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "USER_USERROLE",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_role_id", referencedColumnName = "user_role_id")},
-            foreignKey = @ForeignKey(name = "user_role_fk"))
-    private List<UserRole> userRoles;
-
     @OneToOne(cascade = CascadeType.ALL)
     private Cart activeCart;
 
@@ -77,7 +62,6 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", fullName='" + fullName + '\'' +
-                ", password='" + password + '\'' +
                 ", address=" + address +
                 '}';
     }

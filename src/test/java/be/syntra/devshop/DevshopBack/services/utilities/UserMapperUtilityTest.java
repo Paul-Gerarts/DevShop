@@ -26,7 +26,6 @@ public class UserMapperUtilityTest {
         assertEquals(mappedUser.getFirstName(), userDto.getFirstName());
         assertEquals(mappedUser.getLastName(), userDto.getLastName());
         assertEquals(mappedUser.getFullName(), userDto.getFullName());
-        assertEquals(mappedUser.getPassword(), userDto.getPassword());
         assertEquals(mappedUser.getAddress().getStreet(), userDto.getAddress().getStreet());
         assertEquals(mappedUser.getAddress().getNumber(), userDto.getAddress().getNumber());
         assertEquals(mappedUser.getAddress().getBoxNumber(), userDto.getAddress().getBoxNumber());
@@ -54,7 +53,6 @@ public class UserMapperUtilityTest {
         assertEquals(mappedUserDto.getFirstName(), user.getFirstName());
         assertEquals(mappedUserDto.getLastName(), user.getLastName());
         assertEquals(mappedUserDto.getFullName(), user.getFullName());
-        assertEquals(mappedUserDto.getPassword(), user.getPassword());
         assertEquals(mappedUserDto.getAddress().getStreet(), user.getAddress().getStreet());
         assertEquals(mappedUserDto.getAddress().getNumber(), user.getAddress().getNumber());
         assertEquals(mappedUserDto.getAddress().getBoxNumber(), user.getAddress().getBoxNumber());

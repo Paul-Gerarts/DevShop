@@ -8,8 +8,10 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler({UserAlreadyRegisteredException.class,
-            UserRoleNotFoundException.class})
+    @ExceptionHandler({CustomException.class,
+            UserAlreadyRegisteredException.class,
+            UserRoleNotFoundException.class,
+            UserNotFoundException.class})
     public ResponseEntity<?> giveHttpStatus(CustomException ce) {
         return new ResponseEntity<>(ce.getHttpStatus());
     }

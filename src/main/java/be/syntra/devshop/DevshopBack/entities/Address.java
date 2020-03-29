@@ -5,7 +5,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Entity
@@ -33,7 +32,6 @@ public class Address {
     @Pattern(regexp = "\\d*\\w[a-zA-Z]?")
     private String number;
 
-    @NotNull
     @Column(name = "box_number")
     private String boxNumber;
 
