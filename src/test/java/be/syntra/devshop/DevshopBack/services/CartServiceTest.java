@@ -9,7 +9,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static be.syntra.devshop.DevshopBack.services.utilities.CartMapperUtility.convertToCart;
-import static be.syntra.devshop.DevshopBack.services.utilities.UserMapperUtility.convertToUserDto;
 import static be.syntra.devshop.DevshopBack.testutilities.CartUtils.createCartDto;
 import static be.syntra.devshop.DevshopBack.testutilities.UserUtils.createUser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,11 +34,9 @@ public class CartServiceTest {
         User dummyUser = createUser();
         Long userId = 1L;
         when(userService.getUserById(userId)).thenReturn(dummyUser);
-        when(userService.save(convertToUserDto(dummyUser))).thenReturn(convertToUserDto(dummyUser));
 
         // when
         CartDto resultCartDto = cartService.saveFinalizedCart(dummyDto, userId);
-
         // then
         assertEquals(dummyDto.getCartCreationDateTime(), resultCartDto.getCartCreationDateTime());
         assertEquals(dummyDto.getProducts().get(0).getName(), resultCartDto.getProducts().get(0).getName());
@@ -50,6 +47,7 @@ public class CartServiceTest {
         assertEquals(dummyUser.getArchivedCarts().get(2).getProducts().get(0).getName(), convertToCart(dummyDto).getProducts().get(0).getName());
         assertEquals(dummyUser.getArchivedCarts().get(2).getProducts().get(0).getPrice(), convertToCart(dummyDto).getProducts().get(0).getPrice());
         verify(userService, times(1)).getUserById(userId);
+        verify(userService, times(1)).save(any());
 
 
     }
