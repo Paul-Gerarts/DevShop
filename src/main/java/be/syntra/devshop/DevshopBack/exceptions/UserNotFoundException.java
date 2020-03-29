@@ -1,7 +1,10 @@
 package be.syntra.devshop.DevshopBack.exceptions;
 
-public class UserNotFoundException extends NotFoundException {
+import org.springframework.http.HttpStatus;
+
+public class UserNotFoundException extends CustomException {
+
     public UserNotFoundException(String message) {
-        super(message);
+        super(HttpStatus.NOT_FOUND, message);
     }
 }

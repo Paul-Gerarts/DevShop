@@ -28,13 +28,13 @@ public class Cart {
     @JsonIgnore
     private User user;
 
-
+    @NotNull
     @Column(name = "cart_creation_date_time")
     @JsonFormat
             (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime cartCreationDateTime;
 
-
+    @NotNull
     @Column(name = "products")
     @OneToMany(cascade = CascadeType.ALL)
     private List<Product> products;
