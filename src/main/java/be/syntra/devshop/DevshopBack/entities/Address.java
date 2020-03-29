@@ -26,6 +26,7 @@ public class Address {
     @Column(name = "street")
     private String street;
 
+
     @NotBlank
     @Column(name = "number")
     @Pattern(regexp = "\\d*\\w[a-zA-Z]?")

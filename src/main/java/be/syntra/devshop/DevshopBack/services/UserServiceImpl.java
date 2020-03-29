@@ -46,7 +46,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findAll() {
-        userRepository.findById(1L).orElseThrow(() -> new UserNotFoundException("tekst"));
         return userRepository.findAll();
     }
 
