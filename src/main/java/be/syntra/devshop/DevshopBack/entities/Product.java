@@ -25,7 +25,6 @@ public class Product {
     private Long id;
 
     @Column(name = "name")
-    @NotNull
     @NotBlank
     private String name;
 

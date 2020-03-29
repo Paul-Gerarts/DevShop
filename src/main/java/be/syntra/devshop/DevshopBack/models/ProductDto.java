@@ -12,7 +12,6 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @ToString
 public class ProductDto {
-
     private String name;
     private BigDecimal price;
 

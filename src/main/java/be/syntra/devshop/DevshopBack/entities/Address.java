@@ -23,32 +23,28 @@ public class Address {
     @Column(name = "address_id")
     private Long id;
 
-    @NotNull
     @NotBlank
     @Column(name = "street")
     private String street;
 
-    @NotNull
+
     @NotBlank
     @Column(name = "number")
-    @Pattern(regexp = "\\d*\\w[a-zA-Z]")
+    @Pattern(regexp = "\\d*\\w[a-zA-Z]?")
     private String number;
 
     @NotNull
     @Column(name = "box_number")
     private String boxNumber;
 
-    @NotNull
     @NotBlank
     @Column(name = "postal_code")
     private String postalCode;
 
-    @NotNull
     @NotBlank
     @Column(name = "city")
     private String city;
 
-    @NotNull
     @NotBlank
     @Column(name = "country")
     private String country;

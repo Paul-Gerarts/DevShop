@@ -3,6 +3,7 @@ package be.syntra.devshop.DevshopBack.services;
 import be.syntra.devshop.DevshopBack.entities.Cart;
 import be.syntra.devshop.DevshopBack.entities.User;
 import be.syntra.devshop.DevshopBack.exceptions.UserAlreadyRegisteredException;
+import be.syntra.devshop.DevshopBack.exceptions.UserNotFoundException;
 import be.syntra.devshop.DevshopBack.models.UserDto;
 import be.syntra.devshop.DevshopBack.repositories.UserRepository;
 import be.syntra.devshop.DevshopBack.security.controllers.dtos.RegisterDto;
@@ -49,6 +50,7 @@ public class UserServiceImpl implements UserService {
     public List<User> findAll() {
         return userRepository.findAll();
     }
+
 
     @Override
     public UserDto save(UserDto userDto) {
@@ -116,5 +118,10 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toUnmodifiableList()));
         SecurityContextHolder.getContext().setAuthentication(authenticationManagerBuilder.getObject().authenticate(authenticationToken));
         return authenticationToken;
+    }
+
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(String.format("User with id %s could not be found", userId)));
     }
 }

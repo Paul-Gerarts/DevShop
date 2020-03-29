@@ -1,31 +1,31 @@
 package be.syntra.devshop.DevshopBack.services;
 
-import be.syntra.devshop.DevshopBack.entities.Cart;
+
+import be.syntra.devshop.DevshopBack.entities.User;
 import be.syntra.devshop.DevshopBack.models.CartDto;
-import be.syntra.devshop.DevshopBack.repositories.CartRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 import static be.syntra.devshop.DevshopBack.services.utilities.CartMapperUtility.convertToCart;
+import static be.syntra.devshop.DevshopBack.services.utilities.UserMapperUtility.convertToUserDto;
+
 
 @Service
 public class CartServiceImpl implements CartService {
 
-    private CartRepository cartRepository;
+    private UserServiceImpl userService;
 
-    public CartServiceImpl(CartRepository cartRepository) {
-        this.cartRepository = cartRepository;
+    @Autowired
+    public CartServiceImpl(UserServiceImpl userService) {
+        this.userService = userService;
     }
 
     @Override
-    public CartDto save(CartDto cartDto) {
-        cartRepository.save(convertToCart(cartDto));
+    public CartDto saveFinalizedCart(CartDto cartDto, Long userId) {
+        User user = userService.getUserById(userId);
+        user.getArchivedCarts().add(convertToCart(cartDto));
+        userService.save(convertToUserDto(user));
         return cartDto;
     }
 
-    @Override
-    public List<Cart> findAll() {
-        return cartRepository.findAll();
-    }
 }
