@@ -1,5 +1,6 @@
 package be.syntra.devshop.DevshopBack.services;
 
+import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.factories.ProductFactory;
 import be.syntra.devshop.DevshopBack.factories.SecurityUserFactory;
 import be.syntra.devshop.DevshopBack.factories.UserFactory;
@@ -86,6 +87,9 @@ public class DataFillerImpl {
             ));
         }
 
+        /*
+         * DO NOT DELETE - otherwise Spring Security won't authorize frontend calls -
+         */
         if (securityUserRepository.count() == 0) {
             securityUserRepository.save(
                     securityUserFactory.of(
@@ -95,7 +99,10 @@ public class DataFillerImpl {
                     ));
         }
 
-        if (productRepository.count() == 0) {
+        if (productRepository.count() != 0) {
+            List<Product> emptyProductsToRemove = productRepository.findAllByName("empty product");
+            productRepository.deleteAll(emptyProductsToRemove);
+        } else {
             productRepository.saveAll(List.of(
                     productFactory.of(
                             "keyboard",

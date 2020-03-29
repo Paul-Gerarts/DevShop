@@ -68,7 +68,6 @@ public class UserServiceImpl implements UserService {
     public User registerUser(RegisterDto registerDto) {
         try {
             User user = userFactory.ofRegisterDto(registerDto);
-            logger.info("New user succesfully saved! -> {}", user.getFullName());
             return userRepository.save(user);
         } catch (DataIntegrityViolationException e) {
             throw new UserAlreadyRegisteredException("This email-address has already been registered! ");
@@ -90,5 +89,10 @@ public class UserServiceImpl implements UserService {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(email, password);
         return authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+    }
+
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(String.format("User with id %s could not be found", userId)));
     }
 }

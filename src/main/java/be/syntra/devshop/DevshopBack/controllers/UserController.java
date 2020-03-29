@@ -3,6 +3,7 @@ package be.syntra.devshop.DevshopBack.controllers;
 import be.syntra.devshop.DevshopBack.models.UserDto;
 import be.syntra.devshop.DevshopBack.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ public class UserController {
     @GetMapping()
     public ResponseEntity<?> retrieveAllUsers() {
         return ResponseEntity
-                .status(200)
+                .status(HttpStatus.OK)
                 .body(userService.findAll());
     }
 
@@ -31,7 +32,7 @@ public class UserController {
     public ResponseEntity<?> createUser(@RequestBody UserDto userDto) {
         userService.save(userDto);
         return ResponseEntity
-                .status(201)
+                .status(HttpStatus.CREATED)
                 .body(userDto);
     }
 

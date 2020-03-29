@@ -43,14 +43,6 @@ public class SecurityUser implements UserDetails {
             foreignKey = @ForeignKey(name = "user_role_fk"))
     private List<UserRole> userRoles;
 
-    public void setAuthorities(List<UserRole> userRoles) {
-        this.userRoles = userRoles;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }

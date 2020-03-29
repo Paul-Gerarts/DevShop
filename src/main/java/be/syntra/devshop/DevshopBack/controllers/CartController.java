@@ -2,6 +2,7 @@ package be.syntra.devshop.DevshopBack.controllers;
 
 import be.syntra.devshop.DevshopBack.models.CartDto;
 import be.syntra.devshop.DevshopBack.services.CartService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public class CartController {
     public ResponseEntity<?> createFinalizedCart(@RequestBody CartDto cartDto, @PathVariable Long userId) {
         cartService.saveFinalizedCart(cartDto, userId);
         return ResponseEntity
-                .status(201)
+                .status(HttpStatus.CREATED)
                 .body(cartDto);
     }
 

@@ -5,6 +5,7 @@ import be.syntra.devshop.DevshopBack.security.controllers.dtos.RegisterDto;
 import be.syntra.devshop.DevshopBack.security.entities.JWTToken;
 import be.syntra.devshop.DevshopBack.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,7 +38,7 @@ public class AuthorizationController {
     @PostMapping("/register")
     public ResponseEntity<?> registerNewCustomer(@RequestBody RegisterDto registerDto) {
         userService.registerUser(registerDto);
-        return ResponseEntity.status(201).body(registerDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(registerDto);
     }
 
 }
