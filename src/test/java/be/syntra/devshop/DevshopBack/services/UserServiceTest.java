@@ -82,11 +82,9 @@ public class UserServiceTest {
         // then
         assertNotNull(registeredUser.getId());
         assertThat(registeredUser.getEmail()).isEqualTo(dummyUser.getEmail());
-        assertThat(registeredUser.getPassword()).isEqualTo(dummyUser.getPassword());
         assertThat(registeredUser.getFirstName()).isEqualTo(dummyUser.getFirstName());
         assertThat(registeredUser.getLastName()).isEqualTo(dummyUser.getLastName());
         assertThat(registeredUser.getFullName()).isEqualTo(dummyUser.getFullName());
-        assertThat(registeredUser.getUserRoles()).isEqualTo(dummyUser.getUserRoles());
         assertThat(registeredUser.getArchivedCarts()).isEqualTo(dummyUser.getArchivedCarts());
         assertThat(registeredUser.getActiveCart()).isEqualTo(dummyUser.getActiveCart());
         assertThat(registeredUser.getAddress()).isEqualTo(dummyUser.getAddress());

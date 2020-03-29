@@ -17,4 +17,11 @@ public class ProductFactory {
                 .price(price)
                 .build();
     }
+
+    public Product ofEmptyProduct() {
+        return Product.builder()
+                .name("empty product")
+                .price(new BigDecimal(0))
+                .build();
+    }
 }
