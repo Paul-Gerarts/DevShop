@@ -37,6 +37,7 @@ public class CartServiceTest {
 
         // when
         CartDto resultCartDto = cartService.saveFinalizedCart(dummyDto, userId);
+
         // then
         assertEquals(dummyDto.getCartCreationDateTime(), resultCartDto.getCartCreationDateTime());
         assertEquals(dummyDto.getProducts().get(0).getName(), resultCartDto.getProducts().get(0).getName());
