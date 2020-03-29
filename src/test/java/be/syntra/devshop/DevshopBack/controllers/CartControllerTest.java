@@ -55,7 +55,10 @@ public class CartControllerTest {
                 .andExpect(jsonPath("$.products[0].name").value(cartDtoDummy.getProducts().get(0).getName()))
                 .andExpect(jsonPath("$.products[0].price").value(cartDtoDummy.getProducts().get(0).getPrice()))
                 .andExpect(jsonPath("$.products[1].name").value(cartDtoDummy.getProducts().get(1).getName()))
-                .andExpect(jsonPath("$.products[1].price").value(cartDtoDummy.getProducts().get(1).getPrice()));
+                .andExpect(jsonPath("$.products[1].price").value(cartDtoDummy.getProducts().get(1).getPrice()))
+                .andExpect(jsonPath("$.activeCart").value(cartDtoDummy.isActiveCart()))
+                .andExpect(jsonPath("$.finalizedCart").value(cartDtoDummy.isFinalizedCart()))
+                .andExpect(jsonPath("$.paidCart").value(cartDtoDummy.isPaidCart()));
 
         verify(cartService, times(1)).saveFinalizedCart(any(), anyLong());
     }
