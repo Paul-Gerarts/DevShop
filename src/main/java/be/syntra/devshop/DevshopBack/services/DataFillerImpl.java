@@ -1,6 +1,5 @@
 package be.syntra.devshop.DevshopBack.services;
 
-import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.factories.ProductFactory;
 import be.syntra.devshop.DevshopBack.factories.SecurityUserFactory;
 import be.syntra.devshop.DevshopBack.factories.UserFactory;
@@ -99,10 +98,7 @@ public class DataFillerImpl {
                     ));
         }
 
-        if (productRepository.count() != 0) {
-            List<Product> emptyProductsToRemove = productRepository.findAllByName("empty product");
-            productRepository.deleteAll(emptyProductsToRemove);
-        } else {
+        if (productRepository.count() == 0) {
             productRepository.saveAll(List.of(
                     productFactory.of(
                             "keyboard",
