@@ -5,8 +5,6 @@ import be.syntra.devshop.DevshopBack.security.controllers.dtos.RegisterDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-
 @Component
 public class UserFactory {
 
@@ -35,7 +33,6 @@ public class UserFactory {
                 .firstName(registerDto.getFirstName())
                 .lastName(registerDto.getLastName())
                 .fullName(registerDto.getFirstName() + " " + registerDto.getLastName())
-                .archivedCarts(new ArrayList<>())
                 .address(addressFactory.of(
                         registerDto.getStreet(),
                         registerDto.getNumber(),
@@ -43,7 +40,6 @@ public class UserFactory {
                         registerDto.getPostalCode(),
                         registerDto.getCity(),
                         registerDto.getCountry()))
-                .activeCart(cartFactory.ofEmptyCart())
                 .build();
     }
 }
