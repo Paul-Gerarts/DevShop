@@ -6,13 +6,14 @@ import be.syntra.devshop.DevshopBack.models.UserDto;
 import static be.syntra.devshop.DevshopBack.services.utilities.AddressMapperUtility.convertToAddress;
 import static be.syntra.devshop.DevshopBack.services.utilities.AddressMapperUtility.convertToAddressDto;
 import static be.syntra.devshop.DevshopBack.services.utilities.CartMapperUtility.*;
+import static org.apache.commons.text.WordUtils.capitalizeFully;
 
 public class UserMapperUtility {
     public static UserDto convertToUserDto(User user) {
         return UserDto.builder()
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
-                .fullName(user.getFullName())
+                .fullName(capitalizeFully(user.getFullName(), ' ', '-'))
                 .address(convertToAddressDto(user.getAddress()))
                 .activeCart(convertToCartDto(user.getActiveCart()))
                 .archivedCarts(convertToCartDtoList(user.getArchivedCarts()))
@@ -23,7 +24,7 @@ public class UserMapperUtility {
         return User.builder()
                 .firstName(userDto.getFirstName())
                 .lastName(userDto.getLastName())
-                .fullName(userDto.getFullName())
+                .fullName(capitalizeFully(userDto.getFullName(), ' ', '-'))
                 .address(convertToAddress(userDto.getAddress()))
                 .activeCart(convertToCart(userDto.getActiveCart()))
                 .archivedCarts(convertToCartList(userDto.getArchivedCarts()))

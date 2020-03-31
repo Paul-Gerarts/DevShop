@@ -83,11 +83,11 @@ public class UserServiceImpl implements UserService {
     }
 
     /*
-     *@Return: authentication verified through email and password
+     *@Return: authentication verified through userName and password
      */
-    private Authentication getAuthentication(String email, String password) {
+    private Authentication getAuthentication(String userName, String password) {
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(email, password);
+                new UsernamePasswordAuthenticationToken(userName, password);
         return authenticationManagerBuilder.getObject().authenticate(authenticationToken);
     }
 
