@@ -14,7 +14,6 @@ import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
@@ -48,12 +47,6 @@ public class UserControllerTest {
     @MockBean
     private UserServiceImpl userService;
 
-    @Value("${frontend.userName}")
-    private String userName;
-
-    @Value("${frontend.password}")
-    private String password;
-
     @Mock
     private SecurityUserFactory securityUserFactory;
 
@@ -65,13 +58,14 @@ public class UserControllerTest {
     void createUserEndPointsTest() throws Exception {
         // given
         UserDto userDtoDummy = createUserDto();
+
         // when
         ResultActions resultActions =
                 mockMvc.perform(
                         post("/users")
                                 .contentType(APPLICATION_JSON)
-                                .content(jsonUtils.asJsonString(userDtoDummy))
-                );
+                                .content(jsonUtils.asJsonString(userDtoDummy)));
+
         // then
         resultActions
                 .andExpect(status().isCreated())
@@ -98,6 +92,7 @@ public class UserControllerTest {
         // given
         List<User> userList = createUserList();
         when(userService.findAll()).thenReturn(userList);
+
         // when
         ResultActions resultActions =
                 mockMvc.perform(

@@ -44,8 +44,7 @@ public class SecurityUserServiceTest {
                 .userName(testData)
                 .password(testData)
                 .userRoles(
-                        List.of(UserRole.builder().name(ROLE_ADMIN.name())
-                                .build()))
+                        List.of(UserRole.builder().name(ROLE_ADMIN.name()).build()))
                 .build();
         when(userRepository.findByUserName(testData)).thenReturn(ofNullable(dummyUser));
 

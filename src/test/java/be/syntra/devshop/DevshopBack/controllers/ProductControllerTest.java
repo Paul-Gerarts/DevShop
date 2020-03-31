@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
@@ -47,12 +46,6 @@ class ProductControllerTest {
 
     @MockBean
     private ProductServiceImpl productService;
-
-    @Value("${frontend.userName}")
-    private String userName;
-
-    @Value("${frontend.password}")
-    private String password;
 
     @Mock
     private SecurityUserFactory securityUserFactory;
