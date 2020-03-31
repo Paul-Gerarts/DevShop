@@ -23,7 +23,6 @@ public class Cart {
     @Column(name = "cart_id")
     private Long id;
 
-
     @OneToOne(targetEntity = User.class, mappedBy = "activeCart")
     @JsonIgnore
     private User user;

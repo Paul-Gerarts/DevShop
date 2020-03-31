@@ -1,22 +1,26 @@
 package be.syntra.devshop.DevshopBack.controllers;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
+import be.syntra.devshop.DevshopBack.factories.SecurityUserFactory;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.security.configuration.CorsConfiguration;
 import be.syntra.devshop.DevshopBack.security.configuration.WebSecurityConfig;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTAccessDeniedHandler;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTAuthenticationEntryPoint;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
+import be.syntra.devshop.DevshopBack.security.services.SecurityUserService;
 import be.syntra.devshop.DevshopBack.services.ProductServiceImpl;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import be.syntra.devshop.DevshopBack.testutilities.ProductUtils;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -43,7 +47,14 @@ class ProductControllerTest {
     @MockBean
     private ProductServiceImpl productService;
 
+    @Mock
+    private SecurityUserFactory securityUserFactory;
+
+    @MockBean
+    private SecurityUserService securityUserService;
+
     @Test
+    @WithMockUser
     void testRetrieveAllProductsEndpoint() throws Exception {
         // given
         List<Product> productList = ProductUtils.createDummyProductList();
@@ -67,6 +78,7 @@ class ProductControllerTest {
     }
 
     @Test
+    @WithMockUser
     void createProductEndpoint() throws Exception {
         // given
         ProductDto productDtoDummy = ProductUtils.createProductDto();

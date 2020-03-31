@@ -1,20 +1,24 @@
 package be.syntra.devshop.DevshopBack.controllers;
 
 import be.syntra.devshop.DevshopBack.entities.User;
+import be.syntra.devshop.DevshopBack.factories.SecurityUserFactory;
 import be.syntra.devshop.DevshopBack.models.UserDto;
 import be.syntra.devshop.DevshopBack.security.configuration.CorsConfiguration;
 import be.syntra.devshop.DevshopBack.security.configuration.WebSecurityConfig;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTAccessDeniedHandler;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTAuthenticationEntryPoint;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
+import be.syntra.devshop.DevshopBack.security.services.SecurityUserService;
 import be.syntra.devshop.DevshopBack.services.UserServiceImpl;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -43,17 +47,25 @@ public class UserControllerTest {
     @MockBean
     private UserServiceImpl userService;
 
+    @Mock
+    private SecurityUserFactory securityUserFactory;
+
+    @MockBean
+    private SecurityUserService securityUserService;
+
     @Test
+    @WithMockUser
     void createUserEndPointsTest() throws Exception {
         // given
         UserDto userDtoDummy = createUserDto();
+
         // when
         ResultActions resultActions =
                 mockMvc.perform(
                         post("/users")
                                 .contentType(APPLICATION_JSON)
-                                .content(jsonUtils.asJsonString(userDtoDummy))
-                );
+                                .content(jsonUtils.asJsonString(userDtoDummy)));
+
         // then
         resultActions
                 .andExpect(status().isCreated())
@@ -75,10 +87,12 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     void testRetrieveAllUserEndpoint() throws Exception {
         // given
         List<User> userList = createUserList();
         when(userService.findAll()).thenReturn(userList);
+
         // when
         ResultActions resultActions =
                 mockMvc.perform(
@@ -92,7 +106,6 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$[0].firstName").value(equalTo("Someone")))
                 .andExpect(jsonPath("$[0].lastName").value(equalTo("First")))
                 .andExpect(jsonPath("$[0].fullName").value(equalTo("Someone First")))
-                .andExpect(jsonPath("$[0].password").value(equalTo("password")))
                 .andExpect(jsonPath("$[0].address.street").value(equalTo("somewhere street")))
                 .andExpect(jsonPath("$[0].address.number").value(equalTo("1")))
                 .andExpect(jsonPath("$[0].address.boxNumber").value(equalTo("")))
@@ -125,7 +138,6 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$[1].firstName").value(equalTo("Someone")))
                 .andExpect(jsonPath("$[1].lastName").value(equalTo("First")))
                 .andExpect(jsonPath("$[1].fullName").value(equalTo("Someone First")))
-                .andExpect(jsonPath("$[1].password").value(equalTo("password")))
                 .andExpect(jsonPath("$[1].address.street").value(equalTo("somewhere street")))
                 .andExpect(jsonPath("$[1].address.number").value(equalTo("1")))
                 .andExpect(jsonPath("$[1].address.boxNumber").value(equalTo("")))
@@ -158,7 +170,6 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$[2].firstName").value(equalTo("Someone")))
                 .andExpect(jsonPath("$[2].lastName").value(equalTo("First")))
                 .andExpect(jsonPath("$[2].fullName").value(equalTo("Someone First")))
-                .andExpect(jsonPath("$[2].password").value(equalTo("password")))
                 .andExpect(jsonPath("$[2].address.street").value(equalTo("somewhere street")))
                 .andExpect(jsonPath("$[2].address.number").value(equalTo("1")))
                 .andExpect(jsonPath("$[2].address.boxNumber").value(equalTo("")))

@@ -1,18 +1,19 @@
 package be.syntra.devshop.DevshopBack.controllers;
 
 import be.syntra.devshop.DevshopBack.exceptions.UserAlreadyRegisteredException;
+import be.syntra.devshop.DevshopBack.factories.SecurityUserFactory;
 import be.syntra.devshop.DevshopBack.security.configuration.CorsConfiguration;
 import be.syntra.devshop.DevshopBack.security.configuration.WebSecurityConfig;
 import be.syntra.devshop.DevshopBack.security.controllers.AuthorizationController;
 import be.syntra.devshop.DevshopBack.security.controllers.dtos.LogInDto;
 import be.syntra.devshop.DevshopBack.security.controllers.dtos.RegisterDto;
 import be.syntra.devshop.DevshopBack.security.entities.JWTToken;
+import be.syntra.devshop.DevshopBack.security.entities.SecurityUser;
 import be.syntra.devshop.DevshopBack.security.entities.UserRole;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTAccessDeniedHandler;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTAuthenticationEntryPoint;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
-import be.syntra.devshop.DevshopBack.security.repositories.UserRoleRepository;
-import be.syntra.devshop.DevshopBack.security.services.UserRoleService;
+import be.syntra.devshop.DevshopBack.security.services.SecurityUserService;
 import be.syntra.devshop.DevshopBack.services.UserServiceImpl;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import be.syntra.devshop.DevshopBack.testutilities.UserUtils;
@@ -32,8 +33,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static be.syntra.devshop.DevshopBack.security.entities.UserRoles.ROLE_USER;
-import static be.syntra.devshop.DevshopBack.testutilities.UserUtils.createRegisterDto;
+import java.util.List;
+
+import static be.syntra.devshop.DevshopBack.security.entities.UserRoles.ROLE_ADMIN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -44,6 +46,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import({JsonUtils.class, WebSecurityConfig.class, CorsConfiguration.class, JWTTokenProvider.class, JWTAuthenticationEntryPoint.class, JWTAccessDeniedHandler.class})
 public class AuthorizationControllerTest {
 
+    @Mock
+    private SecurityUserFactory securityUserFactory;
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -53,6 +58,12 @@ public class AuthorizationControllerTest {
     @Value("${jwt.base64-secret}")
     private String jwtKey;
 
+    @Value("${frontend.userName}")
+    private String userName;
+
+    @Value("${frontend.password}")
+    private String password;
+
     @Mock
     private RegisterDto registerDto;
 
@@ -60,10 +71,7 @@ public class AuthorizationControllerTest {
     private UserServiceImpl userService;
 
     @MockBean
-    private UserRoleService userRoleService;
-
-    @MockBean
-    private UserRoleRepository userRoleRepository;
+    private SecurityUserService securityUserService;
 
     @BeforeEach
     public void setUp() {
@@ -72,17 +80,17 @@ public class AuthorizationControllerTest {
 
     @Test
     @WithMockUser
-    public void userCanLoginTest() throws Exception {
+    public void frontendCanLoginTest() throws Exception {
         // given
-        RegisterDto dummyUser = createRegisterDto();
-        userService.registerUser(dummyUser);
-        when(userService.getNewJwtToken("paul.gerarts@juvo.be", "noop")).thenReturn(new JWTToken("eyJ1c2VySWQiOjIsImFsZyI6IkhTNTEyIn0.eyJzdWIiOiJwYXVsLmdlcmFydHNAanV2by5iZSIsImF1dGgiOlt7ImF1dGhvcml0eSI6IlJPTEVfQURNSU4ifSx7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XSwiZXhwIjoxNTg1MjI5MjUxfQ.5ywx-83yFfg7rc65NAr194OeNV6MUUZQXh20t7kKSIg67MPt6uEShngwjFAVaV0IqZxlaUTSnaiss41EC3eKbg"));
+        SecurityUser frontendAuthentication = securityUserFactory.of(userName, password, List.of(UserRole.builder().name(ROLE_ADMIN.name()).build()));
+        when(securityUserService.findByUserName(userName)).thenReturn(frontendAuthentication);
+        when(userService.getNewJwtToken(userName, password)).thenReturn(new JWTToken("eyJ1c2VySWQiOjIsImFsZyI6IkhTNTEyIn0.eyJzdWIiOiJwYXVsLmdlcmFydHNAanV2by5iZSIsImF1dGgiOlt7ImF1dGhvcml0eSI6IlJPTEVfQURNSU4ifSx7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XSwiZXhwIjoxNTg1MjI5MjUxfQ.5ywx-83yFfg7rc65NAr194OeNV6MUUZQXh20t7kKSIg67MPt6uEShngwjFAVaV0IqZxlaUTSnaiss41EC3eKbg"));
 
         // when
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders
                 .post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonUtils.asJsonString(new LogInDto("paul.gerarts@juvo.be", "noop"))));
+                .content(jsonUtils.asJsonString(new LogInDto(userName, password))));
 
         // then
         resultActions
@@ -95,9 +103,9 @@ public class AuthorizationControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void userCanRegister() throws Exception {
         // given
-        when(userRoleService.findByRoleName(ROLE_USER.name())).thenReturn(UserRole.builder().name(ROLE_USER.name()).build());
 
         // when
         HttpStatus resultStatus = registerUser(HttpStatus.CREATED, registerDto);
@@ -107,10 +115,10 @@ public class AuthorizationControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void userCannotRegisterTwice() throws Exception {
         // given
         when(userService.registerUser(any())).thenThrow(new UserAlreadyRegisteredException("test"));
-        when(userRoleService.findByRoleName(ROLE_USER.name())).thenReturn(UserRole.builder().name(ROLE_USER.name()).build());
 
         // when
 

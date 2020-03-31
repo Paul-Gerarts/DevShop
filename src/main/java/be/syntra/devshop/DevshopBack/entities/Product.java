@@ -24,7 +24,7 @@ public class Product {
     @Column(name = "product_id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     @NotBlank
     private String name;
 

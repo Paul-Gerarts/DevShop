@@ -2,19 +2,14 @@ package be.syntra.devshop.DevshopBack.factories;
 
 import be.syntra.devshop.DevshopBack.entities.User;
 import be.syntra.devshop.DevshopBack.security.controllers.dtos.RegisterDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import static org.apache.commons.text.WordUtils.capitalizeFully;
 
 @Component
 public class UserFactory {
 
-    @Autowired
-    private AddressFactory addressFactory;
-
-    @Autowired
-    private CartFactory cartFactory;
+    private AddressFactory addressFactory = new AddressFactory();
 
     public User ofSecurity(
             String firstName,
@@ -24,7 +19,7 @@ public class UserFactory {
         return User.builder()
                 .firstName(firstName)
                 .lastName(lastName)
-                .fullName(firstName + " " + lastName)
+                .fullName(capitalizeFully(firstName + " " + lastName, ' ', '-'))
                 .email(email)
                 .build();
     }
@@ -34,8 +29,7 @@ public class UserFactory {
                 .email(registerDto.getUserName())
                 .firstName(registerDto.getFirstName())
                 .lastName(registerDto.getLastName())
-                .fullName(registerDto.getFirstName() + " " + registerDto.getLastName())
-                .archivedCarts(new ArrayList<>())
+                .fullName(capitalizeFully(registerDto.getFirstName() + " " + registerDto.getLastName(), ' ', '-'))
                 .address(addressFactory.of(
                         registerDto.getStreet(),
                         registerDto.getNumber(),
@@ -43,7 +37,6 @@ public class UserFactory {
                         registerDto.getPostalCode(),
                         registerDto.getCity(),
                         registerDto.getCountry()))
-                .activeCart(cartFactory.ofEmptyCart())
                 .build();
     }
 }

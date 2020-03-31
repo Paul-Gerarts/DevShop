@@ -61,10 +61,6 @@ public class DataFillerImpl {
         this.securityUserFactory = securityUserFactory;
     }
 
-    private UserRole retrieveUserRole() {
-        return userRoleService.findByRoleName(ROLE_USER.name());
-    }
-
     private UserRole retrieveAdminRole() {
         return userRoleService.findByRoleName(ROLE_ADMIN.name());
     }
