@@ -14,7 +14,6 @@ import be.syntra.devshop.DevshopBack.security.jwt.JWTAccessDeniedHandler;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTAuthenticationEntryPoint;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
 import be.syntra.devshop.DevshopBack.security.services.SecurityUserService;
-import be.syntra.devshop.DevshopBack.security.services.UserRoleService;
 import be.syntra.devshop.DevshopBack.services.UserServiceImpl;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import be.syntra.devshop.DevshopBack.testutilities.UserUtils;
@@ -72,9 +71,6 @@ public class AuthorizationControllerTest {
     private UserServiceImpl userService;
 
     @MockBean
-    private UserRoleService userRoleService;
-
-    @MockBean
     private SecurityUserService securityUserService;
 
     @BeforeEach
@@ -107,18 +103,9 @@ public class AuthorizationControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void userCanRegister() throws Exception {
         // given
-        SecurityUser frontendAuthentication = securityUserFactory.of(userName, password, List.of(UserRole.builder().name(ROLE_ADMIN.name()).build()));
-        when(securityUserService.findByUserName(userName)).thenReturn(frontendAuthentication);
-        JWTToken authToken = userService.getNewJwtToken(userName, password);
-        when(userService.getNewJwtToken(userName, password)).thenReturn(authToken);
-
-        // when
-        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders
-                .post("/auth/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonUtils.asJsonString(new LogInDto(userName, password))));
 
         // when
         HttpStatus resultStatus = registerUser(HttpStatus.CREATED, registerDto);
@@ -128,11 +115,10 @@ public class AuthorizationControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void userCannotRegisterTwice() throws Exception {
         // given
         when(userService.registerUser(any())).thenThrow(new UserAlreadyRegisteredException("test"));
-        SecurityUser frontendAuthentication = securityUserFactory.of(userName, password, List.of(UserRole.builder().name(ROLE_ADMIN.name()).build()));
-        when(securityUserService.findByUserName(userName)).thenReturn(frontendAuthentication);
 
         // when
 

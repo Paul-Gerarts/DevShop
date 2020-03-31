@@ -29,13 +29,4 @@ public class CartFactory {
                 .build();
     }
 
-    public Cart ofEmptyCart() {
-        return Cart.builder()
-                .cartCreationDateTime(LocalDateTime.now())
-                .products(List.of(productFactory.ofEmptyProduct()))
-                .activeCart(false)
-                .finalizedCart(false)
-                .paidCart(false)
-                .build();
-    }
 }

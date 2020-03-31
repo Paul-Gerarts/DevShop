@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.List;
 
@@ -70,6 +71,7 @@ public class UserServiceTest {
     }
 
     @Test
+    @WithMockUser
     void canRegisterUserTest() throws Exception {
         // given
         RegisterDto dummyUserDto = createRegisterDto();

@@ -1,20 +1,25 @@
 package be.syntra.devshop.DevshopBack.controllers;
 
 import be.syntra.devshop.DevshopBack.entities.User;
+import be.syntra.devshop.DevshopBack.factories.SecurityUserFactory;
 import be.syntra.devshop.DevshopBack.models.UserDto;
 import be.syntra.devshop.DevshopBack.security.configuration.CorsConfiguration;
 import be.syntra.devshop.DevshopBack.security.configuration.WebSecurityConfig;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTAccessDeniedHandler;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTAuthenticationEntryPoint;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
+import be.syntra.devshop.DevshopBack.security.services.SecurityUserService;
 import be.syntra.devshop.DevshopBack.services.UserServiceImpl;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -43,7 +48,20 @@ public class UserControllerTest {
     @MockBean
     private UserServiceImpl userService;
 
+    @Value("${frontend.userName}")
+    private String userName;
+
+    @Value("${frontend.password}")
+    private String password;
+
+    @Mock
+    private SecurityUserFactory securityUserFactory;
+
+    @MockBean
+    private SecurityUserService securityUserService;
+
     @Test
+    @WithMockUser
     void createUserEndPointsTest() throws Exception {
         // given
         UserDto userDtoDummy = createUserDto();
@@ -75,6 +93,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     void testRetrieveAllUserEndpoint() throws Exception {
         // given
         List<User> userList = createUserList();
