@@ -13,6 +13,8 @@ public class ProductUtils {
     public static ProductDto createProductDto() {
         return ProductDto.builder()
                 .name("post-its")
+                .description("description")
+                .archived(false)
                 .price(BigDecimal.valueOf(1.00))
                 .build();
     }

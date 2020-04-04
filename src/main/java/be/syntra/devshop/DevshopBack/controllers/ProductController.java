@@ -44,4 +44,12 @@ public class ProductController {
                 .body(productService.findById(id));
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<?> updateProduct(@RequestBody ProductDto product) {
+        productService.save(product);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(product);
+    }
+
 }

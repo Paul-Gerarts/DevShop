@@ -29,8 +29,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @Import({JsonUtils.class, WebSecurityConfig.class, CorsConfiguration.class, JWTTokenProvider.class, JWTAuthenticationEntryPoint.class, JWTAccessDeniedHandler.class})
@@ -57,7 +56,7 @@ class ProductControllerTest {
     void testRetrieveAllProductsEndpoint() throws Exception {
         // given
         List<Product> productList = createDummyProductList();
-        when(productService.findAll()).thenReturn(productList);
+        when(productService.findAllByArchivedFalse()).thenReturn(productList);
         // when
         ResultActions resultActions =
                 mockMvc.perform(
@@ -73,7 +72,7 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$[1].name", is("product")))
                 .andExpect(jsonPath("$[1].price", is(110)));
 
-        verify(productService, times(1)).findAll();
+        verify(productService, times(1)).findAllByArchivedFalse();
     }
 
     @Test
@@ -120,5 +119,28 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.price").value(equalTo(1.00)));
 
         verify(productService, times(1)).findById(dummyProduct.getId());
+    }
+
+    @Test
+    @WithMockUser
+    void canUpdateProductTest() throws Exception {
+        // given
+        ProductDto productDtoDummy = createProductDto();
+
+        // when
+        ResultActions resultActions =
+                mockMvc.perform(
+                        put("/products/update")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(jsonUtils.asJsonString(productDtoDummy)));
+        // then
+        resultActions
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.name").value(productDtoDummy.getName()))
+                .andExpect(jsonPath("$.archived").value(productDtoDummy.isArchived()))
+                .andExpect(jsonPath("$.price").value(1.00));
+
+        verify(productService, times(1)).save(productDtoDummy);
     }
 }
