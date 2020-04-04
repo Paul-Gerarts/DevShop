@@ -46,6 +46,8 @@ public class Product {
     @NotBlank
     private String description;
 
+    private boolean archived;
+
     @Override
     public String toString() {
         return "Product{" +

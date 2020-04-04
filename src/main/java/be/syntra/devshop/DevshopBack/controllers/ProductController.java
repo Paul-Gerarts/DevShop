@@ -20,10 +20,10 @@ public class ProductController {
     }
 
     @GetMapping()
-    public ResponseEntity<?> retrieveAllProducts() {
+    public ResponseEntity<?> retrieveAllNonArchivedProducts() {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(productService.findAll());
+                .body(productService.findAllByArchivedFalse());
     }
 
     /*

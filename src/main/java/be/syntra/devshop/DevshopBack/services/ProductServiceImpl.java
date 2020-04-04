@@ -35,4 +35,8 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("The product with id: " + id + " is not found"));
     }
+
+    public List<Product> findAllByArchivedFalse() {
+        return productRepository.findAllByArchivedFalse();
+    }
 }

@@ -78,6 +78,21 @@ public class ProductServiceTest {
     }
 
     @Test
+    void cannotGetArchivedProductTest() {
+        // given
+        Product dummyActiveProduct = createProduct();
+        List<Product> dummyProductList = List.of(dummyActiveProduct);
+        when(productRepository.findAllByArchivedFalse()).thenReturn(dummyProductList);
+
+        // when
+        List<Product> resultProductList = productService.findAllByArchivedFalse();
+
+        // then
+        assertThat(resultProductList).isEqualTo(dummyProductList);
+        verify(productRepository, times(1)).findAllByArchivedFalse();
+    }
+
+    @Test
     void exceptionIsThrownWhenProductNotFoundTest() {
         // given
         String errorMessage = "product cannot be found!";

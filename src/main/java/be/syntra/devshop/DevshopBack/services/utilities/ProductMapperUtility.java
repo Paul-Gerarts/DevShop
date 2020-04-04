@@ -2,19 +2,17 @@ package be.syntra.devshop.DevshopBack.services.utilities;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-
-@Service
 public class ProductMapperUtility {
 
     public static Product convertToProduct(ProductDto productDTO) {
         return Product.builder()
                 .name(productDTO.getName())
                 .price(productDTO.getPrice())
+                .description(productDTO.getDescription())
                 .build();
     }
 
@@ -22,6 +20,7 @@ public class ProductMapperUtility {
         return ProductDto.builder()
                 .name(product.getName())
                 .price(product.getPrice())
+                .description(product.getDescription())
                 .build();
     }
 
