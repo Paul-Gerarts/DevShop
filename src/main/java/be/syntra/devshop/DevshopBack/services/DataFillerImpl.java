@@ -118,7 +118,15 @@ public class DataFillerImpl {
                     userFactory.ofSecurity(
                             "Paul",
                             "Gerarts",
-                            "paul.gerarts@juvo.be")
+                            "paul.gerarts@juvo.be"),
+                    userFactory.ofSecurity(
+                            "User",
+                            "McUserson",
+                            "user@email.com"),
+                    userFactory.ofSecurity(
+                            "Admin",
+                            "McAdminson",
+                            "admin@emaill.com")
             ));
         }
     }

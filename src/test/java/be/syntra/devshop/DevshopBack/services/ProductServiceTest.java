@@ -1,6 +1,7 @@
 package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
+import be.syntra.devshop.DevshopBack.exceptions.ProductNotFoundException;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
 import be.syntra.devshop.DevshopBack.services.utilities.ProductMapperUtility;
@@ -11,10 +12,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.List;
+import java.util.Optional;
 
-import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.createProductDto;
-import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.createProductList;
+import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 public class ProductServiceTest {
@@ -58,5 +61,29 @@ public class ProductServiceTest {
         // then
         assertEquals(dummyDto, resultProductDto);
         verify(productRepository, times(1)).save(any());
+    }
+
+    @Test
+    void canGetProductByIdTest() {
+        // given
+        Product dummyProduct = createProduct();
+        when(productRepository.findById(dummyProduct.getId())).thenReturn(Optional.of(dummyProduct));
+
+        // when
+        Product resultProduct = productService.findById(dummyProduct.getId());
+
+        // then
+        assertThat(resultProduct).isEqualTo(dummyProduct);
+        verify(productRepository, times(1)).findById(dummyProduct.getId());
+    }
+
+    @Test
+    void exceptionIsThrownWhenProductNotFoundTest() {
+        // given
+        String errorMessage = "product cannot be found!";
+        when(productRepository.findById(1L)).thenThrow(new ProductNotFoundException(errorMessage));
+
+        // when - then
+        assertThrows(ProductNotFoundException.class, () -> productRepository.findById(1L));
     }
 }

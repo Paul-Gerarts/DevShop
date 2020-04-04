@@ -19,6 +19,7 @@ public class ProductUtils {
 
     public static Product createProduct() {
         return Product.builder()
+                .id(1L)
                 .name("post-its")
                 .price(BigDecimal.valueOf(1.00))
                 .build();

@@ -19,7 +19,7 @@ public final class JsonUtils {
 
     public String asJsonString(final Object object) {
         try {
-            return this.mapper.registerModule(new JavaTimeModule())
+            return mapper.registerModule(new JavaTimeModule())
                     .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
                     .writeValueAsString(object);
         } catch (Exception e) {
