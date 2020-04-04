@@ -43,6 +43,9 @@ public class Product {
     @JsonIgnore
     private Cart cart;
 
+    @NotBlank
+    private String description;
+
     @Override
     public String toString() {
         return "Product{" +

@@ -98,10 +98,12 @@ public class DataFillerImpl {
             productRepository.saveAll(List.of(
                     productFactory.of(
                             "keyboard",
-                            new BigDecimal(150)),
+                            new BigDecimal(150),
+                            "The MOST fancy mechanical keyboard of all times"),
                     productFactory.of(
                             "mousepad",
-                            new BigDecimal(3))
+                            new BigDecimal(3),
+                            "The MOST non-waifu mousepad even your mom could approve")
             ));
         }
 
