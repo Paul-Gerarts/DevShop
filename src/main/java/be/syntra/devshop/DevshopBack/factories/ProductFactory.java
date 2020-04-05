@@ -10,11 +10,13 @@ public class ProductFactory {
 
     public Product of(
             String name,
-            BigDecimal price
+            BigDecimal price,
+            String description
     ) {
         return Product.builder()
                 .name(name)
                 .price(price)
+                .description(description)
                 .build();
     }
 

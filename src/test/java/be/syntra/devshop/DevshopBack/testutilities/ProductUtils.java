@@ -13,13 +13,18 @@ public class ProductUtils {
     public static ProductDto createProductDto() {
         return ProductDto.builder()
                 .name("post-its")
+                .description("description")
+                .archived(false)
                 .price(BigDecimal.valueOf(1.00))
                 .build();
     }
 
     public static Product createProduct() {
         return Product.builder()
+                .id(1L)
                 .name("post-its")
+                .description("description")
+                .archived(false)
                 .price(BigDecimal.valueOf(1.00))
                 .build();
     }

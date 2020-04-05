@@ -16,13 +16,15 @@ public class ProductFactoryTest {
         // given
         String productName = "test";
         BigDecimal productPrice = new BigDecimal(5);
+        String productDescription = "description";
 
         // when
-        Product resultProduct = productFactory.of(productName, productPrice);
+        Product resultProduct = productFactory.of(productName, productPrice, productDescription);
 
         // then
         assertThat(resultProduct.getClass()).isEqualTo(Product.class);
         assertThat(resultProduct.getName()).isEqualTo(productName);
         assertThat(resultProduct.getPrice()).isEqualTo(productPrice);
+        assertThat(resultProduct.getDescription()).isEqualTo(productDescription);
     }
 }

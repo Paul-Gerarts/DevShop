@@ -1,6 +1,7 @@
 package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
+import be.syntra.devshop.DevshopBack.exceptions.ProductNotFoundException;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
 import be.syntra.devshop.DevshopBack.services.utilities.ProductMapperUtility;
@@ -28,5 +29,14 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto save(ProductDto productDTO) {
         productRepository.save(ProductMapperUtility.convertToProduct(productDTO));
         return productDTO;
+    }
+
+    public Product findById(Long id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("The product with id: " + id + " is not found"));
+    }
+
+    public List<Product> findAllByArchivedFalse() {
+        return productRepository.findAllByArchivedFalse();
     }
 }

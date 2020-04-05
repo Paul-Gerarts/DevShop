@@ -20,10 +20,10 @@ public class ProductController {
     }
 
     @GetMapping()
-    public ResponseEntity<?> retrieveAllProducts() {
+    public ResponseEntity<?> retrieveAllNonArchivedProducts() {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(productService.findAll());
+                .body(productService.findAllByArchivedFalse());
     }
 
     /*
@@ -35,6 +35,21 @@ public class ProductController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(productDto);
+    }
+
+    @GetMapping("/details/{id}")
+    public ResponseEntity<?> findProductById(@PathVariable("id") Long id) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(productService.findById(id));
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<?> updateProduct(@RequestBody ProductDto product) {
+        productService.save(product);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(product);
     }
 
 }

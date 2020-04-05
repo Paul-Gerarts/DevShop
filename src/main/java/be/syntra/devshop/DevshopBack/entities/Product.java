@@ -43,6 +43,11 @@ public class Product {
     @JsonIgnore
     private Cart cart;
 
+    @NotBlank
+    private String description;
+
+    private boolean archived;
+
     @Override
     public String toString() {
         return "Product{" +
