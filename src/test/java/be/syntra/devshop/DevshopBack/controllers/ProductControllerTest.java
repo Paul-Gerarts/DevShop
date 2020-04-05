@@ -29,7 +29,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @Import({JsonUtils.class, WebSecurityConfig.class, CorsConfiguration.class, JWTTokenProvider.class, JWTAuthenticationEntryPoint.class, JWTAccessDeniedHandler.class})
@@ -130,7 +131,7 @@ class ProductControllerTest {
         // when
         ResultActions resultActions =
                 mockMvc.perform(
-                        put("/products/update")
+                        post("/products/update")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(jsonUtils.asJsonString(productDtoDummy)));
         // then

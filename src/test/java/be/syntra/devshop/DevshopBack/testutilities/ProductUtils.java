@@ -23,6 +23,8 @@ public class ProductUtils {
         return Product.builder()
                 .id(1L)
                 .name("post-its")
+                .description("description")
+                .archived(false)
                 .price(BigDecimal.valueOf(1.00))
                 .build();
     }
