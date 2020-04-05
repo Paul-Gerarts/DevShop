@@ -10,17 +10,21 @@ public class ProductMapperUtility {
 
     public static Product convertToProduct(ProductDto productDTO) {
         return Product.builder()
+                .id(productDTO.getId())
                 .name(productDTO.getName())
                 .price(productDTO.getPrice())
+                .archived(productDTO.isArchived())
                 .description(productDTO.getDescription())
                 .build();
     }
 
     public static ProductDto convertToProductDto(Product product) {
         return ProductDto.builder()
+                .id(product.getId())
                 .name(product.getName())
                 .price(product.getPrice())
                 .description(product.getDescription())
+                .archived(product.isArchived())
                 .build();
     }
 
