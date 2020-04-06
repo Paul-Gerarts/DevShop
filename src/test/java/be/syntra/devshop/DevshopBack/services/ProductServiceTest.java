@@ -66,7 +66,7 @@ public class ProductServiceTest {
     @Test
     void canGetProductByIdTest() {
         // given
-        Product dummyProduct = createProduct();
+        Product dummyProduct = createNonArchivedProduct();
         when(productRepository.findById(dummyProduct.getId())).thenReturn(Optional.of(dummyProduct));
 
         // when
@@ -80,7 +80,7 @@ public class ProductServiceTest {
     @Test
     void cannotGetArchivedProductTest() {
         // given
-        Product dummyActiveProduct = createProduct();
+        Product dummyActiveProduct = createNonArchivedProduct();
         List<Product> dummyProductList = List.of(dummyActiveProduct);
         when(productRepository.findAllByArchivedFalse()).thenReturn(dummyProductList);
 
@@ -90,6 +90,21 @@ public class ProductServiceTest {
         // then
         assertThat(resultProductList).isEqualTo(dummyProductList);
         verify(productRepository, times(1)).findAllByArchivedFalse();
+    }
+
+    @Test
+    void cannotGetNonArchivedProductTest() {
+        // given
+        Product dummyArchivedProduct = createArchivedProduct();
+        List<Product> dummyProductList = List.of(dummyArchivedProduct);
+        when(productRepository.findAllByArchivedTrue()).thenReturn(dummyProductList);
+
+        // when
+        List<Product> resultProductList = productService.findAllByArchivedTrue();
+
+        // then
+        assertThat(resultProductList).isEqualTo(dummyProductList);
+        verify(productRepository, times(1)).findAllByArchivedTrue();
     }
 
     @Test

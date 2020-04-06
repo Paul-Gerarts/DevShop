@@ -19,12 +19,22 @@ public class ProductUtils {
                 .build();
     }
 
-    public static Product createProduct() {
+    public static Product createNonArchivedProduct() {
         return Product.builder()
                 .id(1L)
                 .name("post-its")
                 .description("description")
                 .archived(false)
+                .price(BigDecimal.valueOf(1.00))
+                .build();
+    }
+
+    public static Product createArchivedProduct() {
+        return Product.builder()
+                .id(1L)
+                .name("post-its")
+                .description("description")
+                .archived(true)
                 .price(BigDecimal.valueOf(1.00))
                 .build();
     }
@@ -53,9 +63,18 @@ public class ProductUtils {
         return products;
     }
 
-    public static List<Product> createDummyProductList() {
+    public static List<Product> createDummyNonArchivedProductList() {
         Product product1 = Product.builder().name("test").price(new BigDecimal("55.99")).build();
         Product product2 = Product.builder().name("product").price(new BigDecimal("110")).build();
+        List<Product> productList = new ArrayList<>();
+        productList.add(product1);
+        productList.add(product2);
+        return productList;
+    }
+
+    public static List<Product> createDummyArchivedProductList() {
+        Product product1 = Product.builder().name("test").price(new BigDecimal("55.99")).archived(true).build();
+        Product product2 = Product.builder().name("product").price(new BigDecimal("110")).archived(true).build();
         List<Product> productList = new ArrayList<>();
         productList.add(product1);
         productList.add(product2);

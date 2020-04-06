@@ -52,4 +52,11 @@ public class ProductController {
                 .body(product);
     }
 
+    @GetMapping("/archived")
+    public ResponseEntity<?> retrieveAllArchivedProducts() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(productService.findAllByArchivedTrue());
+    }
+
 }

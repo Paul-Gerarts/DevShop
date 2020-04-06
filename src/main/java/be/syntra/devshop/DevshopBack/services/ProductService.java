@@ -11,4 +11,10 @@ public interface ProductService {
     ProductDto save(ProductDto productDTO);
 
     List<Product> findAll();
+
+    List<Product> findAllByArchivedFalse();
+
+    List<Product> findAllByArchivedTrue();
+
+    Product findById(Long id);
 }

@@ -54,9 +54,9 @@ class ProductControllerTest {
 
     @Test
     @WithMockUser
-    void testRetrieveAllProductsEndpoint() throws Exception {
+    void testRetrieveAllNonArchivedProductsEndpoint() throws Exception {
         // given
-        List<Product> productList = createDummyProductList();
+        List<Product> productList = createDummyNonArchivedProductList();
         when(productService.findAllByArchivedFalse()).thenReturn(productList);
         // when
         ResultActions resultActions =
@@ -74,6 +74,32 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$[1].price", is(110)));
 
         verify(productService, times(1)).findAllByArchivedFalse();
+    }
+
+    @Test
+    @WithMockUser
+    void testRetrieveAllArchivedProductsEndpoint() throws Exception {
+        // given
+        List<Product> productList = createDummyArchivedProductList();
+        when(productService.findAllByArchivedTrue()).thenReturn(productList);
+        // when
+        ResultActions resultActions =
+                mockMvc.perform(
+                        get("/products/archived")
+                );
+        // then
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].name").value(equalTo("test")))
+                .andExpect(jsonPath("$[0].price").value(equalTo(55.99)))
+                .andExpect(jsonPath("$[0].archived", is(true)))
+                .andExpect(jsonPath("$[1].name", is("product")))
+                .andExpect(jsonPath("$[1].price", is(110)))
+                .andExpect(jsonPath("$[1].archived", is(true)));
+
+        verify(productService, times(1)).findAllByArchivedTrue();
     }
 
     @Test
@@ -102,7 +128,7 @@ class ProductControllerTest {
     @WithMockUser
     void canGetProductByIdTest() throws Exception {
         // given
-        Product dummyProduct = createProduct();
+        Product dummyProduct = createNonArchivedProduct();
         when(productService.findById(dummyProduct.getId())).thenReturn(dummyProduct);
 
         // when

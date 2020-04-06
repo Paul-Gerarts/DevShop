@@ -11,7 +11,8 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     @ExceptionHandler({CustomException.class,
             UserAlreadyRegisteredException.class,
             UserRoleNotFoundException.class,
-            UserNotFoundException.class})
+            UserNotFoundException.class,
+            ProductNotFoundException.class})
     public ResponseEntity<?> giveHttpStatus(CustomException ce) {
         return new ResponseEntity<>(ce.getHttpStatus());
     }

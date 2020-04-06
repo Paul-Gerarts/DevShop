@@ -15,7 +15,7 @@ public class CartUtils {
 
 
     public static Cart createActiveCart() {
-        List<Product> products = createDummyProductList();
+        List<Product> products = createDummyNonArchivedProductList();
         return Cart.builder()
                 .products(products)
                 .cartCreationDateTime(LocalDateTime.of(2019, 3, 28, 14, 33, 48, 123456789))
@@ -37,7 +37,7 @@ public class CartUtils {
     }
 
     public static Cart createCartWithId() {
-        List<Product> products = createDummyProductList();
+        List<Product> products = createDummyNonArchivedProductList();
         return Cart.builder()
                 .id(1L)
                 .products(products)
@@ -53,7 +53,7 @@ public class CartUtils {
         Cart cart1 = createActiveCart();
         Cart cart2 = Cart.builder()
                 .cartCreationDateTime(LocalDateTime.of(2020, 3, 18, 14, 33, 48, 123456789))
-                .products(createDummyProductList())
+                .products(createDummyNonArchivedProductList())
                 .activeCart(false)
                 .finalizedCart(true)
                 .paidCart(true)

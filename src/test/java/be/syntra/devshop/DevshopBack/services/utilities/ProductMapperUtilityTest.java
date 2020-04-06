@@ -44,7 +44,7 @@ class ProductMapperUtilityTest {
     @Test
     void convertListToDtoListTest() {
         // given
-        List<Product> dummyProductList = ProductUtils.createDummyProductList();
+        List<Product> dummyProductList = ProductUtils.createDummyNonArchivedProductList();
 
         // when
         List<ProductDto> mappedToProductDtoList = ProductMapperUtility.convertToProductDtoList(dummyProductList);

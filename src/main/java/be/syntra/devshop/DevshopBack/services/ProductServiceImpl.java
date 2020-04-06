@@ -31,12 +31,19 @@ public class ProductServiceImpl implements ProductService {
         return productDTO;
     }
 
+    @Override
     public Product findById(Long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("The product with id: " + id + " is not found"));
     }
 
+    @Override
     public List<Product> findAllByArchivedFalse() {
         return productRepository.findAllByArchivedFalse();
+    }
+
+    @Override
+    public List<Product> findAllByArchivedTrue() {
+        return productRepository.findAllByArchivedTrue();
     }
 }

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.createProduct;
+import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.createNonArchivedProduct;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CartFactoryTest {
@@ -16,7 +16,7 @@ public class CartFactoryTest {
     @Test
     void canCreateCartTest() {
         // given
-        Product dummyProduct = createProduct();
+        Product dummyProduct = createNonArchivedProduct();
         boolean isActive = true;
         boolean isFinalized = false;
         boolean isPaid = false;
