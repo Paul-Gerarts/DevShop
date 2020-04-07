@@ -16,5 +16,7 @@ public interface ProductService {
 
     List<Product> findAllByArchivedTrue();
 
+    List<Product> findAllByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest);
+
     Product findById(Long id);
 }

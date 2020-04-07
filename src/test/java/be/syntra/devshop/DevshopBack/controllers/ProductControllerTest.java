@@ -170,4 +170,27 @@ class ProductControllerTest {
 
         verify(productService, times(1)).save(productDtoDummy);
     }
+
+    @Test
+    @WithMockUser
+    void testRetrieveAllProductsFoundBySearchRequestTest() throws Exception {
+        // given
+        String searchRequest = "POst";
+        List<Product> dummyProductList = List.of(createNonArchivedProduct());
+        when(productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest)).thenReturn(dummyProductList);
+        // when
+        ResultActions resultActions =
+                mockMvc.perform(
+                        get("/products/search/" + searchRequest)
+                );
+        // then
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].name").value(equalTo("post-its")))
+                .andExpect(jsonPath("$[0].price").value(equalTo(1.00)));
+
+        verify(productService, times(1)).findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest);
+    }
 }

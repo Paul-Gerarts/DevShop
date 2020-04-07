@@ -59,4 +59,11 @@ public class ProductController {
                 .body(productService.findAllByArchivedTrue());
     }
 
+    @GetMapping("/search/{searchRequest}")
+    public ResponseEntity<?> retrieveAllProductsBySearchRequest(@PathVariable String searchRequest) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest));
+    }
+
 }

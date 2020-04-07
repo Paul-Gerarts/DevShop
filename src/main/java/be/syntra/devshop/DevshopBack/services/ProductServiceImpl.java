@@ -46,4 +46,9 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> findAllByArchivedTrue() {
         return productRepository.findAllByArchivedTrue();
     }
+
+    @Override
+    public List<Product> findAllByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest) {
+        return productRepository.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest);
+    }
 }
