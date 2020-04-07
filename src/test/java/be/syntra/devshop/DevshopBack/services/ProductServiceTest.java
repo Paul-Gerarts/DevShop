@@ -116,4 +116,19 @@ public class ProductServiceTest {
         // when - then
         assertThrows(ProductNotFoundException.class, () -> productRepository.findById(1L));
     }
+
+    @Test
+    void canGetProductBySearchRequestTest() {
+        // given
+        String searchRequest = "POst";
+        List<Product> dummyProductList = List.of(createNonArchivedProduct());
+        when(productRepository.findAllByNameContainingIgnoreCase(searchRequest)).thenReturn(dummyProductList);
+
+        // when
+        List<Product> resultProduct = productService.findAllByNameContainingIgnoreCase(searchRequest);
+
+        // then
+        assertThat(resultProduct).isEqualTo(dummyProductList);
+        verify(productRepository, times(1)).findAllByNameContainingIgnoreCase(searchRequest);
+    }
 }
