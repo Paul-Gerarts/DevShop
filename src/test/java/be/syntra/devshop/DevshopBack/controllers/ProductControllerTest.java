@@ -177,7 +177,7 @@ class ProductControllerTest {
         // given
         String searchRequest = "POst";
         List<Product> dummyProductList = List.of(createNonArchivedProduct());
-        when(productService.findAllByNameContainingIgnoreCase(searchRequest)).thenReturn(dummyProductList);
+        when(productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest)).thenReturn(dummyProductList);
         // when
         ResultActions resultActions =
                 mockMvc.perform(
@@ -191,6 +191,6 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$[0].name").value(equalTo("post-its")))
                 .andExpect(jsonPath("$[0].price").value(equalTo(1.00)));
 
-        verify(productService, times(1)).findAllByNameContainingIgnoreCase(searchRequest);
+        verify(productService, times(1)).findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest);
     }
 }

@@ -63,7 +63,7 @@ public class ProductController {
     public ResponseEntity<?> retrieveAllProductsBySearchRequest(@PathVariable String searchRequest) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(productService.findAllByNameContainingIgnoreCase(searchRequest));
+                .body(productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest));
     }
 
 }

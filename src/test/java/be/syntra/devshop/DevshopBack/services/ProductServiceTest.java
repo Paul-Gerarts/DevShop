@@ -122,13 +122,13 @@ public class ProductServiceTest {
         // given
         String searchRequest = "POst";
         List<Product> dummyProductList = List.of(createNonArchivedProduct());
-        when(productRepository.findAllByNameContainingIgnoreCase(searchRequest)).thenReturn(dummyProductList);
+        when(productRepository.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest)).thenReturn(dummyProductList);
 
         // when
-        List<Product> resultProduct = productService.findAllByNameContainingIgnoreCase(searchRequest);
+        List<Product> resultProduct = productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest);
 
         // then
         assertThat(resultProduct).isEqualTo(dummyProductList);
-        verify(productRepository, times(1)).findAllByNameContainingIgnoreCase(searchRequest);
+        verify(productRepository, times(1)).findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest);
     }
 }
