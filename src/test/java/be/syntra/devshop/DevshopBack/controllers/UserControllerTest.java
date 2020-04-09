@@ -10,6 +10,9 @@ import be.syntra.devshop.DevshopBack.security.jwt.JWTAuthenticationEntryPoint;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
 import be.syntra.devshop.DevshopBack.security.services.SecurityUserService;
 import be.syntra.devshop.DevshopBack.services.UserServiceImpl;
+import be.syntra.devshop.DevshopBack.services.utilities.AddressMapperUtility;
+import be.syntra.devshop.DevshopBack.services.utilities.CartMapperUtility;
+import be.syntra.devshop.DevshopBack.services.utilities.ProductMapperUtility;
 import be.syntra.devshop.DevshopBack.services.utilities.UserMapperUtility;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import org.junit.jupiter.api.Test;
@@ -54,6 +57,15 @@ public class UserControllerTest {
     @MockBean
     private SecurityUserService securityUserService;
 
+    @MockBean
+    private AddressMapperUtility addressMapperUtility;
+
+    @MockBean
+    private CartMapperUtility cartMapperUtility;
+
+    @MockBean
+    private ProductMapperUtility productMapperUtility;
+
     @Test
     @WithMockUser
     void createUserEndPointsTest() throws Exception {
@@ -77,10 +89,8 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.password").value(userDtoDummy.getPassword()))
                 .andExpect(jsonPath("$.address.number").value(userDtoDummy.getAddress().getNumber()))
                 .andExpect(jsonPath("$.address.postalCode").value(userDtoDummy.getAddress().getPostalCode()))
-                .andExpect(jsonPath("$.activeCart.cartCreationDateTime").value("2019-03-28T14:33:48.123456789"))
                 .andExpect(jsonPath("$.activeCart.products[0].name").value(userDtoDummy.getActiveCart().getProducts().get(0).getName()))
                 .andExpect(jsonPath("$.activeCart.products[0].price").value(userDtoDummy.getActiveCart().getProducts().get(0).getPrice()))
-                .andExpect(jsonPath("$.archivedCarts[0].cartCreationDateTime").value("2019-03-28T14:33:48.123456789"))
                 .andExpect(jsonPath("$.archivedCarts[0].products[0].name").value(userDtoDummy.getArchivedCarts().get(0).getProducts().get(0).getName()))
                 .andExpect(jsonPath("$.archivedCarts[0].products[0].price").value(userDtoDummy.getArchivedCarts().get(0).getProducts().get(0).getPrice()));
 
@@ -113,7 +123,6 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$[0].address.postalCode").value(equalTo("1234")))
                 .andExpect(jsonPath("$[0].address.city").value(equalTo("Somewhere")))
                 .andExpect(jsonPath("$[0].address.country").value(equalTo("Belgium")))
-                .andExpect(jsonPath("$[0].archivedCarts[0].cartCreationDateTime").value(equalTo(userList.get(0).getArchivedCarts().get(0).getCartCreationDateTime())))
                 .andExpect(jsonPath("$[0].archivedCarts[0].products[0].name").value(equalTo("test")))
                 .andExpect(jsonPath("$[0].archivedCarts[0].products[0].price").value(equalTo(55.99)))
                 .andExpect(jsonPath("$[0].archivedCarts[0].products[1].name").value(equalTo("product")))
@@ -121,7 +130,6 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$[0].archivedCarts[0].activeCart").value(equalTo(true)))
                 .andExpect(jsonPath("$[0].archivedCarts[0].finalizedCart").value(equalTo(false)))
                 .andExpect(jsonPath("$[0].archivedCarts[0].paidCart").value(equalTo(false)))
-                .andExpect(jsonPath("$[0].archivedCarts[1].cartCreationDateTime").value(equalTo(userList.get(0).getArchivedCarts().get(1).getCartCreationDateTime())))
                 .andExpect(jsonPath("$[0].archivedCarts[1].products[0].name").value(equalTo("test")))
                 .andExpect(jsonPath("$[0].archivedCarts[1].products[0].price").value(equalTo(55.99)))
                 .andExpect(jsonPath("$[0].archivedCarts[1].products[1].name").value(equalTo("product")))
@@ -145,7 +153,6 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$[1].address.postalCode").value(equalTo("1234")))
                 .andExpect(jsonPath("$[1].address.city").value(equalTo("Somewhere")))
                 .andExpect(jsonPath("$[1].address.country").value(equalTo("Belgium")))
-                .andExpect(jsonPath("$[1].archivedCarts[0].cartCreationDateTime").value(equalTo(userList.get(1).getArchivedCarts().get(0).getCartCreationDateTime())))
                 .andExpect(jsonPath("$[1].archivedCarts[0].products[0].name").value(equalTo("test")))
                 .andExpect(jsonPath("$[1].archivedCarts[0].products[0].price").value(equalTo(55.99)))
                 .andExpect(jsonPath("$[1].archivedCarts[0].products[1].name").value(equalTo("product")))
@@ -153,7 +160,6 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$[1].archivedCarts[0].activeCart").value(equalTo(true)))
                 .andExpect(jsonPath("$[1].archivedCarts[0].finalizedCart").value(equalTo(false)))
                 .andExpect(jsonPath("$[1].archivedCarts[0].paidCart").value(equalTo(false)))
-                .andExpect(jsonPath("$[1].archivedCarts[1].cartCreationDateTime").value(equalTo(userList.get(1).getArchivedCarts().get(1).getCartCreationDateTime())))
                 .andExpect(jsonPath("$[1].archivedCarts[1].products[0].name").value(equalTo("test")))
                 .andExpect(jsonPath("$[1].archivedCarts[1].products[0].price").value(equalTo(55.99)))
                 .andExpect(jsonPath("$[1].archivedCarts[1].products[1].name").value(equalTo("product")))
@@ -177,7 +183,6 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$[2].address.postalCode").value(equalTo("1234")))
                 .andExpect(jsonPath("$[2].address.city").value(equalTo("Somewhere")))
                 .andExpect(jsonPath("$[2].address.country").value(equalTo("Belgium")))
-                .andExpect(jsonPath("$[2].archivedCarts[0].cartCreationDateTime").value(equalTo(userList.get(2).getArchivedCarts().get(0).getCartCreationDateTime())))
                 .andExpect(jsonPath("$[2].archivedCarts[0].products[0].name").value(equalTo("test")))
                 .andExpect(jsonPath("$[2].archivedCarts[0].products[0].price").value(equalTo(55.99)))
                 .andExpect(jsonPath("$[2].archivedCarts[0].products[1].name").value(equalTo("product")))
@@ -185,7 +190,6 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$[2].archivedCarts[0].activeCart").value(equalTo(true)))
                 .andExpect(jsonPath("$[2].archivedCarts[0].finalizedCart").value(equalTo(false)))
                 .andExpect(jsonPath("$[2].archivedCarts[0].paidCart").value(equalTo(false)))
-                .andExpect(jsonPath("$[2].archivedCarts[1].cartCreationDateTime").value(equalTo(userList.get(2).getArchivedCarts().get(1).getCartCreationDateTime())))
                 .andExpect(jsonPath("$[2].archivedCarts[1].products[0].name").value(equalTo("test")))
                 .andExpect(jsonPath("$[2].archivedCarts[1].products[0].price").value(equalTo(55.99)))
                 .andExpect(jsonPath("$[2].archivedCarts[1].products[1].name").value(equalTo("product")))

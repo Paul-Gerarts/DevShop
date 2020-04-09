@@ -74,11 +74,11 @@ class ProductControllerTest {
         resultActions
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$").value(dummyProductList))
-                .andExpect(jsonPath("$[0].name").value(equalTo("test")))
-                .andExpect(jsonPath("$[0].price").value(equalTo(55.99)))
-                .andExpect(jsonPath("$[1].name", is("product")))
-                .andExpect(jsonPath("$[1].price", is(110)));
+                .andExpect(jsonPath("$.products", hasSize(2)))
+                .andExpect(jsonPath("$.products[0].name").value(equalTo("test")))
+                .andExpect(jsonPath("$.products[0].price").value(equalTo(55.99)))
+                .andExpect(jsonPath("$.products[1].name", is("product")))
+                .andExpect(jsonPath("$.products[1].price", is(110)));
 
         verify(productService, times(1)).findAllByArchivedFalse();
     }
@@ -100,13 +100,13 @@ class ProductControllerTest {
         resultActions
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].name").value(equalTo("test")))
-                .andExpect(jsonPath("$[0].price").value(equalTo(55.99)))
-                .andExpect(jsonPath("$[0].archived", is(true)))
-                .andExpect(jsonPath("$[1].name", is("product")))
-                .andExpect(jsonPath("$[1].price", is(110)))
-                .andExpect(jsonPath("$[1].archived", is(true)));
+                .andExpect(jsonPath("$.products", hasSize(2)))
+                .andExpect(jsonPath("$.products[0].name").value(equalTo("test")))
+                .andExpect(jsonPath("$.products[0].price").value(equalTo(55.99)))
+                .andExpect(jsonPath("$.products[0].archived", is(true)))
+                .andExpect(jsonPath("$.products[1].name", is("product")))
+                .andExpect(jsonPath("$.products[1].price", is(110)))
+                .andExpect(jsonPath("$.products[1].archived", is(true)));
 
         verify(productService, times(1)).findAllByArchivedTrue();
     }
@@ -198,9 +198,9 @@ class ProductControllerTest {
         resultActions
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].name").value(equalTo("post-its")))
-                .andExpect(jsonPath("$[0].price").value(equalTo(1.00)));
+                .andExpect(jsonPath("$.products", hasSize(1)))
+                .andExpect(jsonPath("$.products[0].name").value(equalTo("post-its")))
+                .andExpect(jsonPath("$.products[0].price").value(equalTo(1.00)));
 
         verify(productService, times(1)).findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest);
     }

@@ -20,7 +20,8 @@ public class UserController {
 
     @Autowired
     public UserController(UserService userService,
-                          UserMapperUtility userMapperUtility) {
+                          UserMapperUtility userMapperUtility
+    ) {
         this.userService = userService;
         this.userMapperUtility = userMapperUtility;
     }

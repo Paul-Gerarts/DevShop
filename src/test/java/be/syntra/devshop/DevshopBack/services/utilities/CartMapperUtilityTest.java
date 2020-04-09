@@ -1,6 +1,7 @@
 package be.syntra.devshop.DevshopBack.services.utilities;
 
 import be.syntra.devshop.DevshopBack.entities.Cart;
+import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.CartDto;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.testutilities.CartUtils;
@@ -11,6 +12,7 @@ import org.mockito.Mock;
 
 import java.util.List;
 
+import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.createDummyNonArchivedProductList;
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.createDummyProductDtoList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.any;
@@ -79,6 +81,8 @@ public class CartMapperUtilityTest {
     void convertToCartDtoList() {
         // given
         List<Cart> dummyCartList = CartUtils.createDummyCartList();
+        List<ProductDto> dummyProductDtoList = createDummyProductDtoList();
+        when(productMapperUtility.convertToProductDtoList(any())).thenReturn(dummyProductDtoList);
 
         // when
         List<CartDto> mappedToCartDtoList = cartMapperUtility.convertToCartDtoList(dummyCartList);
@@ -88,6 +92,7 @@ public class CartMapperUtilityTest {
         assertEquals(dummyCartList.size(), mappedToCartDtoList.size());
         assertEquals(mappedToCartDtoList.get(0).getCartCreationDateTime(), dummyCartList.get(0).getCartCreationDateTime());
         assertEquals(mappedToCartDtoList.get(1).getCartCreationDateTime(), dummyCartList.get(1).getCartCreationDateTime());
+        assertEquals(mappedToCartDtoList.get(0).getProducts().get(0).getName(), productMapperUtility.convertToProductDtoList(dummyCartList.get(0).getProducts()).get(0).getName());
         assertEquals(mappedToCartDtoList.get(1).getProducts().get(0).getPrice(), productMapperUtility.convertToProductDtoList(dummyCartList.get(1).getProducts()).get(0).getPrice());
         assertTrue(mappedToCartDtoList.get(0).isActiveCart() && dummyCartList.get(0).isActiveCart());
         assertFalse(mappedToCartDtoList.get(1).isActiveCart() && dummyCartList.get(1).isActiveCart());
@@ -102,6 +107,8 @@ public class CartMapperUtilityTest {
     void convertToCartList() {
         // given
         List<CartDto> dummyCartDtoList = CartUtils.createDummyCartDtoList();
+        List<Product> dummyProductList = createDummyNonArchivedProductList();
+        when(productMapperUtility.convertToProductList(any())).thenReturn(dummyProductList);
 
         // when
         List<Cart> mappedToCartList = cartMapperUtility.convertToCartList(dummyCartDtoList);

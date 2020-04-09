@@ -24,9 +24,6 @@ import static org.mockito.Mockito.*;
 public class ProductServiceTest {
 
     @Mock
-    private ProductMapperUtility mapperUtility;
-
-    @Mock
     private ProductRepository productRepository;
 
     @Mock
@@ -131,14 +128,15 @@ public class ProductServiceTest {
         // given
         String searchRequest = "POst";
         List<Product> dummyProductList = List.of(createNonArchivedProduct());
+        ProductList dummyProductListObject = new ProductList(dummyProductList);
         when(productRepository.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest)).thenReturn(dummyProductList);
-        when(productMapperUtility.convertToProductListObject(dummyProductList)).thenReturn(new ProductList(dummyProductList));
+        when(productMapperUtility.convertToProductListObject(dummyProductList)).thenReturn(dummyProductListObject);
 
         // when
-        List<Product> resultProduct = productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest).getProducts();
+        ProductList resultProduct = productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest);
 
         // then
-        assertThat(resultProduct).isEqualTo(dummyProductList);
+        assertThat(resultProduct).isEqualTo(dummyProductListObject);
         verify(productRepository, times(1)).findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest);
     }
 }
