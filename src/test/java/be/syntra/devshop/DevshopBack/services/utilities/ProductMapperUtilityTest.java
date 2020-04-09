@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ProductMapperUtilityTest {
 
-    private ProductMapperUtility mapperUtility = new ProductMapperUtility();
+    private ProductMapperUtility productMapperUtility = new ProductMapperUtility();
 
     @Test
     void convertToProductTest() {
@@ -19,7 +19,7 @@ class ProductMapperUtilityTest {
         ProductDto productDto = ProductUtils.createProductDto();
 
         // when
-        Product mappedProduct = ProductMapperUtility.convertToProduct(productDto);
+        Product mappedProduct = productMapperUtility.convertToProduct(productDto);
 
         // then
         assertEquals(mappedProduct.getClass(), Product.class);
@@ -33,7 +33,7 @@ class ProductMapperUtilityTest {
         Product product = ProductUtils.createProductWithId();
 
         // when
-        ProductDto mappedProductDto = ProductMapperUtility.convertToProductDto(product);
+        ProductDto mappedProductDto = productMapperUtility.convertToProductDto(product);
 
         // then
         assertEquals(mappedProductDto.getClass(), ProductDto.class);
@@ -47,7 +47,7 @@ class ProductMapperUtilityTest {
         List<Product> dummyProductList = ProductUtils.createDummyNonArchivedProductList();
 
         // when
-        List<ProductDto> mappedToProductDtoList = ProductMapperUtility.convertToProductDtoList(dummyProductList);
+        List<ProductDto> mappedToProductDtoList = productMapperUtility.convertToProductDtoList(dummyProductList);
 
         // then
         assertEquals(mappedToProductDtoList.get(0).getClass(), ProductDto.class);

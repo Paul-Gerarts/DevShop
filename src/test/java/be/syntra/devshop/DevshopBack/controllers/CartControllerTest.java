@@ -76,7 +76,6 @@ public class CartControllerTest {
         resultActions
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$.cartCreationDateTime").value(cartDtoDummy.getCartCreationDateTime().toString()))
                 .andExpect(jsonPath("$.products[0].name").value(cartDtoDummy.getProducts().get(0).getName()))
                 .andExpect(jsonPath("$.products[0].price").value(cartDtoDummy.getProducts().get(0).getPrice()))
                 .andExpect(jsonPath("$.products[1].name").value(cartDtoDummy.getProducts().get(1).getName()))

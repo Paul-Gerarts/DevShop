@@ -11,8 +11,8 @@ import be.syntra.devshop.DevshopBack.security.jwt.JWTAuthenticationEntryPoint;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
 import be.syntra.devshop.DevshopBack.security.services.SecurityUserService;
 import be.syntra.devshop.DevshopBack.services.ProductServiceImpl;
+import be.syntra.devshop.DevshopBack.services.utilities.ProductMapperUtility;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
-import org.dozer.DozerBeanMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Import({JsonUtils.class, WebSecurityConfig.class, CorsConfiguration.class, JWTTokenProvider.class, JWTAuthenticationEntryPoint.class, JWTAccessDeniedHandler.class})
+@Import({JsonUtils.class, WebSecurityConfig.class, CorsConfiguration.class, JWTTokenProvider.class, JWTAuthenticationEntryPoint.class, JWTAccessDeniedHandler.class, ProductMapperUtility.class})
 @WebMvcTest(ProductController.class)
 class ProductControllerTest {
 
@@ -55,13 +55,13 @@ class ProductControllerTest {
     private SecurityUserService securityUserService;
 
     @Autowired
-    DozerBeanMapper dozerMapper;
+    private ProductMapperUtility productMapperUtility;
 
     @Test
     @WithMockUser
     void testRetrieveAllNonArchivedProductsEndpoint() throws Exception {
         // given
-        ProductList dummyProductList = dozerMapper.map(createDummyNonArchivedProductList(), ProductList.class);
+        ProductList dummyProductList = productMapperUtility.convertToProductListObject(createDummyNonArchivedProductList());
         when(productService.findAllByArchivedFalse()).thenReturn(dummyProductList);
 
         // when
@@ -69,16 +69,16 @@ class ProductControllerTest {
                 mockMvc.perform(
                         get("/products")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(jsonUtils.asJsonString(dummyProductList.getProducts())));
+                                .content(jsonUtils.asJsonString(dummyProductList)));
         // then
         resultActions
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].name").value(equalTo("test")))
-                .andExpect(jsonPath("$[0].price").value(equalTo(55.99)))
-                .andExpect(jsonPath("$[1].name", is("product")))
-                .andExpect(jsonPath("$[1].price", is(110)));
+                .andExpect(jsonPath("$.products", hasSize(2)))
+                .andExpect(jsonPath("$.products[0].name").value(equalTo("test")))
+                .andExpect(jsonPath("$.products[0].price").value(equalTo(55.99)))
+                .andExpect(jsonPath("$.products[1].name", is("product")))
+                .andExpect(jsonPath("$.products[1].price", is(110)));
 
         verify(productService, times(1)).findAllByArchivedFalse();
     }
@@ -87,7 +87,7 @@ class ProductControllerTest {
     @WithMockUser
     void testRetrieveAllArchivedProductsEndpoint() throws Exception {
         // given
-        ProductList dummyProductList = dozerMapper.map(createDummyArchivedProductList(), ProductList.class);
+        ProductList dummyProductList = productMapperUtility.convertToProductListObject(createDummyArchivedProductList());
         when(productService.findAllByArchivedTrue()).thenReturn(dummyProductList);
 
         // when
@@ -100,13 +100,13 @@ class ProductControllerTest {
         resultActions
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].name").value(equalTo("test")))
-                .andExpect(jsonPath("$[0].price").value(equalTo(55.99)))
-                .andExpect(jsonPath("$[0].archived", is(true)))
-                .andExpect(jsonPath("$[1].name", is("product")))
-                .andExpect(jsonPath("$[1].price", is(110)))
-                .andExpect(jsonPath("$[1].archived", is(true)));
+                .andExpect(jsonPath("$.products", hasSize(2)))
+                .andExpect(jsonPath("$.products[0].name").value(equalTo("test")))
+                .andExpect(jsonPath("$.products[0].price").value(equalTo(55.99)))
+                .andExpect(jsonPath("$.products[0].archived", is(true)))
+                .andExpect(jsonPath("$.products[1].name", is("product")))
+                .andExpect(jsonPath("$.products[1].price", is(110)))
+                .andExpect(jsonPath("$.products[1].archived", is(true)));
 
         verify(productService, times(1)).findAllByArchivedTrue();
     }
@@ -185,7 +185,7 @@ class ProductControllerTest {
     void testRetrieveAllProductsFoundBySearchRequestTest() throws Exception {
         // given
         String searchRequest = "POst";
-        ProductList dummyProductList = dozerMapper.map(List.of(createNonArchivedProduct()), ProductList.class);
+        ProductList dummyProductList = productMapperUtility.convertToProductListObject(List.of(createNonArchivedProduct()));
         when(productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest)).thenReturn(dummyProductList);
 
         // when
@@ -198,9 +198,9 @@ class ProductControllerTest {
         resultActions
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].name").value(equalTo("post-its")))
-                .andExpect(jsonPath("$[0].price").value(equalTo(1.00)));
+                .andExpect(jsonPath("$.products", hasSize(1)))
+                .andExpect(jsonPath("$.products[0].name").value(equalTo("post-its")))
+                .andExpect(jsonPath("$.products[0].price").value(equalTo(1.00)));
 
         verify(productService, times(1)).findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest);
     }

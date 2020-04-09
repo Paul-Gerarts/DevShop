@@ -1,10 +1,9 @@
 package be.syntra.devshop.DevshopBack.services;
 
 
-import be.syntra.devshop.DevshopBack.entities.Cart;
 import be.syntra.devshop.DevshopBack.entities.User;
 import be.syntra.devshop.DevshopBack.models.CartDto;
-import org.dozer.DozerBeanMapper;
+import be.syntra.devshop.DevshopBack.services.utilities.CartMapperUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,19 +11,19 @@ import org.springframework.stereotype.Service;
 public class CartServiceImpl implements CartService {
 
     private UserServiceImpl userService;
-    private DozerBeanMapper dozerMapper;
+    private CartMapperUtility cartMapperUtility;
 
     @Autowired
     public CartServiceImpl(UserServiceImpl userService,
-                           DozerBeanMapper dozerMapper) {
+                           CartMapperUtility cartMapperUtility) {
         this.userService = userService;
-        this.dozerMapper = dozerMapper;
+        this.cartMapperUtility = cartMapperUtility;
     }
 
     @Override
     public CartDto saveFinalizedCart(CartDto cartDto, Long userId) {
         User user = userService.getUserById(userId);
-        user.getArchivedCarts().add(dozerMapper.map(cartDto, Cart.class));
+        user.getArchivedCarts().add(cartMapperUtility.convertToCart(cartDto));
         userService.save(user);
         return cartDto;
     }
