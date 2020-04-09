@@ -4,7 +4,6 @@ import be.syntra.devshop.DevshopBack.entities.User;
 import be.syntra.devshop.DevshopBack.exceptions.UserAlreadyRegisteredException;
 import be.syntra.devshop.DevshopBack.exceptions.UserNotFoundException;
 import be.syntra.devshop.DevshopBack.factories.UserFactory;
-import be.syntra.devshop.DevshopBack.models.UserDto;
 import be.syntra.devshop.DevshopBack.repositories.UserRepository;
 import be.syntra.devshop.DevshopBack.security.controllers.dtos.RegisterDto;
 import be.syntra.devshop.DevshopBack.security.entities.JWTToken;
@@ -17,8 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static be.syntra.devshop.DevshopBack.services.utilities.UserMapperUtility.convertToUser;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -46,9 +43,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto save(UserDto userDto) {
-        userRepository.save(convertToUser(userDto));
-        return userDto;
+    public User save(User user) {
+        userRepository.save(user);
+        return user;
     }
 
     /*
@@ -61,6 +58,7 @@ public class UserServiceImpl implements UserService {
      * all of which have to do with persisting data to our database
      * in our case, it'll happen when an email-address has already been registered
      */
+    @Override
     public User registerUser(RegisterDto registerDto) {
         try {
             User user = userFactory.ofRegisterDto(registerDto);
@@ -73,6 +71,7 @@ public class UserServiceImpl implements UserService {
     /*
      *@Return: new accessToken linked to logged in user, verified by authentication
      */
+    @Override
     public JWTToken getNewJwtToken(String email, String password) {
         String jwt = jwtTokenProvider.createToken(getAuthentication(email, password));
         return new JWTToken(jwt);

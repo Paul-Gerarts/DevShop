@@ -3,8 +3,10 @@ package be.syntra.devshop.DevshopBack.services;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.exceptions.ProductNotFoundException;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
+import be.syntra.devshop.DevshopBack.models.ProductList;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
 import be.syntra.devshop.DevshopBack.services.utilities.ProductMapperUtility;
+import org.dozer.DozerBeanMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -28,11 +30,15 @@ public class ProductServiceTest {
     @Mock
     private ProductRepository productRepository;
 
+    @Mock
+    private DozerBeanMapper dozerMapper;
+
     @InjectMocks
     private ProductServiceImpl productService;
 
     @BeforeEach
     public void init() {
+        dozerMapper = new DozerBeanMapper();
         MockitoAnnotations.initMocks(this);
     }
 
@@ -41,9 +47,10 @@ public class ProductServiceTest {
         // given
         List<Product> dummyProducts = createProductList();
         when(productRepository.findAll()).thenReturn(dummyProducts);
+        when(dozerMapper.map(dummyProducts, ProductList.class)).thenReturn(new ProductList(dummyProducts));
 
         // when
-        List<Product> resultProductList = productService.findAll();
+        List<Product> resultProductList = productService.findAll().getProducts();
 
         // then
         assertEquals(resultProductList, dummyProducts);
@@ -83,9 +90,10 @@ public class ProductServiceTest {
         Product dummyActiveProduct = createNonArchivedProduct();
         List<Product> dummyProductList = List.of(dummyActiveProduct);
         when(productRepository.findAllByArchivedFalse()).thenReturn(dummyProductList);
+        when(dozerMapper.map(dummyProductList, ProductList.class)).thenReturn(new ProductList(dummyProductList));
 
         // when
-        List<Product> resultProductList = productService.findAllByArchivedFalse();
+        List<Product> resultProductList = productService.findAllByArchivedFalse().getProducts();
 
         // then
         assertThat(resultProductList).isEqualTo(dummyProductList);
@@ -98,9 +106,10 @@ public class ProductServiceTest {
         Product dummyArchivedProduct = createArchivedProduct();
         List<Product> dummyProductList = List.of(dummyArchivedProduct);
         when(productRepository.findAllByArchivedTrue()).thenReturn(dummyProductList);
+        when(dozerMapper.map(dummyProductList, ProductList.class)).thenReturn(new ProductList(dummyProductList));
 
         // when
-        List<Product> resultProductList = productService.findAllByArchivedTrue();
+        List<Product> resultProductList = productService.findAllByArchivedTrue().getProducts();
 
         // then
         assertThat(resultProductList).isEqualTo(dummyProductList);
@@ -123,9 +132,10 @@ public class ProductServiceTest {
         String searchRequest = "POst";
         List<Product> dummyProductList = List.of(createNonArchivedProduct());
         when(productRepository.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest)).thenReturn(dummyProductList);
+        when(dozerMapper.map(dummyProductList, ProductList.class)).thenReturn(new ProductList(dummyProductList));
 
         // when
-        List<Product> resultProduct = productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest);
+        List<Product> resultProduct = productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest).getProducts();
 
         // then
         assertThat(resultProduct).isEqualTo(dummyProductList);

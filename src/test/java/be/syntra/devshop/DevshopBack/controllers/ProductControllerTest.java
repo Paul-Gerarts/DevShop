@@ -3,6 +3,7 @@ package be.syntra.devshop.DevshopBack.controllers;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.factories.SecurityUserFactory;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
+import be.syntra.devshop.DevshopBack.models.ProductList;
 import be.syntra.devshop.DevshopBack.security.configuration.CorsConfiguration;
 import be.syntra.devshop.DevshopBack.security.configuration.WebSecurityConfig;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTAccessDeniedHandler;
@@ -11,6 +12,7 @@ import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
 import be.syntra.devshop.DevshopBack.security.services.SecurityUserService;
 import be.syntra.devshop.DevshopBack.services.ProductServiceImpl;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
+import org.dozer.DozerBeanMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,17 +54,22 @@ class ProductControllerTest {
     @MockBean
     private SecurityUserService securityUserService;
 
+    @Autowired
+    DozerBeanMapper dozerMapper;
+
     @Test
     @WithMockUser
     void testRetrieveAllNonArchivedProductsEndpoint() throws Exception {
         // given
-        List<Product> productList = createDummyNonArchivedProductList();
-        when(productService.findAllByArchivedFalse()).thenReturn(productList);
+        ProductList dummyProductList = dozerMapper.map(createDummyNonArchivedProductList(), ProductList.class);
+        when(productService.findAllByArchivedFalse()).thenReturn(dummyProductList);
+
         // when
         ResultActions resultActions =
                 mockMvc.perform(
                         get("/products")
-                );
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(jsonUtils.asJsonString(dummyProductList.getProducts())));
         // then
         resultActions
                 .andExpect(status().isOk())
@@ -80,13 +87,15 @@ class ProductControllerTest {
     @WithMockUser
     void testRetrieveAllArchivedProductsEndpoint() throws Exception {
         // given
-        List<Product> productList = createDummyArchivedProductList();
-        when(productService.findAllByArchivedTrue()).thenReturn(productList);
+        ProductList dummyProductList = dozerMapper.map(createDummyArchivedProductList(), ProductList.class);
+        when(productService.findAllByArchivedTrue()).thenReturn(dummyProductList);
+
         // when
         ResultActions resultActions =
                 mockMvc.perform(
                         get("/products/archived")
-                );
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(jsonUtils.asJsonString(dummyProductList.getProducts())));
         // then
         resultActions
                 .andExpect(status().isOk())
@@ -176,13 +185,15 @@ class ProductControllerTest {
     void testRetrieveAllProductsFoundBySearchRequestTest() throws Exception {
         // given
         String searchRequest = "POst";
-        List<Product> dummyProductList = List.of(createNonArchivedProduct());
+        ProductList dummyProductList = dozerMapper.map(List.of(createNonArchivedProduct()), ProductList.class);
         when(productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest)).thenReturn(dummyProductList);
+
         // when
         ResultActions resultActions =
                 mockMvc.perform(
                         get("/products/search/" + searchRequest)
-                );
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(jsonUtils.asJsonString(dummyProductList.getProducts())));
         // then
         resultActions
                 .andExpect(status().isOk())

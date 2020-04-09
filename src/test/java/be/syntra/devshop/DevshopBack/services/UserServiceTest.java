@@ -3,7 +3,6 @@ package be.syntra.devshop.DevshopBack.services;
 import be.syntra.devshop.DevshopBack.entities.User;
 import be.syntra.devshop.DevshopBack.exceptions.UserNotFoundException;
 import be.syntra.devshop.DevshopBack.factories.UserFactory;
-import be.syntra.devshop.DevshopBack.models.UserDto;
 import be.syntra.devshop.DevshopBack.repositories.UserRepository;
 import be.syntra.devshop.DevshopBack.security.controllers.dtos.RegisterDto;
 import be.syntra.devshop.DevshopBack.services.utilities.UserMapperUtility;
@@ -60,13 +59,13 @@ public class UserServiceTest {
     @Test
     void saveUserTest() {
         // given
-        UserDto dummyDto = createUserDto();
+        User dummy = createUser();
 
         // when
-        UserDto resultUserDto = userService.save(dummyDto);
+        User resultUser = userService.save(dummy);
 
         // then
-        assertEquals(dummyDto, resultUserDto);
+        assertEquals(dummy, resultUser);
         verify(userRepository, times(1)).save(any());
     }
 
