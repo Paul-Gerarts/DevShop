@@ -2,9 +2,12 @@ package be.syntra.devshop.DevshopBack.services.utilities;
 
 import be.syntra.devshop.DevshopBack.entities.Address;
 import be.syntra.devshop.DevshopBack.models.AddressDto;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AddressMapperUtility {
-    public static Address convertToAddress(AddressDto addressDto) {
+
+    public Address convertToAddress(AddressDto addressDto) {
         return Address.builder()
                 .street(addressDto.getStreet())
                 .number(addressDto.getNumber())
@@ -15,7 +18,7 @@ public class AddressMapperUtility {
                 .build();
     }
 
-    public static AddressDto convertToAddressDto(Address address) {
+    public AddressDto convertToAddressDto(Address address) {
         return AddressDto.builder()
                 .street(address.getStreet())
                 .number(address.getNumber())

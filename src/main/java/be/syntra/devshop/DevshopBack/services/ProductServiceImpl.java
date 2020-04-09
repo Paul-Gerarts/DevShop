@@ -5,7 +5,7 @@ import be.syntra.devshop.DevshopBack.exceptions.ProductNotFoundException;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.models.ProductList;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
-import org.dozer.DozerBeanMapper;
+import be.syntra.devshop.DevshopBack.services.utilities.ProductMapperUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,22 +13,24 @@ import org.springframework.stereotype.Service;
 public class ProductServiceImpl implements ProductService {
 
     private ProductRepository productRepository;
-    private DozerBeanMapper dozerMapper;
+    private ProductMapperUtility productMapperUtility;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, DozerBeanMapper dozerBeanMapper) {
+    public ProductServiceImpl(ProductRepository productRepository,
+                              ProductMapperUtility productMapperUtility
+    ) {
         this.productRepository = productRepository;
-        this.dozerMapper = dozerBeanMapper;
+        this.productMapperUtility = productMapperUtility;
     }
 
     @Override
     public ProductList findAll() {
-        return dozerMapper.map(productRepository.findAll(), ProductList.class);
+        return productMapperUtility.convertToProductListObject(productRepository.findAll());
     }
 
     @Override
     public ProductDto save(ProductDto productDTO) {
-        productRepository.save(dozerMapper.map(productDTO, Product.class));
+        productRepository.save(productMapperUtility.convertToProduct(productDTO));
         return productDTO;
     }
 
@@ -40,16 +42,16 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductList findAllByArchivedFalse() {
-        return dozerMapper.map(productRepository.findAllByArchivedFalse(), ProductList.class);
+        return productMapperUtility.convertToProductListObject(productRepository.findAllByArchivedFalse());
     }
 
     @Override
     public ProductList findAllByArchivedTrue() {
-        return dozerMapper.map(productRepository.findAllByArchivedTrue(), ProductList.class);
+        return productMapperUtility.convertToProductListObject(productRepository.findAllByArchivedTrue());
     }
 
     @Override
     public ProductList findAllByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest) {
-        return dozerMapper.map(productRepository.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest), ProductList.class);
+        return productMapperUtility.convertToProductListObject(productRepository.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest));
     }
 }

@@ -2,32 +2,39 @@ package be.syntra.devshop.DevshopBack.services.utilities;
 
 import be.syntra.devshop.DevshopBack.entities.User;
 import be.syntra.devshop.DevshopBack.models.UserDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import static be.syntra.devshop.DevshopBack.services.utilities.AddressMapperUtility.convertToAddress;
-import static be.syntra.devshop.DevshopBack.services.utilities.AddressMapperUtility.convertToAddressDto;
-import static be.syntra.devshop.DevshopBack.services.utilities.CartMapperUtility.*;
 import static org.apache.commons.text.WordUtils.capitalizeFully;
 
+@Component
 public class UserMapperUtility {
-    public static UserDto convertToUserDto(User user) {
+
+    @Autowired
+    private AddressMapperUtility addressMapperUtility;
+
+    @Autowired
+    private CartMapperUtility cartMapperUtility;
+
+    public UserDto convertToUserDto(User user) {
         return UserDto.builder()
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .fullName(capitalizeFully(user.getFullName(), ' ', '-'))
-                .address(convertToAddressDto(user.getAddress()))
-                .activeCart(convertToCartDto(user.getActiveCart()))
-                .archivedCarts(convertToCartDtoList(user.getArchivedCarts()))
+                .address(addressMapperUtility.convertToAddressDto(user.getAddress()))
+                .activeCart(cartMapperUtility.convertToCartDto(user.getActiveCart()))
+                .archivedCarts(cartMapperUtility.convertToCartDtoList(user.getArchivedCarts()))
                 .build();
     }
 
-    public static User convertToUser(UserDto userDto) {
+    public User convertToUser(UserDto userDto) {
         return User.builder()
                 .firstName(userDto.getFirstName())
                 .lastName(userDto.getLastName())
                 .fullName(capitalizeFully(userDto.getFullName(), ' ', '-'))
-                .address(convertToAddress(userDto.getAddress()))
-                .activeCart(convertToCart(userDto.getActiveCart()))
-                .archivedCarts(convertToCartList(userDto.getArchivedCarts()))
+                .address(addressMapperUtility.convertToAddress(userDto.getAddress()))
+                .activeCart(cartMapperUtility.convertToCart(userDto.getActiveCart()))
+                .archivedCarts(cartMapperUtility.convertToCartList(userDto.getArchivedCarts()))
                 .build();
     }
 

@@ -2,45 +2,49 @@ package be.syntra.devshop.DevshopBack.services.utilities;
 
 import be.syntra.devshop.DevshopBack.entities.Cart;
 import be.syntra.devshop.DevshopBack.models.CartDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static be.syntra.devshop.DevshopBack.services.utilities.ProductMapperUtility.convertToProductDtoList;
-import static be.syntra.devshop.DevshopBack.services.utilities.ProductMapperUtility.convertToProductList;
 import static java.util.stream.Collectors.toUnmodifiableList;
 
+@Component
 public class CartMapperUtility {
-    public static CartDto convertToCartDto(Cart cart) {
+
+    @Autowired
+    private ProductMapperUtility productMapperUtility;
+
+    public CartDto convertToCartDto(Cart cart) {
         return CartDto.builder()
                 .cartCreationDateTime(cart.getCartCreationDateTime())
-                .products(convertToProductDtoList(cart.getProducts()))
+                .products(productMapperUtility.convertToProductDtoList(cart.getProducts()))
                 .activeCart(cart.isActiveCart())
                 .finalizedCart(cart.isFinalizedCart())
                 .paidCart(cart.isPaidCart())
                 .build();
     }
 
-    public static Cart convertToCart(CartDto cartDto) {
+    public Cart convertToCart(CartDto cartDto) {
         return Cart.builder()
                 .cartCreationDateTime(cartDto.getCartCreationDateTime())
-                .products(convertToProductList(cartDto.getProducts()))
+                .products(productMapperUtility.convertToProductList(cartDto.getProducts()))
                 .activeCart(cartDto.isActiveCart())
                 .finalizedCart(cartDto.isFinalizedCart())
                 .paidCart(cartDto.isPaidCart())
                 .build();
     }
 
-    public static List<CartDto> convertToCartDtoList(List<Cart> carts) {
+    public List<CartDto> convertToCartDtoList(List<Cart> carts) {
         return carts.stream()
-                .map(CartMapperUtility::convertToCartDto)
+                .map(this::convertToCartDto)
                 .collect(toUnmodifiableList());
     }
 
-    public static List<Cart> convertToCartList(List<CartDto> cartDtoList) {
+    public List<Cart> convertToCartList(List<CartDto> cartDtoList) {
         return cartDtoList.stream()
-                .map(CartMapperUtility::convertToCart)
-                .collect(Collectors.toUnmodifiableList());
+                .map(this::convertToCart)
+                .collect(toUnmodifiableList());
     }
 
 }

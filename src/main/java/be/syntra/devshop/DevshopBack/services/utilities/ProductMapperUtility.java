@@ -2,13 +2,17 @@ package be.syntra.devshop.DevshopBack.services.utilities;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
+import be.syntra.devshop.DevshopBack.models.ProductList;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toUnmodifiableList;
+
+@Component
 public class ProductMapperUtility {
 
-    public static Product convertToProduct(ProductDto productDTO) {
+    public Product convertToProduct(ProductDto productDTO) {
         return Product.builder()
                 .id(productDTO.getId())
                 .name(productDTO.getName())
@@ -18,7 +22,7 @@ public class ProductMapperUtility {
                 .build();
     }
 
-    public static ProductDto convertToProductDto(Product product) {
+    public ProductDto convertToProductDto(Product product) {
         return ProductDto.builder()
                 .id(product.getId())
                 .name(product.getName())
@@ -28,16 +32,19 @@ public class ProductMapperUtility {
                 .build();
     }
 
-    static List<Product> convertToProductList(List<ProductDto> productDtoList) {
+    List<Product> convertToProductList(List<ProductDto> productDtoList) {
         return productDtoList.stream()
-                .map(ProductMapperUtility::convertToProduct)
-                .collect(Collectors.toUnmodifiableList());
+                .map(this::convertToProduct)
+                .collect(toUnmodifiableList());
     }
 
-    static List<ProductDto> convertToProductDtoList(List<Product> products) {
+    List<ProductDto> convertToProductDtoList(List<Product> products) {
         return products.stream()
-                .map(ProductMapperUtility::convertToProductDto)
-                .collect(Collectors.toUnmodifiableList());
+                .map(this::convertToProductDto)
+                .collect(toUnmodifiableList());
     }
 
+    public ProductList convertToProductListObject(List<Product> products) {
+        return new ProductList(products);
+    }
 }

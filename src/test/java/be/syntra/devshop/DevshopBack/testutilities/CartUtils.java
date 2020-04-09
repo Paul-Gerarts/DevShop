@@ -18,7 +18,7 @@ public class CartUtils {
         List<Product> products = createDummyNonArchivedProductList();
         return Cart.builder()
                 .products(products)
-                .cartCreationDateTime(LocalDateTime.of(2019, 3, 28, 14, 33, 48, 123456789))
+                .cartCreationDateTime(LocalDateTime.now())
                 .activeCart(true)
                 .finalizedCart(false)
                 .paidCart(false)
@@ -29,7 +29,7 @@ public class CartUtils {
         List<ProductDto> products = createDummyProductDtoList();
         return CartDto.builder()
                 .products(products)
-                .cartCreationDateTime(LocalDateTime.of(2019, 3, 28, 14, 33, 48, 123456789))
+                .cartCreationDateTime(LocalDateTime.now())
                 .activeCart(true)
                 .finalizedCart(false)
                 .paidCart(false)
@@ -41,7 +41,7 @@ public class CartUtils {
         return Cart.builder()
                 .id(1L)
                 .products(products)
-                .cartCreationDateTime(LocalDateTime.of(2019, 3, 28, 14, 33, 48, 123456789))
+                .cartCreationDateTime(LocalDateTime.now())
                 .activeCart(true)
                 .finalizedCart(false)
                 .paidCart(false)
@@ -52,7 +52,7 @@ public class CartUtils {
         List<Cart> carts = new ArrayList<>();
         Cart cart1 = createActiveCart();
         Cart cart2 = Cart.builder()
-                .cartCreationDateTime(LocalDateTime.of(2020, 3, 18, 14, 33, 48, 123456789))
+                .cartCreationDateTime(LocalDateTime.now())
                 .products(createDummyNonArchivedProductList())
                 .activeCart(false)
                 .finalizedCart(true)
@@ -67,7 +67,7 @@ public class CartUtils {
         List<CartDto> carts = new ArrayList<>();
         CartDto cart1 = createCartDto();
         CartDto cart2 = CartDto.builder()
-                .cartCreationDateTime(LocalDateTime.of(2020, 3, 18, 14, 33, 48, 123456789))
+                .cartCreationDateTime(LocalDateTime.now())
                 .products(createProductDtoList())
                 .activeCart(false)
                 .finalizedCart(true)

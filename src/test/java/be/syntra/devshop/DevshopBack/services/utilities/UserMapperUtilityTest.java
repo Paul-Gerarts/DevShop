@@ -4,14 +4,24 @@ import be.syntra.devshop.DevshopBack.entities.User;
 import be.syntra.devshop.DevshopBack.models.UserDto;
 import be.syntra.devshop.DevshopBack.testutilities.UserUtils;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
-import static be.syntra.devshop.DevshopBack.services.utilities.ProductMapperUtility.convertToProductDtoList;
-import static be.syntra.devshop.DevshopBack.services.utilities.ProductMapperUtility.convertToProductList;
-import static be.syntra.devshop.DevshopBack.services.utilities.UserMapperUtility.convertToUser;
-import static be.syntra.devshop.DevshopBack.services.utilities.UserMapperUtility.convertToUserDto;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UserMapperUtilityTest {
+
+    @InjectMocks
+    private UserMapperUtility userMapperUtility;
+
+    @MockBean
+    private ProductMapperUtility productMapperUtility;
+
+    @MockBean
+    private AddressMapperUtility addressMapperUtility;
+
+    @MockBean
+    private CartMapperUtility cartMapperUtility;
 
     @Test
     void convertToUserTest() {
@@ -19,7 +29,7 @@ public class UserMapperUtilityTest {
         UserDto userDto = UserUtils.createUserDto();
 
         // when
-        User mappedUser = convertToUser(userDto);
+        User mappedUser = userMapperUtility.convertToUser(userDto);
 
         // then
         assertEquals(mappedUser.getClass(), User.class);
@@ -32,7 +42,7 @@ public class UserMapperUtilityTest {
         assertEquals(mappedUser.getAddress().getPostalCode(), userDto.getAddress().getPostalCode());
         assertEquals(mappedUser.getAddress().getCity(), userDto.getAddress().getCity());
         assertEquals(mappedUser.getAddress().getCountry(), userDto.getAddress().getCountry());
-        assertEquals(mappedUser.getActiveCart().getProducts().toString(), convertToProductList(userDto.getActiveCart().getProducts()).toString());
+        assertEquals(mappedUser.getActiveCart().getProducts().toString(), productMapperUtility.convertToProductList(userDto.getActiveCart().getProducts()).toString());
         assertEquals(mappedUser.getActiveCart().getCartCreationDateTime(), userDto.getActiveCart().getCartCreationDateTime());
         assertEquals(mappedUser.getArchivedCarts().get(0).getCartCreationDateTime(), userDto.getArchivedCarts().get(0).getCartCreationDateTime());
         assertEquals(mappedUser.getArchivedCarts().get(0).getProducts().get(0).getName(), userDto.getArchivedCarts().get(0).getProducts().get(0).getName());
@@ -46,7 +56,7 @@ public class UserMapperUtilityTest {
         User user = UserUtils.createUser();
 
         // when
-        UserDto mappedUserDto = convertToUserDto(user);
+        UserDto mappedUserDto = userMapperUtility.convertToUserDto(user);
 
         // then
         assertEquals(mappedUserDto.getClass(), UserDto.class);
@@ -60,10 +70,10 @@ public class UserMapperUtilityTest {
         assertEquals(mappedUserDto.getAddress().getCity(), user.getAddress().getCity());
         assertEquals(mappedUserDto.getAddress().getCountry(), user.getAddress().getCountry());
         assertEquals(mappedUserDto.getActiveCart().getCartCreationDateTime(), user.getActiveCart().getCartCreationDateTime());
-        assertEquals(mappedUserDto.getActiveCart().getProducts(), convertToProductDtoList(user.getActiveCart().getProducts()));
+        assertEquals(mappedUserDto.getActiveCart().getProducts(), productMapperUtility.convertToProductDtoList(user.getActiveCart().getProducts()));
         assertEquals(mappedUserDto.getArchivedCarts().get(0).getCartCreationDateTime(), user.getArchivedCarts().get(0).getCartCreationDateTime());
-        assertEquals(mappedUserDto.getArchivedCarts().get(0).getProducts().get(0).getName(), convertToProductDtoList(user.getArchivedCarts().get(0).getProducts()).get(0).getName());
-        assertEquals(mappedUserDto.getArchivedCarts().get(0).getProducts().get(0).getPrice(), convertToProductDtoList(user.getArchivedCarts().get(0).getProducts()).get(0).getPrice());
+        assertEquals(mappedUserDto.getArchivedCarts().get(0).getProducts().get(0).getName(), productMapperUtility.convertToProductDtoList(user.getArchivedCarts().get(0).getProducts()).get(0).getName());
+        assertEquals(mappedUserDto.getArchivedCarts().get(0).getProducts().get(0).getPrice(), productMapperUtility.convertToProductDtoList(user.getArchivedCarts().get(0).getProducts()).get(0).getPrice());
 
     }
 }
