@@ -19,13 +19,13 @@ import static org.mockito.Mockito.*;
 public class CartServiceTest {
 
     @Mock
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Mock
     private CartMapperUtility cartMapperUtility;
 
     @InjectMocks
-    private CartServiceImpl cartService;
+    private CartService cartService;
 
     @BeforeEach
     public void init() {
@@ -43,7 +43,7 @@ public class CartServiceTest {
         when(cartMapperUtility.convertToCart(dummyDto)).thenReturn(dummyCart);
 
         // when
-        CartDto resultCartDto = cartService.saveFinalizedCart(dummyDto, userId);
+        CartDto resultCartDto = cartService.saveCartToArchivedCarts(dummyDto, userId);
 
         // then
         assertEquals(dummyDto.getCartCreationDateTime(), resultCartDto.getCartCreationDateTime());
