@@ -25,7 +25,7 @@ public class CartServiceTest {
     private CartMapperUtility cartMapperUtility;
 
     @InjectMocks
-    private CartService cartService;
+    private CartServiceImpl cartService;
 
     @BeforeEach
     public void init() {

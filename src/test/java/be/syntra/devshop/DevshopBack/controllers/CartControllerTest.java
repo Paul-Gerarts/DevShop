@@ -10,7 +10,7 @@ import be.syntra.devshop.DevshopBack.security.jwt.JWTAccessDeniedHandler;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTAuthenticationEntryPoint;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
 import be.syntra.devshop.DevshopBack.security.services.SecurityUserService;
-import be.syntra.devshop.DevshopBack.services.CartService;
+import be.syntra.devshop.DevshopBack.services.CartServiceImpl;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -52,7 +52,7 @@ public class CartControllerTest {
     private SecurityUserFactory securityUserFactory;
 
     @MockBean
-    private CartService cartService;
+    private CartServiceImpl cartService;
 
     @MockBean
     private SecurityUserService securityUserService;

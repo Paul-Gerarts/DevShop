@@ -3,11 +3,10 @@ package be.syntra.devshop.DevshopBack.services;
 import be.syntra.devshop.DevshopBack.entities.User;
 import be.syntra.devshop.DevshopBack.security.controllers.dtos.RegisterDto;
 import be.syntra.devshop.DevshopBack.security.entities.JWTToken;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 public interface UserService {
 
     List<User> findAll();

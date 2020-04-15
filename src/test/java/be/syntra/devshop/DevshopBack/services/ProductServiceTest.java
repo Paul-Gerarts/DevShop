@@ -30,7 +30,7 @@ public class ProductServiceTest {
     private ProductMapperUtility productMapperUtility;
 
     @InjectMocks
-    private ProductService productService;
+    private ProductServiceImpl productService;
 
     @BeforeEach
     public void init() {
