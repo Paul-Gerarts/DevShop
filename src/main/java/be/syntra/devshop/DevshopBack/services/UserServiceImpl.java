@@ -13,11 +13,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;

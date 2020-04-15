@@ -5,9 +5,8 @@ import be.syntra.devshop.DevshopBack.entities.User;
 import be.syntra.devshop.DevshopBack.models.CartDto;
 import be.syntra.devshop.DevshopBack.services.utilities.CartMapperUtility;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-@Service
+
 public class CartServiceImpl implements CartService {
 
     private UserService userService;
