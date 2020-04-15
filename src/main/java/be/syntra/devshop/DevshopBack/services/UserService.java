@@ -6,7 +6,6 @@ import be.syntra.devshop.DevshopBack.security.entities.JWTToken;
 
 import java.util.List;
 
-
 public interface UserService {
 
     List<User> findAll();
