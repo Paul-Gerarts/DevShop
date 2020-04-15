@@ -5,5 +5,5 @@ import be.syntra.devshop.DevshopBack.models.CartDto;
 
 public interface CartService {
 
-    CartDto saveFinalizedCart(CartDto cartDto, Long userId);
+    CartDto saveCartToArchivedCarts(CartDto cartDto, Long userId);
 }

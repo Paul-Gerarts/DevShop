@@ -17,8 +17,8 @@ public class CartController {
     }
 
     @PostMapping("/{userId}/carts")
-    public ResponseEntity<CartDto> createFinalizedCart(@RequestBody CartDto cartDto, @PathVariable Long userId) {
-        cartService.saveFinalizedCart(cartDto, userId);
+    public ResponseEntity<CartDto> createArchivedCart(@RequestBody CartDto cartDto, @PathVariable Long userId) {
+        cartService.saveCartToArchivedCarts(cartDto, userId);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(cartDto);

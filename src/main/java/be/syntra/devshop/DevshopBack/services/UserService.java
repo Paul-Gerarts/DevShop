@@ -15,4 +15,6 @@ public interface UserService {
     JWTToken getNewJwtToken(String userName, String password);
 
     User registerUser(RegisterDto registerDto);
+
+    User getUserById(Long id);
 }
