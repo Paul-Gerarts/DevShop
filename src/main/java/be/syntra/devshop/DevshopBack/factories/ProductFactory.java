@@ -11,12 +11,14 @@ public class ProductFactory {
     public Product of(
             String name,
             BigDecimal price,
-            String description
+            String description,
+            boolean archived
     ) {
         return Product.builder()
                 .name(name)
                 .price(price)
                 .description(description)
+                .archived(archived)
                 .build();
     }
 
