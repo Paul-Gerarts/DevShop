@@ -99,11 +99,28 @@ public class DataFillerImpl {
                     productFactory.of(
                             "keyboard",
                             new BigDecimal(150),
-                            "The MOST fancy mechanical keyboard of all times"),
+                            "The MOST fancy mechanical keyboard of all times",
+                            false),
                     productFactory.of(
                             "mousepad",
                             new BigDecimal(3),
-                            "The MOST non-waifu mousepad even your mom could approve")
+                            "The MOST non-waifu mousepad even your mom could approve",
+                            false),
+                    productFactory.of(
+                            "gaming chair",
+                            new BigDecimal("1600.99"),
+                            "The MOST comfortable chair for your aching back",
+                            false),
+                    productFactory.of(
+                            "headphones",
+                            new BigDecimal(235),
+                            "The MOST noise-cancelling headphones. You won't even hear your neighbours screaming",
+                            false),
+                    productFactory.of(
+                            "Windows Pentium 3",
+                            new BigDecimal(80),
+                            "The MOST redundant PC that isn't even in production anymore",
+                            true)
             ));
         }
 
