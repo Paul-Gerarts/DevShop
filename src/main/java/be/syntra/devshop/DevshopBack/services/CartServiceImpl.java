@@ -10,19 +10,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class CartServiceImpl implements CartService {
 
-    private UserServiceImpl userService;
+    private UserService userService;
     private CartMapperUtility cartMapperUtility;
 
     @Autowired
-    public CartServiceImpl(UserServiceImpl userService,
-                           CartMapperUtility cartMapperUtility) {
+    public CartServiceImpl(UserService userService, CartMapperUtility cartMapperUtility) {
         this.userService = userService;
         this.cartMapperUtility = cartMapperUtility;
     }
 
     @Override
-    public CartDto saveFinalizedCart(CartDto cartDto, Long userId) {
-        User user = userService.getUserById(userId);
+    public CartDto saveCartToArchivedCarts(CartDto cartDto, String name) {
+        User user = userService.getUserByName(name);
         user.getArchivedCarts().add(cartMapperUtility.convertToCart(cartDto));
         userService.save(user);
         return cartDto;

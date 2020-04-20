@@ -86,8 +86,8 @@ public class UserServiceImpl implements UserService {
         return authenticationManagerBuilder.getObject().authenticate(authenticationToken);
     }
 
-    public User getUserById(Long userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException(String.format("User with id %s could not be found", userId)));
+    public User getUserByName(String name) {
+        return userRepository.findOneByEmailIgnoreCase(name)
+                .orElseThrow(() -> new UserNotFoundException(String.format("User with name %s could not be found", name)));
     }
 }
