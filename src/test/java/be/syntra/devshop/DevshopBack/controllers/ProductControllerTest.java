@@ -1,7 +1,9 @@
 package be.syntra.devshop.DevshopBack.controllers;
 
+import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.factories.SecurityUserFactory;
+import be.syntra.devshop.DevshopBack.models.CategoryList;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.models.ProductList;
 import be.syntra.devshop.DevshopBack.security.configuration.CorsConfiguration;
@@ -10,7 +12,9 @@ import be.syntra.devshop.DevshopBack.security.jwt.JWTAccessDeniedHandler;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTAuthenticationEntryPoint;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
 import be.syntra.devshop.DevshopBack.security.services.SecurityUserService;
+import be.syntra.devshop.DevshopBack.services.CategoryServiceImpl;
 import be.syntra.devshop.DevshopBack.services.ProductServiceImpl;
+import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapperUtility;
 import be.syntra.devshop.DevshopBack.services.utilities.ProductMapperUtility;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import org.junit.jupiter.api.Test;
@@ -26,6 +30,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
+import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategoryList;
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
@@ -35,7 +40,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Import({JsonUtils.class, WebSecurityConfig.class, CorsConfiguration.class, JWTTokenProvider.class, JWTAuthenticationEntryPoint.class, JWTAccessDeniedHandler.class, ProductMapperUtility.class})
+@Import({JsonUtils.class, WebSecurityConfig.class, CorsConfiguration.class, JWTTokenProvider.class, JWTAuthenticationEntryPoint.class, JWTAccessDeniedHandler.class, ProductMapperUtility.class, CategoryMapperUtility.class})
 @WebMvcTest(ProductController.class)
 class ProductControllerTest {
 
@@ -48,6 +53,9 @@ class ProductControllerTest {
     @MockBean
     private ProductServiceImpl productService;
 
+    @MockBean
+    private CategoryServiceImpl categoryService;
+
     @Mock
     private SecurityUserFactory securityUserFactory;
 
@@ -56,6 +64,9 @@ class ProductControllerTest {
 
     @Autowired
     private ProductMapperUtility productMapperUtility;
+
+    @Autowired
+    private CategoryMapperUtility categoryMapperUtility;
 
     @Test
     @WithMockUser
@@ -182,7 +193,7 @@ class ProductControllerTest {
 
     @Test
     @WithMockUser
-    void testRetrieveAllProductsFoundBySearchRequestTest() throws Exception {
+    void RetrieveAllProductsFoundBySearchRequestTest() throws Exception {
         // given
         String searchRequest = "POst";
         ProductList dummyProductList = productMapperUtility.convertToProductListObject(List.of(createNonArchivedProduct()));
@@ -203,5 +214,30 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.products[0].price").value(equalTo(1.00)));
 
         verify(productService, times(1)).findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest);
+    }
+
+    @Test
+    @WithMockUser
+    void retrieveAllCategoriesTest() throws Exception {
+        // given
+        List<Category> categories = createCategoryList();
+        CategoryList categoryListDummy = categoryMapperUtility.convertToCategoryList(categories);
+        when(categoryService.findAll()).thenReturn(categoryListDummy);
+
+        // then
+        ResultActions resultActions =
+                mockMvc.perform(
+                        get("/products/categories")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(jsonUtils.asJsonString(categoryListDummy.getCategories())));
+
+        // then
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.categories", hasSize(1)))
+                .andExpect(jsonPath("$.categories[0].name").value(equalTo("Headphones")));
+
+        verify(categoryService, times(1)).findAll();
     }
 }

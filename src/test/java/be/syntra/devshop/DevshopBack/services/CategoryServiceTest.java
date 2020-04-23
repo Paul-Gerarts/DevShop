@@ -1,7 +1,9 @@
 package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
+import be.syntra.devshop.DevshopBack.models.CategoryList;
 import be.syntra.devshop.DevshopBack.repositories.CategoryRepository;
+import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapperUtility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -18,6 +20,9 @@ public class CategoryServiceTest {
 
     @Mock
     private CategoryRepository categoryRepository;
+
+    @Mock
+    private CategoryMapperUtility categoryMapperUtility;
 
     @InjectMocks
     private CategoryServiceImpl categoryService;
@@ -47,9 +52,10 @@ public class CategoryServiceTest {
         // given
         List<Category> categoriesDummy = createCategoryList();
         when(categoryRepository.findAll()).thenReturn(categoriesDummy);
+        when(categoryMapperUtility.convertToCategoryList(any())).thenReturn(new CategoryList(categoriesDummy));
 
         // when
-        List<Category> result = categoryService.findAll();
+        List<Category> result = categoryService.findAll().getCategories();
 
         // then
         assertThat(result.size()).isEqualTo(categoriesDummy.size());

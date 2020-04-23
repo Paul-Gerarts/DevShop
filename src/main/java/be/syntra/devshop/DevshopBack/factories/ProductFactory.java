@@ -44,7 +44,7 @@ public class ProductFactory {
 
     public List<Product> ofRandomProducts(int amount) {
         IntStream productsToGenerate = IntStream.range(1, amount);
-        List<Category> categories = categoryService.findAll();
+        List<Category> categories = categoryService.findAll().getCategories();
         List<Product> products = new ArrayList<>();
 
         productsToGenerate.forEach(number -> {
