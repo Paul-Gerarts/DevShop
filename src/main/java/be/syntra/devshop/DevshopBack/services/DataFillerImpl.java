@@ -1,9 +1,12 @@
 package be.syntra.devshop.DevshopBack.services;
 
+import be.syntra.devshop.DevshopBack.entities.Category;
+import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.factories.ProductFactory;
 import be.syntra.devshop.DevshopBack.factories.SecurityUserFactory;
 import be.syntra.devshop.DevshopBack.factories.UserFactory;
 import be.syntra.devshop.DevshopBack.factories.UserRoleFactory;
+import be.syntra.devshop.DevshopBack.repositories.CategoryRepository;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
 import be.syntra.devshop.DevshopBack.repositories.UserRepository;
 import be.syntra.devshop.DevshopBack.security.entities.UserRole;
@@ -29,15 +32,16 @@ public class DataFillerImpl {
     private String userName;
     @Value("${frontend.password}")
     private String password;
-    private ProductRepository productRepository;
-    private ProductFactory productFactory;
-    private UserRoleRepository userRoleRepository;
-    private UserRoleFactory userRoleFactory;
-    private UserRepository userRepository;
-    private UserFactory userFactory;
-    private UserRoleService userRoleService;
-    private SecurityUserRepository securityUserRepository;
-    private SecurityUserFactory securityUserFactory;
+    private final ProductRepository productRepository;
+    private final ProductFactory productFactory;
+    private final UserRoleRepository userRoleRepository;
+    private final UserRoleFactory userRoleFactory;
+    private final UserRepository userRepository;
+    private final UserFactory userFactory;
+    private final UserRoleService userRoleService;
+    private final SecurityUserRepository securityUserRepository;
+    private final SecurityUserFactory securityUserFactory;
+    private final CategoryRepository categoryRepository;
 
     @Autowired
     public DataFillerImpl(ProductRepository productRepository,
@@ -48,7 +52,8 @@ public class DataFillerImpl {
                           UserFactory userFactory,
                           UserRoleService userRoleService,
                           SecurityUserRepository securityUserRepository,
-                          SecurityUserFactory securityUserFactory
+                          SecurityUserFactory securityUserFactory,
+                          CategoryRepository categoryRepository
     ) {
         this.productRepository = productRepository;
         this.productFactory = productFactory;
@@ -59,10 +64,15 @@ public class DataFillerImpl {
         this.userRoleService = userRoleService;
         this.securityUserRepository = securityUserRepository;
         this.securityUserFactory = securityUserFactory;
+        this.categoryRepository = categoryRepository;
     }
 
     private UserRole retrieveAdminRole() {
         return userRoleService.findByRoleName(ROLE_ADMIN.name());
+    }
+
+    private List<Category> retrieveCategoryBy(String name) {
+        return categoryRepository.findAllByName(name);
     }
 
     /*
@@ -94,34 +104,34 @@ public class DataFillerImpl {
                     ));
         }
 
-        if (productRepository.count() == 0) {
-            productRepository.saveAll(List.of(
-                    productFactory.of(
-                            "keyboard",
-                            new BigDecimal(150),
-                            "The MOST fancy mechanical keyboard of all times",
-                            false),
-                    productFactory.of(
-                            "mousepad",
-                            new BigDecimal(3),
-                            "The MOST non-waifu mousepad even your mom could approve",
-                            false),
-                    productFactory.of(
-                            "gaming chair",
-                            new BigDecimal("1600.99"),
-                            "The MOST comfortable chair for your aching back",
-                            false),
-                    productFactory.of(
-                            "headphones",
-                            new BigDecimal(235),
-                            "The MOST noise-cancelling headphones. You won't even hear your neighbours screaming",
-                            false),
-                    productFactory.of(
-                            "Windows Pentium 3",
-                            new BigDecimal(80),
-                            "The MOST redundant PC that isn't even in production anymore",
-                            true)
+        if (categoryRepository.count() == 0) {
+            categoryRepository.saveAll(List.of(
+                    Category.builder()
+                            .name("Accessories")
+                            .build(),
+                    Category.builder()
+                            .name("Books")
+                            .build(),
+                    Category.builder()
+                            .name("Desktops")
+                            .build(),
+                    Category.builder()
+                            .name("Bags")
+                            .build(),
+                    Category.builder()
+                            .name("Headphones")
+                            .build(),
+                    Category.builder()
+                            .name("Office")
+                            .build(),
+                    Category.builder()
+                            .name("Laptops")
+                            .build()
             ));
+        }
+
+        if (productRepository.count() == 0) {
+            productRepository.saveAll(getTestProducts());
         }
 
         if (userRepository.count() == 0) {
@@ -148,5 +158,46 @@ public class DataFillerImpl {
                             "admin@emaill.com")
             ));
         }
+    }
+
+    private List<Product> getTestProducts() {
+        List<Product> basicProducts = productFactory.ofRandomProducts(100);
+        basicProducts.addAll(getCustomProducts());
+        return basicProducts;
+    }
+
+    private List<Product> getCustomProducts() {
+        return List.of(
+                productFactory.of(
+                        "keyboard",
+                        new BigDecimal(150),
+                        "The MOST fancy mechanical keyboard of all times",
+                        false,
+                        retrieveCategoryBy("Accessories")),
+                productFactory.of(
+                        "mousepad",
+                        new BigDecimal(3),
+                        "The MOST non-waifu mousepad even your mom could approve",
+                        false,
+                        retrieveCategoryBy("Accessories")),
+                productFactory.of(
+                        "gaming chair",
+                        new BigDecimal("1600.99"),
+                        "The MOST comfortable chair for your aching back",
+                        false,
+                        retrieveCategoryBy("Office")),
+                productFactory.of(
+                        "headphones",
+                        new BigDecimal(235),
+                        "The MOST noise-cancelling headphones. You won't even hear your neighbours screaming",
+                        false,
+                        retrieveCategoryBy("Headphones")),
+                productFactory.of(
+                        "Windows Pentium 3",
+                        new BigDecimal(80),
+                        "The MOST redundant PC that isn't even in production anymore",
+                        true,
+                        retrieveCategoryBy("Desktops"))
+        );
     }
 }

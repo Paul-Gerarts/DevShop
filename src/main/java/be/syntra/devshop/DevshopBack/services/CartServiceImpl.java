@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class CartServiceImpl implements CartService {
 
-    private UserServiceImpl userService;
-    private CartMapperUtility cartMapperUtility;
+    private final UserServiceImpl userService;
+    private final CartMapperUtility cartMapperUtility;
 
     @Autowired
     public CartServiceImpl(UserServiceImpl userService,

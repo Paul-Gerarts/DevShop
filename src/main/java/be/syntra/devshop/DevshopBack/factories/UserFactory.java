@@ -9,7 +9,7 @@ import static org.apache.commons.text.WordUtils.capitalizeFully;
 @Component
 public class UserFactory {
 
-    private AddressFactory addressFactory = new AddressFactory();
+    private final AddressFactory addressFactory = new AddressFactory();
 
     public User ofSecurity(
             String firstName,
