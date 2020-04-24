@@ -2,6 +2,7 @@ package be.syntra.devshop.DevshopBack.controllers;
 
 import be.syntra.devshop.DevshopBack.models.CartDto;
 import be.syntra.devshop.DevshopBack.services.CartService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ public class CartController {
 
     private final CartService cartService;
 
+    @Autowired
     public CartController(CartService cartService) {
         this.cartService = cartService;
     }

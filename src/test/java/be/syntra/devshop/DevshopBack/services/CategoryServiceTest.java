@@ -51,7 +51,7 @@ public class CategoryServiceTest {
     void canRetrieveAllCategoriesTest() {
         // given
         List<Category> categoriesDummy = createCategoryList();
-        when(categoryRepository.findAll()).thenReturn(categoriesDummy);
+        when(categoryRepository.findAllByOrderByNameAsc()).thenReturn(categoriesDummy);
         when(categoryMapperUtility.convertToCategoryList(any())).thenReturn(new CategoryList(categoriesDummy));
 
         // when
@@ -59,6 +59,21 @@ public class CategoryServiceTest {
 
         // then
         assertThat(result.size()).isEqualTo(categoriesDummy.size());
-        verify(categoryRepository, times(1)).findAll();
+        verify(categoryRepository, times(1)).findAllByOrderByNameAsc();
+    }
+
+    @Test
+    void canFindOneByNameTest() {
+        // given
+        Category category = Category.builder()
+                .name("Headphones")
+                .build();
+        when(categoryRepository.findOneByName(category.getName())).thenReturn(category);
+
+        // when
+        Category result = categoryService.findOneByName(category.getName());
+
+        // then
+        assertThat(result).isEqualTo(category);
     }
 }

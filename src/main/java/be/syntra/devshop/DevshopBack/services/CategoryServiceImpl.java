@@ -31,6 +31,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryList findAll() {
-        return categoryMapperUtility.convertToCategoryList(categoryRepository.findAll());
+        return categoryMapperUtility.convertToCategoryList(categoryRepository.findAllByOrderByNameAsc());
+    }
+
+    @Override
+    public Category findOneByName(String name) {
+        return categoryRepository.findOneByName(name);
     }
 }

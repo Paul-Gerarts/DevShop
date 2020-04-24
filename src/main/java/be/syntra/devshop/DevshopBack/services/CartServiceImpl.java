@@ -14,8 +14,10 @@ public class CartServiceImpl implements CartService {
     private final CartMapperUtility cartMapperUtility;
 
     @Autowired
-    public CartServiceImpl(UserServiceImpl userService,
-                           CartMapperUtility cartMapperUtility) {
+    public CartServiceImpl(
+            UserServiceImpl userService,
+            CartMapperUtility cartMapperUtility
+    ) {
         this.userService = userService;
         this.cartMapperUtility = cartMapperUtility;
     }

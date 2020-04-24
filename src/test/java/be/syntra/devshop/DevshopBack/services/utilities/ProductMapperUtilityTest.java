@@ -2,16 +2,29 @@ package be.syntra.devshop.DevshopBack.services.utilities;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
 import java.util.List;
 
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 class ProductMapperUtilityTest {
 
-    private final ProductMapperUtility productMapperUtility = new ProductMapperUtility();
+    @InjectMocks
+    private ProductMapperUtility productMapperUtility;
+
+    @Mock
+    private CategoryMapperUtility categoryMapperUtility;
+
+    @BeforeEach
+    public void setUp() {
+        initMocks(this);
+    }
 
     @Test
     void convertToProductTest() {

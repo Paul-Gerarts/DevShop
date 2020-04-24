@@ -9,5 +9,7 @@ public interface CategoryService {
 
     List<Category> findAllBy(String name);
 
+    Category findOneByName(String name);
+
     CategoryList findAll();
 }
