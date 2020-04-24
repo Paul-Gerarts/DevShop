@@ -3,6 +3,7 @@ package be.syntra.devshop.DevshopBack.services.utilities;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.models.ProductList;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,6 +13,9 @@ import static java.util.stream.Collectors.toUnmodifiableList;
 @Component
 public class ProductMapperUtility {
 
+    @Autowired
+    private CategoryMapperUtility categoryMapperUtility;
+
     public Product convertToProduct(ProductDto productDTO) {
         return Product.builder()
                 .id(productDTO.getId())
@@ -19,6 +23,7 @@ public class ProductMapperUtility {
                 .price(productDTO.getPrice())
                 .archived(productDTO.isArchived())
                 .description(productDTO.getDescription())
+                .categories(categoryMapperUtility.mapToCategory(productDTO.getCategoryNames()))
                 .build();
     }
 

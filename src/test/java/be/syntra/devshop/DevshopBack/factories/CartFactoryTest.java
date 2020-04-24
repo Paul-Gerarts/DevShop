@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class CartFactoryTest {
 
-    private CartFactory cartFactory = new CartFactory();
+    private final CartFactory cartFactory = new CartFactory();
 
     @Test
     void canCreateCartTest() {

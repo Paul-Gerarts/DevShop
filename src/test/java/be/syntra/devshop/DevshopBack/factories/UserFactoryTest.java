@@ -15,10 +15,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserFactoryTest {
 
-    private UserFactory userFactory = new UserFactory();
-    private SecurityUserFactory securityUserFactory = new SecurityUserFactory();
-    private UserRoleFactory userRoleFactory = new UserRoleFactory();
-    private AddressFactory addressFactory = new AddressFactory();
+    private final UserFactory userFactory = new UserFactory();
+    private final SecurityUserFactory securityUserFactory = new SecurityUserFactory();
+    private final UserRoleFactory userRoleFactory = new UserRoleFactory();
+    private final AddressFactory addressFactory = new AddressFactory();
 
     @Test
     void canCreateUserOfSecurityTest() {
