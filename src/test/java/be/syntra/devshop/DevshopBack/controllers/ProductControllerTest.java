@@ -193,7 +193,7 @@ class ProductControllerTest {
 
     @Test
     @WithMockUser
-    void RetrieveAllProductsFoundBySearchRequestTest() throws Exception {
+    void retrieveAllProductsFoundBySearchRequestTest() throws Exception {
         // given
         String searchRequest = "POst";
         ProductList dummyProductList = productMapperUtility.convertToProductListObject(List.of(createNonArchivedProduct()));

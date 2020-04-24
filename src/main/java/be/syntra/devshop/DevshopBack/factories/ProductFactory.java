@@ -43,11 +43,10 @@ public class ProductFactory {
     }
 
     public List<Product> ofRandomProducts(int amount) {
-        IntStream productsToGenerate = IntStream.range(1, amount);
         List<Category> categories = categoryService.findAll().getCategories();
         List<Product> products = new ArrayList<>();
 
-        productsToGenerate.forEach(number -> {
+        IntStream.range(1, amount).forEach(number -> {
             int randomCategory = new Random().nextInt(categories.size());
             Category category = categories.get(randomCategory);
             String categoryName = category.getName();
