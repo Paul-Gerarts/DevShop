@@ -4,11 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table
@@ -42,6 +40,15 @@ public class Product {
             foreignKey = @ForeignKey(name = "cart_fk"))
     @JsonIgnore
     private Cart cart;
+
+    @NotEmpty
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "PRODUCT_CATEGORY",
+            joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")},
+            inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "category_id")},
+            foreignKey = @ForeignKey(name = "category_fk"))
+    private List<Category> categories;
 
     @NotBlank
     private String description;

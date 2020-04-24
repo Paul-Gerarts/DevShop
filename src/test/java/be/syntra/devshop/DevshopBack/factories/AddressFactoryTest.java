@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class AddressFactoryTest {
 
-    private AddressFactory addressFactory = new AddressFactory();
+    private final AddressFactory addressFactory = new AddressFactory();
 
     @Test
     void canBuildAddressTest() {

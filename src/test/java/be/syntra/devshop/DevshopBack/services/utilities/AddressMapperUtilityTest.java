@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AddressMapperUtilityTest {
 
-    private AddressMapperUtility addressMapperUtility = new AddressMapperUtility();
+    private final AddressMapperUtility addressMapperUtility = new AddressMapperUtility();
 
     @Test
     void convertToAddress() {
