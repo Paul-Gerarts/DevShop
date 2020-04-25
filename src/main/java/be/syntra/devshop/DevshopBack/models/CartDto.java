@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class CartDto {
-
+    private String user;
     private LocalDateTime cartCreationDateTime;
     private List<ProductDto> products;
     private boolean activeCart;

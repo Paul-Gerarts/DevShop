@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserRoleFactoryTest {
 
-    private UserRoleFactory userRoleFactory = new UserRoleFactory();
+    private final UserRoleFactory userRoleFactory = new UserRoleFactory();
 
     @Test
     void canCreateUserRoleTest() {

@@ -2,21 +2,34 @@ package be.syntra.devshop.DevshopBack.services.utilities;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
-import be.syntra.devshop.DevshopBack.testutilities.ProductUtils;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
 import java.util.List;
 
+import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 class ProductMapperUtilityTest {
 
-    private ProductMapperUtility productMapperUtility = new ProductMapperUtility();
+    @InjectMocks
+    private ProductMapperUtility productMapperUtility;
+
+    @Mock
+    private CategoryMapperUtility categoryMapperUtility;
+
+    @BeforeEach
+    public void setUp() {
+        initMocks(this);
+    }
 
     @Test
     void convertToProductTest() {
         // given
-        ProductDto productDto = ProductUtils.createProductDto();
+        ProductDto productDto = createProductDto();
 
         // when
         Product mappedProduct = productMapperUtility.convertToProduct(productDto);
@@ -30,7 +43,7 @@ class ProductMapperUtilityTest {
     @Test
     void convertToProductDtoTest() {
         // given
-        Product product = ProductUtils.createProductWithId();
+        Product product = createProductWithId();
 
         // when
         ProductDto mappedProductDto = productMapperUtility.convertToProductDto(product);
@@ -44,7 +57,7 @@ class ProductMapperUtilityTest {
     @Test
     void convertListToDtoListTest() {
         // given
-        List<Product> dummyProductList = ProductUtils.createDummyNonArchivedProductList();
+        List<Product> dummyProductList = createDummyNonArchivedProductList();
 
         // when
         List<ProductDto> mappedToProductDtoList = productMapperUtility.convertToProductDtoList(dummyProductList);

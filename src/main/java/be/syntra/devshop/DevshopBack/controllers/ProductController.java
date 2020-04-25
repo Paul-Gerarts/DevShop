@@ -1,8 +1,10 @@
 package be.syntra.devshop.DevshopBack.controllers;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
+import be.syntra.devshop.DevshopBack.models.CategoryList;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.models.ProductList;
+import be.syntra.devshop.DevshopBack.services.CategoryService;
 import be.syntra.devshop.DevshopBack.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,11 +16,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/products")
 public class ProductController {
 
-    private ProductService productService;
+    private final ProductService productService;
+    private final CategoryService categoryService;
 
     @Autowired
-    public ProductController(ProductService productService) {
+    public ProductController(
+            ProductService productService,
+            CategoryService categoryService
+    ) {
         this.productService = productService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping()
@@ -59,6 +66,13 @@ public class ProductController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(productService.findAllByArchivedTrue());
+    }
+
+    @GetMapping("/categories")
+    public ResponseEntity<CategoryList> retrieveAllCategories() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(categoryService.findAll());
     }
 
     @GetMapping("/search/{searchRequest}")

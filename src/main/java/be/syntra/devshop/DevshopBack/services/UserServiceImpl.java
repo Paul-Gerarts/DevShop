@@ -8,6 +8,7 @@ import be.syntra.devshop.DevshopBack.repositories.UserRepository;
 import be.syntra.devshop.DevshopBack.security.controllers.dtos.RegisterDto;
 import be.syntra.devshop.DevshopBack.security.entities.JWTToken;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
+import be.syntra.devshop.DevshopBack.security.repositories.SecurityUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,8 +30,8 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl(UserRepository userRepository,
                            AuthenticationManagerBuilder authenticationManagerBuilder,
                            JWTTokenProvider jwtTokenProvider,
-                           UserFactory userFactory
-    ) {
+                           UserFactory userFactory,
+                           SecurityUserRepository securityUserRepository) {
         this.userRepository = userRepository;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.jwtTokenProvider = jwtTokenProvider;
@@ -86,8 +87,14 @@ public class UserServiceImpl implements UserService {
         return authenticationManagerBuilder.getObject().authenticate(authenticationToken);
     }
 
-    public User getUserById(Long userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException(String.format("User with id %s could not be found", userId)));
+    public User getUserByName(String name) {
+        return userRepository.findUserByEmail(name)
+                .orElseThrow(() -> new UserNotFoundException(String.format("User with name %s could not be found", name)));
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(String.format("User with id %s could not be found", id)));
     }
 }

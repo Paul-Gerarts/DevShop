@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    private ProductRepository productRepository;
-    private ProductMapperUtility productMapperUtility;
+    private final ProductRepository productRepository;
+    private final ProductMapperUtility productMapperUtility;
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository,

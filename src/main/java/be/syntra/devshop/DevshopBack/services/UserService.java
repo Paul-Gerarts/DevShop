@@ -16,5 +16,7 @@ public interface UserService {
 
     User registerUser(RegisterDto registerDto);
 
+    User getUserByName(String name);
+
     User getUserById(Long id);
 }
