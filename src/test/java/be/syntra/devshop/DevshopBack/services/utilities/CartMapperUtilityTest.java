@@ -118,10 +118,10 @@ public class CartMapperUtilityTest {
         assertEquals(dummyCartDtoList.size(), mappedToCartList.size());
         assertEquals(mappedToCartList.get(0).getCartCreationDateTime(), dummyCartDtoList.get(0).getCartCreationDateTime());
         assertEquals(mappedToCartList.get(1).getCartCreationDateTime(), dummyCartDtoList.get(1).getCartCreationDateTime());
-        assertEquals(mappedToCartList.get(0).getProducts().get(0).getName(), productMapperUtility.convertToProductList(dummyCartDtoList.get(0).getProducts()).get(0).getName());
-        assertEquals(mappedToCartList.get(0).getProducts().get(1).getName(), productMapperUtility.convertToProductList(dummyCartDtoList.get(0).getProducts()).get(1).getName());
-        assertEquals(mappedToCartList.get(0).getProducts().get(0).getPrice(), productMapperUtility.convertToProductList(dummyCartDtoList.get(0).getProducts()).get(0).getPrice());
-        assertEquals(mappedToCartList.get(0).getProducts().get(1).getPrice(), productMapperUtility.convertToProductList(dummyCartDtoList.get(0).getProducts()).get(1).getPrice());
+        assertEquals(mappedToCartList.get(0).getProducts().get(0).getName(), dummyProductList.get(0).getName());
+        assertEquals(mappedToCartList.get(0).getProducts().get(1).getName(), dummyProductList.get(1).getName());
+        assertEquals(mappedToCartList.get(0).getProducts().get(0).getPrice(), dummyProductList.get(0).getPrice());
+        assertEquals(mappedToCartList.get(0).getProducts().get(1).getPrice(), dummyProductList.get(1).getPrice());
         assertTrue(mappedToCartList.get(0).isActiveCart() && dummyCartDtoList.get(0).isActiveCart());
         assertFalse(mappedToCartList.get(1).isActiveCart() && dummyCartDtoList.get(1).isActiveCart());
         assertFalse(mappedToCartList.get(0).isFinalizedCart() && dummyCartDtoList.get(0).isFinalizedCart());

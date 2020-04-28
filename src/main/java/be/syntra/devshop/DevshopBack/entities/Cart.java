@@ -1,7 +1,6 @@
 package be.syntra.devshop.DevshopBack.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,30 +22,22 @@ public class Cart {
     @Column(name = "cart_id")
     private Long id;
 
-    @OneToOne(targetEntity = User.class, mappedBy = "activeCart")
-    @JsonIgnore
-    private User user;
-
     @NotNull
     @Column(name = "cart_creation_date_time")
     @JsonFormat
             (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime cartCreationDateTime;
 
-    @NotNull
     @Column(name = "products")
     @OneToMany(cascade = CascadeType.ALL)
     private List<Product> products;
 
-    @NotNull
     @Column(name = "active_cart")
     private boolean activeCart;
 
-    @NotNull
     @Column(name = "finalized_cart")
     private boolean finalizedCart;
 
-    @NotNull
     @Column(name = "paid_cart")
     private boolean paidCart;
 

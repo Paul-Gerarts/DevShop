@@ -52,9 +52,6 @@ public class User {
             foreignKey = @ForeignKey(name = "cart_fk"))
     private List<Cart> archivedCarts;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Cart activeCart;
-
     @Override
     public String toString() {
         return "Customer{" +

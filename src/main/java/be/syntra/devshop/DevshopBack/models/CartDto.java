@@ -1,6 +1,7 @@
 package be.syntra.devshop.DevshopBack.models;
 
 
+import be.syntra.devshop.DevshopBack.entities.Product;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ import java.util.List;
 public class CartDto {
     private String user;
     private LocalDateTime cartCreationDateTime;
-    private List<ProductDto> products;
+    private List<Product> products;
     private boolean activeCart;
     private boolean finalizedCart;
     private boolean paidCart;

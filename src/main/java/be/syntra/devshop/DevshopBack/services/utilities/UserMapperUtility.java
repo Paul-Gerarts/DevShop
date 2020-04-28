@@ -22,7 +22,6 @@ public class UserMapperUtility {
                 .lastName(user.getLastName())
                 .fullName(capitalizeFully(user.getFullName(), ' ', '-'))
                 .address(addressMapperUtility.convertToAddressDto(user.getAddress()))
-                .activeCart(cartMapperUtility.convertToCartDto(user.getActiveCart()))
                 .archivedCarts(cartMapperUtility.convertToCartDtoList(user.getArchivedCarts()))
                 .build();
     }
@@ -33,7 +32,6 @@ public class UserMapperUtility {
                 .lastName(userDto.getLastName())
                 .fullName(capitalizeFully(userDto.getFullName(), ' ', '-'))
                 .address(addressMapperUtility.convertToAddress(userDto.getAddress()))
-                .activeCart(cartMapperUtility.convertToCart(userDto.getActiveCart()))
                 .archivedCarts(cartMapperUtility.convertToCartList(userDto.getArchivedCarts()))
                 .build();
     }

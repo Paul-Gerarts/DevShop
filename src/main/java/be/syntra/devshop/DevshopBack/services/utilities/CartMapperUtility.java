@@ -18,7 +18,7 @@ public class CartMapperUtility {
     public CartDto convertToCartDto(Cart cart) {
         return CartDto.builder()
                 .cartCreationDateTime(cart.getCartCreationDateTime())
-                .products(productMapperUtility.convertToProductDtoList(cart.getProducts()))
+                .products(cart.getProducts())
                 .activeCart(cart.isActiveCart())
                 .finalizedCart(cart.isFinalizedCart())
                 .paidCart(cart.isPaidCart())
@@ -28,7 +28,7 @@ public class CartMapperUtility {
     public Cart convertToCart(CartDto cartDto) {
         return Cart.builder()
                 .cartCreationDateTime(cartDto.getCartCreationDateTime())
-                .products(productMapperUtility.convertToProductList(cartDto.getProducts()))
+                .products(cartDto.getProducts())
                 .activeCart(cartDto.isActiveCart())
                 .finalizedCart(cartDto.isFinalizedCart())
                 .paidCart(cartDto.isPaidCart())

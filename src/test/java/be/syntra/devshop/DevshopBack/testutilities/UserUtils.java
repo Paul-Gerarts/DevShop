@@ -17,7 +17,6 @@ public class UserUtils {
                 .fullName("Someone First")
                 .email("test@email.com")
                 .address(AddressUtils.createAddress())
-                .activeCart(CartUtils.createActiveCart())
                 .archivedCarts(CartUtils.createDummyCartList())
                 .build();
     }
@@ -29,7 +28,6 @@ public class UserUtils {
                 .fullName("Someone First")
                 .password("password")
                 .address(AddressUtils.createAddressDto())
-                .activeCart(CartUtils.createCartDto())
                 .archivedCarts(CartUtils.createDummyCartDtoList())
                 .build();
     }
@@ -56,7 +54,6 @@ public class UserUtils {
                 .lastName("First")
                 .fullName("Someone First")
                 .address(AddressUtils.createAddress())
-                .activeCart(CartUtils.createActiveCart())
                 .archivedCarts(CartUtils.createDummyCartList())
                 .build();
     }

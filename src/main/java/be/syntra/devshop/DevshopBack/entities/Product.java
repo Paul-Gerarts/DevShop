@@ -1,6 +1,5 @@
 package be.syntra.devshop.DevshopBack.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -38,7 +37,6 @@ public class Product {
             joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")},
             inverseJoinColumns = {@JoinColumn(name = "cart_id", referencedColumnName = "cart_id")},
             foreignKey = @ForeignKey(name = "cart_fk"))
-    @JsonIgnore
     private Cart cart;
 
     @NotEmpty
