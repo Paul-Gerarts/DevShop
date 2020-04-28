@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-@Table
+@Table(name = "product")
 @Getter
 @Setter
 @Builder
@@ -30,14 +30,6 @@ public class Product {
     @Digits(integer = 5, fraction = 2)
     @PositiveOrZero
     private BigDecimal price;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "PRODUCT_CART",
-            joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")},
-            inverseJoinColumns = {@JoinColumn(name = "cart_id", referencedColumnName = "cart_id")},
-            foreignKey = @ForeignKey(name = "cart_fk"))
-    private Cart cart;
 
     @NotEmpty
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

@@ -29,7 +29,12 @@ public class Cart {
     private LocalDateTime cartCreationDateTime;
 
     @Column(name = "products")
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "PRODUCT_CART",
+            joinColumns = {@JoinColumn(name = "cart_id", referencedColumnName = "cart_id")},
+            inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")},
+            foreignKey = @ForeignKey(name = "cart_fk"))
     private List<Product> products;
 
     @Column(name = "active_cart")
