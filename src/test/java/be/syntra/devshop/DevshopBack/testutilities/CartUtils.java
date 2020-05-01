@@ -27,6 +27,7 @@ public class CartUtils {
     public static CartDto createCartDto() {
         List<Product> products = createDummyNonArchivedProductList();
         return CartDto.builder()
+                .user("Someone")
                 .products(products)
                 .cartCreationDateTime(LocalDateTime.now())
                 .activeCart(true)

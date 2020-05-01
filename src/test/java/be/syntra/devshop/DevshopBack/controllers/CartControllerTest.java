@@ -10,7 +10,7 @@ import be.syntra.devshop.DevshopBack.security.jwt.JWTAccessDeniedHandler;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTAuthenticationEntryPoint;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
 import be.syntra.devshop.DevshopBack.security.services.SecurityUserService;
-import be.syntra.devshop.DevshopBack.services.CartServiceImpl;
+import be.syntra.devshop.DevshopBack.services.CartService;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -27,7 +27,7 @@ import java.util.List;
 
 import static be.syntra.devshop.DevshopBack.security.entities.UserRoles.ROLE_ADMIN;
 import static be.syntra.devshop.DevshopBack.testutilities.CartUtils.createCartDto;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -52,7 +52,7 @@ public class CartControllerTest {
     private SecurityUserFactory securityUserFactory;
 
     @MockBean
-    private CartServiceImpl cartService;
+    private CartService cartService;
 
     @MockBean
     private SecurityUserService securityUserService;
@@ -64,10 +64,11 @@ public class CartControllerTest {
         SecurityUser frontendAuthentication = securityUserFactory.of(userName, password, List.of(UserRole.builder().name(ROLE_ADMIN.name()).build()));
         when(securityUserService.findByUserName(userName)).thenReturn(frontendAuthentication);
         CartDto cartDtoDummy = createCartDto();
+        when(cartService.saveCartToArchivedCarts(cartDtoDummy, cartDtoDummy.getUser())).thenReturn(cartDtoDummy);
         // when
         ResultActions resultActions =
                 mockMvc.perform(
-                        post("/users/1/carts")
+                        post("/cart")
                                 .contentType(APPLICATION_JSON)
                                 .content(jsonUtils.asJsonString(cartDtoDummy))
 
@@ -84,6 +85,6 @@ public class CartControllerTest {
                 .andExpect(jsonPath("$.finalizedCart").value(cartDtoDummy.isFinalizedCart()))
                 .andExpect(jsonPath("$.paidCart").value(cartDtoDummy.isPaidCart()));
 
-//        verify(cartService, times(1)).saveFinalizedCart(any(), anyLong());
+        verify(cartService, times(1)).saveCartToArchivedCarts(any(), anyString());
     }
 }

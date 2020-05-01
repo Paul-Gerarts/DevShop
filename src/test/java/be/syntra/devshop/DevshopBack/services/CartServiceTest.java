@@ -33,7 +33,7 @@ public class CartServiceTest {
     }
 
     @Test
-    void saveFinalizedCartTest() {
+    void saveCartToArchivedCartsTest() {
         // given
         CartDto dummyDto = createCartDto();
         Cart dummyCart = createActiveCart();
@@ -41,6 +41,7 @@ public class CartServiceTest {
         String name = "one";
         when(userService.getUserByName(name)).thenReturn(dummyUser);
         when(cartMapperUtility.convertToCart(dummyDto)).thenReturn(dummyCart);
+        when(userService.save(dummyUser)).thenReturn(dummyUser);
 
         // when
         CartDto resultCartDto = cartService.saveCartToArchivedCarts(dummyDto, name);
@@ -51,12 +52,11 @@ public class CartServiceTest {
         assertEquals(dummyDto.getProducts().get(0).getPrice(), resultCartDto.getProducts().get(0).getPrice());
         assertEquals(dummyDto.getProducts().get(1).getName(), resultCartDto.getProducts().get(1).getName());
         assertEquals(dummyDto.getProducts().get(1).getPrice(), resultCartDto.getProducts().get(1).getPrice());
-        assertEquals(dummyUser.getArchivedCarts().get(2).getCartCreationDateTime(), cartMapperUtility.convertToCart(dummyDto).getCartCreationDateTime());
         assertEquals(dummyUser.getArchivedCarts().get(2).getProducts().get(0).getName(), cartMapperUtility.convertToCart(dummyDto).getProducts().get(0).getName());
         assertEquals(dummyUser.getArchivedCarts().get(2).getProducts().get(0).getPrice(), cartMapperUtility.convertToCart(dummyDto).getProducts().get(0).getPrice());
+
         verify(userService, times(1)).getUserByName(name);
         verify(userService, times(1)).save(any());
-
 
     }
 

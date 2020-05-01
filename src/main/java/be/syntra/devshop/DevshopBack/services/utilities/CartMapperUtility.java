@@ -2,7 +2,6 @@ package be.syntra.devshop.DevshopBack.services.utilities;
 
 import be.syntra.devshop.DevshopBack.entities.Cart;
 import be.syntra.devshop.DevshopBack.models.CartDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,8 +11,6 @@ import static java.util.stream.Collectors.toUnmodifiableList;
 @Component
 public class CartMapperUtility {
 
-    @Autowired
-    private ProductMapperUtility productMapperUtility;
 
     public CartDto convertToCartDto(Cart cart) {
         return CartDto.builder()

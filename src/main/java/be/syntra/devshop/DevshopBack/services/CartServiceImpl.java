@@ -8,8 +8,6 @@ import be.syntra.devshop.DevshopBack.services.utilities.CartMapperUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -29,9 +27,8 @@ public class CartServiceImpl implements CartService {
     @Override
     public CartDto saveCartToArchivedCarts(CartDto cartDto, String name) {
         User user = userService.getUserByName(name);
-        List<Cart> userArchivedCart = new ArrayList<>();
-        userArchivedCart.add(cartMapperUtility.convertToCart(cartDto));
-        user.setArchivedCarts(userArchivedCart);
+        Cart cart = cartMapperUtility.convertToCart(cartDto);
+        user.getArchivedCarts().add(cart);
         userService.save(user);
         return cartDto;
     }

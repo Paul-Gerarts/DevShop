@@ -19,4 +19,6 @@ public interface UserService {
     User getUserByName(String name);
 
     User getUserById(Long id);
+
+    User saveAndFlush(User user);
 }
