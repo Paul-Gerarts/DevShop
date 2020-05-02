@@ -9,6 +9,8 @@ import be.syntra.devshop.DevshopBack.services.utilities.ProductMapperUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductServiceImpl implements ProductService {
 
@@ -24,8 +26,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductList findAll() {
-        return productMapperUtility.convertToProductListObject(productRepository.findAll());
+    public List<Product> findAll() {
+        return productRepository.findAll();
     }
 
     @Override
@@ -41,17 +43,22 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductList findAllByArchivedFalse() {
-        return productMapperUtility.convertToProductListObject(productRepository.findAllByArchivedFalse());
+    public List<Product> findAllByArchivedFalse() {
+        return productRepository.findAllByArchivedFalse();
     }
 
     @Override
-    public ProductList findAllByArchivedTrue() {
-        return productMapperUtility.convertToProductListObject(productRepository.findAllByArchivedTrue());
+    public List<Product> findAllByArchivedTrue() {
+        return productRepository.findAllByArchivedTrue();
     }
 
     @Override
     public ProductList findAllByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest) {
         return productMapperUtility.convertToProductListObject(productRepository.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest));
+    }
+
+    @Override
+    public List<Product> findAllBySearchModel() {
+        return null;
     }
 }

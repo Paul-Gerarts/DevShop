@@ -23,14 +23,23 @@ public class ProductController {
 
     private final ProductService productService;
     private final CategoryService categoryService;
+    private final SearchModelMapperUtility searchModelMapperUtility;
+    private final SearchService searchService;
+    private final ProductMapperUtility productMapperUtility;
 
     @Autowired
     public ProductController(
             ProductService productService,
-            CategoryService categoryService
+            CategoryService categoryService,
+            SearchModelMapperUtility searchModelMapperUtility,
+            SearchService searchService,
+            ProductMapperUtility productMapperUtility
     ) {
         this.productService = productService;
         this.categoryService = categoryService;
+        this.searchModelMapperUtility = searchModelMapperUtility;
+        this.searchService = searchService;
+        this.productMapperUtility = productMapperUtility;
     }
 
     @GetMapping()
