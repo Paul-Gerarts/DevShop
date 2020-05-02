@@ -75,7 +75,6 @@ public class UserMapperUtilityTest {
     void convertToUserDtoTest() {
         // given
         User user = createUser();
-        List<Product> dummyProductListFromUserDto = createUserDto().getActiveCart().getProducts();
         when(addressMapperUtility.convertToAddressDto(any())).thenReturn(createAddressDto());
         when(cartMapperUtility.convertToCartDto(any())).thenReturn(createCartDto());
         when(cartMapperUtility.convertToCartDtoList(any())).thenReturn(createDummyCartDtoList());
@@ -96,8 +95,5 @@ public class UserMapperUtilityTest {
         assertEquals(mappedUserDto.getAddress().getCountry(), user.getAddress().getCountry());
         assertEquals(mappedUserDto.getArchivedCarts().get(0).getCartCreationDateTime().getHour(), user.getArchivedCarts().get(0).getCartCreationDateTime().getHour());
         assertEquals(mappedUserDto.getArchivedCarts().get(0).getCartCreationDateTime().getMinute(), user.getArchivedCarts().get(0).getCartCreationDateTime().getMinute());
-        assertEquals(mappedUserDto.getArchivedCarts().get(0).getProducts().get(0).getName(), productMapperUtility.convertToProductDtoList(user.getArchivedCarts().get(0).getProducts()).get(0).getName());
-        assertEquals(mappedUserDto.getArchivedCarts().get(0).getProducts().get(0).getPrice(), productMapperUtility.convertToProductDtoList(user.getArchivedCarts().get(0).getProducts()).get(0).getPrice());
-
     }
 }

@@ -1,9 +1,9 @@
 package be.syntra.devshop.DevshopBack.services;
 
-import be.syntra.devshop.DevshopBack.models.CartDto;
+import be.syntra.devshop.DevshopBack.entities.Cart;
 
 
 public interface CartService {
 
-    CartDto saveCartToArchivedCarts(CartDto cartDto, String name);
+    Cart saveCartToArchivedCarts(Cart cart, String name);
 }

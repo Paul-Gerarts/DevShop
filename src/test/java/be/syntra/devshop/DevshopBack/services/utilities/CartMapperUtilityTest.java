@@ -71,7 +71,7 @@ public class CartMapperUtilityTest {
         assertEquals(mappedCartDto.getCartCreationDateTime().getDayOfWeek(), cartDto.getCartCreationDateTime().getDayOfWeek());
         assertEquals(mappedCartDto.getCartCreationDateTime().getHour(), cartDto.getCartCreationDateTime().getHour());
         assertEquals(mappedCartDto.getCartCreationDateTime().getMinute(), cartDto.getCartCreationDateTime().getMinute());
-        assertEquals(mappedCartDto.getProducts(), cartDto.getProducts());
+        assertEquals(mappedCartDto.getProducts().get(0).getName(), cartDto.getProducts().get(0).getName());
         assertTrue(cart.isActiveCart() && mappedCartDto.isActiveCart());
         assertFalse(mappedCartDto.isFinalizedCart() && cart.isFinalizedCart());
         assertFalse(mappedCartDto.isPaidCart() && cart.isPaidCart());
