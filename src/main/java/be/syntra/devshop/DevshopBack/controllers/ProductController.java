@@ -1,11 +1,13 @@
 package be.syntra.devshop.DevshopBack.controllers;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
+import be.syntra.devshop.DevshopBack.models.CategoryDto;
 import be.syntra.devshop.DevshopBack.models.CategoryList;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.models.ProductList;
 import be.syntra.devshop.DevshopBack.services.CategoryService;
 import be.syntra.devshop.DevshopBack.services.ProductService;
+import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapperUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,14 +20,17 @@ public class ProductController {
 
     private final ProductService productService;
     private final CategoryService categoryService;
+    private final CategoryMapperUtility categoryMapperUtility;
 
     @Autowired
     public ProductController(
             ProductService productService,
-            CategoryService categoryService
+            CategoryService categoryService,
+            CategoryMapperUtility categoryMapperUtility
     ) {
         this.productService = productService;
         this.categoryService = categoryService;
+        this.categoryMapperUtility = categoryMapperUtility;
     }
 
     @GetMapping()
@@ -75,12 +80,17 @@ public class ProductController {
                 .body(categoryService.findAll());
     }
 
-    @DeleteMapping("/categories/{id}")
-    public ResponseEntity<Long> deleteCategory(@PathVariable Long id) {
-        categoryService.delete(id);
+    @GetMapping("/categories/{id}")
+    public ResponseEntity<CategoryDto> findCategoryBy(@PathVariable Long id) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(id);
+                .body(categoryMapperUtility.mapToCategoryDto(categoryService.findById(id)));
+    }
+
+    @DeleteMapping("/categories/{id}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+        categoryService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/search/{searchRequest}")

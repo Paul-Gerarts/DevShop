@@ -1,6 +1,7 @@
 package be.syntra.devshop.DevshopBack.services.utilities;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
+import be.syntra.devshop.DevshopBack.models.CategoryDto;
 import be.syntra.devshop.DevshopBack.models.CategoryList;
 import be.syntra.devshop.DevshopBack.services.CategoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,13 @@ public class CategoryMapperUtility {
         List<Category> categories = new ArrayList<>();
         categoryNames.forEach(categoryName -> categories.add(categoryService.findOneByName(categoryName)));
         return categories;
+    }
+
+    public CategoryDto mapToCategoryDto(Category category) {
+        return CategoryDto.builder()
+                .id(category.getId())
+                .name(category.getName())
+                .build();
     }
 
 

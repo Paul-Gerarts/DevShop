@@ -3,6 +3,7 @@ package be.syntra.devshop.DevshopBack.controllers;
 import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.factories.SecurityUserFactory;
+import be.syntra.devshop.DevshopBack.models.CategoryDto;
 import be.syntra.devshop.DevshopBack.models.CategoryList;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.models.ProductList;
@@ -30,14 +31,14 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
+import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory;
 import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategoryList;
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @Import({JsonUtils.class, WebSecurityConfig.class, CorsConfiguration.class, JWTTokenProvider.class, JWTAuthenticationEntryPoint.class, JWTAccessDeniedHandler.class, ProductMapperUtility.class, CategoryMapperUtility.class})
@@ -239,5 +240,44 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.categories[0].name").value(equalTo("Headphones")));
 
         verify(categoryService, times(1)).findAll();
+    }
+
+    @Test
+    @WithMockUser
+    void canDeleteCategoryTest() throws Exception {
+        // given
+        Category category = createCategory();
+        doNothing().when(categoryService).delete(category.getId());
+
+        // when
+        ResultActions resultActions = mockMvc.perform(delete("/products/categories/" + category.getId()));
+
+        // then
+        resultActions
+                .andExpect(status().isNoContent());
+
+        verify(categoryService, times(1)).delete(category.getId());
+    }
+
+    @Test
+    @WithMockUser
+    void canFindCategoryByIdTest() throws Exception {
+        // given
+        Category category = createCategory();
+        CategoryDto categoryDto = categoryMapperUtility.mapToCategoryDto(category);
+        when(categoryService.findById(category.getId())).thenReturn(category);
+
+        // when
+        ResultActions resultActions = mockMvc.perform(get("/products/categories/" + category.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonUtils.asJsonString(categoryDto)));
+
+        // then
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.name").value(equalTo(category.getName())));
+
+        verify(categoryService, times(1)).findById(category.getId());
     }
 }
