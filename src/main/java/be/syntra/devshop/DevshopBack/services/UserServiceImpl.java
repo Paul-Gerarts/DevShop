@@ -97,10 +97,4 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(String.format("User with id %s could not be found", id)));
     }
-
-    @Override
-    public User saveAndFlush(User user) {
-        userRepository.saveAndFlush(user);
-        return user;
-    }
 }

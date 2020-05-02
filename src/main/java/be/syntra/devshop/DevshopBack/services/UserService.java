@@ -20,5 +20,4 @@ public interface UserService {
 
     User getUserById(Long id);
 
-    User saveAndFlush(User user);
 }
