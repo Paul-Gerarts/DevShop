@@ -8,7 +8,6 @@ import be.syntra.devshop.DevshopBack.repositories.UserRepository;
 import be.syntra.devshop.DevshopBack.security.controllers.dtos.RegisterDto;
 import be.syntra.devshop.DevshopBack.security.entities.JWTToken;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
-import be.syntra.devshop.DevshopBack.security.repositories.SecurityUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,8 +29,7 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl(UserRepository userRepository,
                            AuthenticationManagerBuilder authenticationManagerBuilder,
                            JWTTokenProvider jwtTokenProvider,
-                           UserFactory userFactory,
-                           SecurityUserRepository securityUserRepository) {
+                           UserFactory userFactory) {
         this.userRepository = userRepository;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.jwtTokenProvider = jwtTokenProvider;
@@ -87,9 +85,9 @@ public class UserServiceImpl implements UserService {
         return authenticationManagerBuilder.getObject().authenticate(authenticationToken);
     }
 
-    public User getUserByName(String name) {
+    public User getUserByEmail(String name) {
         return userRepository.findUserByEmail(name)
-                .orElseThrow(() -> new UserNotFoundException(String.format("User with name %s could not be found", name)));
+                .orElseThrow(() -> new UserNotFoundException(String.format("User with email %s could not be found", name)));
     }
 
     @Override

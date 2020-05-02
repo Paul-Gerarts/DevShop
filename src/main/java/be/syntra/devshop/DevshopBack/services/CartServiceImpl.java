@@ -20,8 +20,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart saveCartToArchivedCarts(Cart cart, String name) {
-        User user = userService.getUserByName(name);
+    public Cart saveCartToArchivedCarts(Cart cart, String email) {
+        User user = userService.getUserByEmail(email);
         user.getArchivedCarts().add(cart);
         userService.save(user);
         return cart;
