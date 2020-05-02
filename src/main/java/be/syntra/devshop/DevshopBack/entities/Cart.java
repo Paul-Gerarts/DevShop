@@ -31,7 +31,12 @@ public class Cart {
 
     @Size(min = 1)
     @Column(name = "products")
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "CART_PRODUCT",
+            joinColumns = {@JoinColumn(name = "cart_id", referencedColumnName = "cart_id")},
+            inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")},
+            foreignKey = @ForeignKey(name = "product_fk"))
     private List<Product> products;
 
     @Column(name = "active_cart")

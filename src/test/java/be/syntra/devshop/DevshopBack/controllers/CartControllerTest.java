@@ -1,5 +1,6 @@
 package be.syntra.devshop.DevshopBack.controllers;
 
+import be.syntra.devshop.DevshopBack.entities.Cart;
 import be.syntra.devshop.DevshopBack.factories.SecurityUserFactory;
 import be.syntra.devshop.DevshopBack.models.CartDto;
 import be.syntra.devshop.DevshopBack.security.configuration.CorsConfiguration;
@@ -11,6 +12,7 @@ import be.syntra.devshop.DevshopBack.security.jwt.JWTAuthenticationEntryPoint;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
 import be.syntra.devshop.DevshopBack.security.services.SecurityUserService;
 import be.syntra.devshop.DevshopBack.services.CartService;
+import be.syntra.devshop.DevshopBack.services.utilities.CartMapperUtility;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -55,6 +57,9 @@ public class CartControllerTest {
     private CartService cartService;
 
     @MockBean
+    private CartMapperUtility cartMapperUtility;
+
+    @MockBean
     private SecurityUserService securityUserService;
 
     @Test
@@ -63,27 +68,29 @@ public class CartControllerTest {
         // given
         SecurityUser frontendAuthentication = securityUserFactory.of(userName, password, List.of(UserRole.builder().name(ROLE_ADMIN.name()).build()));
         when(securityUserService.findByUserName(userName)).thenReturn(frontendAuthentication);
-        CartDto cartDtoDummy = createCartDto();
-        when(cartService.saveCartToArchivedCarts(cartDtoDummy, cartDtoDummy.getUser())).thenReturn(cartDtoDummy);
+        CartDto cartDto = createCartDto();
+        Cart cart = cartMapperUtility.convertToCart(cartDto);
+        when(cartService.saveCartToArchivedCarts(cart, cartDto.getUser())).thenReturn(cart);
+        when(cartMapperUtility.convertToCart(cartDto)).thenReturn(cart);
         // when
         ResultActions resultActions =
                 mockMvc.perform(
                         post("/cart")
                                 .contentType(APPLICATION_JSON)
-                                .content(jsonUtils.asJsonString(cartDtoDummy))
+                                .content(jsonUtils.asJsonString(cartDto))
 
                 );
         // then
         resultActions
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$.products[0].name").value(cartDtoDummy.getProducts().get(0).getName()))
-                .andExpect(jsonPath("$.products[0].price").value(cartDtoDummy.getProducts().get(0).getPrice()))
-                .andExpect(jsonPath("$.products[1].name").value(cartDtoDummy.getProducts().get(1).getName()))
-                .andExpect(jsonPath("$.products[1].price").value(cartDtoDummy.getProducts().get(1).getPrice()))
-                .andExpect(jsonPath("$.activeCart").value(cartDtoDummy.isActiveCart()))
-                .andExpect(jsonPath("$.finalizedCart").value(cartDtoDummy.isFinalizedCart()))
-                .andExpect(jsonPath("$.paidCart").value(cartDtoDummy.isPaidCart()));
+                .andExpect(jsonPath("$.products[0].name").value(cartDto.getProducts().get(0).getName()))
+                .andExpect(jsonPath("$.products[0].price").value(cartDto.getProducts().get(0).getPrice()))
+                .andExpect(jsonPath("$.products[1].name").value(cartDto.getProducts().get(1).getName()))
+                .andExpect(jsonPath("$.products[1].price").value(cartDto.getProducts().get(1).getPrice()))
+                .andExpect(jsonPath("$.activeCart").value(cartDto.isActiveCart()))
+                .andExpect(jsonPath("$.finalizedCart").value(cartDto.isFinalizedCart()))
+                .andExpect(jsonPath("$.paidCart").value(cartDto.isPaidCart()));
 
         verify(cartService, times(1)).saveCartToArchivedCarts(any(), anyString());
     }
