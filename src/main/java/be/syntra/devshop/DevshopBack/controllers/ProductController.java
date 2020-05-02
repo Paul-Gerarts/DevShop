@@ -4,14 +4,19 @@ import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.CategoryList;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.models.ProductList;
+import be.syntra.devshop.DevshopBack.models.SearchModelDto;
 import be.syntra.devshop.DevshopBack.services.CategoryService;
 import be.syntra.devshop.DevshopBack.services.ProductService;
+import be.syntra.devshop.DevshopBack.services.SearchService;
+import be.syntra.devshop.DevshopBack.services.utilities.ProductMapperUtility;
+import be.syntra.devshop.DevshopBack.services.utilities.SearchModelMapperUtility;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+@Slf4j
 @RestController
 @RequestMapping("/products")
 public class ProductController {
@@ -80,6 +85,15 @@ public class ProductController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest));
+    }
+
+    @PostMapping("/searching")
+    public ResponseEntity<ProductList> retrieveAllProductsBySearchModel(@RequestBody SearchModelDto searchModelDto){
+        log.info("retrieveAllProductsBySearchModel -> {}",searchModelDto.isArchivedView());
+        searchService.setSearchModel(searchModelMapperUtility.convertToSearchModel(searchModelDto));
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(productMapperUtility.convertToProductListObject(productService.findAllBySearchModel()));
     }
 
 }
