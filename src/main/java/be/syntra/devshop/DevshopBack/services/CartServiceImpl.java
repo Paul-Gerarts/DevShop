@@ -1,33 +1,30 @@
 package be.syntra.devshop.DevshopBack.services;
 
 
+import be.syntra.devshop.DevshopBack.entities.Cart;
 import be.syntra.devshop.DevshopBack.entities.User;
-import be.syntra.devshop.DevshopBack.models.CartDto;
-import be.syntra.devshop.DevshopBack.services.utilities.CartMapperUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class CartServiceImpl implements CartService {
 
     private final UserServiceImpl userService;
-    private final CartMapperUtility cartMapperUtility;
 
     @Autowired
     public CartServiceImpl(
-            UserServiceImpl userService,
-            CartMapperUtility cartMapperUtility
+            UserServiceImpl userService
     ) {
         this.userService = userService;
-        this.cartMapperUtility = cartMapperUtility;
     }
 
     @Override
-    public CartDto saveFinalizedCart(CartDto cartDto, Long userId) {
-        User user = userService.getUserById(userId);
-        user.getArchivedCarts().add(cartMapperUtility.convertToCart(cartDto));
+    public Cart saveCartToArchivedCarts(Cart cart, String email) {
+        User user = userService.getUserByEmail(email);
+        user.getArchivedCarts().add(cart);
         userService.save(user);
-        return cartDto;
+        return cart;
     }
 
 }

@@ -34,7 +34,7 @@ public final class JsonUtils {
      */
     public Object readValue(final String input, final Class<?> classToRead) {
         try {
-            return new ObjectMapper()
+            return mapper
                     .disable(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES)
                     .readValue(input, classToRead);
         } catch (Exception e) {
