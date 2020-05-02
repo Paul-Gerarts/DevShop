@@ -36,7 +36,7 @@ public class CartServiceTest {
         Cart dummyCart = createActiveCart();
         User dummyUser = createUser();
         String name = "one";
-        when(userService.getUserByName(name)).thenReturn(dummyUser);
+        when(userService.getUserByEmail(name)).thenReturn(dummyUser);
         when(userService.save(dummyUser)).thenReturn(dummyUser);
 
         // when
@@ -51,7 +51,7 @@ public class CartServiceTest {
         assertEquals(dummyUser.getArchivedCarts().get(2).getProducts().get(0).getName(), dummyCart.getProducts().get(0).getName());
         assertEquals(dummyUser.getArchivedCarts().get(2).getProducts().get(0).getPrice(), dummyCart.getProducts().get(0).getPrice());
 
-        verify(userService, times(1)).getUserByName(name);
+        verify(userService, times(1)).getUserByEmail(name);
         verify(userService, times(1)).save(any());
 
     }
