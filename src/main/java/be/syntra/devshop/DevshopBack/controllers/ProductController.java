@@ -75,11 +75,18 @@ public class ProductController {
                 .body(categoryService.findAll());
     }
 
+    @DeleteMapping("/categories/{id}")
+    public ResponseEntity<Long> deleteCategory(@PathVariable Long id) {
+        categoryService.delete(id);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(id);
+    }
+
     @GetMapping("/search/{searchRequest}")
     public ResponseEntity<ProductList> retrieveAllProductsBySearchRequest(@PathVariable String searchRequest) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest));
     }
-
 }

@@ -1,6 +1,7 @@
 package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
+import be.syntra.devshop.DevshopBack.exceptions.CategoryNotFoundException;
 import be.syntra.devshop.DevshopBack.models.CategoryList;
 import be.syntra.devshop.DevshopBack.repositories.CategoryRepository;
 import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapperUtility;
@@ -37,5 +38,17 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category findOneByName(String name) {
         return categoryRepository.findOneByName(name);
+    }
+
+    @Override
+    public Category findById(Long id) {
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new CategoryNotFoundException("category with id: " + id + "could not be found"));
+    }
+
+    @Override
+    public void delete(Long id) {
+        Category categoryToDelete = findById(id);
+        categoryRepository.delete(categoryToDelete);
     }
 }
