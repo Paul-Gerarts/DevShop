@@ -46,7 +46,7 @@ public class ProductController {
     public ResponseEntity<ProductList> retrieveAllNonArchivedProducts() {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(productService.findAllByArchivedFalse());
+                .body(productMapperUtility.convertToProductListObject(productService.findAllByArchivedFalse()));
     }
 
     /*
@@ -79,7 +79,7 @@ public class ProductController {
     public ResponseEntity<ProductList> retrieveAllArchivedProducts() {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(productService.findAllByArchivedTrue());
+                .body(productMapperUtility.convertToProductListObject(productService.findAllByArchivedTrue()));
     }
 
     @GetMapping("/categories")
