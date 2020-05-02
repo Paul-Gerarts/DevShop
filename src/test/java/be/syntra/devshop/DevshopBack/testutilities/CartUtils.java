@@ -3,13 +3,12 @@ package be.syntra.devshop.DevshopBack.testutilities;
 import be.syntra.devshop.DevshopBack.entities.Cart;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.CartDto;
-import be.syntra.devshop.DevshopBack.models.ProductDto;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.*;
+import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.createDummyNonArchivedProductList;
 
 public class CartUtils {
 
@@ -26,8 +25,9 @@ public class CartUtils {
     }
 
     public static CartDto createCartDto() {
-        List<ProductDto> products = createDummyProductDtoList();
+        List<Product> products = createDummyNonArchivedProductList();
         return CartDto.builder()
+                .user("Someone")
                 .products(products)
                 .cartCreationDateTime(LocalDateTime.now())
                 .activeCart(true)
@@ -68,7 +68,7 @@ public class CartUtils {
         CartDto cart1 = createCartDto();
         CartDto cart2 = CartDto.builder()
                 .cartCreationDateTime(LocalDateTime.now())
-                .products(createProductDtoList())
+                .products(createDummyNonArchivedProductList())
                 .activeCart(false)
                 .finalizedCart(true)
                 .paidCart(true)

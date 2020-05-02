@@ -1,11 +1,11 @@
 package be.syntra.devshop.DevshopBack.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,30 +23,28 @@ public class Cart {
     @Column(name = "cart_id")
     private Long id;
 
-    @OneToOne(targetEntity = User.class, mappedBy = "activeCart")
-    @JsonIgnore
-    private User user;
-
     @NotNull
     @Column(name = "cart_creation_date_time")
     @JsonFormat
             (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime cartCreationDateTime;
 
-    @NotNull
+    @Size(min = 1)
     @Column(name = "products")
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "CART_PRODUCT",
+            joinColumns = {@JoinColumn(name = "cart_id", referencedColumnName = "cart_id")},
+            inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")},
+            foreignKey = @ForeignKey(name = "product_fk"))
     private List<Product> products;
 
-    @NotNull
     @Column(name = "active_cart")
     private boolean activeCart;
 
-    @NotNull
     @Column(name = "finalized_cart")
     private boolean finalizedCart;
 
-    @NotNull
     @Column(name = "paid_cart")
     private boolean paidCart;
 
