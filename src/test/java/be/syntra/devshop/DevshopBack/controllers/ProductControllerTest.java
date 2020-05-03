@@ -280,4 +280,30 @@ class ProductControllerTest {
 
         verify(categoryService, times(1)).findById(category.getId());
     }
+
+    @Test
+    @WithMockUser
+    void canFindProductsWithCorrespondingCategoryTest() throws Exception {
+        // given
+        Category category = createCategory();
+        ProductList dummyProductList = productMapperUtility.convertToProductListObject(List.of(createNonArchivedProduct(), createArchivedProduct()));
+        when(productService.findAllByCorrespondingCategory(category.getId())).thenReturn(dummyProductList);
+
+        // when
+        ResultActions resultActions = mockMvc.perform(get("/products/all/" + category.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonUtils.asJsonString(dummyProductList)));
+
+        // then
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.products", hasSize(2)))
+                .andExpect(jsonPath("$.products[0].name").value(equalTo("post-its")))
+                .andExpect(jsonPath("$.products[0].price").value(equalTo(1.00)))
+                .andExpect(jsonPath("$.products[1].name", is("post-its")))
+                .andExpect(jsonPath("$.products[1].price", is(1.00)));
+
+        verify(productService, times(1)).findAllByCorrespondingCategory(category.getId());
+    }
 }

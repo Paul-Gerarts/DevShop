@@ -11,6 +11,8 @@ public interface ProductService {
 
     ProductList findAll();
 
+    ProductList findAllByCorrespondingCategory(Long id);
+
     ProductList findAllByArchivedFalse();
 
     ProductList findAllByArchivedTrue();

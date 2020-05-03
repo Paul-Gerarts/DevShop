@@ -40,6 +40,13 @@ public class ProductController {
                 .body(productService.findAllByArchivedFalse());
     }
 
+    @GetMapping("/all/{id}")
+    public ResponseEntity<ProductList> retrieveAllWithCorrespondingCategory(@PathVariable Long id) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(productService.findAllByCorrespondingCategory(id));
+    }
+
     /*
      *@Returns: 201-created code when our product's successfully saved
      */

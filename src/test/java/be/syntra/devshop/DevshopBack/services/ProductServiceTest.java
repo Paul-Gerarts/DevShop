@@ -1,5 +1,6 @@
 package be.syntra.devshop.DevshopBack.services;
 
+import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.exceptions.ProductNotFoundException;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
@@ -15,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.List;
 import java.util.Optional;
 
+import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory;
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -138,5 +140,22 @@ public class ProductServiceTest {
         // then
         assertThat(resultProduct).isEqualTo(dummyProductListObject);
         verify(productRepository, times(1)).findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest);
+    }
+
+    @Test
+    void canGetAllProductsWithCorrespondingCategoryTest() {
+        // given
+        Category category = createCategory();
+        List<Product> dummyProducts = List.of(createNonArchivedProduct(), createArchivedProduct());
+        ProductList productListDummy = new ProductList(dummyProducts);
+        when(productRepository.findAllWithCorrespondingCategory(category.getId())).thenReturn(dummyProducts);
+        when(productMapperUtility.convertToProductListObject(dummyProducts)).thenReturn(productListDummy);
+
+        // when
+        ProductList result = productService.findAllByCorrespondingCategory(category.getId());
+
+        // then
+        assertThat(result).isEqualTo(productListDummy);
+        verify(productRepository, times(1)).findAllWithCorrespondingCategory(category.getId());
     }
 }

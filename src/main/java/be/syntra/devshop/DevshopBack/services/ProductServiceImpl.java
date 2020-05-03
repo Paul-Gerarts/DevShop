@@ -29,6 +29,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public ProductList findAllByCorrespondingCategory(Long id) {
+        return productMapperUtility.convertToProductListObject(productRepository.findAllWithCorrespondingCategory(id));
+    }
+
+    @Override
     public ProductDto save(ProductDto productDTO) {
         productRepository.save(productMapperUtility.convertToProduct(productDTO));
         return productDTO;

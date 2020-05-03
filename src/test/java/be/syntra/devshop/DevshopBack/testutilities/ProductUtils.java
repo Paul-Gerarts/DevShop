@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory;
+
 public class ProductUtils {
 
     public static ProductDto createProductDto() {
@@ -26,6 +28,7 @@ public class ProductUtils {
                 .description("description")
                 .archived(false)
                 .price(BigDecimal.valueOf(1.00))
+                .categories(List.of(createCategory()))
                 .build();
     }
 
@@ -36,6 +39,7 @@ public class ProductUtils {
                 .description("description")
                 .archived(true)
                 .price(BigDecimal.valueOf(1.00))
+                .categories(List.of(createCategory()))
                 .build();
     }
 
@@ -51,14 +55,6 @@ public class ProductUtils {
         List<Product> products = new LinkedList<>();
         for (int i = 0; i < 3; i++) {
             products.add(createProductWithId());
-        }
-        return products;
-    }
-
-    public static List<ProductDto> createProductDtoList() {
-        List<ProductDto> products = new LinkedList<>();
-        for (int i = 0; i < 3; i++) {
-            products.add(createProductDto());
         }
         return products;
     }
