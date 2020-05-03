@@ -72,7 +72,7 @@ class ProductControllerTest {
     @WithMockUser
     void testRetrieveAllNonArchivedProductsEndpoint() throws Exception {
         // given
-        ProductList dummyProductList = productMapperUtility.convertToProductListObject(createDummyNonArchivedProductList());
+        List<Product> dummyProductList = createDummyNonArchivedProductList();
         when(productService.findAllByArchivedFalse()).thenReturn(dummyProductList);
 
         // when
@@ -98,15 +98,15 @@ class ProductControllerTest {
     @WithMockUser
     void testRetrieveAllArchivedProductsEndpoint() throws Exception {
         // given
-        ProductList dummyProductList = productMapperUtility.convertToProductListObject(createDummyArchivedProductList());
-        when(productService.findAllByArchivedTrue()).thenReturn(dummyProductList);
+        List<Product> dummyProductList = createDummyArchivedProductList();
+        when(productService.findAllByArchivedFalse()).thenReturn(dummyProductList);
 
         // when
         ResultActions resultActions =
                 mockMvc.perform(
                         get("/products/archived")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(jsonUtils.asJsonString(dummyProductList.getProducts())));
+                                .content(jsonUtils.asJsonString(dummyProductList)));
         // then
         resultActions
                 .andExpect(status().isOk())

@@ -46,7 +46,7 @@ public class ProductServiceTest {
         when(productMapperUtility.convertToProductListObject(dummyProducts)).thenReturn(dummyProductList);
 
         // when
-        ProductList resultProductList = productService.findAll();
+        List<Product> resultProductList = productService.findAll();
 
         // then
         assertEquals(resultProductList, dummyProductList);
@@ -90,7 +90,7 @@ public class ProductServiceTest {
         when(productMapperUtility.convertToProductListObject(dummyProductList)).thenReturn(dummyProductListObject);
 
         // when
-        ProductList resultProductList = productService.findAllByArchivedTrue();
+        List<Product> resultProductList = productService.findAllByArchivedTrue();
 
         // then
         assertThat(resultProductList).isEqualTo(dummyProductListObject);
@@ -106,10 +106,10 @@ public class ProductServiceTest {
         when(productMapperUtility.convertToProductListObject(dummyProductList)).thenReturn(new ProductList(dummyProductList));
 
         // when
-        ProductList resultProductList = productService.findAllByArchivedFalse();
+        List<Product> resultProductList = productService.findAllByArchivedFalse();
 
         // then
-        assertThat(resultProductList.getProducts()).isEqualTo(dummyProductList);
+        assertThat(resultProductList).isEqualTo(dummyProductList);
         verify(productRepository, times(1)).findAllByArchivedFalse();
     }
 

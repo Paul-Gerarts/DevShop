@@ -9,5 +9,5 @@ public interface SearchService {
 
     void setSearchModel(SearchModel searchModel);
 
-    public List<Product> applySearchModel();
+    public List<Product> applySearchModel(SearchModel searchModel);
 }

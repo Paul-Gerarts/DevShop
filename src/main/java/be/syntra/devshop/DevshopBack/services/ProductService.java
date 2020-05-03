@@ -20,6 +20,4 @@ public interface ProductService {
     ProductList findAllByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest);
 
     Product findById(Long id);
-
-    List<Product> findAllBySearchModel();
 }

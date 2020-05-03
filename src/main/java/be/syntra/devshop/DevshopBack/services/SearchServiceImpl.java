@@ -2,6 +2,7 @@ package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.SearchModel;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class SearchServiceImpl implements SearchService {
     private SearchModel searchModel = null;
@@ -25,19 +27,21 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public List<Product> applySearchModel() {
+    public List<Product> applySearchModel(SearchModel
+                                           searchModel) {
         final Comparator<Product> productNameComparator = (searchModel.isSortAscendingName())
                 ? Comparator.comparing(Product::getName)
                 : Comparator.comparing(Product::getName).reversed();
         final Comparator<Product> productPriceComparator = (searchModel.isSortAscendingPrice())
                 ? Comparator.comparing(Product::getPrice)
                 : Comparator.comparing(Product::getPrice).reversed();
-        List<Product> productList = null;
+        List<Product> productList;
         if (searchModel.isArchivedView()) {
             productList = productService.findAllByArchivedTrue();
         } else {
             productList = productService.findAllByArchivedFalse();
         }
+        log.info("applySearchModel() -> arch/nonArch #{}",productList.size());
         if (null != searchModel.getSearchRequest()) {
             productList = productList.parallelStream()
                     .filter(product -> product.getName()
@@ -45,6 +49,7 @@ public class SearchServiceImpl implements SearchService {
                             .contains(searchModel.getSearchRequest().toLowerCase()))
                     .collect(Collectors.toUnmodifiableList());
         }
+        log.info("applySearchModel() -> searchRequest #{}",productList.size());
         if (null != searchModel.getDescription()) {
             productList = productList.parallelStream()
                     .filter(product -> product.getDescription()
@@ -52,18 +57,21 @@ public class SearchServiceImpl implements SearchService {
                             .contains(searchModel.getDescription().toLowerCase()))
                     .collect(Collectors.toUnmodifiableList());
         }
+        log.info("applySearchModel() -> description #{}",productList.size());
         if (searchModel.isActiveFilters()) {
             productList = productList.parallelStream()
                     .filter(product -> product.getPrice()
                             .compareTo(searchModel.getPriceLow()) >= 0 && product.getPrice().compareTo(searchModel.getPriceHigh()) <= 0)
                     .collect(Collectors.toUnmodifiableList());
         }
+        log.info("applySearchModel() -> priceFilters #{}",productList.size());
         if(searchModel.isSortAscendingName()){
             productList = getSortedList(productList, productNameComparator);
         }
         if(searchModel.isSortAscendingPrice()){
             productList = getSortedList(productList, productPriceComparator);
         }
+        log.info("applySearchModel() -> sorted x 2 #{}",productList.size());
 
         return productList;
     }
@@ -74,6 +82,4 @@ public class SearchServiceImpl implements SearchService {
                 .sorted(productComparator)
                 .collect(Collectors.toUnmodifiableList());
     }
-
-
 }

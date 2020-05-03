@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/products")
@@ -23,22 +25,22 @@ public class ProductController {
 
     private final ProductService productService;
     private final CategoryService categoryService;
-    private final SearchModelMapperUtility searchModelMapperUtility;
     private final SearchService searchService;
+    private final SearchModelMapperUtility searchModelMapperUtility;
     private final ProductMapperUtility productMapperUtility;
 
     @Autowired
     public ProductController(
             ProductService productService,
             CategoryService categoryService,
-            SearchModelMapperUtility searchModelMapperUtility,
             SearchService searchService,
+            SearchModelMapperUtility searchModelMapperUtility,
             ProductMapperUtility productMapperUtility
     ) {
         this.productService = productService;
         this.categoryService = categoryService;
-        this.searchModelMapperUtility = searchModelMapperUtility;
         this.searchService = searchService;
+        this.searchModelMapperUtility = searchModelMapperUtility;
         this.productMapperUtility = productMapperUtility;
     }
 
@@ -97,12 +99,15 @@ public class ProductController {
     }
 
     @PostMapping("/searching")
-    public ResponseEntity<ProductList> retrieveAllProductsBySearchModel(@RequestBody SearchModelDto searchModelDto){
-        log.info("retrieveAllProductsBySearchModel -> {}",searchModelDto.isArchivedView());
-        searchService.setSearchModel(searchModelMapperUtility.convertToSearchModel(searchModelDto));
+    public ResponseEntity<ProductList> retrieveAllProductsBySearchModel(@RequestBody SearchModelDto searchModelDto) {
+        log.info("retrieveAllProductsBySearchModel -> searchModel{}", searchModelDto);
+        final List<Product> productList = searchService.applySearchModel(
+                searchModelMapperUtility.convertToSearchModel(searchModelDto)
+        );
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(productMapperUtility.convertToProductListObject(productService.findAllBySearchModel()));
+                .body(productMapperUtility.convertToProductListObject(productList)
+                );
     }
 
 }

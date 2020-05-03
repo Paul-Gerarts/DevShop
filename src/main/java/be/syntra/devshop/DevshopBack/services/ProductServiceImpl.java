@@ -56,9 +56,4 @@ public class ProductServiceImpl implements ProductService {
     public ProductList findAllByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest) {
         return productMapperUtility.convertToProductListObject(productRepository.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest));
     }
-
-    @Override
-    public List<Product> findAllBySearchModel() {
-        return null;
-    }
 }
