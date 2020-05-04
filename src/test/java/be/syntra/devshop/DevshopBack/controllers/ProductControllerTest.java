@@ -3,10 +3,7 @@ package be.syntra.devshop.DevshopBack.controllers;
 import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.factories.SecurityUserFactory;
-import be.syntra.devshop.DevshopBack.models.CategoryDto;
-import be.syntra.devshop.DevshopBack.models.CategoryList;
-import be.syntra.devshop.DevshopBack.models.ProductDto;
-import be.syntra.devshop.DevshopBack.models.ProductList;
+import be.syntra.devshop.DevshopBack.models.*;
 import be.syntra.devshop.DevshopBack.security.configuration.CorsConfiguration;
 import be.syntra.devshop.DevshopBack.security.configuration.WebSecurityConfig;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTAccessDeniedHandler;
@@ -305,5 +302,29 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.products[1].price", is(1.00)));
 
         verify(productService, times(1)).findAllByCorrespondingCategory(category.getId());
+    }
+
+    @Test
+    @WithMockUser
+    void canSetNewCategoryTest() throws Exception {
+        // given
+        CategoryChangeDto categoryChangeDto = CategoryChangeDto.builder()
+                .categoryToDelete(1L)
+                .categoryToSet(2L)
+                .build();
+
+        // when
+        ResultActions resultActions = mockMvc.perform(post("/products/categories/set_category")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonUtils.asJsonString(categoryChangeDto)));
+
+        // then
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.categoryToDelete").value(equalTo(1)))
+                .andExpect(jsonPath("$.categoryToSet").value(equalTo(2)));
+
+        verify(productService, times(1)).setNewCategory(any());
     }
 }

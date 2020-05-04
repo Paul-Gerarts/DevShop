@@ -1,10 +1,7 @@
 package be.syntra.devshop.DevshopBack.controllers;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
-import be.syntra.devshop.DevshopBack.models.CategoryDto;
-import be.syntra.devshop.DevshopBack.models.CategoryList;
-import be.syntra.devshop.DevshopBack.models.ProductDto;
-import be.syntra.devshop.DevshopBack.models.ProductList;
+import be.syntra.devshop.DevshopBack.models.*;
 import be.syntra.devshop.DevshopBack.services.CategoryService;
 import be.syntra.devshop.DevshopBack.services.ProductService;
 import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapperUtility;
@@ -98,6 +95,14 @@ public class ProductController {
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         categoryService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/categories/set_category")
+    public ResponseEntity<CategoryChangeDto> setNewCategoryForProducts(@RequestBody CategoryChangeDto categoryChangeDto) {
+        productService.setNewCategory(categoryChangeDto);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(categoryChangeDto);
     }
 
     @GetMapping("/search/{searchRequest}")

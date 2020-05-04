@@ -3,6 +3,7 @@ package be.syntra.devshop.DevshopBack.services;
 import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.exceptions.ProductNotFoundException;
+import be.syntra.devshop.DevshopBack.models.CategoryChangeDto;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.models.ProductList;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
@@ -27,6 +28,9 @@ public class ProductServiceTest {
 
     @Mock
     private ProductRepository productRepository;
+
+    @Mock
+    private CategoryServiceImpl categoryService;
 
     @Mock
     private ProductMapperUtility productMapperUtility;
@@ -157,5 +161,27 @@ public class ProductServiceTest {
         // then
         assertThat(result).isEqualTo(productListDummy);
         verify(productRepository, times(1)).findAllWithCorrespondingCategory(category.getId());
+    }
+
+    @Test
+    void canSetNewCategoryTest() {
+        // given
+        Category category = createCategory();
+        CategoryChangeDto categoryChangeDto = CategoryChangeDto.builder()
+                .categoryToDelete(1L)
+                .categoryToSet(2L)
+                .build();
+        List<Product> dummyProducts = List.of(createNonArchivedProduct(), createArchivedProduct());
+        when(categoryService.findById(categoryChangeDto.getCategoryToSet())).thenReturn(category);
+        when(productRepository.findAllWithCorrespondingCategory(category.getId())).thenReturn(dummyProducts);
+
+        // when
+        productService.setNewCategory(categoryChangeDto);
+
+        // then
+        assertThat(dummyProducts.get(0).getCategories().get(0).getName()).isEqualTo(category.getName());
+        verify(productRepository, times(1)).findAllWithCorrespondingCategory(category.getId());
+        verify(productRepository, times(1)).saveAll(any());
+        verify(categoryService, times(1)).findById(categoryChangeDto.getCategoryToSet());
     }
 }
