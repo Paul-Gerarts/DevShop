@@ -2,6 +2,7 @@ package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.exceptions.CategoryNotFoundException;
+import be.syntra.devshop.DevshopBack.models.CategoryChangeDto;
 import be.syntra.devshop.DevshopBack.models.CategoryList;
 import be.syntra.devshop.DevshopBack.repositories.CategoryRepository;
 import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapperUtility;
@@ -107,6 +108,24 @@ public class CategoryServiceTest {
         // then
         assertThat(result.getName()).isEqualTo(category.getName());
         assertThat(result.getId()).isEqualTo(category.getId());
+    }
+
+    @Test
+    void canUpdateCategory() {
+        // given
+        Category category = createCategory();
+        CategoryChangeDto categoryChangeDto = CategoryChangeDto.builder()
+                .categoryToDelete(1L)
+                .newCategoryName("Test")
+                .build();
+        when(categoryRepository.findById(category.getId())).thenReturn(of(category));
+
+        // when
+        Category result = categoryService.updateCategory(categoryChangeDto);
+
+        // then
+        assertThat(result.getName()).isEqualTo(categoryChangeDto.getNewCategoryName());
+        verify(categoryRepository, times(1)).save(result);
     }
 
     @Test

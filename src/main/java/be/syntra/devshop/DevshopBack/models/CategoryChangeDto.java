@@ -11,4 +11,5 @@ public class CategoryChangeDto {
 
     private Long categoryToDelete;
     private Long categoryToSet;
+    private String newCategoryName;
 }

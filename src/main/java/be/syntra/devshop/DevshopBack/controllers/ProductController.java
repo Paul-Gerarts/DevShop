@@ -105,6 +105,14 @@ public class ProductController {
                 .body(categoryChangeDto);
     }
 
+    @PostMapping("/categories/update_category")
+    public ResponseEntity<CategoryChangeDto> updateCategory(@RequestBody CategoryChangeDto categoryChangeDto) {
+        categoryService.updateCategory(categoryChangeDto);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(categoryChangeDto);
+    }
+
     @GetMapping("/search/{searchRequest}")
     public ResponseEntity<ProductList> retrieveAllProductsBySearchRequest(@PathVariable String searchRequest) {
         return ResponseEntity

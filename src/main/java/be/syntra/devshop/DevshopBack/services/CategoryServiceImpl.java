@@ -1,6 +1,7 @@
 package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
+import be.syntra.devshop.DevshopBack.models.CategoryChangeDto;
 import be.syntra.devshop.DevshopBack.models.CategoryList;
 import be.syntra.devshop.DevshopBack.repositories.CategoryRepository;
 import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapperUtility;
@@ -44,6 +45,15 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findById(id)
                 .orElseGet(Category::new);
     }
+
+    @Override
+    public Category updateCategory(CategoryChangeDto categoryChangeDto) {
+        Category category = findById(categoryChangeDto.getCategoryToSet());
+        category.setName(categoryChangeDto.getNewCategoryName());
+        categoryRepository.save(category);
+        return category;
+    }
+
 
     @Override
     public void delete(Long id) {

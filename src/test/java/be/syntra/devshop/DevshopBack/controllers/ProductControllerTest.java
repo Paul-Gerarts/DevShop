@@ -327,4 +327,28 @@ class ProductControllerTest {
 
         verify(productService, times(1)).setNewCategory(any());
     }
+
+    @Test
+    @WithMockUser
+    void canUpdateCategoryTest() throws Exception {
+        // given
+        CategoryChangeDto categoryChangeDto = CategoryChangeDto.builder()
+                .categoryToDelete(1L)
+                .newCategoryName("Test")
+                .build();
+
+        // when
+        ResultActions resultActions = mockMvc.perform(post("/products/categories/update_category")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonUtils.asJsonString(categoryChangeDto)));
+
+        // then
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.categoryToDelete").value(equalTo(1)))
+                .andExpect(jsonPath("$.newCategoryName").value(equalTo("Test")));
+
+        verify(categoryService, times(1)).updateCategory(any());
+    }
 }
