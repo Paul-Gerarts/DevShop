@@ -1,9 +1,7 @@
 package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
-import be.syntra.devshop.DevshopBack.models.CategoryList;
 import be.syntra.devshop.DevshopBack.repositories.CategoryRepository;
-import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,15 +11,12 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
-    private final CategoryMapper categoryMapper;
 
     @Autowired
     public CategoryServiceImpl(
-            CategoryRepository categoryRepository,
-            CategoryMapper categoryMapper
-    ) {
+            CategoryRepository categoryRepository)
+    {
         this.categoryRepository = categoryRepository;
-        this.categoryMapper = categoryMapper;
     }
 
     @Override
@@ -30,8 +25,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryList findAll() {
-        return categoryMapper.convertToCategoryList(categoryRepository.findAllByOrderByNameAsc());
+    public List<Category> findAll() {
+        return categoryRepository.findAllByOrderByNameAsc();
     }
 
     @Override

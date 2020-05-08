@@ -133,7 +133,7 @@ class ProductControllerTest {
         // given
         final List<Category> categories = createCategoryList();
         final CategoryList categoryListDummy = categoryMapper.convertToCategoryList(categories);
-        when(categoryService.findAll()).thenReturn(categoryListDummy);
+        when(categoryService.findAll()).thenReturn(categories);
 
         // when
         ResultActions resultActions =

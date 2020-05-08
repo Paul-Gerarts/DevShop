@@ -55,7 +55,7 @@ public class CategoryServiceTest {
         when(categoryMapper.convertToCategoryList(any())).thenReturn(new CategoryList(categoriesDummy));
 
         // when
-        List<Category> result = categoryService.findAll().getCategories();
+        List<Category> result = categoryService.findAll();
 
         // then
         assertThat(result.size()).isEqualTo(categoriesDummy.size());

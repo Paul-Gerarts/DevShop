@@ -8,6 +8,7 @@ import be.syntra.devshop.DevshopBack.models.SearchModelDto;
 import be.syntra.devshop.DevshopBack.services.CategoryService;
 import be.syntra.devshop.DevshopBack.services.ProductService;
 import be.syntra.devshop.DevshopBack.services.SearchService;
+import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapper;
 import be.syntra.devshop.DevshopBack.services.utilities.ProductMapper;
 import be.syntra.devshop.DevshopBack.services.utilities.SearchModelMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,7 @@ public class ProductController {
     private final SearchService searchService;
     private final SearchModelMapper searchModelMapper;
     private final ProductMapper productMapper;
+    private final CategoryMapper categoryMapper;
 
     @Autowired
     public ProductController(
@@ -35,13 +37,15 @@ public class ProductController {
             CategoryService categoryService,
             SearchService searchService,
             SearchModelMapper searchModelMapper,
-            ProductMapper productMapper
+            ProductMapper productMapper,
+            CategoryMapper categoryMapper
     ) {
         this.productService = productService;
         this.categoryService = categoryService;
         this.searchService = searchService;
         this.searchModelMapper = searchModelMapper;
         this.productMapper = productMapper;
+        this.categoryMapper = categoryMapper;
     }
 
     /*
@@ -74,7 +78,7 @@ public class ProductController {
     public ResponseEntity<CategoryList> retrieveAllCategories() {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(categoryService.findAll());
+                .body(categoryMapper.convertToCategoryList(categoryService.findAll()));
     }
 
     @PostMapping("/searching")
