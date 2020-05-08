@@ -2,6 +2,7 @@ package be.syntra.devshop.DevshopBack.testutilities;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
+import be.syntra.devshop.DevshopBack.models.ProductList;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -88,5 +89,9 @@ public class ProductUtils {
         productList.add(product1);
         productList.add(product2);
         return productList;
+    }
+
+    public static ProductList createDummyProductList(){
+        return new ProductList(createDummyNonArchivedProductList());
     }
 }

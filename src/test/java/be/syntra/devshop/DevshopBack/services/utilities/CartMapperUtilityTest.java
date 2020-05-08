@@ -38,6 +38,7 @@ public class CartMapperUtilityTest {
         // given
         Cart cart = CartUtils.createActiveCart();
         CartDto cartDto = CartUtils.createCartDto();
+        cartDto.setCartCreationDateTime(cart.getCartCreationDateTime());
         List<ProductDto> dummyProductDtoList = createDummyProductDtoList();
         when(productMapperUtility.convertToProductDtoList(any())).thenReturn(dummyProductDtoList);
 
