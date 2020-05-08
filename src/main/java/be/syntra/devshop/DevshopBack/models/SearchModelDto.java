@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class SearchModelDto {
 
     private String searchRequest;
@@ -23,4 +22,5 @@ public class SearchModelDto {
     private boolean searchFailure;
     private boolean activeFilters;
     private String appliedFiltersHeader;
+
 }

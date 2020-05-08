@@ -44,13 +44,6 @@ public class ProductController {
         this.productMapperUtility = productMapperUtility;
     }
 
-    @GetMapping()
-    public ResponseEntity<ProductList> retrieveAllNonArchivedProducts() {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(productMapperUtility.convertToProductListObject(productService.findAllByArchivedFalse()));
-    }
-
     /*
      *@Returns: 201-created code when our product's successfully saved
      */
@@ -77,25 +70,11 @@ public class ProductController {
                 .body(product);
     }
 
-    @GetMapping("/archived")
-    public ResponseEntity<ProductList> retrieveAllArchivedProducts() {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(productMapperUtility.convertToProductListObject(productService.findAllByArchivedTrue()));
-    }
-
     @GetMapping("/categories")
     public ResponseEntity<CategoryList> retrieveAllCategories() {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(categoryService.findAll());
-    }
-
-    @GetMapping("/search/{searchRequest}")
-    public ResponseEntity<ProductList> retrieveAllProductsBySearchRequest(@PathVariable String searchRequest) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest));
     }
 
     @PostMapping("/searching")
