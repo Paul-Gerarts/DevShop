@@ -82,7 +82,6 @@ class ProductServiceTest {
         // given
         Product dummyActiveProduct = createArchivedProduct();
         List<Product> dummyProductList = List.of(dummyActiveProduct);
-        ProductList dummyProductListObject = new ProductList(dummyProductList);
         when(productRepository.findAllByArchivedTrue()).thenReturn(dummyProductList);
 
         // when

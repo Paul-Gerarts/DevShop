@@ -7,7 +7,5 @@ import java.util.List;
 
 public interface SearchService {
 
-    void setSearchModel(SearchModel searchModel);
-
-    public List<Product> applySearchModel(SearchModel searchModel);
+    List<Product> applySearchModel(SearchModel searchModel);
 }

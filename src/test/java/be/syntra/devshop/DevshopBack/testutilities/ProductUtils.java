@@ -56,26 +56,9 @@ public class ProductUtils {
         return products;
     }
 
-    public static List<ProductDto> createProductDtoList() {
-        List<ProductDto> products = new LinkedList<>();
-        for (int i = 0; i < 3; i++) {
-            products.add(createProductDto());
-        }
-        return products;
-    }
-
     public static List<Product> createDummyNonArchivedProductList() {
         Product product1 = Product.builder().name("test").price(new BigDecimal("55.99")).build();
         Product product2 = Product.builder().name("product").price(new BigDecimal("110")).build();
-        List<Product> productList = new ArrayList<>();
-        productList.add(product1);
-        productList.add(product2);
-        return productList;
-    }
-
-    public static List<Product> createDummyArchivedProductList() {
-        Product product1 = Product.builder().name("test").price(new BigDecimal("55.99")).archived(true).build();
-        Product product2 = Product.builder().name("product").price(new BigDecimal("110")).archived(true).build();
         List<Product> productList = new ArrayList<>();
         productList.add(product1);
         productList.add(product2);

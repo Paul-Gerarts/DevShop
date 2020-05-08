@@ -3,7 +3,6 @@ package be.syntra.devshop.DevshopBack.services;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.exceptions.ProductNotFoundException;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
-import be.syntra.devshop.DevshopBack.services.utilities.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,14 +12,11 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-    private final ProductMapper productMapper;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository,
-                              ProductMapper productMapper
+    public ProductServiceImpl(ProductRepository productRepository
     ) {
         this.productRepository = productRepository;
-        this.productMapper = productMapper;
     }
 
     @Override

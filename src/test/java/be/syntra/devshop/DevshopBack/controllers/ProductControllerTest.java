@@ -18,6 +18,8 @@ import be.syntra.devshop.DevshopBack.services.utilities.ProductMapper;
 import be.syntra.devshop.DevshopBack.services.utilities.SearchModelMapper;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -77,32 +79,6 @@ class ProductControllerTest {
 
     @Test
     @WithMockUser
-    void saveProductTest() throws Exception {
-        // given
-        final ProductDto productDtoDummy = createProductDto();
-        final Product productDummy = createNonArchivedProduct();
-        when(productMapper.convertToProduct(any(ProductDto.class))).thenReturn(productDummy);
-
-        // when
-        ResultActions resultActions =
-                mockMvc.perform(
-                        post("/products")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(jsonUtils.asJsonString(productDtoDummy))
-                );
-
-        // then
-        resultActions
-                .andExpect(status().isCreated())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value(productDtoDummy.getName()))
-                .andExpect(jsonPath("$.price").value(1.00));
-
-        verify(productService, times(1)).save(any(Product.class));
-    }
-
-    @Test
-    @WithMockUser
     void canGetProductByIdTest() throws Exception {
         // given
         final Product dummyProduct = createNonArchivedProduct();
@@ -125,9 +101,10 @@ class ProductControllerTest {
         verify(productService, times(1)).findById(dummyProduct.getId());
     }
 
-    @Test
+    @ParameterizedTest
+    @ValueSource(strings = {"/products", "/products/update"})
     @WithMockUser
-    void canUpdateProductTest() throws Exception {
+    void canSaveAndUpdateProductTest(String url) throws Exception {
         // given
         final ProductDto productDtoDummy = createProductDto();
         final Product productDummy = createNonArchivedProduct();
@@ -136,7 +113,7 @@ class ProductControllerTest {
         // when
         ResultActions resultActions =
                 mockMvc.perform(
-                        post("/products/update")
+                        post(url)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(jsonUtils.asJsonString(productDtoDummy)));
         // then
@@ -158,7 +135,7 @@ class ProductControllerTest {
         final CategoryList categoryListDummy = categoryMapper.convertToCategoryList(categories);
         when(categoryService.findAll()).thenReturn(categoryListDummy);
 
-        // then
+        // when
         ResultActions resultActions =
                 mockMvc.perform(
                         get("/products/categories")
@@ -182,7 +159,6 @@ class ProductControllerTest {
         final SearchModelDto searchModelDtoDummy = getDummySearchModelDto();
         final SearchModel searchModelDummy = getDummySearchModel();
         final List<Product> dummyListOfProducts = createProductList();
-        final Product productDummy = createNonArchivedProduct();
         final ProductList productList = createDummyProductList();
         when(searchModelMapper.convertToSearchModel(any())).thenReturn(searchModelDummy);
         when(searchService.applySearchModel(any())).thenReturn(dummyListOfProducts);
@@ -203,6 +179,6 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.products[0].price").value(equalTo(55.99)));
 
         verify(searchModelMapper, times(1)).convertToSearchModel(any(SearchModelDto.class));
-        verify(searchService,times(1)).applySearchModel(any(SearchModel.class));
+        verify(searchService, times(1)).applySearchModel(any(SearchModel.class));
     }
 }

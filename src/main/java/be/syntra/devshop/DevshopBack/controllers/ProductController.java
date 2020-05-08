@@ -49,7 +49,7 @@ public class ProductController {
      */
     @PostMapping()
     public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto) {
-        productService.save(productMapper.convertToProduct(productDto));
+        saveProduct(productDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(productDto);
@@ -64,7 +64,7 @@ public class ProductController {
 
     @PostMapping("/update")
     public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto) {
-        productService.save(productMapper.convertToProduct(productDto));
+        saveProduct(productDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(productDto);
@@ -87,6 +87,10 @@ public class ProductController {
                 .status(HttpStatus.OK)
                 .body(productMapper.convertToProductListObject(productList)
                 );
+    }
+
+    private void saveProduct(ProductDto productDto) {
+        productService.save(productMapper.convertToProduct(productDto));
     }
 
 }
