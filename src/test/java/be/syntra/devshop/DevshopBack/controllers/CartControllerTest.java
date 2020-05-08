@@ -12,7 +12,7 @@ import be.syntra.devshop.DevshopBack.security.jwt.JWTAuthenticationEntryPoint;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
 import be.syntra.devshop.DevshopBack.security.services.SecurityUserService;
 import be.syntra.devshop.DevshopBack.services.CartService;
-import be.syntra.devshop.DevshopBack.services.utilities.CartMapperUtility;
+import be.syntra.devshop.DevshopBack.services.utilities.CartMapper;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -57,7 +57,7 @@ public class CartControllerTest {
     private CartService cartService;
 
     @MockBean
-    private CartMapperUtility cartMapperUtility;
+    private CartMapper cartMapper;
 
     @MockBean
     private SecurityUserService securityUserService;
@@ -69,9 +69,9 @@ public class CartControllerTest {
         SecurityUser frontendAuthentication = securityUserFactory.of(userName, password, List.of(UserRole.builder().name(ROLE_ADMIN.name()).build()));
         when(securityUserService.findByUserName(userName)).thenReturn(frontendAuthentication);
         CartDto cartDto = createCartDto();
-        Cart cart = cartMapperUtility.convertToCart(cartDto);
+        Cart cart = cartMapper.convertToCart(cartDto);
         when(cartService.saveCartToArchivedCarts(cart, cartDto.getUser())).thenReturn(cart);
-        when(cartMapperUtility.convertToCart(cartDto)).thenReturn(cart);
+        when(cartMapper.convertToCart(cartDto)).thenReturn(cart);
         // when
         ResultActions resultActions =
                 mockMvc.perform(

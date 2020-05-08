@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class AddressMapperUtilityTest {
+public class AddressMapperTest {
 
-    private final AddressMapperUtility addressMapperUtility = new AddressMapperUtility();
+    private final AddressMapper addressMapper = new AddressMapper();
 
     @Test
     void convertToAddress() {
@@ -17,7 +17,7 @@ public class AddressMapperUtilityTest {
         AddressDto addressDto = AddressUtils.createAddressDto();
 
         // when
-        Address mappedAddress = addressMapperUtility.convertToAddress(addressDto);
+        Address mappedAddress = addressMapper.convertToAddress(addressDto);
 
         // then
         assertEquals(mappedAddress.getClass(), Address.class);
@@ -36,7 +36,7 @@ public class AddressMapperUtilityTest {
         Address address = AddressUtils.createAddressWithId();
 
         // when
-        AddressDto mappedAddressDto = addressMapperUtility.convertToAddressDto(address);
+        AddressDto mappedAddressDto = addressMapper.convertToAddressDto(address);
 
         // then
         assertEquals(mappedAddressDto.getClass(), AddressDto.class);

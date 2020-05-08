@@ -13,9 +13,9 @@ import be.syntra.devshop.DevshopBack.security.services.SecurityUserService;
 import be.syntra.devshop.DevshopBack.services.CategoryServiceImpl;
 import be.syntra.devshop.DevshopBack.services.ProductServiceImpl;
 import be.syntra.devshop.DevshopBack.services.SearchService;
-import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapperUtility;
-import be.syntra.devshop.DevshopBack.services.utilities.ProductMapperUtility;
-import be.syntra.devshop.DevshopBack.services.utilities.SearchModelMapperUtility;
+import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapper;
+import be.syntra.devshop.DevshopBack.services.utilities.ProductMapper;
+import be.syntra.devshop.DevshopBack.services.utilities.SearchModelMapper;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -41,7 +41,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Import({JsonUtils.class, WebSecurityConfig.class, CorsConfiguration.class, JWTTokenProvider.class, JWTAuthenticationEntryPoint.class, JWTAccessDeniedHandler.class, ProductMapperUtility.class, CategoryMapperUtility.class})
+@Import({JsonUtils.class, WebSecurityConfig.class, CorsConfiguration.class, JWTTokenProvider.class, JWTAuthenticationEntryPoint.class, JWTAccessDeniedHandler.class, ProductMapper.class, CategoryMapper.class})
 @WebMvcTest(ProductController.class)
 class ProductControllerTest {
 
@@ -61,7 +61,7 @@ class ProductControllerTest {
     private SearchService searchService;
 
     @MockBean
-    private SearchModelMapperUtility searchModelMapperUtility;
+    private SearchModelMapper searchModelMapper;
 
     @Mock
     private SecurityUserFactory securityUserFactory;
@@ -70,10 +70,10 @@ class ProductControllerTest {
     private SecurityUserService securityUserService;
 
     @MockBean
-    private ProductMapperUtility productMapperUtility;
+    private ProductMapper productMapper;
 
     @Autowired
-    private CategoryMapperUtility categoryMapperUtility;
+    private CategoryMapper categoryMapper;
 
     @Test
     @WithMockUser
@@ -81,7 +81,7 @@ class ProductControllerTest {
         // given
         final ProductDto productDtoDummy = createProductDto();
         final Product productDummy = createNonArchivedProduct();
-        when(productMapperUtility.convertToProduct(any(ProductDto.class))).thenReturn(productDummy);
+        when(productMapper.convertToProduct(any(ProductDto.class))).thenReturn(productDummy);
 
         // when
         ResultActions resultActions =
@@ -131,7 +131,7 @@ class ProductControllerTest {
         // given
         final ProductDto productDtoDummy = createProductDto();
         final Product productDummy = createNonArchivedProduct();
-        when(productMapperUtility.convertToProduct(any(ProductDto.class))).thenReturn(productDummy);
+        when(productMapper.convertToProduct(any(ProductDto.class))).thenReturn(productDummy);
 
         // when
         ResultActions resultActions =
@@ -155,7 +155,7 @@ class ProductControllerTest {
     void retrieveAllCategoriesTest() throws Exception {
         // given
         final List<Category> categories = createCategoryList();
-        final CategoryList categoryListDummy = categoryMapperUtility.convertToCategoryList(categories);
+        final CategoryList categoryListDummy = categoryMapper.convertToCategoryList(categories);
         when(categoryService.findAll()).thenReturn(categoryListDummy);
 
         // then
@@ -184,9 +184,9 @@ class ProductControllerTest {
         final List<Product> dummyListOfProducts = createProductList();
         final Product productDummy = createNonArchivedProduct();
         final ProductList productList = createDummyProductList();
-        when(searchModelMapperUtility.convertToSearchModel(any())).thenReturn(searchModelDummy);
+        when(searchModelMapper.convertToSearchModel(any())).thenReturn(searchModelDummy);
         when(searchService.applySearchModel(any())).thenReturn(dummyListOfProducts);
-        when(productMapperUtility.convertToProductListObject(any())).thenReturn(productList);
+        when(productMapper.convertToProductListObject(any())).thenReturn(productList);
 
         // when
         ResultActions resultActions =
@@ -202,7 +202,7 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.products[0].name").value(equalTo("test")))
                 .andExpect(jsonPath("$.products[0].price").value(equalTo(55.99)));
 
-        verify(searchModelMapperUtility, times(1)).convertToSearchModel(any(SearchModelDto.class));
+        verify(searchModelMapper, times(1)).convertToSearchModel(any(SearchModelDto.class));
         verify(searchService,times(1)).applySearchModel(any(SearchModel.class));
     }
 }

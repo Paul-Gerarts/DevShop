@@ -4,7 +4,7 @@ import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.exceptions.ProductNotFoundException;
 import be.syntra.devshop.DevshopBack.models.ProductList;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
-import be.syntra.devshop.DevshopBack.services.utilities.ProductMapperUtility;
+import be.syntra.devshop.DevshopBack.services.utilities.ProductMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -26,7 +26,7 @@ class ProductServiceTest {
     private ProductRepository productRepository;
 
     @Mock
-    private ProductMapperUtility productMapperUtility;
+    private ProductMapper productMapper;
 
     @InjectMocks
     private ProductServiceImpl productService;
@@ -99,7 +99,7 @@ class ProductServiceTest {
         Product dummyArchivedProduct = createNonArchivedProduct();
         List<Product> dummyProductList = List.of(dummyArchivedProduct);
         when(productRepository.findAllByArchivedFalse()).thenReturn(dummyProductList);
-        when(productMapperUtility.convertToProductListObject(dummyProductList)).thenReturn(new ProductList(dummyProductList));
+        when(productMapper.convertToProductListObject(dummyProductList)).thenReturn(new ProductList(dummyProductList));
 
         // when
         List<Product> resultProductList = productService.findAllByArchivedFalse();

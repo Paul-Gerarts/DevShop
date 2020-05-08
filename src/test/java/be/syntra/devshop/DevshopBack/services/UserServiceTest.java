@@ -5,7 +5,7 @@ import be.syntra.devshop.DevshopBack.exceptions.UserNotFoundException;
 import be.syntra.devshop.DevshopBack.factories.UserFactory;
 import be.syntra.devshop.DevshopBack.repositories.UserRepository;
 import be.syntra.devshop.DevshopBack.security.controllers.dtos.RegisterDto;
-import be.syntra.devshop.DevshopBack.services.utilities.UserMapperUtility;
+import be.syntra.devshop.DevshopBack.services.utilities.UserMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -26,7 +26,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class UserServiceTest {
 
     @Mock
-    private UserMapperUtility userMapperUtility;
+    private UserMapper userMapper;
 
     @Mock
     private UserFactory userFactory;

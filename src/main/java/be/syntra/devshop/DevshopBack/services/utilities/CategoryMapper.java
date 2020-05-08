@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class CategoryMapperUtility {
+public class CategoryMapper {
 
     @Autowired
     private CategoryServiceImpl categoryService;

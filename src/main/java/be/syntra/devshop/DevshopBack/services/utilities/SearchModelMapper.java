@@ -5,7 +5,7 @@ import be.syntra.devshop.DevshopBack.models.SearchModelDto;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SearchModelMapperUtility {
+public class SearchModelMapper {
 
     public SearchModel convertToSearchModel(SearchModelDto searchModelDto){
         return SearchModel.builder()

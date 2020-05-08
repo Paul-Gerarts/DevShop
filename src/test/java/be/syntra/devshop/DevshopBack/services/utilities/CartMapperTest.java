@@ -20,13 +20,13 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 
-public class CartMapperUtilityTest {
+public class CartMapperTest {
 
     @InjectMocks
-    private CartMapperUtility cartMapperUtility;
+    private CartMapper cartMapper;
 
     @Mock
-    private ProductMapperUtility productMapperUtility;
+    private ProductMapper productMapper;
 
     @BeforeEach
     public void setUp() {
@@ -40,10 +40,10 @@ public class CartMapperUtilityTest {
         CartDto cartDto = CartUtils.createCartDto();
         cartDto.setCartCreationDateTime(cart.getCartCreationDateTime());
         List<ProductDto> dummyProductDtoList = createDummyProductDtoList();
-        when(productMapperUtility.convertToProductDtoList(any())).thenReturn(dummyProductDtoList);
+        when(productMapper.convertToProductDtoList(any())).thenReturn(dummyProductDtoList);
 
         // when
-        Cart mappedCart = cartMapperUtility.convertToCart(cartDto);
+        Cart mappedCart = cartMapper.convertToCart(cartDto);
 
         // then
         assertEquals(mappedCart.getClass(), Cart.class);
@@ -62,10 +62,10 @@ public class CartMapperUtilityTest {
         Cart cart = CartUtils.createCartWithId();
         CartDto cartDto = CartUtils.createCartDto();
         List<ProductDto> dummyProductDtoList = createDummyProductDtoList();
-        when(productMapperUtility.convertToProductDtoList(any())).thenReturn(dummyProductDtoList);
+        when(productMapper.convertToProductDtoList(any())).thenReturn(dummyProductDtoList);
 
         // when
-        CartDto mappedCartDto = cartMapperUtility.convertToCartDto(cart);
+        CartDto mappedCartDto = cartMapper.convertToCartDto(cart);
 
         // then
         assertEquals(mappedCartDto.getClass(), CartDto.class);
@@ -83,18 +83,18 @@ public class CartMapperUtilityTest {
         // given
         List<Cart> dummyCartList = CartUtils.createDummyCartList();
         List<ProductDto> dummyProductDtoList = createDummyProductDtoList();
-        when(productMapperUtility.convertToProductDtoList(any())).thenReturn(dummyProductDtoList);
+        when(productMapper.convertToProductDtoList(any())).thenReturn(dummyProductDtoList);
 
         // when
-        List<CartDto> mappedToCartDtoList = cartMapperUtility.convertToCartDtoList(dummyCartList);
+        List<CartDto> mappedToCartDtoList = cartMapper.convertToCartDtoList(dummyCartList);
 
         // then
         assertEquals(mappedToCartDtoList.get(0).getClass(), CartDto.class);
         assertEquals(dummyCartList.size(), mappedToCartDtoList.size());
         assertEquals(mappedToCartDtoList.get(0).getCartCreationDateTime(), dummyCartList.get(0).getCartCreationDateTime());
         assertEquals(mappedToCartDtoList.get(1).getCartCreationDateTime(), dummyCartList.get(1).getCartCreationDateTime());
-        assertEquals(mappedToCartDtoList.get(0).getProducts().get(0).getName(), productMapperUtility.convertToProductDtoList(dummyCartList.get(0).getProducts()).get(0).getName());
-        assertEquals(mappedToCartDtoList.get(1).getProducts().get(0).getPrice(), productMapperUtility.convertToProductDtoList(dummyCartList.get(1).getProducts()).get(0).getPrice());
+        assertEquals(mappedToCartDtoList.get(0).getProducts().get(0).getName(), productMapper.convertToProductDtoList(dummyCartList.get(0).getProducts()).get(0).getName());
+        assertEquals(mappedToCartDtoList.get(1).getProducts().get(0).getPrice(), productMapper.convertToProductDtoList(dummyCartList.get(1).getProducts()).get(0).getPrice());
         assertTrue(mappedToCartDtoList.get(0).isActiveCart() && dummyCartList.get(0).isActiveCart());
         assertFalse(mappedToCartDtoList.get(1).isActiveCart() && dummyCartList.get(1).isActiveCart());
         assertFalse(mappedToCartDtoList.get(0).isFinalizedCart() && dummyCartList.get(0).isFinalizedCart());
@@ -109,10 +109,10 @@ public class CartMapperUtilityTest {
         // given
         List<CartDto> dummyCartDtoList = CartUtils.createDummyCartDtoList();
         List<Product> dummyProductList = createDummyNonArchivedProductList();
-        when(productMapperUtility.convertToProductList(any())).thenReturn(dummyProductList);
+        when(productMapper.convertToProductList(any())).thenReturn(dummyProductList);
 
         // when
-        List<Cart> mappedToCartList = cartMapperUtility.convertToCartList(dummyCartDtoList);
+        List<Cart> mappedToCartList = cartMapper.convertToCartList(dummyCartDtoList);
 
         // then
         assertEquals(mappedToCartList.get(0).getClass(), Cart.class);

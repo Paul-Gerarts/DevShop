@@ -3,7 +3,7 @@ package be.syntra.devshop.DevshopBack.controllers;
 import be.syntra.devshop.DevshopBack.entities.User;
 import be.syntra.devshop.DevshopBack.models.UserDto;
 import be.syntra.devshop.DevshopBack.services.UserService;
-import be.syntra.devshop.DevshopBack.services.utilities.UserMapperUtility;
+import be.syntra.devshop.DevshopBack.services.utilities.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,14 +16,14 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final UserMapperUtility userMapperUtility;
+    private final UserMapper userMapper;
 
     @Autowired
     public UserController(UserService userService,
-                          UserMapperUtility userMapperUtility
+                          UserMapper userMapper
     ) {
         this.userService = userService;
-        this.userMapperUtility = userMapperUtility;
+        this.userMapper = userMapper;
     }
 
     @GetMapping()
@@ -38,7 +38,7 @@ public class UserController {
      */
     @PostMapping()
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
-        userService.save(userMapperUtility.convertToUser(userDto));
+        userService.save(userMapper.convertToUser(userDto));
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(userDto);

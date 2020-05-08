@@ -8,8 +8,8 @@ import be.syntra.devshop.DevshopBack.models.SearchModelDto;
 import be.syntra.devshop.DevshopBack.services.CategoryService;
 import be.syntra.devshop.DevshopBack.services.ProductService;
 import be.syntra.devshop.DevshopBack.services.SearchService;
-import be.syntra.devshop.DevshopBack.services.utilities.ProductMapperUtility;
-import be.syntra.devshop.DevshopBack.services.utilities.SearchModelMapperUtility;
+import be.syntra.devshop.DevshopBack.services.utilities.ProductMapper;
+import be.syntra.devshop.DevshopBack.services.utilities.SearchModelMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,22 +26,22 @@ public class ProductController {
     private final ProductService productService;
     private final CategoryService categoryService;
     private final SearchService searchService;
-    private final SearchModelMapperUtility searchModelMapperUtility;
-    private final ProductMapperUtility productMapperUtility;
+    private final SearchModelMapper searchModelMapper;
+    private final ProductMapper productMapper;
 
     @Autowired
     public ProductController(
             ProductService productService,
             CategoryService categoryService,
             SearchService searchService,
-            SearchModelMapperUtility searchModelMapperUtility,
-            ProductMapperUtility productMapperUtility
+            SearchModelMapper searchModelMapper,
+            ProductMapper productMapper
     ) {
         this.productService = productService;
         this.categoryService = categoryService;
         this.searchService = searchService;
-        this.searchModelMapperUtility = searchModelMapperUtility;
-        this.productMapperUtility = productMapperUtility;
+        this.searchModelMapper = searchModelMapper;
+        this.productMapper = productMapper;
     }
 
     /*
@@ -49,7 +49,7 @@ public class ProductController {
      */
     @PostMapping()
     public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto) {
-        productService.save(productMapperUtility.convertToProduct(productDto));
+        productService.save(productMapper.convertToProduct(productDto));
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(productDto);
@@ -64,7 +64,7 @@ public class ProductController {
 
     @PostMapping("/update")
     public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto) {
-        productService.save(productMapperUtility.convertToProduct(productDto));
+        productService.save(productMapper.convertToProduct(productDto));
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(productDto);
@@ -81,11 +81,11 @@ public class ProductController {
     public ResponseEntity<ProductList> retrieveAllProductsBySearchModel(@RequestBody SearchModelDto searchModelDto) {
         log.info("retrieveAllProductsBySearchModel -> searchModel{}", searchModelDto);
         final List<Product> productList = searchService.applySearchModel(
-                searchModelMapperUtility.convertToSearchModel(searchModelDto)
+                searchModelMapper.convertToSearchModel(searchModelDto)
         );
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(productMapperUtility.convertToProductListObject(productList)
+                .body(productMapper.convertToProductListObject(productList)
                 );
     }
 
