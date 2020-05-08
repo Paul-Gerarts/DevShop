@@ -3,10 +3,7 @@ package be.syntra.devshop.DevshopBack.controllers;
 import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.factories.SecurityUserFactory;
-import be.syntra.devshop.DevshopBack.models.CategoryList;
-import be.syntra.devshop.DevshopBack.models.ProductDto;
-import be.syntra.devshop.DevshopBack.models.SearchModel;
-import be.syntra.devshop.DevshopBack.models.SearchModelDto;
+import be.syntra.devshop.DevshopBack.models.*;
 import be.syntra.devshop.DevshopBack.security.configuration.CorsConfiguration;
 import be.syntra.devshop.DevshopBack.security.configuration.WebSecurityConfig;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTAccessDeniedHandler;
@@ -72,7 +69,7 @@ class ProductControllerTest {
     @MockBean
     private SecurityUserService securityUserService;
 
-    @Autowired
+    @MockBean
     private ProductMapperUtility productMapperUtility;
 
     @Autowired
@@ -80,9 +77,12 @@ class ProductControllerTest {
 
     @Test
     @WithMockUser
-    void createProductEndpoint() throws Exception {
+    void saveProductTest() throws Exception {
         // given
-        ProductDto productDtoDummy = createProductDto();
+        final ProductDto productDtoDummy = createProductDto();
+        final Product productDummy = createNonArchivedProduct();
+        when(productMapperUtility.convertToProduct(any(ProductDto.class))).thenReturn(productDummy);
+
         // when
         ResultActions resultActions =
                 mockMvc.perform(
@@ -90,6 +90,7 @@ class ProductControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(jsonUtils.asJsonString(productDtoDummy))
                 );
+
         // then
         resultActions
                 .andExpect(status().isCreated())
@@ -97,14 +98,14 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.name").value(productDtoDummy.getName()))
                 .andExpect(jsonPath("$.price").value(1.00));
 
-        verify(productService, times(1)).save(productDtoDummy);
+        verify(productService, times(1)).save(any(Product.class));
     }
 
     @Test
     @WithMockUser
     void canGetProductByIdTest() throws Exception {
         // given
-        Product dummyProduct = createNonArchivedProduct();
+        final Product dummyProduct = createNonArchivedProduct();
         when(productService.findById(dummyProduct.getId())).thenReturn(dummyProduct);
 
         // when
@@ -128,7 +129,9 @@ class ProductControllerTest {
     @WithMockUser
     void canUpdateProductTest() throws Exception {
         // given
-        ProductDto productDtoDummy = createProductDto();
+        final ProductDto productDtoDummy = createProductDto();
+        final Product productDummy = createNonArchivedProduct();
+        when(productMapperUtility.convertToProduct(any(ProductDto.class))).thenReturn(productDummy);
 
         // when
         ResultActions resultActions =
@@ -144,15 +147,15 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.archived").value(productDtoDummy.isArchived()))
                 .andExpect(jsonPath("$.price").value(1.00));
 
-        verify(productService, times(1)).save(productDtoDummy);
+        verify(productService, times(1)).save(any(Product.class));
     }
 
     @Test
     @WithMockUser
     void retrieveAllCategoriesTest() throws Exception {
         // given
-        List<Category> categories = createCategoryList();
-        CategoryList categoryListDummy = categoryMapperUtility.convertToCategoryList(categories);
+        final List<Category> categories = createCategoryList();
+        final CategoryList categoryListDummy = categoryMapperUtility.convertToCategoryList(categories);
         when(categoryService.findAll()).thenReturn(categoryListDummy);
 
         // then
@@ -179,8 +182,11 @@ class ProductControllerTest {
         final SearchModelDto searchModelDtoDummy = getDummySearchModelDto();
         final SearchModel searchModelDummy = getDummySearchModel();
         final List<Product> dummyListOfProducts = createProductList();
+        final Product productDummy = createNonArchivedProduct();
+        final ProductList productList = createDummyProductList();
         when(searchModelMapperUtility.convertToSearchModel(any())).thenReturn(searchModelDummy);
         when(searchService.applySearchModel(any())).thenReturn(dummyListOfProducts);
+        when(productMapperUtility.convertToProductListObject(any())).thenReturn(productList);
 
         // when
         ResultActions resultActions =
@@ -192,9 +198,9 @@ class ProductControllerTest {
         resultActions
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.products", hasSize(3)))
-                .andExpect(jsonPath("$.products[0].name").value(equalTo("post-its")))
-                .andExpect(jsonPath("$.products[0].price").value(equalTo(1.00)));
+                .andExpect(jsonPath("$.products", hasSize(2)))
+                .andExpect(jsonPath("$.products[0].name").value(equalTo("test")))
+                .andExpect(jsonPath("$.products[0].price").value(equalTo(55.99)));
 
         verify(searchModelMapperUtility, times(1)).convertToSearchModel(any(SearchModelDto.class));
         verify(searchService,times(1)).applySearchModel(any(SearchModel.class));

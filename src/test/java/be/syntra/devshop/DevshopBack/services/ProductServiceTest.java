@@ -2,7 +2,6 @@ package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.exceptions.ProductNotFoundException;
-import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.models.ProductList;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
 import be.syntra.devshop.DevshopBack.services.utilities.ProductMapperUtility;
@@ -21,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-public class ProductServiceTest {
+class ProductServiceTest {
 
     @Mock
     private ProductRepository productRepository;
@@ -33,7 +32,7 @@ public class ProductServiceTest {
     private ProductServiceImpl productService;
 
     @BeforeEach
-    public void init() {
+    void init() {
         MockitoAnnotations.initMocks(this);
     }
 
@@ -54,13 +53,13 @@ public class ProductServiceTest {
     @Test
     void saveProductTest() {
         // given
-        ProductDto dummyDto = createProductDto();
+        Product product = createNonArchivedProduct();
 
         // when
-        ProductDto resultProductDto = productService.save(dummyDto);
+        Product resultProduct = productService.save(product);
 
         // then
-        assertEquals(dummyDto, resultProductDto);
+        assertEquals(product, resultProduct);
         verify(productRepository, times(1)).save(any());
     }
 
@@ -125,15 +124,13 @@ public class ProductServiceTest {
         // given
         String searchRequest = "POst";
         List<Product> dummyProductList = List.of(createNonArchivedProduct());
-        ProductList dummyProductListObject = new ProductList(dummyProductList);
         when(productRepository.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest)).thenReturn(dummyProductList);
-        when(productMapperUtility.convertToProductListObject(dummyProductList)).thenReturn(dummyProductListObject);
 
         // when
-        ProductList resultProduct = productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest);
+        List<Product> resultProductList = productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest);
 
         // then
-        assertThat(resultProduct).isEqualTo(dummyProductListObject);
+        assertEquals(resultProductList,dummyProductList);
         verify(productRepository, times(1)).findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest);
     }
 }

@@ -1,15 +1,13 @@
 package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
-import be.syntra.devshop.DevshopBack.models.ProductDto;
-import be.syntra.devshop.DevshopBack.models.ProductList;
 
 import java.util.List;
 
 
 public interface ProductService {
 
-    ProductDto save(ProductDto productDTO);
+    Product save(Product product);
 
     List<Product> findAll();
 
@@ -17,7 +15,7 @@ public interface ProductService {
 
     List<Product> findAllByArchivedTrue();
 
-    ProductList findAllByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest);
+    List<Product> findAllByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest);
 
     Product findById(Long id);
 }
