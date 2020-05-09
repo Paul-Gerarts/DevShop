@@ -204,7 +204,7 @@ class ProductControllerTest {
     void canFindCategoryByIdTest() throws Exception {
         // given
         Category category = createCategory();
-        CategoryDto categoryDto = categoryMapperUtility.mapToCategoryDto(category);
+        CategoryDto categoryDto = categoryMapper.mapToCategoryDto(category);
         when(categoryService.findById(category.getId())).thenReturn(category);
 
         // when
@@ -226,8 +226,9 @@ class ProductControllerTest {
     void canFindProductsWithCorrespondingCategoryTest() throws Exception {
         // given
         Category category = createCategory();
-        ProductList dummyProductList = productMapperUtility.convertToProductListObject(List.of(createNonArchivedProduct(), createArchivedProduct()));
+        List<Product> dummyProductList = List.of(createNonArchivedProduct(), createArchivedProduct());
         when(productService.findAllByCorrespondingCategory(category.getId())).thenReturn(dummyProductList);
+        when(productMapper.convertToProductListObject(dummyProductList)).thenReturn(new ProductList(dummyProductList));
 
         // when
         ResultActions resultActions = mockMvc.perform(get("/products/all/" + category.getId())
@@ -241,8 +242,8 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.products", hasSize(2)))
                 .andExpect(jsonPath("$.products[0].name").value(equalTo("post-its")))
                 .andExpect(jsonPath("$.products[0].price").value(equalTo(1.00)))
-                .andExpect(jsonPath("$.products[1].name", is("post-its")))
-                .andExpect(jsonPath("$.products[1].price", is(1.00)));
+                .andExpect(jsonPath("$.products[1].name").value(equalTo("post-its")))
+                .andExpect(jsonPath("$.products[1].price").value(equalTo(1.00)));
 
         verify(productService, times(1)).findAllByCorrespondingCategory(category.getId());
     }

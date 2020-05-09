@@ -71,7 +71,7 @@ public class CategoryMapperTest {
                 .build();
 
         // when
-        CategoryDto result = categoryMapperUtility.mapToCategoryDto(category);
+        CategoryDto result = categoryMapper.mapToCategoryDto(category);
 
         // then
         assertThat(result.getId()).isEqualTo(category.getId());

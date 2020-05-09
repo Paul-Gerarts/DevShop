@@ -144,15 +144,13 @@ class ProductServiceTest {
         // given
         Category category = createCategory();
         List<Product> dummyProducts = List.of(createNonArchivedProduct(), createArchivedProduct());
-        ProductList productListDummy = new ProductList(dummyProducts);
         when(productRepository.findAllWithCorrespondingCategory(category.getId())).thenReturn(dummyProducts);
-        when(productMapperUtility.convertToProductListObject(dummyProducts)).thenReturn(productListDummy);
 
         // when
-        ProductList result = productService.findAllByCorrespondingCategory(category.getId());
+        List<Product> result = productService.findAllByCorrespondingCategory(category.getId());
 
         // then
-        assertThat(result).isEqualTo(productListDummy);
+        assertThat(result).isEqualTo(dummyProducts);
         verify(productRepository, times(1)).findAllWithCorrespondingCategory(category.getId());
     }
 

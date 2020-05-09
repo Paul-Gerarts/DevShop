@@ -2,8 +2,6 @@ package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.CategoryChangeDto;
-import be.syntra.devshop.DevshopBack.models.ProductDto;
-import be.syntra.devshop.DevshopBack.models.ProductList;
 
 import java.util.List;
 
@@ -14,7 +12,7 @@ public interface ProductService {
 
     List<Product> findAll();
 
-    ProductList findAllByCorrespondingCategory(Long id);
+    List<Product> findAllByCorrespondingCategory(Long id);
 
     void setNewCategory(CategoryChangeDto categoryChangeDto);
 

@@ -4,12 +4,12 @@ import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.*;
 import be.syntra.devshop.DevshopBack.services.CategoryService;
 import be.syntra.devshop.DevshopBack.services.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import be.syntra.devshop.DevshopBack.services.SearchService;
 import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapper;
 import be.syntra.devshop.DevshopBack.services.utilities.ProductMapper;
 import be.syntra.devshop.DevshopBack.services.utilities.SearchModelMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,7 +49,7 @@ public class ProductController {
     public ResponseEntity<ProductList> retrieveAllWithCorrespondingCategory(@PathVariable Long id) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(productService.findAllByCorrespondingCategory(id));
+                .body(productMapper.convertToProductListObject(productService.findAllByCorrespondingCategory(id)));
     }
 
     /*
