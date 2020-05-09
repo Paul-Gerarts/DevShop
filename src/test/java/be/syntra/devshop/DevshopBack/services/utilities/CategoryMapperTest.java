@@ -16,10 +16,10 @@ import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCa
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-public class CategoryMapperUtilityTest {
+public class CategoryMapperTest {
 
     @InjectMocks
-    private CategoryMapperUtility categoryMapperUtility;
+    private CategoryMapper categoryMapper;
 
     @Mock
     private CategoryServiceImpl categoryService;
@@ -35,7 +35,7 @@ public class CategoryMapperUtilityTest {
         List<Category> categories = createCategoryList();
 
         // when
-        CategoryList result = categoryMapperUtility.convertToCategoryList(categories);
+        CategoryList result = categoryMapper.convertToCategoryList(categories);
 
         // then
         assertThat(result.getClass()).isEqualTo(CategoryList.class);
@@ -54,7 +54,7 @@ public class CategoryMapperUtilityTest {
         when(categoryService.findOneByName(categoryName)).thenReturn(category);
 
         // when
-        List<Category> result = categoryMapperUtility.mapToCategory(categoryNames);
+        List<Category> result = categoryMapper.mapToCategory(categoryNames);
 
         // then
         assertThat(result.size()).isEqualTo(categoryNames.size());

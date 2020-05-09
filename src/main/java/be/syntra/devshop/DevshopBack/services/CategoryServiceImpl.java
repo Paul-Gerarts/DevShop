@@ -2,9 +2,7 @@ package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.models.CategoryChangeDto;
-import be.syntra.devshop.DevshopBack.models.CategoryList;
 import be.syntra.devshop.DevshopBack.repositories.CategoryRepository;
-import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapperUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,15 +12,12 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
-    private final CategoryMapperUtility categoryMapperUtility;
 
     @Autowired
     public CategoryServiceImpl(
-            CategoryRepository categoryRepository,
-            CategoryMapperUtility categoryMapperUtility
-    ) {
+            CategoryRepository categoryRepository)
+    {
         this.categoryRepository = categoryRepository;
-        this.categoryMapperUtility = categoryMapperUtility;
     }
 
     @Override
@@ -31,8 +26,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryList findAll() {
-        return categoryMapperUtility.convertToCategoryList(categoryRepository.findAllByOrderByNameAsc());
+    public List<Category> findAll() {
+        return categoryRepository.findAllByOrderByNameAsc();
     }
 
     @Override
@@ -53,7 +48,6 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.save(category);
         return category;
     }
-
 
     @Override
     public void delete(Long id) {

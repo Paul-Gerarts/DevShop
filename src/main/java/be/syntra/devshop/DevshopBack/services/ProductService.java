@@ -5,22 +5,24 @@ import be.syntra.devshop.DevshopBack.models.CategoryChangeDto;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.models.ProductList;
 
+import java.util.List;
+
 
 public interface ProductService {
 
-    ProductDto save(ProductDto productDTO);
+    Product save(Product product);
 
-    ProductList findAll();
+    List<Product> findAll();
 
     ProductList findAllByCorrespondingCategory(Long id);
 
     void setNewCategory(CategoryChangeDto categoryChangeDto);
 
-    ProductList findAllByArchivedFalse();
+    List<Product> findAllByArchivedFalse();
 
-    ProductList findAllByArchivedTrue();
+    List<Product> findAllByArchivedTrue();
 
-    ProductList findAllByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest);
+    List<Product> findAllByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest);
 
     Product findById(Long id);
 }

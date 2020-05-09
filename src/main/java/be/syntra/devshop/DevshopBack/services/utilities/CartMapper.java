@@ -9,7 +9,7 @@ import java.util.List;
 import static java.util.stream.Collectors.toUnmodifiableList;
 
 @Component
-public class CartMapperUtility {
+public class CartMapper {
 
 
     public CartDto convertToCartDto(Cart cart) {

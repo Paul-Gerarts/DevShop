@@ -2,7 +2,6 @@ package be.syntra.devshop.DevshopBack.factories;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
-import be.syntra.devshop.DevshopBack.models.CategoryList;
 import be.syntra.devshop.DevshopBack.services.CategoryServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,7 +56,7 @@ public class ProductFactoryTest {
         // given
         int amountOfProductsToGenerate = new Random().nextInt(100);
         List<Category> categories = createCategoryList();
-        when(categoryService.findAll()).thenReturn(new CategoryList(categories));
+        when(categoryService.findAll()).thenReturn(categories);
 
         // when
         List<Product> result = productFactory.ofRandomProducts(amountOfProductsToGenerate);

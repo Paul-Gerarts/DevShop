@@ -5,7 +5,7 @@ import be.syntra.devshop.DevshopBack.exceptions.CategoryNotFoundException;
 import be.syntra.devshop.DevshopBack.models.CategoryChangeDto;
 import be.syntra.devshop.DevshopBack.models.CategoryList;
 import be.syntra.devshop.DevshopBack.repositories.CategoryRepository;
-import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapperUtility;
+import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -27,7 +27,7 @@ public class CategoryServiceTest {
     private CategoryRepository categoryRepository;
 
     @Mock
-    private CategoryMapperUtility categoryMapperUtility;
+    private CategoryMapper categoryMapper;
 
     @InjectMocks
     private CategoryServiceImpl categoryService;
@@ -57,10 +57,10 @@ public class CategoryServiceTest {
         // given
         List<Category> categoriesDummy = createCategoryList();
         when(categoryRepository.findAllByOrderByNameAsc()).thenReturn(categoriesDummy);
-        when(categoryMapperUtility.convertToCategoryList(any())).thenReturn(new CategoryList(categoriesDummy));
+        when(categoryMapper.convertToCategoryList(any())).thenReturn(new CategoryList(categoriesDummy));
 
         // when
-        List<Category> result = categoryService.findAll().getCategories();
+        List<Category> result = categoryService.findAll();
 
         // then
         assertThat(result.size()).isEqualTo(categoriesDummy.size());

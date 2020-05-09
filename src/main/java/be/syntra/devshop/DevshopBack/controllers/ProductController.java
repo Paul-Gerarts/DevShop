@@ -4,37 +4,45 @@ import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.*;
 import be.syntra.devshop.DevshopBack.services.CategoryService;
 import be.syntra.devshop.DevshopBack.services.ProductService;
-import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapperUtility;
 import org.springframework.beans.factory.annotation.Autowired;
+import be.syntra.devshop.DevshopBack.services.SearchService;
+import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapper;
+import be.syntra.devshop.DevshopBack.services.utilities.ProductMapper;
+import be.syntra.devshop.DevshopBack.services.utilities.SearchModelMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/products")
 public class ProductController {
 
     private final ProductService productService;
     private final CategoryService categoryService;
-    private final CategoryMapperUtility categoryMapperUtility;
+    private final SearchService searchService;
+    private final SearchModelMapper searchModelMapper;
+    private final ProductMapper productMapper;
+    private final CategoryMapper categoryMapper;
 
     @Autowired
     public ProductController(
             ProductService productService,
             CategoryService categoryService,
-            CategoryMapperUtility categoryMapperUtility
+            SearchService searchService,
+            SearchModelMapper searchModelMapper,
+            ProductMapper productMapper,
+            CategoryMapper categoryMapper
     ) {
         this.productService = productService;
         this.categoryService = categoryService;
-        this.categoryMapperUtility = categoryMapperUtility;
-    }
-
-    @GetMapping()
-    public ResponseEntity<ProductList> retrieveAllNonArchivedProducts() {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(productService.findAllByArchivedFalse());
+        this.searchService = searchService;
+        this.searchModelMapper = searchModelMapper;
+        this.productMapper = productMapper;
+        this.categoryMapper = categoryMapper;
     }
 
     @GetMapping("/all/{id}")
@@ -49,7 +57,7 @@ public class ProductController {
      */
     @PostMapping()
     public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto) {
-        productService.save(productDto);
+        saveProduct(productDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(productDto);
@@ -63,32 +71,25 @@ public class ProductController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto product) {
-        productService.save(product);
+    public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto) {
+        saveProduct(productDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(product);
-    }
-
-    @GetMapping("/archived")
-    public ResponseEntity<ProductList> retrieveAllArchivedProducts() {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(productService.findAllByArchivedTrue());
+                .body(productDto);
     }
 
     @GetMapping("/categories")
     public ResponseEntity<CategoryList> retrieveAllCategories() {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(categoryService.findAll());
+                .body(categoryMapper.convertToCategoryList(categoryService.findAll()));
     }
 
     @GetMapping("/categories/{id}")
     public ResponseEntity<CategoryDto> findCategoryBy(@PathVariable Long id) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(categoryMapperUtility.mapToCategoryDto(categoryService.findById(id)));
+                .body(categoryMapper.mapToCategoryDto(categoryService.findById(id)));
     }
 
     @DeleteMapping("/categories/{id}")
@@ -113,10 +114,19 @@ public class ProductController {
                 .body(categoryChangeDto);
     }
 
-    @GetMapping("/search/{searchRequest}")
-    public ResponseEntity<ProductList> retrieveAllProductsBySearchRequest(@PathVariable String searchRequest) {
+    @PostMapping("/searching")
+    public ResponseEntity<ProductList> retrieveAllProductsBySearchModel(@RequestBody SearchModelDto searchModelDto) {
+        log.info("retrieveAllProductsBySearchModel -> searchModel{}", searchModelDto);
+        final List<Product> productList = searchService.applySearchModel(
+                searchModelMapper.convertToSearchModel(searchModelDto)
+        );
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest));
+                .body(productMapper.convertToProductListObject(productList)
+                );
+    }
+
+    private void saveProduct(ProductDto productDto) {
+        productService.save(productMapper.convertToProduct(productDto));
     }
 }
