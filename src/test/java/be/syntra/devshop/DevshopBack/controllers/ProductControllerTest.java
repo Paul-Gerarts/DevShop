@@ -269,7 +269,7 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.categoryToDelete").value(equalTo(1)))
                 .andExpect(jsonPath("$.categoryToSet").value(equalTo(2)));
 
-        verify(productService, times(1)).setNewCategory(any());
+        verify(productService, times(1)).setNewCategory(any(), any());
     }
 
     @Test
@@ -293,6 +293,6 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.categoryToDelete").value(equalTo(1)))
                 .andExpect(jsonPath("$.newCategoryName").value(equalTo("Test")));
 
-        verify(categoryService, times(1)).updateCategory(any());
+        verify(categoryService, times(1)).updateCategory(any(), any());
     }
 }

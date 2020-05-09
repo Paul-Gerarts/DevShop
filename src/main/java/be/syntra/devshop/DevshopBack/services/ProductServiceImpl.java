@@ -3,7 +3,6 @@ package be.syntra.devshop.DevshopBack.services;
 import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.exceptions.ProductNotFoundException;
-import be.syntra.devshop.DevshopBack.models.CategoryChangeDto;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,11 +36,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void setNewCategory(CategoryChangeDto categoryChangeDto) {
-        List<Product> productsToChange = productRepository.findAllWithCorrespondingCategory(categoryChangeDto.getCategoryToDelete());
-        Category categoryToSet = categoryService.findById(categoryChangeDto.getCategoryToSet());
+    public void setNewCategory(Long categoryToDelete, Long categoryToSet) {
+        List<Product> productsToChange = productRepository.findAllWithCorrespondingCategory(categoryToDelete);
+        Category newCategoryToSet = categoryService.findById(categoryToSet);
         List<Category> newCategories = new ArrayList<>();
-        newCategories.add(categoryToSet);
+        newCategories.add(newCategoryToSet);
         productsToChange.forEach(product -> product.setCategories(newCategories));
         productRepository.saveAll(productsToChange);
     }

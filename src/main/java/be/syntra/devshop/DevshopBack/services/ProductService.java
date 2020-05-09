@@ -1,7 +1,6 @@
 package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
-import be.syntra.devshop.DevshopBack.models.CategoryChangeDto;
 
 import java.util.List;
 
@@ -14,7 +13,7 @@ public interface ProductService {
 
     List<Product> findAllByCorrespondingCategory(Long id);
 
-    void setNewCategory(CategoryChangeDto categoryChangeDto);
+    void setNewCategory(Long categoryToDelete, Long categoryToSet);
 
     List<Product> findAllByArchivedFalse();
 

@@ -167,7 +167,7 @@ class ProductServiceTest {
         when(productRepository.findAllWithCorrespondingCategory(category.getId())).thenReturn(dummyProducts);
 
         // when
-        productService.setNewCategory(categoryChangeDto);
+        productService.setNewCategory(categoryChangeDto.getCategoryToDelete(), categoryChangeDto.getCategoryToSet());
 
         // then
         assertThat(dummyProducts.get(0).getCategories().get(0).getName()).isEqualTo(category.getName());

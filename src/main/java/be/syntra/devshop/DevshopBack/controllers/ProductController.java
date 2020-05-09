@@ -100,7 +100,7 @@ public class ProductController {
 
     @PostMapping("/categories/set_category")
     public ResponseEntity<CategoryChangeDto> setNewCategoryForProducts(@RequestBody CategoryChangeDto categoryChangeDto) {
-        productService.setNewCategory(categoryChangeDto);
+        productService.setNewCategory(categoryChangeDto.getCategoryToDelete(), categoryChangeDto.getCategoryToSet());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(categoryChangeDto);
@@ -108,7 +108,7 @@ public class ProductController {
 
     @PostMapping("/categories/update_category")
     public ResponseEntity<CategoryChangeDto> updateCategory(@RequestBody CategoryChangeDto categoryChangeDto) {
-        categoryService.updateCategory(categoryChangeDto);
+        categoryService.updateCategory(categoryChangeDto.getNewCategoryName(), categoryChangeDto.getCategoryToSet());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(categoryChangeDto);

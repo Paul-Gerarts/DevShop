@@ -1,7 +1,6 @@
 package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
-import be.syntra.devshop.DevshopBack.models.CategoryChangeDto;
 import be.syntra.devshop.DevshopBack.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,9 +41,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category updateCategory(CategoryChangeDto categoryChangeDto) {
-        Category category = findById(categoryChangeDto.getCategoryToSet());
-        category.setName(categoryChangeDto.getNewCategoryName());
+    public Category updateCategory(String newCategoryName, Long categoryToSet) {
+        Category category = findById(categoryToSet);
+        category.setName(newCategoryName);
         categoryRepository.save(category);
         return category;
     }

@@ -121,7 +121,7 @@ public class CategoryServiceTest {
         when(categoryRepository.findById(category.getId())).thenReturn(of(category));
 
         // when
-        Category result = categoryService.updateCategory(categoryChangeDto);
+        Category result = categoryService.updateCategory(categoryChangeDto.getNewCategoryName(), categoryChangeDto.getCategoryToSet());
 
         // then
         assertThat(result.getName()).isEqualTo(categoryChangeDto.getNewCategoryName());
