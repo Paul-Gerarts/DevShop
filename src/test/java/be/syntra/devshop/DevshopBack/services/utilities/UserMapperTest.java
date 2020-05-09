@@ -21,19 +21,19 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class UserMapperUtilityTest {
+public class UserMapperTest {
 
     @InjectMocks
-    private UserMapperUtility userMapperUtility;
+    private UserMapper userMapper;
 
     @Mock
-    private ProductMapperUtility productMapperUtility;
+    private ProductMapper productMapper;
 
     @Mock
-    private AddressMapperUtility addressMapperUtility;
+    private AddressMapper addressMapper;
 
     @Mock
-    private CartMapperUtility cartMapperUtility;
+    private CartMapper cartMapper;
 
     @BeforeEach
     public void setUp() {
@@ -45,13 +45,13 @@ public class UserMapperUtilityTest {
         // given
         UserDto userDto = createUserDto();
         List<Product> dummyProductListFromUser = createDummyNonArchivedProductList();
-        when(addressMapperUtility.convertToAddress(any())).thenReturn(createAddress());
-        when(cartMapperUtility.convertToCart(any())).thenReturn(createActiveCart());
-        when(cartMapperUtility.convertToCartList(any())).thenReturn(createDummyCartList());
-        when(productMapperUtility.convertToProductList(any())).thenReturn(dummyProductListFromUser);
+        when(addressMapper.convertToAddress(any())).thenReturn(createAddress());
+        when(cartMapper.convertToCart(any())).thenReturn(createActiveCart());
+        when(cartMapper.convertToCartList(any())).thenReturn(createDummyCartList());
+        when(productMapper.convertToProductList(any())).thenReturn(dummyProductListFromUser);
 
         // when
-        User mappedUser = userMapperUtility.convertToUser(userDto);
+        User mappedUser = userMapper.convertToUser(userDto);
 
         // then
         assertEquals(mappedUser.getClass(), User.class);
@@ -75,12 +75,12 @@ public class UserMapperUtilityTest {
     void convertToUserDtoTest() {
         // given
         User user = createUser();
-        when(addressMapperUtility.convertToAddressDto(any())).thenReturn(createAddressDto());
-        when(cartMapperUtility.convertToCartDto(any())).thenReturn(createCartDto());
-        when(cartMapperUtility.convertToCartDtoList(any())).thenReturn(createDummyCartDtoList());
+        when(addressMapper.convertToAddressDto(any())).thenReturn(createAddressDto());
+        when(cartMapper.convertToCartDto(any())).thenReturn(createCartDto());
+        when(cartMapper.convertToCartDtoList(any())).thenReturn(createDummyCartDtoList());
 
         // when
-        UserDto mappedUserDto = userMapperUtility.convertToUserDto(user);
+        UserDto mappedUserDto = userMapper.convertToUserDto(user);
 
         // then
         assertEquals(mappedUserDto.getClass(), UserDto.class);

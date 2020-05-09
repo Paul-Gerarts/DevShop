@@ -3,7 +3,7 @@ package be.syntra.devshop.DevshopBack.controllers;
 import be.syntra.devshop.DevshopBack.entities.Cart;
 import be.syntra.devshop.DevshopBack.models.CartDto;
 import be.syntra.devshop.DevshopBack.services.CartService;
-import be.syntra.devshop.DevshopBack.services.utilities.CartMapperUtility;
+import be.syntra.devshop.DevshopBack.services.utilities.CartMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,18 +19,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class CartController {
 
     private final CartService cartService;
-    private final CartMapperUtility cartMapperUtility;
+    private final CartMapper cartMapper;
 
     @Autowired
-    public CartController(CartService cartService, CartMapperUtility cartMapperUtility) {
+    public CartController(CartService cartService, CartMapper cartMapper) {
         this.cartService = cartService;
-        this.cartMapperUtility = cartMapperUtility;
+        this.cartMapper = cartMapper;
     }
 
     @PostMapping
     public ResponseEntity<CartDto> createArchivedCart(@RequestBody CartDto cartDto) {
         log.info("cart() -> {}", cartDto);
-        Cart cart = cartMapperUtility.convertToCart(cartDto);
+        Cart cart = cartMapper.convertToCart(cartDto);
         cartService.saveCartToArchivedCarts(cart, cartDto.getUser());
         return ResponseEntity
                 .status(HttpStatus.CREATED)

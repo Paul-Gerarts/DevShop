@@ -10,8 +10,6 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    List<Product> findAllByName(String name);
-
     List<Product> findAllByArchivedFalse();
 
     List<Product> findAllByArchivedTrue();

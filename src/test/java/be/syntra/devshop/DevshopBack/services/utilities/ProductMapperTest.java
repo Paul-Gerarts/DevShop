@@ -13,13 +13,13 @@ import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-class ProductMapperUtilityTest {
+class ProductMapperTest {
 
     @InjectMocks
-    private ProductMapperUtility productMapperUtility;
+    private ProductMapper productMapper;
 
     @Mock
-    private CategoryMapperUtility categoryMapperUtility;
+    private CategoryMapper categoryMapper;
 
     @BeforeEach
     public void setUp() {
@@ -32,7 +32,7 @@ class ProductMapperUtilityTest {
         ProductDto productDto = createProductDto();
 
         // when
-        Product mappedProduct = productMapperUtility.convertToProduct(productDto);
+        Product mappedProduct = productMapper.convertToProduct(productDto);
 
         // then
         assertEquals(mappedProduct.getClass(), Product.class);
@@ -46,7 +46,7 @@ class ProductMapperUtilityTest {
         Product product = createProductWithId();
 
         // when
-        ProductDto mappedProductDto = productMapperUtility.convertToProductDto(product);
+        ProductDto mappedProductDto = productMapper.convertToProductDto(product);
 
         // then
         assertEquals(mappedProductDto.getClass(), ProductDto.class);
@@ -60,7 +60,7 @@ class ProductMapperUtilityTest {
         List<Product> dummyProductList = createDummyNonArchivedProductList();
 
         // when
-        List<ProductDto> mappedToProductDtoList = productMapperUtility.convertToProductDtoList(dummyProductList);
+        List<ProductDto> mappedToProductDtoList = productMapper.convertToProductDtoList(dummyProductList);
 
         // then
         assertEquals(mappedToProductDtoList.get(0).getClass(), ProductDto.class);

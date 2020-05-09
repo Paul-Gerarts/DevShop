@@ -11,10 +11,10 @@ import java.util.List;
 import static java.util.stream.Collectors.toUnmodifiableList;
 
 @Component
-public class ProductMapperUtility {
+public class ProductMapper {
 
     @Autowired
-    private CategoryMapperUtility categoryMapperUtility;
+    private CategoryMapper categoryMapper;
 
     public Product convertToProduct(ProductDto productDTO) {
         return Product.builder()
@@ -23,7 +23,7 @@ public class ProductMapperUtility {
                 .price(productDTO.getPrice())
                 .archived(productDTO.isArchived())
                 .description(productDTO.getDescription())
-                .categories(categoryMapperUtility.mapToCategory(productDTO.getCategoryNames()))
+                .categories(categoryMapper.mapToCategory(productDTO.getCategoryNames()))
                 .build();
     }
 
