@@ -26,8 +26,8 @@ public class SearchServiceImpl implements SearchService {
         List<Product> productList;
 
         productList = (searchModel.isArchivedView())
-                ? productService.findAllByArchivedTrue() :
-                productService.findAllByArchivedFalse();
+                ? productService.findAllByArchivedTrue()
+                : productService.findAllByArchivedFalse();
 
         if (StringUtils.hasText((searchModel.getSearchRequest()))) {
             productList = productList.parallelStream()
