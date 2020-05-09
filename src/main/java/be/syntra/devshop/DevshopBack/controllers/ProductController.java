@@ -1,10 +1,7 @@
 package be.syntra.devshop.DevshopBack.controllers;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
-import be.syntra.devshop.DevshopBack.models.CategoryList;
-import be.syntra.devshop.DevshopBack.models.ProductDto;
-import be.syntra.devshop.DevshopBack.models.ProductList;
-import be.syntra.devshop.DevshopBack.models.SearchModelDto;
+import be.syntra.devshop.DevshopBack.models.*;
 import be.syntra.devshop.DevshopBack.services.CategoryService;
 import be.syntra.devshop.DevshopBack.services.ProductService;
 import be.syntra.devshop.DevshopBack.services.SearchService;
@@ -48,6 +45,13 @@ public class ProductController {
         this.categoryMapper = categoryMapper;
     }
 
+    @GetMapping("/all/{id}")
+    public ResponseEntity<ProductList> retrieveAllWithCorrespondingCategory(@PathVariable Long id) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(productMapper.convertToProductListObject(productService.findAllByCorrespondingCategory(id)));
+    }
+
     /*
      *@Returns: 201-created code when our product's successfully saved
      */
@@ -81,6 +85,35 @@ public class ProductController {
                 .body(categoryMapper.convertToCategoryList(categoryService.findAll()));
     }
 
+    @GetMapping("/categories/{id}")
+    public ResponseEntity<CategoryDto> findCategoryBy(@PathVariable Long id) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(categoryMapper.mapToCategoryDto(categoryService.findById(id)));
+    }
+
+    @DeleteMapping("/categories/{id}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+        categoryService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/categories/set_category")
+    public ResponseEntity<CategoryChangeDto> setNewCategoryForProducts(@RequestBody CategoryChangeDto categoryChangeDto) {
+        productService.setNewCategory(categoryChangeDto.getCategoryToDelete(), categoryChangeDto.getCategoryToSet());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(categoryChangeDto);
+    }
+
+    @PostMapping("/categories/update_category")
+    public ResponseEntity<CategoryChangeDto> updateCategory(@RequestBody CategoryChangeDto categoryChangeDto) {
+        categoryService.updateCategory(categoryChangeDto.getNewCategoryName(), categoryChangeDto.getCategoryToSet());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(categoryChangeDto);
+    }
+
     @PostMapping("/searching")
     public ResponseEntity<ProductList> retrieveAllProductsBySearchModel(@RequestBody SearchModelDto searchModelDto) {
         log.info("retrieveAllProductsBySearchModel -> searchModel{}", searchModelDto);
@@ -96,5 +129,4 @@ public class ProductController {
     private void saveProduct(ProductDto productDto) {
         productService.save(productMapper.convertToProduct(productDto));
     }
-
 }

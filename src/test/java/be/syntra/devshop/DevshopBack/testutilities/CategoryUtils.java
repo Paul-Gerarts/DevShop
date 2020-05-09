@@ -11,4 +11,11 @@ public class CategoryUtils {
                 .name("Headphones")
                 .build());
     }
+
+    public static Category createCategory() {
+        return Category.builder()
+                .id(1L)
+                .name("Headphones")
+                .build();
+    }
 }

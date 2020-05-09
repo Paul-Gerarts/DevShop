@@ -1,6 +1,7 @@
 package be.syntra.devshop.DevshopBack.services.utilities;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
+import be.syntra.devshop.DevshopBack.models.CategoryDto;
 import be.syntra.devshop.DevshopBack.models.CategoryList;
 import be.syntra.devshop.DevshopBack.services.CategoryServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -58,5 +59,22 @@ public class CategoryMapperTest {
         // then
         assertThat(result.size()).isEqualTo(categoryNames.size());
         assertThat(result.get(0).getName()).isEqualTo(categoryNames.get(0));
+    }
+
+    @Test
+    void canMapToCategoryDtoTest() {
+        // given
+        String categoryName = "Headphones";
+        Category category = Category.builder()
+                .id(1L)
+                .name(categoryName)
+                .build();
+
+        // when
+        CategoryDto result = categoryMapper.mapToCategoryDto(category);
+
+        // then
+        assertThat(result.getId()).isEqualTo(category.getId());
+        assertThat(result.getName()).isEqualTo(category.getName());
     }
 }
