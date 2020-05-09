@@ -43,6 +43,13 @@ public class Product {
     @NotBlank
     private String description;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "PRODUCT_REVIEW",
+            joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")},
+            inverseJoinColumns = {@JoinColumn(name = "review_id", referencedColumnName = "review_id")},
+            foreignKey = @ForeignKey(name = "review_fk"))
+    private List<Review> reviews;
+
     private boolean archived;
 
     @Override
