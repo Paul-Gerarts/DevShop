@@ -1,11 +1,12 @@
 package be.syntra.devshop.DevshopBack.services;
 
+import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.exceptions.ProductNotFoundException;
-import be.syntra.devshop.DevshopBack.models.ProductDto;
+import be.syntra.devshop.DevshopBack.models.CategoryChangeDto;
 import be.syntra.devshop.DevshopBack.models.ProductList;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
-import be.syntra.devshop.DevshopBack.services.utilities.ProductMapperUtility;
+import be.syntra.devshop.DevshopBack.services.utilities.ProductMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -15,25 +16,29 @@ import org.mockito.MockitoAnnotations;
 import java.util.List;
 import java.util.Optional;
 
+import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory;
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-public class ProductServiceTest {
+class ProductServiceTest {
 
     @Mock
     private ProductRepository productRepository;
 
     @Mock
-    private ProductMapperUtility productMapperUtility;
+    private CategoryServiceImpl categoryService;
+
+    @Mock
+    private ProductMapper productMapper;
 
     @InjectMocks
     private ProductServiceImpl productService;
 
     @BeforeEach
-    public void init() {
+    void init() {
         MockitoAnnotations.initMocks(this);
     }
 
@@ -41,28 +46,26 @@ public class ProductServiceTest {
     void getAllProductsTest() {
         // given
         List<Product> dummyProducts = createProductList();
-        ProductList dummyProductList = new ProductList(dummyProducts);
         when(productRepository.findAll()).thenReturn(dummyProducts);
-        when(productMapperUtility.convertToProductListObject(dummyProducts)).thenReturn(dummyProductList);
 
         // when
-        ProductList resultProductList = productService.findAll();
+        List<Product> resultProductList = productService.findAll();
 
         // then
-        assertEquals(resultProductList, dummyProductList);
+        assertEquals(resultProductList, dummyProducts);
         verify(productRepository, times(1)).findAll();
     }
 
     @Test
     void saveProductTest() {
         // given
-        ProductDto dummyDto = createProductDto();
+        Product product = createNonArchivedProduct();
 
         // when
-        ProductDto resultProductDto = productService.save(dummyDto);
+        Product resultProduct = productService.save(product);
 
         // then
-        assertEquals(dummyDto, resultProductDto);
+        assertEquals(product, resultProduct);
         verify(productRepository, times(1)).save(any());
     }
 
@@ -85,15 +88,13 @@ public class ProductServiceTest {
         // given
         Product dummyActiveProduct = createArchivedProduct();
         List<Product> dummyProductList = List.of(dummyActiveProduct);
-        ProductList dummyProductListObject = new ProductList(dummyProductList);
         when(productRepository.findAllByArchivedTrue()).thenReturn(dummyProductList);
-        when(productMapperUtility.convertToProductListObject(dummyProductList)).thenReturn(dummyProductListObject);
 
         // when
-        ProductList resultProductList = productService.findAllByArchivedTrue();
+        List<Product> resultProductList = productService.findAllByArchivedTrue();
 
         // then
-        assertThat(resultProductList).isEqualTo(dummyProductListObject);
+        assertThat(resultProductList).isEqualTo(dummyProductList);
         verify(productRepository, times(1)).findAllByArchivedTrue();
     }
 
@@ -103,13 +104,13 @@ public class ProductServiceTest {
         Product dummyArchivedProduct = createNonArchivedProduct();
         List<Product> dummyProductList = List.of(dummyArchivedProduct);
         when(productRepository.findAllByArchivedFalse()).thenReturn(dummyProductList);
-        when(productMapperUtility.convertToProductListObject(dummyProductList)).thenReturn(new ProductList(dummyProductList));
+        when(productMapper.convertToProductListObject(dummyProductList)).thenReturn(new ProductList(dummyProductList));
 
         // when
-        ProductList resultProductList = productService.findAllByArchivedFalse();
+        List<Product> resultProductList = productService.findAllByArchivedFalse();
 
         // then
-        assertThat(resultProductList.getProducts()).isEqualTo(dummyProductList);
+        assertThat(resultProductList).isEqualTo(dummyProductList);
         verify(productRepository, times(1)).findAllByArchivedFalse();
     }
 
@@ -128,15 +129,50 @@ public class ProductServiceTest {
         // given
         String searchRequest = "POst";
         List<Product> dummyProductList = List.of(createNonArchivedProduct());
-        ProductList dummyProductListObject = new ProductList(dummyProductList);
         when(productRepository.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest)).thenReturn(dummyProductList);
-        when(productMapperUtility.convertToProductListObject(dummyProductList)).thenReturn(dummyProductListObject);
 
         // when
-        ProductList resultProduct = productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest);
+        List<Product> resultProductList = productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest);
 
         // then
-        assertThat(resultProduct).isEqualTo(dummyProductListObject);
+        assertEquals(resultProductList,dummyProductList);
         verify(productRepository, times(1)).findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest);
+    }
+
+    @Test
+    void canGetAllProductsWithCorrespondingCategoryTest() {
+        // given
+        Category category = createCategory();
+        List<Product> dummyProducts = List.of(createNonArchivedProduct(), createArchivedProduct());
+        when(productRepository.findAllWithCorrespondingCategory(category.getId())).thenReturn(dummyProducts);
+
+        // when
+        List<Product> result = productService.findAllByCorrespondingCategory(category.getId());
+
+        // then
+        assertThat(result).isEqualTo(dummyProducts);
+        verify(productRepository, times(1)).findAllWithCorrespondingCategory(category.getId());
+    }
+
+    @Test
+    void canSetNewCategoryTest() {
+        // given
+        Category category = createCategory();
+        CategoryChangeDto categoryChangeDto = CategoryChangeDto.builder()
+                .categoryToDelete(1L)
+                .categoryToSet(2L)
+                .build();
+        List<Product> dummyProducts = List.of(createNonArchivedProduct(), createArchivedProduct());
+        when(categoryService.findById(categoryChangeDto.getCategoryToSet())).thenReturn(category);
+        when(productRepository.findAllWithCorrespondingCategory(category.getId())).thenReturn(dummyProducts);
+
+        // when
+        productService.setNewCategory(categoryChangeDto.getCategoryToDelete(), categoryChangeDto.getCategoryToSet());
+
+        // then
+        assertThat(dummyProducts.get(0).getCategories().get(0).getName()).isEqualTo(category.getName());
+        verify(productRepository, times(1)).findAllWithCorrespondingCategory(category.getId());
+        verify(productRepository, times(1)).saveAll(any());
+        verify(categoryService, times(1)).findById(categoryChangeDto.getCategoryToSet());
     }
 }

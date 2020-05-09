@@ -10,10 +10,10 @@ import be.syntra.devshop.DevshopBack.security.jwt.JWTAuthenticationEntryPoint;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
 import be.syntra.devshop.DevshopBack.security.services.SecurityUserService;
 import be.syntra.devshop.DevshopBack.services.UserServiceImpl;
-import be.syntra.devshop.DevshopBack.services.utilities.AddressMapperUtility;
-import be.syntra.devshop.DevshopBack.services.utilities.CartMapperUtility;
-import be.syntra.devshop.DevshopBack.services.utilities.ProductMapperUtility;
-import be.syntra.devshop.DevshopBack.services.utilities.UserMapperUtility;
+import be.syntra.devshop.DevshopBack.services.utilities.AddressMapper;
+import be.syntra.devshop.DevshopBack.services.utilities.CartMapper;
+import be.syntra.devshop.DevshopBack.services.utilities.ProductMapper;
+import be.syntra.devshop.DevshopBack.services.utilities.UserMapper;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Import({JsonUtils.class, WebSecurityConfig.class, CorsConfiguration.class, JWTTokenProvider.class, JWTAuthenticationEntryPoint.class, JWTAccessDeniedHandler.class, UserMapperUtility.class})
+@Import({JsonUtils.class, WebSecurityConfig.class, CorsConfiguration.class, JWTTokenProvider.class, JWTAuthenticationEntryPoint.class, JWTAccessDeniedHandler.class, UserMapper.class})
 @WebMvcTest(UserController.class)
 public class UserControllerTest {
 
@@ -58,13 +58,13 @@ public class UserControllerTest {
     private SecurityUserService securityUserService;
 
     @MockBean
-    private AddressMapperUtility addressMapperUtility;
+    private AddressMapper addressMapper;
 
     @MockBean
-    private CartMapperUtility cartMapperUtility;
+    private CartMapper cartMapper;
 
     @MockBean
-    private ProductMapperUtility productMapperUtility;
+    private ProductMapper productMapper;
 
     @Test
     @WithMockUser

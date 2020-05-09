@@ -1,37 +1,54 @@
 package be.syntra.devshop.DevshopBack.services;
 
+import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.exceptions.ProductNotFoundException;
-import be.syntra.devshop.DevshopBack.models.ProductDto;
-import be.syntra.devshop.DevshopBack.models.ProductList;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
-import be.syntra.devshop.DevshopBack.services.utilities.ProductMapperUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-    private final ProductMapperUtility productMapperUtility;
+    private final CategoryService categoryService;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository,
-                              ProductMapperUtility productMapperUtility
+    public ProductServiceImpl(
+            ProductRepository productRepository,
+            CategoryService categoryService
     ) {
         this.productRepository = productRepository;
-        this.productMapperUtility = productMapperUtility;
+        this.categoryService = categoryService;
     }
 
     @Override
-    public ProductList findAll() {
-        return productMapperUtility.convertToProductListObject(productRepository.findAll());
+    public List<Product> findAll() {
+        return productRepository.findAll();
     }
 
     @Override
-    public ProductDto save(ProductDto productDTO) {
-        productRepository.save(productMapperUtility.convertToProduct(productDTO));
-        return productDTO;
+    public List<Product> findAllByCorrespondingCategory(Long id) {
+        return productRepository.findAllWithCorrespondingCategory(id);
+    }
+
+    @Override
+    public void setNewCategory(Long categoryToDelete, Long categoryToSet) {
+        List<Product> productsToChange = productRepository.findAllWithCorrespondingCategory(categoryToDelete);
+        Category newCategoryToSet = categoryService.findById(categoryToSet);
+        List<Category> newCategories = new ArrayList<>();
+        newCategories.add(newCategoryToSet);
+        productsToChange.forEach(product -> product.setCategories(newCategories));
+        productRepository.saveAll(productsToChange);
+    }
+
+    @Override
+    public Product save(Product product) {
+        productRepository.save(product);
+        return product;
     }
 
     @Override
@@ -41,17 +58,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductList findAllByArchivedFalse() {
-        return productMapperUtility.convertToProductListObject(productRepository.findAllByArchivedFalse());
+    public List<Product> findAllByArchivedFalse() {
+        return productRepository.findAllByArchivedFalse();
     }
 
     @Override
-    public ProductList findAllByArchivedTrue() {
-        return productMapperUtility.convertToProductListObject(productRepository.findAllByArchivedTrue());
+    public List<Product> findAllByArchivedTrue() {
+        return productRepository.findAllByArchivedTrue();
     }
 
     @Override
-    public ProductList findAllByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest) {
-        return productMapperUtility.convertToProductListObject(productRepository.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest));
+    public List<Product> findAllByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest) {
+        return productRepository.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest);
     }
 }

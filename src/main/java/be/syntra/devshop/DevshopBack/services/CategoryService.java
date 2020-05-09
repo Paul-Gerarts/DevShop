@@ -1,7 +1,6 @@
 package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
-import be.syntra.devshop.DevshopBack.models.CategoryList;
 
 import java.util.List;
 
@@ -11,5 +10,11 @@ public interface CategoryService {
 
     Category findOneByName(String name);
 
-    CategoryList findAll();
+    List<Category> findAll();
+
+    Category findById(Long id);
+
+    Category updateCategory(String newCategoryName, Long categoryToSet);
+
+    void delete(Long id);
 }

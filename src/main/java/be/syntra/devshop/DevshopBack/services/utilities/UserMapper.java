@@ -8,21 +8,21 @@ import org.springframework.stereotype.Component;
 import static org.apache.commons.text.WordUtils.capitalizeFully;
 
 @Component
-public class UserMapperUtility {
+public class UserMapper {
 
     @Autowired
-    private AddressMapperUtility addressMapperUtility;
+    private AddressMapper addressMapper;
 
     @Autowired
-    private CartMapperUtility cartMapperUtility;
+    private CartMapper cartMapper;
 
     public UserDto convertToUserDto(User user) {
         return UserDto.builder()
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .fullName(capitalizeFully(user.getFullName(), ' ', '-'))
-                .address(addressMapperUtility.convertToAddressDto(user.getAddress()))
-                .archivedCarts(cartMapperUtility.convertToCartDtoList(user.getArchivedCarts()))
+                .address(addressMapper.convertToAddressDto(user.getAddress()))
+                .archivedCarts(cartMapper.convertToCartDtoList(user.getArchivedCarts()))
                 .build();
     }
 
@@ -31,8 +31,8 @@ public class UserMapperUtility {
                 .firstName(userDto.getFirstName())
                 .lastName(userDto.getLastName())
                 .fullName(capitalizeFully(userDto.getFullName(), ' ', '-'))
-                .address(addressMapperUtility.convertToAddress(userDto.getAddress()))
-                .archivedCarts(cartMapperUtility.convertToCartList(userDto.getArchivedCarts()))
+                .address(addressMapper.convertToAddress(userDto.getAddress()))
+                .archivedCarts(cartMapper.convertToCartList(userDto.getArchivedCarts()))
                 .build();
     }
 

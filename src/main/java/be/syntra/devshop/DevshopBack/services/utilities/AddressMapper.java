@@ -5,7 +5,7 @@ import be.syntra.devshop.DevshopBack.models.AddressDto;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AddressMapperUtility {
+public class AddressMapper {
 
     public Address convertToAddress(AddressDto addressDto) {
         return Address.builder()

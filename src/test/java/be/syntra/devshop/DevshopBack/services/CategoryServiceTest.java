@@ -1,9 +1,11 @@
 package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
+import be.syntra.devshop.DevshopBack.exceptions.CategoryNotFoundException;
+import be.syntra.devshop.DevshopBack.models.CategoryChangeDto;
 import be.syntra.devshop.DevshopBack.models.CategoryList;
 import be.syntra.devshop.DevshopBack.repositories.CategoryRepository;
-import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapperUtility;
+import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -12,8 +14,11 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
+import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory;
 import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategoryList;
+import static java.util.Optional.of;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 public class CategoryServiceTest {
@@ -22,7 +27,7 @@ public class CategoryServiceTest {
     private CategoryRepository categoryRepository;
 
     @Mock
-    private CategoryMapperUtility categoryMapperUtility;
+    private CategoryMapper categoryMapper;
 
     @InjectMocks
     private CategoryServiceImpl categoryService;
@@ -52,10 +57,10 @@ public class CategoryServiceTest {
         // given
         List<Category> categoriesDummy = createCategoryList();
         when(categoryRepository.findAllByOrderByNameAsc()).thenReturn(categoriesDummy);
-        when(categoryMapperUtility.convertToCategoryList(any())).thenReturn(new CategoryList(categoriesDummy));
+        when(categoryMapper.convertToCategoryList(any())).thenReturn(new CategoryList(categoriesDummy));
 
         // when
-        List<Category> result = categoryService.findAll().getCategories();
+        List<Category> result = categoryService.findAll();
 
         // then
         assertThat(result.size()).isEqualTo(categoriesDummy.size());
@@ -75,5 +80,63 @@ public class CategoryServiceTest {
 
         // then
         assertThat(result).isEqualTo(category);
+    }
+
+    @Test
+    void deleteCategoryTest() {
+        // given
+        Category category = createCategory();
+        doNothing().when(categoryRepository).delete(category);
+        when(categoryRepository.findById(category.getId())).thenReturn(of(category));
+
+        // when
+        categoryService.delete(category.getId());
+
+        // then
+        verify(categoryRepository, times(1)).findById(category.getId());
+    }
+
+    @Test
+    void canFindCategoryById() {
+        // given
+        Category category = createCategory();
+        when(categoryRepository.findById(category.getId())).thenReturn(of(category));
+
+        // when
+        Category result = categoryService.findById(category.getId());
+
+        // then
+        assertThat(result.getName()).isEqualTo(category.getName());
+        assertThat(result.getId()).isEqualTo(category.getId());
+    }
+
+    @Test
+    void canUpdateCategory() {
+        // given
+        Category category = createCategory();
+        CategoryChangeDto categoryChangeDto = CategoryChangeDto.builder()
+                .categoryToDelete(1L)
+                .newCategoryName("Test")
+                .build();
+        when(categoryRepository.findById(category.getId())).thenReturn(of(category));
+
+        // when
+        Category result = categoryService.updateCategory(categoryChangeDto.getNewCategoryName(), categoryChangeDto.getCategoryToSet());
+
+        // then
+        assertThat(result.getName()).isEqualTo(categoryChangeDto.getNewCategoryName());
+        verify(categoryRepository, times(1)).save(result);
+    }
+
+    @Test
+    void willThrowExceptionWhenCategoryNotFoundTest() {
+        // given
+        Category category = createCategory();
+        when(categoryRepository.findById(category.getId())).thenThrow(new CategoryNotFoundException("not found"));
+
+        // when
+
+        // then
+        assertThrows(CategoryNotFoundException.class, () -> categoryRepository.findById(category.getId()));
     }
 }

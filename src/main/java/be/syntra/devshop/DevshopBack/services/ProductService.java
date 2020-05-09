@@ -1,21 +1,25 @@
 package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
-import be.syntra.devshop.DevshopBack.models.ProductDto;
-import be.syntra.devshop.DevshopBack.models.ProductList;
+
+import java.util.List;
 
 
 public interface ProductService {
 
-    ProductDto save(ProductDto productDTO);
+    Product save(Product product);
 
-    ProductList findAll();
+    List<Product> findAll();
 
-    ProductList findAllByArchivedFalse();
+    List<Product> findAllByCorrespondingCategory(Long id);
 
-    ProductList findAllByArchivedTrue();
+    void setNewCategory(Long categoryToDelete, Long categoryToSet);
 
-    ProductList findAllByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest);
+    List<Product> findAllByArchivedFalse();
+
+    List<Product> findAllByArchivedTrue();
+
+    List<Product> findAllByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest);
 
     Product findById(Long id);
 }

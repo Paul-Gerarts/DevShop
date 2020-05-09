@@ -2,7 +2,7 @@ package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Cart;
 import be.syntra.devshop.DevshopBack.entities.User;
-import be.syntra.devshop.DevshopBack.services.utilities.CartMapperUtility;
+import be.syntra.devshop.DevshopBack.services.utilities.CartMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -20,7 +20,7 @@ public class CartServiceTest {
     private UserServiceImpl userService;
 
     @Mock
-    private CartMapperUtility cartMapperUtility;
+    private CartMapper cartMapper;
 
     @InjectMocks
     private CartServiceImpl cartService;

@@ -1,6 +1,7 @@
 package be.syntra.devshop.DevshopBack.services.utilities;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
+import be.syntra.devshop.DevshopBack.models.CategoryDto;
 import be.syntra.devshop.DevshopBack.models.CategoryList;
 import be.syntra.devshop.DevshopBack.services.CategoryServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,10 +16,10 @@ import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCa
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-public class CategoryMapperUtilityTest {
+public class CategoryMapperTest {
 
     @InjectMocks
-    private CategoryMapperUtility categoryMapperUtility;
+    private CategoryMapper categoryMapper;
 
     @Mock
     private CategoryServiceImpl categoryService;
@@ -34,7 +35,7 @@ public class CategoryMapperUtilityTest {
         List<Category> categories = createCategoryList();
 
         // when
-        CategoryList result = categoryMapperUtility.convertToCategoryList(categories);
+        CategoryList result = categoryMapper.convertToCategoryList(categories);
 
         // then
         assertThat(result.getClass()).isEqualTo(CategoryList.class);
@@ -53,10 +54,27 @@ public class CategoryMapperUtilityTest {
         when(categoryService.findOneByName(categoryName)).thenReturn(category);
 
         // when
-        List<Category> result = categoryMapperUtility.mapToCategory(categoryNames);
+        List<Category> result = categoryMapper.mapToCategory(categoryNames);
 
         // then
         assertThat(result.size()).isEqualTo(categoryNames.size());
         assertThat(result.get(0).getName()).isEqualTo(categoryNames.get(0));
+    }
+
+    @Test
+    void canMapToCategoryDtoTest() {
+        // given
+        String categoryName = "Headphones";
+        Category category = Category.builder()
+                .id(1L)
+                .name(categoryName)
+                .build();
+
+        // when
+        CategoryDto result = categoryMapper.mapToCategoryDto(category);
+
+        // then
+        assertThat(result.getId()).isEqualTo(category.getId());
+        assertThat(result.getName()).isEqualTo(category.getName());
     }
 }
