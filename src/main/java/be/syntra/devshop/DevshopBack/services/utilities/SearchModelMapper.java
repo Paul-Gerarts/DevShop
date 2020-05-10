@@ -20,6 +20,8 @@ public class SearchModelMapper {
                 .searchResultView(searchModelDto.isSearchResultView())
                 .sortAscendingName(searchModelDto.isSortAscendingName())
                 .sortAscendingPrice(searchModelDto.isSortAscendingPrice())
+                .pageNumber(searchModelDto.getPageNumber())
+                .pageSize(searchModelDto.getPageSize())
                 .build();
     }
 }

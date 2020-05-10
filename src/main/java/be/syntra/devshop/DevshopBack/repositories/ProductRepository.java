@@ -1,11 +1,14 @@
 package be.syntra.devshop.DevshopBack.repositories;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,11 +24,19 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             @Param("categoryId") Long categoryId
     );
 
-    List<Product> findAllByArchivedFalse();
+    Page<Product> findAllByArchivedTrue(Pageable pageable);
 
-    List<Product> findAllByArchivedTrue();
+    Page<Product> findAllByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest, Pageable pageable);
 
-    List<Product> findAllByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest);
+    Page<Product> findAllByDescriptionContainingIgnoreCaseAndArchivedFalse(String description, Pageable pageable);
 
     Optional<Product> findById(Long id);
+
+    Page<Product> findAllByArchivedFalse(Pageable pageable);
+
+    Page<Product> findAllByPriceIsBetween(BigDecimal priceLow,BigDecimal priceHigh,Pageable pageable);
+
+    Page<Product> findAllByNameContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(String searchRequest,BigDecimal priceLow,BigDecimal priceHigh,Pageable pageable);
+
+    Page<Product> findAllByDescriptionContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(String description,BigDecimal priceLow,BigDecimal priceHigh,Pageable pageable);
 }

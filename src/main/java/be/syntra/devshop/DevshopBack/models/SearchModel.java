@@ -22,4 +22,25 @@ public class SearchModel {
     private boolean searchFailure;
     private boolean activeFilters;
     private String appliedFiltersHeader;
+    private Integer pageNumber;
+    private Integer pageSize;
+
+    @Override
+    public String toString() {
+        return "SearchModel{" + "\n" +
+                "searchRequest='" + searchRequest + '\'' + "\n" +
+                ", description='" + description + '\'' + "\n" +
+                ", priceLow=" + priceLow + "\n" +
+                ", priceHigh=" + priceHigh + "\n" +
+                ", sortAscendingName=" + sortAscendingName + "\n" +
+                ", sortAscendingPrice=" + sortAscendingPrice + "\n" +
+                ", archivedView=" + archivedView + "\n" +
+                ", searchResultView=" + searchResultView + "\n" +
+                ", searchFailure=" + searchFailure + "\n" +
+                ", activeFilters=" + activeFilters + "\n" +
+                ", appliedFiltersHeader='" + appliedFiltersHeader + '\'' + "\n" +
+                ", pageNumber=" + pageNumber + "\n" +
+                ", pageSize=" + pageSize + "\n" +
+                '}';
+    }
 }

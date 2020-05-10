@@ -5,8 +5,11 @@ import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.exceptions.ProductNotFoundException;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +26,6 @@ public class ProductServiceImpl implements ProductService {
     ) {
         this.productRepository = productRepository;
         this.categoryService = categoryService;
-    }
-
-    @Override
-    public List<Product> findAll() {
-        return productRepository.findAll();
     }
 
     @Override
@@ -58,17 +56,37 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findAllByArchivedFalse() {
-        return productRepository.findAllByArchivedFalse();
+    public Page<Product> findAllByArchivedFalse(Pageable pageable) {
+        return productRepository.findAllByArchivedFalse(pageable);
     }
 
     @Override
-    public List<Product> findAllByArchivedTrue() {
-        return productRepository.findAllByArchivedTrue();
+    public Page<Product> findAllByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest, Pageable pageable) {
+        return productRepository.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest, pageable);
     }
 
     @Override
-    public List<Product> findAllByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest) {
-        return productRepository.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest);
+    public Page<Product> findAllByArchivedTrue(Pageable pageable) {
+        return productRepository.findAllByArchivedTrue(pageable);
+    }
+
+    @Override
+    public Page<Product> findAllByDescriptionAndByArchivedFalse(String description, Pageable pageable) {
+        return productRepository.findAllByDescriptionContainingIgnoreCaseAndArchivedFalse(description, pageable);
+    }
+
+    @Override
+    public Page<Product> findAllByPriceBetween(BigDecimal priceHigh, BigDecimal priceLow, Pageable pageable) {
+        return productRepository.findAllByPriceIsBetween(priceHigh,priceLow,pageable);
+    }
+
+    @Override
+    public Page<Product> findAllNonArchivedBySearchTermAndPriceBetween(String searchRequest, BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable) {
+        return productRepository.findAllByNameContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(searchRequest,priceLow,priceHigh,pageable);
+    }
+
+    @Override
+    public Page<Product> findAllNonArchivedByDescriptionAndPriceBetween(String description, BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable) {
+        return productRepository.findAllByDescriptionContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(description,priceLow, priceHigh,pageable);
     }
 }

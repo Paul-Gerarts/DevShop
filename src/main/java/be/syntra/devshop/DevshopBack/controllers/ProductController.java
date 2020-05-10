@@ -8,12 +8,15 @@ import be.syntra.devshop.DevshopBack.services.SearchService;
 import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapper;
 import be.syntra.devshop.DevshopBack.services.utilities.ProductMapper;
 import be.syntra.devshop.DevshopBack.services.utilities.SearchModelMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -116,6 +119,13 @@ public class ProductController {
 
     @PostMapping("/searching")
     public ResponseEntity<ProductList> retrieveAllProductsBySearchModel(@RequestBody SearchModelDto searchModelDto) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            objectMapper.writeValue(new File("target/testCartDto.json"), searchModelDto);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         log.info("retrieveAllProductsBySearchModel -> searchModel{}", searchModelDto);
         final List<Product> productList = searchService.applySearchModel(
                 searchModelMapper.convertToSearchModel(searchModelDto)

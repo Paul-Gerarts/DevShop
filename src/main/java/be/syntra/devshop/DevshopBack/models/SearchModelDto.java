@@ -22,5 +22,6 @@ public class SearchModelDto {
     private boolean searchFailure;
     private boolean activeFilters;
     private String appliedFiltersHeader;
-
+    private Integer pageNumber;
+    private Integer pageSize;
 }
