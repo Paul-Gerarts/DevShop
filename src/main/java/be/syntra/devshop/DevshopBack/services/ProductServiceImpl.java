@@ -77,16 +77,21 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<Product> findAllByPriceBetween(BigDecimal priceHigh, BigDecimal priceLow, Pageable pageable) {
-        return productRepository.findAllByPriceIsBetween(priceHigh,priceLow,pageable);
+        return productRepository.findAllByPriceIsBetween(priceHigh, priceLow, pageable);
     }
 
     @Override
     public Page<Product> findAllNonArchivedBySearchTermAndPriceBetween(String searchRequest, BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable) {
-        return productRepository.findAllByNameContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(searchRequest,priceLow,priceHigh,pageable);
+        return productRepository.findAllByNameContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(searchRequest, priceLow, priceHigh, pageable);
     }
 
     @Override
     public Page<Product> findAllNonArchivedByDescriptionAndPriceBetween(String description, BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable) {
-        return productRepository.findAllByDescriptionContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(description,priceLow, priceHigh,pageable);
+        return productRepository.findAllByDescriptionContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(description, priceLow, priceHigh, pageable);
+    }
+
+    @Override
+    public Page<Product> findAllArchivedFalseByPriceBetween(BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable) {
+        return productRepository.findAllByPriceIsBetweenAndArchivedFalse(priceLow, priceHigh, pageable);
     }
 }

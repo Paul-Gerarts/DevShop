@@ -4,6 +4,7 @@ import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.SearchModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,6 +16,10 @@ import java.util.List;
 @Slf4j
 @Service
 public class SearchServiceImpl implements SearchService {
+    @Value("${pagination.default.pageSize}")
+    private int paginationDefaultPageSize;
+    @Value("${pagination.default.pageNumber}")
+    private int paginationDefaultPageNumber;
     private final ProductService productService;
 
     @Autowired
@@ -24,32 +29,71 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public List<Product> applySearchModel(SearchModel searchModel) {
-        log.info("searchModel -> {}",searchModel);
-        Pageable pageable = PageRequest.of(searchModel.getPageNumber(), searchModel.getPageSize());
-        if (searchModel.isSortAscendingPrice()) {
-            log.info("applySearchModel() isSortAscendingPrice-> {}",searchModel.isSortAscendingPrice());
-            pageable = PageRequest.of(searchModel.getPageNumber(), searchModel.getPageSize(), Sort.by("price").ascending());
-        }
-        if (searchModel.isSortAscendingName()) {
-            log.info("applySearchModel() isSortAscendingName -> {}",searchModel.isSortAscendingName());
-            pageable = PageRequest.of(searchModel.getPageNumber(), searchModel.getPageSize(), Sort.by("name").ascending());
-        }
+        log.info("searchModel -> {}", searchModel);
+        Pageable pageable = setSorting(setDefaultPaginationValues(searchModel));
+
         if (searchModel.isSearchResultView()) {
-            log.info("applySearchModel() isSearchResultView -> {}",searchModel.isSearchResultView());
             if (StringUtils.hasText(searchModel.getSearchRequest())) {
-                log.info("applySearchModel() getSearchRequest -> {}",searchModel.getSearchRequest());
-                return productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchModel.getSearchRequest(), pageable).getContent();
+                if (priceFiltersActiveAndValid(searchModel)) {
+                    return productService.findAllNonArchivedBySearchTermAndPriceBetween(searchModel.getSearchRequest(), searchModel.getPriceLow(), searchModel.getPriceHigh(), pageable).getContent();
+                } else {
+                    return productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchModel.getSearchRequest(), pageable).getContent();
+                }
             }
             if (StringUtils.hasText(searchModel.getDescription())) {
-                log.info("applySearchModel() getDescription -> {}",searchModel.getDescription());
-                return productService.findAllByDescriptionAndByArchivedFalse(searchModel.getDescription(), pageable).getContent();
+                if (priceFiltersActiveAndValid(searchModel)) {
+                    return productService.findAllNonArchivedByDescriptionAndPriceBetween(searchModel.getSearchRequest(), searchModel.getPriceLow(), searchModel.getPriceHigh(), pageable).getContent();
+                } else {
+                    return productService.findAllByDescriptionAndByArchivedFalse(searchModel.getDescription(), pageable).getContent();
+                }
+            }
+            if (priceFiltersActiveAndValid(searchModel)) {
+                return productService.findAllArchivedFalseByPriceBetween(searchModel.getPriceLow(), searchModel.getPriceHigh(), pageable).getContent();
             }
         }
+
         if (searchModel.isArchivedView()) {
-            log.info("applySearchModel() isArchivedView -> {}",searchModel.isArchivedView());
             return productService.findAllByArchivedTrue(pageable).getContent();
         }
-        log.info("applySearchModel() -> empty");
+
         return productService.findAllByArchivedFalse(pageable).getContent();
+    }
+
+    private boolean priceFiltersActiveAndValid(SearchModel searchModel) {
+        return searchModel.isActiveFilters() &&
+                null != searchModel.getPriceLow() &&
+                null != searchModel.getPriceHigh();
+    }
+
+    private SearchModel setDefaultPaginationValues(SearchModel searchModel) {
+        if (paginationInfoPresent(searchModel)) {
+            return searchModel;
+        }
+        searchModel.setPageSize(paginationDefaultPageSize);
+        searchModel.setPageNumber(paginationDefaultPageNumber);
+        return searchModel;
+    }
+
+    private boolean paginationInfoPresent(SearchModel searchModel) {
+        return (null != searchModel.getPageSize()) &&
+                (searchModel.getPageSize() > 1) &&
+                (null != searchModel.getPageNumber());
+    }
+
+    private Pageable setSorting(SearchModel searchModel) {
+        Sort sort = null;
+        if (searchModel.isPriceSortActive()) {
+            sort = (searchModel.isSortAscendingPrice()) ?
+                    Sort.by("price").ascending() :
+                    Sort.by("price").descending();
+        }
+        if (searchModel.isNameSortActive()) {
+            sort = (searchModel.isSortAscendingName()) ?
+                    Sort.by("name").ascending() :
+                    Sort.by("name").descending();
+        }
+        return (null == sort) ?
+                PageRequest.of(searchModel.getPageNumber(), searchModel.getPageSize()) :
+                PageRequest.of(searchModel.getPageNumber(), searchModel.getPageSize(), sort);
     }
 }

@@ -17,6 +17,8 @@ public class SearchModel {
     private BigDecimal priceHigh;
     private boolean sortAscendingName;
     private boolean sortAscendingPrice;
+    private boolean nameSortActive;
+    private boolean priceSortActive;
     private boolean archivedView;
     private boolean searchResultView;
     private boolean searchFailure;
@@ -34,6 +36,8 @@ public class SearchModel {
                 ", priceHigh=" + priceHigh + "\n" +
                 ", sortAscendingName=" + sortAscendingName + "\n" +
                 ", sortAscendingPrice=" + sortAscendingPrice + "\n" +
+                ", nameSortActive=" + nameSortActive + "\n" +
+                ", priceSortActive=" + priceSortActive + "\n" +
                 ", archivedView=" + archivedView + "\n" +
                 ", searchResultView=" + searchResultView + "\n" +
                 ", searchFailure=" + searchFailure + "\n" +

@@ -31,4 +31,6 @@ public interface ProductService {
     Page<Product> findAllNonArchivedBySearchTermAndPriceBetween(String searchRequest,BigDecimal priceLow, BigDecimal PriceHigh, Pageable pageable);
 
     Page<Product> findAllNonArchivedByDescriptionAndPriceBetween(String description,BigDecimal priceLow, BigDecimal PriceHigh, Pageable pageable);
+
+    Page<Product> findAllArchivedFalseByPriceBetween(BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable);
 }
