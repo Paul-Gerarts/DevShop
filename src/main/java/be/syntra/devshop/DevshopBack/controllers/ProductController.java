@@ -7,6 +7,7 @@ import be.syntra.devshop.DevshopBack.services.ProductService;
 import be.syntra.devshop.DevshopBack.services.SearchService;
 import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapper;
 import be.syntra.devshop.DevshopBack.services.utilities.ProductMapper;
+import be.syntra.devshop.DevshopBack.services.utilities.ReviewMapper;
 import be.syntra.devshop.DevshopBack.services.utilities.SearchModelMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class ProductController {
     private final SearchModelMapper searchModelMapper;
     private final ProductMapper productMapper;
     private final CategoryMapper categoryMapper;
+    private final ReviewMapper reviewMapper;
 
     @Autowired
     public ProductController(
@@ -35,14 +37,15 @@ public class ProductController {
             SearchService searchService,
             SearchModelMapper searchModelMapper,
             ProductMapper productMapper,
-            CategoryMapper categoryMapper
-    ) {
+            CategoryMapper categoryMapper,
+            ReviewMapper reviewMapper) {
         this.productService = productService;
         this.categoryService = categoryService;
         this.searchService = searchService;
         this.searchModelMapper = searchModelMapper;
         this.productMapper = productMapper;
         this.categoryMapper = categoryMapper;
+        this.reviewMapper = reviewMapper;
     }
 
     @GetMapping("/all/{id}")
@@ -124,6 +127,14 @@ public class ProductController {
                 .status(HttpStatus.OK)
                 .body(productMapper.convertToProductListObject(productList)
                 );
+    }
+
+    @PostMapping("/review")
+    public ResponseEntity<ReviewDto> writeReviewOfProduct(@RequestBody ReviewDto reviewDto) {
+        productService.addReviewToProduct(reviewMapper.convertToReview(reviewDto), productService.findByName(reviewDto.getProductName()));
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(reviewDto);
     }
 
     private void saveProduct(ProductDto productDto) {

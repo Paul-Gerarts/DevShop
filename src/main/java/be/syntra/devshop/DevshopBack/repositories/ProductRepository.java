@@ -28,4 +28,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAllByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest);
 
     Optional<Product> findById(Long id);
+
+    Optional<Product> findByName(String productName);
 }

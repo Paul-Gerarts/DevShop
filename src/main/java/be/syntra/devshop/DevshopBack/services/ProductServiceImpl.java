@@ -2,6 +2,7 @@ package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
+import be.syntra.devshop.DevshopBack.entities.Review;
 import be.syntra.devshop.DevshopBack.exceptions.ProductNotFoundException;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,19 @@ public class ProductServiceImpl implements ProductService {
     public Product findById(Long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("The product with id: " + id + " is not found"));
+    }
+
+    @Override
+    public Product findByName(String productName) {
+        return productRepository.findByName(productName)
+                .orElseThrow(() -> new ProductNotFoundException("The product with name: " + productName + " is not found"));
+    }
+
+    @Override
+    public Review addReviewToProduct(Review review, Product product) {
+        product.getReviews().add(review);
+        save(product);
+        return review;
     }
 
     @Override
