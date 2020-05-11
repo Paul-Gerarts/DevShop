@@ -32,7 +32,7 @@ public class Product {
     private BigDecimal price;
 
     @NotEmpty
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "PRODUCT_CATEGORY",
             joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")},
@@ -43,7 +43,7 @@ public class Product {
     @NotBlank
     private String description;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "PRODUCT_REVIEW",
             joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")},
             inverseJoinColumns = {@JoinColumn(name = "review_id", referencedColumnName = "review_id")},
