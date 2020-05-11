@@ -42,7 +42,7 @@ public class SearchServiceImpl implements SearchService {
             }
             if (StringUtils.hasText(searchModel.getDescription())) {
                 if (priceFiltersActiveAndValid(searchModel)) {
-                    return productService.findAllNonArchivedByDescriptionAndPriceBetween(searchModel.getSearchRequest(), searchModel.getPriceLow(), searchModel.getPriceHigh(), pageable).getContent();
+                    return productService.findAllNonArchivedByDescriptionAndPriceBetween(searchModel.getDescription(), searchModel.getPriceLow(), searchModel.getPriceHigh(), pageable).getContent();
                 } else {
                     return productService.findAllByDescriptionAndByArchivedFalse(searchModel.getDescription(), pageable).getContent();
                 }
