@@ -62,7 +62,7 @@ public class SearchServiceImpl implements SearchService {
                 if (priceFiltersActiveAndValid(searchModel)) {
                     return ProductPageAndMaxPrice.builder()
                             .productPage(
-                                    productService.findAllNonArchivedByDescriptionAndPriceBetween(searchModel.getSearchRequest(), searchModel.getPriceLow(), searchModel.getPriceHigh(), pageable))
+                                    productService.findAllNonArchivedByDescriptionAndPriceBetween(searchModel.getDescription(), searchModel.getPriceLow(), searchModel.getPriceHigh(), pageable))
                             .maxPrice(
                                     searchModel.getPriceHigh())
                             .build();
