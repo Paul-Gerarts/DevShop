@@ -79,6 +79,6 @@ public class ProductUtils {
     }
 
     public static ProductList createDummyProductList(){
-        return new ProductList(createDummyNonArchivedProductList());
+        return ProductList.builder().products(createDummyNonArchivedProductList()).build();
     }
 }

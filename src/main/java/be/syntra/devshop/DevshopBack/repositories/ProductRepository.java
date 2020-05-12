@@ -41,4 +41,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findAllByDescriptionContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(String description,BigDecimal priceLow,BigDecimal priceHigh,Pageable pageable);
 
     Page<Product> findAllByPriceIsBetweenAndArchivedFalse(BigDecimal priceLow,BigDecimal priceHigh,Pageable pageable);
+
 }

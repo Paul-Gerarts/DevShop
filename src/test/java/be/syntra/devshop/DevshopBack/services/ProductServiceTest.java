@@ -4,7 +4,6 @@ import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.exceptions.ProductNotFoundException;
 import be.syntra.devshop.DevshopBack.models.CategoryChangeDto;
-import be.syntra.devshop.DevshopBack.models.ProductList;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
 import be.syntra.devshop.DevshopBack.services.utilities.ProductMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -108,7 +107,7 @@ class ProductServiceTest {
         Product dummyArchivedProduct = createNonArchivedProduct();
         List<Product> dummyProductList = List.of(dummyArchivedProduct);
         //when(productRepository.findAllByArchivedFalse()).thenReturn(dummyProductList);
-        when(productMapper.convertToProductListObject(dummyProductList)).thenReturn(new ProductList(dummyProductList));
+//        when(productMapper.convertToProductListObject(dummyProductList)).thenReturn(new ProductList(dummyProductList));
         Pageable p = PageRequest.of(5,2);
         when(productRepository.findAllByArchivedFalse(p)).thenReturn(Page.empty());
 

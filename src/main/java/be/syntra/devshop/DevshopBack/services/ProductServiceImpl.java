@@ -6,7 +6,9 @@ import be.syntra.devshop.DevshopBack.exceptions.ProductNotFoundException;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -61,8 +63,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Page<Product> findMaxPriceProductByArchivedFalse() {
+        return productRepository.findAllByArchivedFalse(PageRequest.of(0,1, Sort.by("price").descending()));
+    }
+
+    @Override
     public Page<Product> findAllByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest, Pageable pageable) {
         return productRepository.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest, pageable);
+    }
+
+    @Override
+    public Page<Product> findMaxPriceProductByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest) {
+        return productRepository.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest, PageRequest.of(0,1, Sort.by("price").descending()));
     }
 
     @Override
@@ -71,8 +83,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Page<Product> findMaxPriceProductByArchivedTrue() {
+        return productRepository.findAllByArchivedTrue(PageRequest.of(0,1, Sort.by("price").descending()));
+    }
+
+    @Override
     public Page<Product> findAllByDescriptionAndByArchivedFalse(String description, Pageable pageable) {
         return productRepository.findAllByDescriptionContainingIgnoreCaseAndArchivedFalse(description, pageable);
+    }
+
+    @Override
+    public Page<Product> findMaxPriceProductByDescriptionAndByArchivedFalse(String description) {
+        return productRepository.findAllByDescriptionContainingIgnoreCaseAndArchivedFalse(description,PageRequest.of(0,1, Sort.by("price").descending()));
     }
 
     @Override
@@ -86,12 +108,27 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Page<Product> findMaxPriceProductNonArchivedBySearchTermAndPriceBetween(String searchRequest, BigDecimal priceLow, BigDecimal priceHigh) {
+        return productRepository.findAllByNameContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(searchRequest,priceLow,priceHigh,PageRequest.of(0,1, Sort.by("price").descending()));
+    }
+
+    @Override
     public Page<Product> findAllNonArchivedByDescriptionAndPriceBetween(String description, BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable) {
         return productRepository.findAllByDescriptionContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(description, priceLow, priceHigh, pageable);
     }
 
     @Override
+    public Page<Product> findMaxPriceProductNonArchivedByDescriptionAndPriceBetween(String description, BigDecimal priceLow, BigDecimal priceHigh) {
+        return productRepository.findAllByDescriptionContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(description, priceLow, priceHigh, PageRequest.of(0,1, Sort.by("price").descending()));
+    }
+
+    @Override
     public Page<Product> findAllArchivedFalseByPriceBetween(BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable) {
         return productRepository.findAllByPriceIsBetweenAndArchivedFalse(priceLow, priceHigh, pageable);
+    }
+
+    @Override
+    public Page<Product> findMaxPriceProductArchivedFalseByPriceBetween(BigDecimal priceLow, BigDecimal priceHigh) {
+        return productRepository.findAllByPriceIsBetweenAndArchivedFalse(priceLow, priceHigh,PageRequest.of(0,1, Sort.by("price").descending()));
     }
 }

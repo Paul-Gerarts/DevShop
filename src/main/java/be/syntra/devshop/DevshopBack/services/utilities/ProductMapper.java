@@ -4,8 +4,10 @@ import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.models.ProductList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static java.util.stream.Collectors.toUnmodifiableList;
@@ -49,7 +51,16 @@ public class ProductMapper {
                 .collect(toUnmodifiableList());
     }
 
-    public ProductList convertToProductListObject(List<Product> products) {
-        return new ProductList(products);
+    public ProductList convertToProductListObject(Page<Product> productPage, BigDecimal maxPrice){
+        return ProductList.builder()
+                .products(productPage.getContent())
+                .searchResultMaxPrice(maxPrice)
+                .build();
+    }
+
+    public ProductList convertToProductListObject(List<Product> productList){
+        return ProductList.builder()
+                .products(productList)
+                .build();
     }
 }

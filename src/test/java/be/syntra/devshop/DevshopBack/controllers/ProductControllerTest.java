@@ -161,7 +161,7 @@ class ProductControllerTest {
         final List<Product> dummyListOfProducts = createProductList();
         final ProductList productList = createDummyProductList();
         when(searchModelMapper.convertToSearchModel(any())).thenReturn(searchModelDummy);
-        when(searchService.applySearchModel(any())).thenReturn(dummyListOfProducts);
+//        when(searchService.applySearchModel(any())).thenReturn(dummyListOfProducts);
         when(productMapper.convertToProductListObject(any())).thenReturn(productList);
 
         // when
@@ -228,7 +228,7 @@ class ProductControllerTest {
         Category category = createCategory();
         List<Product> dummyProductList = List.of(createNonArchivedProduct(), createArchivedProduct());
         when(productService.findAllByCorrespondingCategory(category.getId())).thenReturn(dummyProductList);
-        when(productMapper.convertToProductListObject(dummyProductList)).thenReturn(new ProductList(dummyProductList));
+//        when(productMapper.convertToProductListObject(dummyProductList)).thenReturn(new ProductList(dummyProductList));
 
         // when
         ResultActions resultActions = mockMvc.perform(get("/products/all/" + category.getId())
