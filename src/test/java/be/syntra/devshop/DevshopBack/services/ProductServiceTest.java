@@ -16,7 +16,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.List;
 import java.util.Optional;
 
-import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory;
+import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory_Headphones;
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -142,7 +142,7 @@ class ProductServiceTest {
     @Test
     void canGetAllProductsWithCorrespondingCategoryTest() {
         // given
-        Category category = createCategory();
+        Category category = createCategory_Headphones();
         List<Product> dummyProducts = List.of(createNonArchivedProduct(), createArchivedProduct());
         when(productRepository.findAllWithCorrespondingCategory(category.getId())).thenReturn(dummyProducts);
 
@@ -157,7 +157,7 @@ class ProductServiceTest {
     @Test
     void canSetNewCategoryTest() {
         // given
-        Category category = createCategory();
+        Category category = createCategory_Headphones();
         CategoryChangeDto categoryChangeDto = CategoryChangeDto.builder()
                 .categoryToDelete(1L)
                 .categoryToSet(2L)
@@ -174,5 +174,26 @@ class ProductServiceTest {
         verify(productRepository, times(1)).findAllWithCorrespondingCategory(category.getId());
         verify(productRepository, times(1)).saveAll(any());
         verify(categoryService, times(1)).findById(categoryChangeDto.getCategoryToSet());
+    }
+
+    @Test
+    void canRemoveOneCategoryTest() {
+        // given
+        Category category = createCategory_Headphones();
+        CategoryChangeDto categoryChangeDto = CategoryChangeDto.builder()
+                .categoryToDelete(1L)
+                .build();
+        List<Product> dummyProducts = createDummyNonArchivedProductList();
+        when(categoryService.findById(categoryChangeDto.getCategoryToDelete())).thenReturn(category);
+        when(productRepository.findAllWithCorrespondingCategories(category.getId())).thenReturn(dummyProducts);
+
+        // when
+        productService.removeOneCategory(categoryChangeDto.getCategoryToDelete());
+
+        // then
+        assertThat(dummyProducts.get(0).getCategories().get(0).getName()).isNotEqualTo(category.getName());
+        verify(productRepository, times(1)).findAllWithCorrespondingCategories(category.getId());
+        verify(productRepository, times(1)).saveAll(any());
+        verify(categoryService, times(1)).findById(categoryChangeDto.getCategoryToDelete());
     }
 }

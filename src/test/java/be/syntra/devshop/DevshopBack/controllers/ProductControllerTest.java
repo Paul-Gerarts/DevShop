@@ -32,8 +32,8 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
-import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory;
 import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategoryList;
+import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory_Headphones;
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.*;
 import static be.syntra.devshop.DevshopBack.testutilities.SearchModelUtils.getDummySearchModel;
 import static be.syntra.devshop.DevshopBack.testutilities.SearchModelUtils.getDummySearchModelDto;
@@ -186,7 +186,7 @@ class ProductControllerTest {
     @WithMockUser
     void canDeleteCategoryTest() throws Exception {
         // given
-        Category category = createCategory();
+        Category category = createCategory_Headphones();
         doNothing().when(categoryService).delete(category.getId());
 
         // when
@@ -203,7 +203,7 @@ class ProductControllerTest {
     @WithMockUser
     void canFindCategoryByIdTest() throws Exception {
         // given
-        Category category = createCategory();
+        Category category = createCategory_Headphones();
         CategoryDto categoryDto = categoryMapper.mapToCategoryDto(category);
         when(categoryService.findById(category.getId())).thenReturn(category);
 
@@ -225,7 +225,7 @@ class ProductControllerTest {
     @WithMockUser
     void canFindProductsWithCorrespondingCategoryTest() throws Exception {
         // given
-        Category category = createCategory();
+        Category category = createCategory_Headphones();
         List<Product> dummyProductList = List.of(createNonArchivedProduct(), createArchivedProduct());
         when(productService.findAllByCorrespondingCategory(category.getId())).thenReturn(dummyProductList);
         when(productMapper.convertToProductListObject(dummyProductList)).thenReturn(new ProductList(dummyProductList));

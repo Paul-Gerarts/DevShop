@@ -22,4 +22,6 @@ public interface ProductService {
     List<Product> findAllByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest);
 
     Product findById(Long id);
+
+    void removeOneCategory(Long id);
 }

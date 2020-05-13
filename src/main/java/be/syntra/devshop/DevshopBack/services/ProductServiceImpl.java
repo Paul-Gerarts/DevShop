@@ -52,6 +52,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public void removeOneCategory(Long id) {
+        List<Product> productsToChange = productRepository.findAllWithCorrespondingCategories(id);
+        Category categoryToDelete = categoryService.findById(id);
+        if (!productsToChange.isEmpty()) {
+            productsToChange.forEach(product -> product.getCategories().remove(categoryToDelete));
+            productRepository.saveAll(productsToChange);
+        }
+    }
+
+    @Override
     public Product findById(Long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("The product with id: " + id + " is not found"));

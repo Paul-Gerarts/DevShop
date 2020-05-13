@@ -21,6 +21,15 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             @Param("categoryId") Long categoryId
     );
 
+    @Query("SELECT p FROM Product p "
+            + "LEFT JOIN p.categories category "
+            + "WHERE category.id = :categoryId "
+            + "AND p.categories.size > 1"
+    )
+    List<Product> findAllWithCorrespondingCategories(
+            @Param("categoryId") Long categoryId
+    );
+
     List<Product> findAllByArchivedFalse();
 
     List<Product> findAllByArchivedTrue();
