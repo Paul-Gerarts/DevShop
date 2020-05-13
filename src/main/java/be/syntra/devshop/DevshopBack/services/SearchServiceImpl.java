@@ -32,90 +32,77 @@ public class SearchServiceImpl implements SearchService {
     @Override
     public ProductPageAndMaxPrice applySearchModel(SearchModel searchModel) {
         log.info("searchModel -> {}", searchModel);
-        Pageable pageable = setSorting(setDefaultPaginationValues(searchModel));
-
+        Pageable pageable = getSortingPageable(setDefaultPaginationValues(searchModel));
         if (searchModel.isSearchResultView()) {
             if (StringUtils.hasText(searchModel.getSearchRequest())) {
-                if (priceFiltersActiveAndValid(searchModel)) {
-                    return ProductPageAndMaxPrice.builder()
-                            .productPage(
-                                    productService.findAllNonArchivedBySearchTermAndPriceBetween(
-                                            searchModel.getSearchRequest(), searchModel.getPriceLow(), searchModel.getPriceHigh(), pageable))
-                            .maxPrice(
-                                    getMaxPriceFromSearch(
-                                            productService.findMaxPriceProductNonArchivedBySearchTermAndPriceBetween(
-                                                    searchModel.getSearchRequest(), searchModel.getPriceLow(), searchModel.getPriceHigh())))
-                            .build();
+                if (isPriceFilterActiveAndValid(searchModel)) {
+                    return getSearchResultsAndMaxPrice(
+                            productService.findAllNonArchivedBySearchTermAndPriceBetween(
+                                    searchModel.getSearchRequest(), searchModel.getPriceLow(), searchModel.getPriceHigh(), pageable),
+                            productService.findMaxPriceProductNonArchivedBySearchTermAndPriceBetween(
+                                    searchModel.getSearchRequest(), searchModel.getPriceLow(), searchModel.getPriceHigh())
+                    );
                 } else {
-                    return ProductPageAndMaxPrice.builder()
-                            .productPage(
-                                    productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(
-                                            searchModel.getSearchRequest(), pageable))
-                            .maxPrice(
-                                    getMaxPriceFromSearch(
-                                            productService.findMaxPriceProductByNameContainingIgnoreCaseAndArchivedFalse(
-                                                    searchModel.getSearchRequest())))
-                            .build();
+                    return getSearchResultsAndMaxPrice(
+                            productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(
+                                    searchModel.getSearchRequest(), pageable),
+                            productService.findMaxPriceProductByNameContainingIgnoreCaseAndArchivedFalse(
+                                    searchModel.getSearchRequest())
+                    );
                 }
             }
             if (StringUtils.hasText(searchModel.getDescription())) {
-                if (priceFiltersActiveAndValid(searchModel)) {
-                    return ProductPageAndMaxPrice.builder()
-                            .productPage(
-                                    productService.findAllNonArchivedByDescriptionAndPriceBetween(searchModel.getDescription(), searchModel.getPriceLow(), searchModel.getPriceHigh(), pageable))
-                            .maxPrice(
-                                    searchModel.getPriceHigh())
-                            .build();
+                if (isPriceFilterActiveAndValid(searchModel)) {
+                    return getSearchResultsAndMaxPrice(
+                            productService.findAllNonArchivedByDescriptionAndPriceBetween(searchModel.getDescription(), searchModel.getPriceLow(), searchModel.getPriceHigh(), pageable),
+                            productService.findMaxPriceProductNonArchivedByDescriptionAndPriceBetween(searchModel.getDescription(), searchModel.getPriceLow(), searchModel.getPriceHigh())
+                    );
                 } else {
-                    return ProductPageAndMaxPrice.builder()
-                            .productPage(
-                                    productService.findAllByDescriptionAndByArchivedFalse(searchModel.getDescription(), pageable))
-                            .maxPrice(
-                                    getMaxPriceFromSearch(
-                                            productService.findMaxPriceProductByDescriptionAndByArchivedFalse(searchModel.getDescription())))
-                            .build();
+                    return getSearchResultsAndMaxPrice(
+                            productService.findAllByDescriptionAndByArchivedFalse(searchModel.getDescription(), pageable),
+                            productService.findMaxPriceProductByDescriptionAndByArchivedFalse(searchModel.getDescription())
+                    );
                 }
             }
-            if (priceFiltersActiveAndValid(searchModel)) {
-                return ProductPageAndMaxPrice.builder()
-                        .productPage(
-                                productService.findAllArchivedFalseByPriceBetween(searchModel.getPriceLow(), searchModel.getPriceHigh(), pageable))
-                        .maxPrice(
-                                searchModel.getPriceHigh())
-                        .build();
+            if (isPriceFilterActiveAndValid(searchModel)) {
+                return getSearchResultsAndMaxPrice(
+                        productService.findAllArchivedFalseByPriceBetween(searchModel.getPriceLow(), searchModel.getPriceHigh(), pageable),
+                        productService.findMaxPriceProductArchivedFalseByPriceBetween(searchModel.getPriceLow(), searchModel.getPriceHigh())
+                );
             }
         }
 
         if (searchModel.isArchivedView()) {
-            return ProductPageAndMaxPrice.builder()
-                    .productPage(
-                            productService.findAllByArchivedTrue(pageable))
-                    .maxPrice(
-                            getMaxPriceFromSearch(
-                                    productService.findMaxPriceProductByArchivedTrue()))
-                    .build();
+            return getSearchResultsAndMaxPrice(
+                    productService.findAllByArchivedTrue(pageable),
+                    productService.findMaxPriceProductByArchivedTrue()
+            );
         }
 
+        return getSearchResultsAndMaxPrice(
+                productService.findAllByArchivedFalse(pageable),
+                productService.findMaxPriceProductByArchivedFalse()
+        );
+    }
+
+    private ProductPageAndMaxPrice getSearchResultsAndMaxPrice(Page<Product> searchResults, Page<Product> productWithMaxPrice) {
         return ProductPageAndMaxPrice.builder()
-                .productPage(
-                        productService.findAllByArchivedFalse(pageable))
-                .maxPrice(
-                        getMaxPriceFromSearch(
-                                productService.findMaxPriceProductByArchivedFalse()))
+                .productPage(searchResults)
+                .maxPrice(getProductMaxPrice(productWithMaxPrice))
                 .build();
     }
 
-    private BigDecimal getMaxPriceFromSearch(Page<Product> productPage) {
+    private BigDecimal getProductMaxPrice(Page<Product> productPage) {
         return productPage.getContent().stream()
                 .findFirst()
                 .map(Product::getPrice)
                 .orElse(BigDecimal.ZERO);
     }
 
-    private boolean priceFiltersActiveAndValid(SearchModel searchModel) {
-        return searchModel.isActiveFilters() &&
-                null != searchModel.getPriceLow() &&
-                null != searchModel.getPriceHigh();
+    private boolean isPriceFilterActiveAndValid(SearchModel searchModel) {
+        return (searchModel.isActiveFilters()) &&
+                (null != searchModel.getPriceLow()) &&
+                (null != searchModel.getPriceHigh());
     }
 
     private SearchModel setDefaultPaginationValues(SearchModel searchModel) {
@@ -133,17 +120,13 @@ public class SearchServiceImpl implements SearchService {
                 (null != searchModel.getPageNumber());
     }
 
-    private Pageable setSorting(SearchModel searchModel) {
+    private Pageable getSortingPageable(SearchModel searchModel) {
         Sort sort = null;
         if (searchModel.isPriceSortActive()) {
-            sort = (searchModel.isSortAscendingPrice()) ?
-                    Sort.by("price").ascending() :
-                    Sort.by("price").descending();
+            sort = (searchModel.isSortAscendingPrice()) ? Sort.by("price").ascending() : Sort.by("price").descending();
         }
         if (searchModel.isNameSortActive()) {
-            sort = (searchModel.isSortAscendingName()) ?
-                    Sort.by("name").ascending() :
-                    Sort.by("name").descending();
+            sort = (searchModel.isSortAscendingName()) ? Sort.by("name").ascending() : Sort.by("name").descending();
         }
         return (null == sort) ?
                 PageRequest.of(searchModel.getPageNumber(), searchModel.getPageSize()) :
