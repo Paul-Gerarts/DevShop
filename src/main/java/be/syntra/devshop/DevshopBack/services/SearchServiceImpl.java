@@ -1,7 +1,7 @@
 package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
-import be.syntra.devshop.DevshopBack.models.ProductPageAndMaxPrice;
+import be.syntra.devshop.DevshopBack.models.ProductPageAndMinMaxPrice;
 import be.syntra.devshop.DevshopBack.models.SearchModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,22 +30,26 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public ProductPageAndMaxPrice applySearchModel(SearchModel searchModel) {
+    public ProductPageAndMinMaxPrice applySearchModel(SearchModel searchModel) {
         log.info("searchModel -> {}", searchModel);
         Pageable pageable = getSortingPageable(setDefaultPaginationValues(searchModel));
         if (searchModel.isSearchResultView()) {
             if (StringUtils.hasText(searchModel.getSearchRequest())) {
                 if (isPriceFilterActiveAndValid(searchModel)) {
-                    return getSearchResultsAndMaxPrice(
+                    return getSearchResultsAndMinMaxPrice(
                             productService.findAllNonArchivedBySearchTermAndPriceBetween(
                                     searchModel.getSearchRequest(), searchModel.getPriceLow(), searchModel.getPriceHigh(), pageable),
+                            productService.findMinPriceProductNonArchivedBySearchTermAndPriceBetween(
+                                    searchModel.getSearchRequest(), searchModel.getPriceLow(), searchModel.getPriceHigh()),
                             productService.findMaxPriceProductNonArchivedBySearchTermAndPriceBetween(
                                     searchModel.getSearchRequest(), searchModel.getPriceLow(), searchModel.getPriceHigh())
                     );
                 } else {
-                    return getSearchResultsAndMaxPrice(
+                    return getSearchResultsAndMinMaxPrice(
                             productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(
                                     searchModel.getSearchRequest(), pageable),
+                            productService.findMinPriceProductByNameContainingIgnoreCaseAndArchivedFalse(
+                                    searchModel.getSearchRequest()),
                             productService.findMaxPriceProductByNameContainingIgnoreCaseAndArchivedFalse(
                                     searchModel.getSearchRequest())
                     );
@@ -53,46 +57,52 @@ public class SearchServiceImpl implements SearchService {
             }
             if (StringUtils.hasText(searchModel.getDescription())) {
                 if (isPriceFilterActiveAndValid(searchModel)) {
-                    return getSearchResultsAndMaxPrice(
+                    return getSearchResultsAndMinMaxPrice(
                             productService.findAllNonArchivedByDescriptionAndPriceBetween(searchModel.getDescription(), searchModel.getPriceLow(), searchModel.getPriceHigh(), pageable),
+                            productService.findMinPriceProductNonArchivedByDescriptionAndPriceBetween(searchModel.getDescription(), searchModel.getPriceLow(), searchModel.getPriceHigh()),
                             productService.findMaxPriceProductNonArchivedByDescriptionAndPriceBetween(searchModel.getDescription(), searchModel.getPriceLow(), searchModel.getPriceHigh())
                     );
                 } else {
-                    return getSearchResultsAndMaxPrice(
+                    return getSearchResultsAndMinMaxPrice(
                             productService.findAllByDescriptionAndByArchivedFalse(searchModel.getDescription(), pageable),
+                            productService.findMinPriceProductByDescriptionAndByArchivedFalse(searchModel.getDescription()),
                             productService.findMaxPriceProductByDescriptionAndByArchivedFalse(searchModel.getDescription())
                     );
                 }
             }
             if (isPriceFilterActiveAndValid(searchModel)) {
-                return getSearchResultsAndMaxPrice(
+                return getSearchResultsAndMinMaxPrice(
                         productService.findAllArchivedFalseByPriceBetween(searchModel.getPriceLow(), searchModel.getPriceHigh(), pageable),
+                        productService.findMinPriceProductArchivedFalseByPriceBetween(searchModel.getPriceLow(), searchModel.getPriceHigh()),
                         productService.findMaxPriceProductArchivedFalseByPriceBetween(searchModel.getPriceLow(), searchModel.getPriceHigh())
                 );
             }
         }
 
         if (searchModel.isArchivedView()) {
-            return getSearchResultsAndMaxPrice(
+            return getSearchResultsAndMinMaxPrice(
                     productService.findAllByArchivedTrue(pageable),
+                    productService.findMinPriceProductByArchivedTrue(),
                     productService.findMaxPriceProductByArchivedTrue()
             );
         }
 
-        return getSearchResultsAndMaxPrice(
+        return getSearchResultsAndMinMaxPrice(
                 productService.findAllByArchivedFalse(pageable),
+                productService.findMinPriceProductByArchivedFalse(),
                 productService.findMaxPriceProductByArchivedFalse()
         );
     }
 
-    private ProductPageAndMaxPrice getSearchResultsAndMaxPrice(Page<Product> searchResults, Page<Product> productWithMaxPrice) {
-        return ProductPageAndMaxPrice.builder()
+    private ProductPageAndMinMaxPrice getSearchResultsAndMinMaxPrice(Page<Product> searchResults, Page<Product> productWithMinPrice, Page<Product> productWithMaxPrice) {
+        return ProductPageAndMinMaxPrice.builder()
                 .productPage(searchResults)
-                .maxPrice(getProductMaxPrice(productWithMaxPrice))
+                .minPrice(getProductPrice(productWithMinPrice))
+                .maxPrice(getProductPrice(productWithMaxPrice))
                 .build();
     }
 
-    private BigDecimal getProductMaxPrice(Page<Product> productPage) {
+    private BigDecimal getProductPrice(Page<Product> productPage) {
         return productPage.getContent().stream()
                 .findFirst()
                 .map(Product::getPrice)

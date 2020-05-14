@@ -3,6 +3,7 @@ package be.syntra.devshop.DevshopBack.services.utilities;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.models.ProductList;
+import be.syntra.devshop.DevshopBack.models.ProductPageAndMinMaxPrice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -51,10 +52,11 @@ public class ProductMapper {
                 .collect(toUnmodifiableList());
     }
 
-    public ProductList convertToProductListObject(Page<Product> productPage, BigDecimal maxPrice){
+    public ProductList convertToProductListObject(ProductPageAndMinMaxPrice productPageAndMinMaxPrice){
         return ProductList.builder()
-                .products(productPage.getContent())
-                .searchResultMaxPrice(maxPrice)
+                .products(productPageAndMinMaxPrice.getProductPage().getContent())
+                .searchResultMinPrice(productPageAndMinMaxPrice.getMinPrice())
+                .searchResultMaxPrice(productPageAndMinMaxPrice.getMaxPrice())
                 .build();
     }
 

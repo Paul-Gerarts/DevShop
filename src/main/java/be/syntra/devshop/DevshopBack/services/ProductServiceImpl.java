@@ -98,7 +98,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> findAllByPriceBetween(BigDecimal priceHigh, BigDecimal priceLow, Pageable pageable) {
+    public Page<Product> findAllByPriceBetween(BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable) {
         return productRepository.findAllByPriceIsBetween(priceHigh, priceLow, pageable);
     }
 
@@ -130,5 +130,42 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> findMaxPriceProductArchivedFalseByPriceBetween(BigDecimal priceLow, BigDecimal priceHigh) {
         return productRepository.findAllByPriceIsBetweenAndArchivedFalse(priceLow, priceHigh,PageRequest.of(0,1, Sort.by("price").descending()));
+    }
+
+    @Override
+    public Page<Product> findMinPriceProductByArchivedFalse() {
+        return productRepository.findAllByArchivedFalse(PageRequest.of(0,1, Sort.by("price").ascending()));
+    }
+
+    @Override
+    public Page<Product> findMinPriceProductByArchivedTrue() {
+        return productRepository.findAllByArchivedTrue(PageRequest.of(0,1, Sort.by("price").ascending()));
+    }
+
+    @Override
+    public Page<Product> findMinPriceProductByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest) {
+        return productRepository.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest, PageRequest.of(0,1, Sort.by("price").ascending()));
+    }
+
+    @Override
+    public Page<Product> findMinPriceProductByDescriptionAndByArchivedFalse(String description) {
+        return productRepository.findAllByDescriptionContainingIgnoreCaseAndArchivedFalse(description,PageRequest.of(0,1, Sort.by("price").ascending()));
+    }
+
+    @Override
+    public Page<Product> findMinPriceProductNonArchivedBySearchTermAndPriceBetween(String searchRequest, BigDecimal priceLow, BigDecimal priceHigh) {
+        return productRepository.findAllByNameContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(searchRequest,priceLow,priceHigh,PageRequest.of(0,1, Sort.by("price").ascending()));
+    }
+
+    @Override
+    public Page<Product> findMinPriceProductNonArchivedByDescriptionAndPriceBetween(String description, BigDecimal priceLow, BigDecimal priceHigh) {
+        return productRepository.findAllByDescriptionContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(description, priceLow, priceHigh, PageRequest.of(0,1, Sort.by("price").ascending()));
+
+    }
+
+    @Override
+    public Page<Product> findMinPriceProductArchivedFalseByPriceBetween(BigDecimal priceLow, BigDecimal priceHigh) {
+        return productRepository.findAllByPriceIsBetweenAndArchivedFalse(priceLow, priceHigh,PageRequest.of(0,1, Sort.by("price").ascending()));
+
     }
 }

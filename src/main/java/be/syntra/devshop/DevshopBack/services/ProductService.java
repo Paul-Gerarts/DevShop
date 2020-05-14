@@ -20,13 +20,19 @@ public interface ProductService {
 
     Page<Product> findMaxPriceProductByArchivedFalse();
 
+    Page<Product> findMinPriceProductByArchivedFalse();
+
     Page<Product> findAllByArchivedTrue(Pageable pageable);
 
     Page<Product> findMaxPriceProductByArchivedTrue();
 
+    Page<Product> findMinPriceProductByArchivedTrue();
+
     Page<Product> findAllByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest, Pageable pageable);
 
     Page<Product> findMaxPriceProductByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest);
+
+    Page<Product> findMinPriceProductByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest);
 
     Product findById(Long id);
 
@@ -34,17 +40,25 @@ public interface ProductService {
 
     Page<Product> findMaxPriceProductByDescriptionAndByArchivedFalse(String description);
 
+    Page<Product> findMinPriceProductByDescriptionAndByArchivedFalse(String description);
+
     Page<Product> findAllByPriceBetween(BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable);
 
     Page<Product> findAllNonArchivedBySearchTermAndPriceBetween(String searchRequest,BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable);
 
     Page<Product> findMaxPriceProductNonArchivedBySearchTermAndPriceBetween(String searchRequest,BigDecimal priceLow, BigDecimal priceHigh);
 
-    Page<Product> findAllNonArchivedByDescriptionAndPriceBetween(String description,BigDecimal priceLow, BigDecimal PriceHigh, Pageable pageable);
+    Page<Product> findMinPriceProductNonArchivedBySearchTermAndPriceBetween(String searchRequest,BigDecimal priceLow, BigDecimal priceHigh);
 
-    Page<Product> findMaxPriceProductNonArchivedByDescriptionAndPriceBetween(String description,BigDecimal priceLow, BigDecimal PriceHigh);
+    Page<Product> findAllNonArchivedByDescriptionAndPriceBetween(String description,BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable);
+
+    Page<Product> findMaxPriceProductNonArchivedByDescriptionAndPriceBetween(String description,BigDecimal priceLow, BigDecimal priceHigh);
+
+    Page<Product> findMinPriceProductNonArchivedByDescriptionAndPriceBetween(String description,BigDecimal priceLow, BigDecimal priceHigh);
 
     Page<Product> findAllArchivedFalseByPriceBetween(BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable);
 
     Page<Product> findMaxPriceProductArchivedFalseByPriceBetween(BigDecimal priceLow, BigDecimal priceHigh);
+
+    Page<Product> findMinPriceProductArchivedFalseByPriceBetween(BigDecimal priceLow, BigDecimal priceHigh);
 }

@@ -162,7 +162,7 @@ class ProductControllerTest {
         final ProductList productList = createDummyProductList();
         when(searchModelMapper.convertToSearchModel(any())).thenReturn(searchModelDummy);
 //        when(searchService.applySearchModel(any())).thenReturn(dummyListOfProducts);
-        when(productMapper.convertToProductListObject(any())).thenReturn(productList);
+//        when(productMapper.convertToProductListObject(any())).thenReturn(productList);
 
         // when
         ResultActions resultActions =

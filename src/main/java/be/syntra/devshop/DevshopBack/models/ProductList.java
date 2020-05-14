@@ -14,5 +14,6 @@ import java.util.List;
 @Builder
 public class ProductList {
     private List<Product> products;
+    private BigDecimal searchResultMinPrice;
     private BigDecimal searchResultMaxPrice;
 }
