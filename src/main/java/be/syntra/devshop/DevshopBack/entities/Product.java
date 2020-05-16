@@ -40,6 +40,14 @@ public class Product {
             foreignKey = @ForeignKey(name = "category_fk"))
     private List<Category> categories;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "PRODUCT_STAR_RATING",
+            joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")},
+            inverseJoinColumns = {@JoinColumn(name = "star_rating_id", referencedColumnName = "star_rating_id")},
+            foreignKey = @ForeignKey(name = "rating_fk"))
+    private List<StarRating> ratings;
+
     @NotBlank
     private String description;
 

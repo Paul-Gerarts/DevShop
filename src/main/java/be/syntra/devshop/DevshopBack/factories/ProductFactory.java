@@ -2,7 +2,9 @@ package be.syntra.devshop.DevshopBack.factories;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
+import be.syntra.devshop.DevshopBack.entities.StarRating;
 import be.syntra.devshop.DevshopBack.services.CategoryServiceImpl;
+import be.syntra.devshop.DevshopBack.services.StarRatingServiceImpl;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,12 +20,15 @@ import java.util.stream.IntStream;
 public class ProductFactory {
 
     private CategoryServiceImpl categoryService;
+    private StarRatingServiceImpl ratingService;
 
     @Autowired
     public ProductFactory(
-            CategoryServiceImpl categoryService
+            CategoryServiceImpl categoryService,
+            StarRatingServiceImpl ratingService
     ) {
         this.categoryService = categoryService;
+        this.ratingService = ratingService;
     }
 
     public Product of(
@@ -31,7 +36,8 @@ public class ProductFactory {
             BigDecimal price,
             String description,
             boolean archived,
-            List<Category> categories
+            List<Category> categories,
+            List<StarRating> ratings
     ) {
         return Product.builder()
                 .name(name)
@@ -39,11 +45,13 @@ public class ProductFactory {
                 .description(description)
                 .archived(archived)
                 .categories(categories)
+                .ratings(ratings)
                 .build();
     }
 
     public List<Product> ofRandomProducts(int amount) {
         List<Category> categories = categoryService.findAll();
+        List<StarRating> ratings = ratingService.findAll();
         List<Product> products = new ArrayList<>();
 
         IntStream.range(1, amount).forEach(number -> {
@@ -57,7 +65,8 @@ public class ProductFactory {
                     new BigDecimal(number),
                     description,
                     randomizeArchivedProductBy(randomCategory),
-                    List.of(category)
+                    List.of(category),
+                    ratings
             ));
         });
 
