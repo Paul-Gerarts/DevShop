@@ -2,6 +2,7 @@ package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
+import be.syntra.devshop.DevshopBack.entities.StarRating;
 import be.syntra.devshop.DevshopBack.exceptions.ProductNotFoundException;
 import be.syntra.devshop.DevshopBack.models.CategoryChangeDto;
 import be.syntra.devshop.DevshopBack.models.ProductList;
@@ -15,9 +16,11 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory;
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.*;
+import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRatingList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -174,5 +177,24 @@ class ProductServiceTest {
         verify(productRepository, times(1)).findAllWithCorrespondingCategory(category.getId());
         verify(productRepository, times(1)).saveAll(any());
         verify(categoryService, times(1)).findById(categoryChangeDto.getCategoryToSet());
+    }
+
+    @Test
+    void canFindAverageRatingScoreForProductTest() {
+        // given
+        Set<StarRating> ratings = createRatingList();
+        when(productRepository.getProductRating(1L)).thenReturn(3D);
+
+        // when
+        Double result = productService.getProductRating(1L);
+        Double doubleCheck = ratings.parallelStream()
+                .mapToDouble(StarRating::getRating)
+                .average()
+                .orElse(Double.NaN);
+
+        // then
+        assertThat(result).isEqualTo(3D);
+        assertThat(result).isEqualTo(doubleCheck);
+        verify(productRepository, times(1)).getProductRating(1L);
     }
 }

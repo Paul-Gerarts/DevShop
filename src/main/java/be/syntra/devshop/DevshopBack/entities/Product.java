@@ -49,6 +49,9 @@ public class Product {
             foreignKey = @ForeignKey(name = "rating_fk"))
     private Set<StarRating> ratings;
 
+    @PositiveOrZero
+    private Double averageRating;
+
     @NotBlank
     private String description;
 

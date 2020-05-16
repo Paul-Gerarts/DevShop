@@ -43,23 +43,4 @@ public class StarRatingServiceTest {
         assertThat(result.size()).isEqualTo(ratings.size());
         verify(ratingRepository, times(1)).findAll();
     }
-
-    @Test
-    void canFindAverageRatingScoreForProductTest() {
-        // given
-        Set<StarRating> ratings = createRatingList();
-        when(ratingRepository.getProductRating()).thenReturn(3D);
-
-        // when
-        Double result = starRatingService.getProductRating();
-        Double doubleCheck = ratings.parallelStream()
-                .mapToDouble(StarRating::getRating)
-                .average()
-                .orElse(Double.NaN);
-
-        // then
-        assertThat(result).isEqualTo(3D);
-        assertThat(result).isEqualTo(doubleCheck);
-        verify(ratingRepository, times(1)).getProductRating();
-    }
 }

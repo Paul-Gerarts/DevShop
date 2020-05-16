@@ -65,9 +65,11 @@ public class ProductController {
 
     @GetMapping("/details/{id}")
     public ResponseEntity<Product> findProductById(@PathVariable("id") Long id) {
+        Product product = productService.findById(id);
+        product.setAverageRating(productService.getProductRating(id));
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(productService.findById(id));
+                .body(product);
     }
 
     @PostMapping("/update")

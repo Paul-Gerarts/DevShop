@@ -71,4 +71,9 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> findAllByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest) {
         return productRepository.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest);
     }
+
+    @Override
+    public Double getProductRating(Long productId) {
+        return productRepository.getProductRating(productId);
+    }
 }

@@ -1,9 +1,11 @@
 package be.syntra.devshop.DevshopBack.models;
 
+import be.syntra.devshop.DevshopBack.entities.StarRating;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -18,4 +20,6 @@ public class ProductDto {
     private String description;
     private boolean archived;
     private List<String> categoryNames;
+    private Set<StarRating> ratings;
+    private Double averageRating;
 }

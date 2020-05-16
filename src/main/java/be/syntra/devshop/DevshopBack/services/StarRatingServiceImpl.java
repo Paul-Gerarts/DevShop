@@ -21,11 +21,6 @@ public class StarRatingServiceImpl implements StarRatingService {
     }
 
     @Override
-    public Double getProductRating() {
-        return ratingRepository.getProductRating();
-    }
-
-    @Override
     public Set<StarRating> findAll() {
         return new HashSet<>(ratingRepository.findAll());
     }

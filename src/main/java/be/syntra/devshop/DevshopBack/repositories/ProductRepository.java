@@ -21,6 +21,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             @Param("categoryId") Long categoryId
     );
 
+    @Query("SELECT AVG(rating.rating) FROM Product p "
+            + "LEFT JOIN p.ratings rating "
+            + "WHERE p.id = :productId"
+    )
+    Double getProductRating(
+            @Param("productId") Long productId
+    );
+
     List<Product> findAllByArchivedFalse();
 
     List<Product> findAllByArchivedTrue();

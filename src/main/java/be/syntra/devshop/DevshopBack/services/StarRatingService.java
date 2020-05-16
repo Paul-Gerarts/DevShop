@@ -6,7 +6,5 @@ import java.util.Set;
 
 public interface StarRatingService {
 
-    Double getProductRating();
-
     Set<StarRating> findAll();
 }
