@@ -136,7 +136,7 @@ public class SearchServiceImpl implements SearchService {
             sort = (searchModel.isSortAscendingPrice()) ? Sort.by("price").ascending() : Sort.by("price").descending();
         }
         if (searchModel.isNameSortActive()) {
-            sort = (searchModel.isSortAscendingName()) ? Sort.by("name").ascending() : Sort.by("name").descending();
+            sort = (searchModel.isSortAscendingName()) ? Sort.by(Sort.Order.asc("name").ignoreCase()) : Sort.by(Sort.Order.desc("name").ignoreCase());
         }
         return (null == sort) ?
                 PageRequest.of(searchModel.getPageNumber(), searchModel.getPageSize()) :
