@@ -21,9 +21,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             @Param("categoryId") Long categoryId
     );
 
-    @Query("SELECT AVG(rating.rating) FROM Product p "
-            + "LEFT JOIN p.ratings rating "
-            + "WHERE p.id = :productId"
+    @Query(value = "SELECT AVG(r.rating) FROM PRODUCT p "
+            + "LEFT JOIN STAR_RATING r "
+            + "WHERE PRODUCT_ID = :productId",
+            nativeQuery = true
     )
     Double getProductRating(
             @Param("productId") Long productId
