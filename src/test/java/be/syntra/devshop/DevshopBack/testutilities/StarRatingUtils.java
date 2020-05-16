@@ -2,12 +2,12 @@ package be.syntra.devshop.DevshopBack.testutilities;
 
 import be.syntra.devshop.DevshopBack.entities.StarRating;
 
-import java.util.List;
+import java.util.Set;
 
 public class StarRatingUtils {
 
-    public static List<StarRating> createRatingList() {
-        return List.of(
+    public static Set<StarRating> createRatingList() {
+        return Set.of(
                 createRating(),
                 StarRating.builder()
                         .rating(1)

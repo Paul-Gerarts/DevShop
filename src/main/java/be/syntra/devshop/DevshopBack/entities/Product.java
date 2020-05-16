@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "product")
@@ -46,7 +47,7 @@ public class Product {
             joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")},
             inverseJoinColumns = {@JoinColumn(name = "star_rating_id", referencedColumnName = "star_rating_id")},
             foreignKey = @ForeignKey(name = "rating_fk"))
-    private List<StarRating> ratings;
+    private Set<StarRating> ratings;
 
     @NotBlank
     private String description;

@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategoryList;
 import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRatingList;
@@ -47,7 +48,7 @@ public class ProductFactoryTest {
         List<Category> categories = createCategoryList();
 
         // when
-        Product resultProduct = productFactory.of(productName, productPrice, productDescription, archived, categories, Collections.emptyList());
+        Product resultProduct = productFactory.of(productName, productPrice, productDescription, archived, categories, Collections.emptySet());
 
         // then
         assertThat(resultProduct.getClass()).isEqualTo(Product.class);
@@ -63,7 +64,7 @@ public class ProductFactoryTest {
         // given
         int amountOfProductsToGenerate = new Random().nextInt(100);
         List<Category> categories = createCategoryList();
-        List<StarRating> ratings = createRatingList();
+        Set<StarRating> ratings = createRatingList();
         when(categoryService.findAll()).thenReturn(categories);
         when(ratingService.findAll()).thenReturn(ratings);
 

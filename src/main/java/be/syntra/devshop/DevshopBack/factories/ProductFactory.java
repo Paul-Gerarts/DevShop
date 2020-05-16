@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 @Component
@@ -37,7 +38,7 @@ public class ProductFactory {
             String description,
             boolean archived,
             List<Category> categories,
-            List<StarRating> ratings
+            Set<StarRating> ratings
     ) {
         return Product.builder()
                 .name(name)
@@ -51,7 +52,7 @@ public class ProductFactory {
 
     public List<Product> ofRandomProducts(int amount) {
         List<Category> categories = categoryService.findAll();
-        List<StarRating> ratings = ratingService.findAll();
+        Set<StarRating> ratings = ratingService.findAll();
         List<Product> products = new ArrayList<>();
 
         IntStream.range(1, amount).forEach(number -> {

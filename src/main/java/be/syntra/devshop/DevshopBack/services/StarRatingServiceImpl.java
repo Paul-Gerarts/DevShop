@@ -5,7 +5,8 @@ import be.syntra.devshop.DevshopBack.repositories.StarRatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class StarRatingServiceImpl implements StarRatingService {
@@ -25,7 +26,7 @@ public class StarRatingServiceImpl implements StarRatingService {
     }
 
     @Override
-    public List<StarRating> findAll() {
-        return ratingRepository.findAll();
+    public Set<StarRating> findAll() {
+        return new HashSet<>(ratingRepository.findAll());
     }
 }

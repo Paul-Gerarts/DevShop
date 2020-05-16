@@ -8,7 +8,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRatingList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,15 +31,15 @@ public class StarRatingServiceTest {
     @Test
     void canFindAllStarRatingsTest() {
         // given
-        List<StarRating> ratings = createRatingList();
-        when(ratingRepository.findAll()).thenReturn(ratings);
+        Set<StarRating> ratings = createRatingList();
+        when(ratingRepository.findAll()).thenReturn(ratings.stream().collect(Collectors.toUnmodifiableList()));
 
         // when
-        List<StarRating> result = starRatingService.findAll();
+        Set<StarRating> result = starRatingService.findAll();
 
         // then
-        assertThat(result.get(0).getRating()).isEqualTo(4);
-        assertThat(result.get(0).getUserName()).isEqualTo("lens.huygh@gmail.com");
+        assertThat(result.stream().collect(Collectors.toUnmodifiableList()).get(0).getRating()).isEqualTo(4);
+        assertThat(result.stream().collect(Collectors.toUnmodifiableList()).get(0).getUserName()).isEqualTo("lens.huygh@gmail.com");
         assertThat(result.size()).isEqualTo(ratings.size());
         verify(ratingRepository, times(1)).findAll();
     }
@@ -46,7 +47,7 @@ public class StarRatingServiceTest {
     @Test
     void canFindAverageRatingScoreForProductTest() {
         // given
-        List<StarRating> ratings = createRatingList();
+        Set<StarRating> ratings = createRatingList();
         when(ratingRepository.getProductRating()).thenReturn(3D);
 
         // when

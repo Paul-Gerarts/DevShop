@@ -196,35 +196,35 @@ public class DataFillerImpl {
                         "The MOST fancy mechanical keyboard of all times",
                         false,
                         retrieveCategoryBy("Accessories"),
-                        Collections.emptyList()),
+                        Collections.emptySet()),
                 productFactory.of(
                         "mousepad",
                         new BigDecimal(3),
                         "The MOST non-waifu mousepad even your mom could approve",
                         false,
                         retrieveCategoryBy("Accessories"),
-                        Collections.emptyList()),
+                        Collections.emptySet()),
                 productFactory.of(
                         "gaming chair",
                         new BigDecimal("1600.99"),
                         "The MOST comfortable chair for your aching back",
                         false,
                         retrieveCategoryBy("Office"),
-                        Collections.emptyList()),
+                        Collections.emptySet()),
                 productFactory.of(
                         "headphones",
                         new BigDecimal(235),
                         "The MOST noise-cancelling headphones. You won't even hear your neighbours screaming",
                         false,
                         retrieveCategoryBy("Headphones"),
-                        Collections.emptyList()),
+                        Collections.emptySet()),
                 productFactory.of(
                         "Windows Pentium 3",
                         new BigDecimal(80),
                         "The MOST redundant PC that isn't even in production anymore",
                         true,
                         retrieveCategoryBy("Desktops"),
-                        Collections.emptyList())
+                        Collections.emptySet())
         );
     }
 }
