@@ -21,7 +21,7 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class UserMapperTest {
+class UserMapperTest {
 
     @InjectMocks
     private UserMapper userMapper;

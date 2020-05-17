@@ -3,6 +3,11 @@ package be.syntra.devshop.DevshopBack.testutilities;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.models.ProductList;
+import be.syntra.devshop.DevshopBack.models.ProductPageAndMinMaxPrice;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -80,5 +85,28 @@ public class ProductUtils {
 
     public static ProductList createDummyProductList(){
         return ProductList.builder().products(createDummyNonArchivedProductList()).build();
+    }
+
+    public static Page<Product> createDummyProductPage() {
+        return new PageImpl<>(createProductList());
+    }
+    public static ProductPageAndMinMaxPrice createProductPageAndMinMaxPrice(){
+        return ProductPageAndMinMaxPrice.builder()
+                .productPage(createDummyProductPage())
+                .minPrice(BigDecimal.ZERO)
+                .maxPrice(BigDecimal.TEN)
+                .build();
+    }
+
+    public static Pageable createDummyPageable(){
+        return PageRequest.of(0, 10);
+    }
+
+    public static ProductPageAndMinMaxPrice getDummyProductPageAndMinMaxPrice() {
+        return ProductPageAndMinMaxPrice.builder()
+                .productPage(createDummyProductPage())
+                .minPrice(BigDecimal.ZERO)
+                .maxPrice(BigDecimal.TEN)
+                .build();
     }
 }

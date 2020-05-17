@@ -2,6 +2,8 @@ package be.syntra.devshop.DevshopBack.services.utilities;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
+import be.syntra.devshop.DevshopBack.models.ProductList;
+import be.syntra.devshop.DevshopBack.models.ProductPageAndMinMaxPrice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -70,4 +72,49 @@ class ProductMapperTest {
         assertEquals(mappedToProductDtoList.get(0).getPrice(), dummyProductList.get(0).getPrice());
         assertEquals(mappedToProductDtoList.get(1).getPrice(), dummyProductList.get(1).getPrice());
     }
+
+    @Test
+    void convertToProductListTest() {
+        // given
+        List<ProductDto> productDtoList = createDummyProductDtoList();
+
+        // when
+        List<Product> resultList = productMapper.convertToProductList(productDtoList);
+
+        // then
+        assertEquals(resultList.get(0).getClass(), Product.class);
+        assertEquals(resultList.get(0).getName(), productDtoList.get(0).getName());
+        assertEquals(resultList.get(1).getName(), productDtoList.get(1).getName());
+        assertEquals(resultList.get(0).getPrice(), productDtoList.get(0).getPrice());
+        assertEquals(resultList.get(1).getPrice(), productDtoList.get(1).getPrice());
+    }
+
+    @Test
+    void convertProductPageAndMinMaxPriceToProductListObjectTest(){
+        // given
+        ProductPageAndMinMaxPrice productPageAndMinMaxPrice = createProductPageAndMinMaxPrice();
+
+        // when
+        ProductList resultProductListObject = productMapper.convertToProductListObject(productPageAndMinMaxPrice);
+
+        // then
+        assertEquals(resultProductListObject.getClass(),ProductList.class);
+        assertEquals(resultProductListObject.getProducts(),productPageAndMinMaxPrice.getProductPage().getContent());
+    }
+
+     @Test
+    void convertListToProductListObjectTest(){
+        // given
+        List<Product> productList = createProductList();
+
+        // when
+        ProductList resultProductListObject = productMapper.convertToProductListObject(productList);
+
+        // then
+        assertEquals(resultProductListObject.getClass(),ProductList.class);
+        assertEquals(resultProductListObject.getProducts(),productList);
+    }
+
+
+
 }
