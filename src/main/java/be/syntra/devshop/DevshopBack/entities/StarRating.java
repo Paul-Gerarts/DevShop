@@ -27,7 +27,7 @@ public class StarRating {
 
     @Column(name = "rating")
     @PositiveOrZero
-    private int rating;
+    private double rating;
 
     @Override
     public boolean equals(Object o) {
