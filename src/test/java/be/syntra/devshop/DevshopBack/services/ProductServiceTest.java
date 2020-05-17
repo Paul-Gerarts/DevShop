@@ -10,6 +10,8 @@ import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
 import be.syntra.devshop.DevshopBack.services.utilities.ProductMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -20,6 +22,7 @@ import java.util.Set;
 
 import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory;
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.*;
+import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRating;
 import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRatingList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -196,5 +199,32 @@ class ProductServiceTest {
         assertThat(result).isEqualTo(3D);
         assertThat(result).isEqualTo(doubleCheck);
         verify(productRepository, times(1)).getProductRating(1L);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"lens.huygh@gmail.com", "user@email.com"})
+    void canSubmitRatingWithOnlyUniqueUserNameTest(String userName) {
+        // given
+        Product product = createNonArchivedProduct();
+        Set<StarRating> ratings = createRatingList();
+        product.setRatings(ratings);
+        StarRating rating = createRating();
+        rating.setUserName(userName);
+        when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
+
+        // when
+        Product result = productService.submitRating(rating, product.getId());
+
+        // then
+        assertThat(result.getRatings().size()).isEqualTo(desiredSetSize(userName));
+        assertThat(result.getRatings().contains(rating)).isTrue();
+        verify(productRepository, times(1)).findById(product.getId());
+        verify(productRepository, times(1)).save(any());
+    }
+
+    private int desiredSetSize(String userName) {
+        return "user@email.com".equals(userName)
+                ? 4
+                : 3;
     }
 }

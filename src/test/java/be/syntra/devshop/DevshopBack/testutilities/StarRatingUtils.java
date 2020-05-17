@@ -29,6 +29,7 @@ public class StarRatingUtils {
 
     public static StarRatingDto createRatingDto() {
         return StarRatingDto.builder()
+                .productId(1L)
                 .rating(4)
                 .userName("lens.huygh@gmail.com")
                 .build();

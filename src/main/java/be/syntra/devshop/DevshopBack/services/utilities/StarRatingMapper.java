@@ -13,4 +13,11 @@ public class StarRatingMapper {
                 .userName(rating.getUserName())
                 .build();
     }
+
+    public StarRating mapToStarRating(StarRatingDto starRatingDto) {
+        return StarRating.builder()
+                .rating(starRatingDto.getRating())
+                .userName(starRatingDto.getUserName())
+                .build();
+    }
 }

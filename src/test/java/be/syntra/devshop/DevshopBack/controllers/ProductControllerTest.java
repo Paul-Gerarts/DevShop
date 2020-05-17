@@ -34,14 +34,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
+import java.util.Set;
 
 import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory;
 import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategoryList;
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.*;
 import static be.syntra.devshop.DevshopBack.testutilities.SearchModelUtils.getDummySearchModel;
 import static be.syntra.devshop.DevshopBack.testutilities.SearchModelUtils.getDummySearchModelDto;
-import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRating;
-import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRatingDto;
+import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.mockito.Mockito.*;
@@ -332,5 +332,32 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.userName").value(equalTo(rating.getUserName())));
 
         verify(ratingService, times(1)).getRatingFromUser(dummyProduct.getId(), rating.getUserName());
+    }
+
+    @Test
+    @WithMockUser
+    void canSubmitRatingTest() throws Exception {
+        // given
+        Product dummyProduct = createNonArchivedProduct();
+        Set<StarRating> ratings = createRatingList();
+        StarRating rating = createRating();
+        StarRatingDto starRatingDto = createRatingDto();
+        dummyProduct.setRatings(ratings);
+        when(productService.submitRating(rating, dummyProduct.getId())).thenReturn(dummyProduct);
+        when(starRatingMapper.mapToStarRating(starRatingDto)).thenReturn(rating);
+
+        // when
+        ResultActions resultActions = mockMvc.perform(post("/products/ratings")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonUtils.asJsonString(rating)));
+
+        // then
+        resultActions
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.rating").value(equalTo(4.0)))
+                .andExpect(jsonPath("$.userName").value(equalTo("lens.huygh@gmail.com")));
+
+        verify(productService, times(1)).submitRating(any(), any());
     }
 }

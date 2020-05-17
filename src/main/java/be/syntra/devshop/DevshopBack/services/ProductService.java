@@ -1,6 +1,7 @@
 package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
+import be.syntra.devshop.DevshopBack.entities.StarRating;
 
 import java.util.List;
 
@@ -24,4 +25,6 @@ public interface ProductService {
     Product findById(Long id);
 
     Double getProductRating(Long productId);
+
+    Product submitRating(StarRating rating, Long productId);
 }

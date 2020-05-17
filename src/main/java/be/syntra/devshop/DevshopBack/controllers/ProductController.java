@@ -87,6 +87,14 @@ public class ProductController {
                 .body(starRatingMapper.mapToDto(ratingService.getRatingFromUser(id, userName)));
     }
 
+    @PostMapping("/ratings")
+    public ResponseEntity<StarRatingDto> submitRating(@RequestBody StarRatingDto starRatingDto) {
+        productService.submitRating(starRatingMapper.mapToStarRating(starRatingDto), starRatingDto.getProductId());
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(starRatingDto);
+    }
+
     @PostMapping("/update")
     public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto) {
         saveProduct(productDto);

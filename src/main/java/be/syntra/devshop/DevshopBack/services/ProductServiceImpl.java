@@ -2,13 +2,16 @@ package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
+import be.syntra.devshop.DevshopBack.entities.StarRating;
 import be.syntra.devshop.DevshopBack.exceptions.ProductNotFoundException;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -75,5 +78,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Double getProductRating(Long productId) {
         return productRepository.getProductRating(productId).orElse(0D);
+    }
+
+    @Override
+    public Product submitRating(StarRating rating, Long productId) {
+        Product product = findById(productId);
+        Set<StarRating> allRatings = new HashSet<>();
+        allRatings.addAll(product.getRatings());
+        allRatings.add(rating);
+        product.setRatings(allRatings);
+        productRepository.save(product);
+        return product;
     }
 }
