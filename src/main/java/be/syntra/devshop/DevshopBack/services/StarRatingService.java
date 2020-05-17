@@ -7,4 +7,6 @@ import java.util.Set;
 public interface StarRatingService {
 
     Set<StarRating> findAll();
+
+    StarRating getRatingFromUser(Long productId, String userName);
 }

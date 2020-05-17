@@ -26,7 +26,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             + "WHERE psr.PRODUCT_ID = :productId",
             nativeQuery = true
     )
-    Double getProductRating(
+    Optional<Double> getProductRating(
             @Param("productId") Long productId
     );
 

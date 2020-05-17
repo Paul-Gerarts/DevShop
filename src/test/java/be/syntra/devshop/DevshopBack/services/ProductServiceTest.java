@@ -183,7 +183,7 @@ class ProductServiceTest {
     void canFindAverageRatingScoreForProductTest() {
         // given
         Set<StarRating> ratings = createRatingList();
-        when(productRepository.getProductRating(1L)).thenReturn(3D);
+        when(productRepository.getProductRating(1L)).thenReturn(Optional.of(3D));
 
         // when
         Double result = productService.getProductRating(1L);

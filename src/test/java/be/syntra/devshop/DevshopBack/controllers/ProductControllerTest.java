@@ -2,6 +2,7 @@ package be.syntra.devshop.DevshopBack.controllers;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
+import be.syntra.devshop.DevshopBack.entities.StarRating;
 import be.syntra.devshop.DevshopBack.factories.SecurityUserFactory;
 import be.syntra.devshop.DevshopBack.models.*;
 import be.syntra.devshop.DevshopBack.security.configuration.CorsConfiguration;
@@ -13,9 +14,11 @@ import be.syntra.devshop.DevshopBack.security.services.SecurityUserService;
 import be.syntra.devshop.DevshopBack.services.CategoryServiceImpl;
 import be.syntra.devshop.DevshopBack.services.ProductServiceImpl;
 import be.syntra.devshop.DevshopBack.services.SearchService;
+import be.syntra.devshop.DevshopBack.services.StarRatingService;
 import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapper;
 import be.syntra.devshop.DevshopBack.services.utilities.ProductMapper;
 import be.syntra.devshop.DevshopBack.services.utilities.SearchModelMapper;
+import be.syntra.devshop.DevshopBack.services.utilities.StarRatingMapper;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -37,6 +40,8 @@ import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCa
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.*;
 import static be.syntra.devshop.DevshopBack.testutilities.SearchModelUtils.getDummySearchModel;
 import static be.syntra.devshop.DevshopBack.testutilities.SearchModelUtils.getDummySearchModelDto;
+import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRating;
+import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRatingDto;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.mockito.Mockito.*;
@@ -63,7 +68,13 @@ class ProductControllerTest {
     private SearchService searchService;
 
     @MockBean
+    private StarRatingService ratingService;
+
+    @MockBean
     private SearchModelMapper searchModelMapper;
+
+    @MockBean
+    private StarRatingMapper starRatingMapper;
 
     @Mock
     private SecurityUserFactory securityUserFactory;
@@ -294,5 +305,32 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.newCategoryName").value(equalTo("Test")));
 
         verify(categoryService, times(1)).updateCategory(any(), any());
+    }
+
+    @Test
+    @WithMockUser
+    void canGetStarRatingFromUserTest() throws Exception {
+        // given
+        final Product dummyProduct = createNonArchivedProduct();
+        final StarRating rating = createRating();
+        final StarRatingDto ratingDto = createRatingDto();
+        when(ratingService.getRatingFromUser(dummyProduct.getId(), rating.getUserName())).thenReturn(rating);
+        when(starRatingMapper.mapToDto(rating)).thenReturn(ratingDto);
+
+        // when
+        ResultActions resultActions =
+                mockMvc.perform(
+                        get("/products/" + rating.getUserName() + "/ratings/" + dummyProduct.getId())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(jsonUtils.asJsonString(ratingDto)));
+
+        // then
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.rating").value(equalTo(rating.getRating())))
+                .andExpect(jsonPath("$.userName").value(equalTo(rating.getUserName())));
+
+        verify(ratingService, times(1)).getRatingFromUser(dummyProduct.getId(), rating.getUserName());
     }
 }

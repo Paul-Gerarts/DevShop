@@ -24,4 +24,9 @@ public class StarRatingServiceImpl implements StarRatingService {
     public Set<StarRating> findAll() {
         return new HashSet<>(ratingRepository.findAll());
     }
+
+    @Override
+    public StarRating getRatingFromUser(Long productId, String userName) {
+        return ratingRepository.getRatingFromUser(productId, userName);
+    }
 }

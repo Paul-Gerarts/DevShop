@@ -74,6 +74,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Double getProductRating(Long productId) {
-        return productRepository.getProductRating(productId);
+        return productRepository.getProductRating(productId).orElse(0D);
     }
 }
