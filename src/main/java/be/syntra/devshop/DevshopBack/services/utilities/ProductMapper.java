@@ -24,6 +24,8 @@ public class ProductMapper {
                 .archived(productDTO.isArchived())
                 .description(productDTO.getDescription())
                 .categories(categoryMapper.mapToCategory(productDTO.getCategoryNames()))
+                .averageRating(productDTO.getAverageRating())
+                .ratings(productDTO.getRatings())
                 .build();
     }
 

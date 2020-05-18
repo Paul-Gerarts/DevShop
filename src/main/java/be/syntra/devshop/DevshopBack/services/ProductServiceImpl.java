@@ -83,11 +83,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product submitRating(StarRating rating, Long productId) {
         Product product = findById(productId);
-        Set<StarRating> allRatings = new HashSet<>();
-        allRatings.addAll(product.getRatings());
-        allRatings.add(rating);
-        product.setRatings(allRatings);
+        product.setRatings(update(product.getRatings(), rating));
         productRepository.save(product);
         return product;
+    }
+
+    private Set<StarRating> update(Set<StarRating> ratings, StarRating rating) {
+        Set<StarRating> allRatings = new HashSet<>();
+        allRatings.addAll(ratings);
+        allRatings.remove(rating);
+        allRatings.add(rating);
+        return allRatings;
     }
 }
