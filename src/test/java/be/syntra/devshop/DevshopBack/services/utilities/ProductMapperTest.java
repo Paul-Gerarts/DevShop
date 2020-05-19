@@ -3,7 +3,7 @@ package be.syntra.devshop.DevshopBack.services.utilities;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.models.ProductList;
-import be.syntra.devshop.DevshopBack.models.ProductPageAndMinMaxPrice;
+import be.syntra.devshop.DevshopBack.models.ProductPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -90,16 +90,16 @@ class ProductMapperTest {
     }
 
     @Test
-    void convertProductPageAndMinMaxPriceToProductListObjectTest(){
+    void convertProductPageToProductListObjectTest(){
         // given
-        ProductPageAndMinMaxPrice productPageAndMinMaxPrice = createProductPageAndMinMaxPrice();
+        ProductPage productPage = createProductPage();
 
         // when
-        ProductList resultProductListObject = productMapper.convertToProductListObject(productPageAndMinMaxPrice);
+        ProductList resultProductListObject = productMapper.convertToProductListObject(productPage);
 
         // then
         assertEquals(resultProductListObject.getClass(),ProductList.class);
-        assertEquals(resultProductListObject.getProducts(),productPageAndMinMaxPrice.getProductPage().getContent());
+        assertEquals(resultProductListObject.getProducts(), productPage.getProductPage().getContent());
     }
 
      @Test

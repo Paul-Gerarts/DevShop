@@ -1,7 +1,7 @@
 package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
-import be.syntra.devshop.DevshopBack.models.ProductPageAndMinMaxPrice;
+import be.syntra.devshop.DevshopBack.models.ProductPage;
 import be.syntra.devshop.DevshopBack.models.SearchModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +19,9 @@ import java.math.BigDecimal;
 @Service
 public class SearchServiceImpl implements SearchService {
     @Value("${pagination.default.pageSize}")
-    private int paginationDefaultPageSize;
+    private int defaultPageSize;
     @Value("${pagination.default.pageNumber}")
-    private int paginationDefaultPageNumber;
+    private int defaultPageNumber;
     private final ProductService productService;
 
     @Autowired
@@ -30,29 +30,30 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public ProductPageAndMinMaxPrice applySearchModel(SearchModel searchModel) {
+    public ProductPage applySearchModel(SearchModel searchModel) {
         log.info("searchModel -> {}", searchModel);
         Pageable pageable = getSortingPageable(setDefaultPaginationValues(searchModel));
         if (searchModel.isSearchResultView()) {
             if (StringUtils.hasText(searchModel.getSearchRequest())) {
-                if (isPriceFilterActiveAndValid(searchModel)) {
+
+                if (StringUtils.hasText(searchModel.getDescription())) {
                     return getSearchResultsAndMinMaxPrice(
-                            productService.findAllNonArchivedBySearchTermAndPriceBetween(
-                                    searchModel.getSearchRequest(), searchModel.getPriceLow(), searchModel.getPriceHigh(), pageable),
-                            productService.findMinPriceProductNonArchivedBySearchTermAndPriceBetween(
-                                    searchModel.getSearchRequest(), searchModel.getPriceLow(), searchModel.getPriceHigh()),
-                            productService.findMaxPriceProductNonArchivedBySearchTermAndPriceBetween(
-                                    searchModel.getSearchRequest(), searchModel.getPriceLow(), searchModel.getPriceHigh())
+                            productService.findAllNonArchivedBySearchTermAndDescriptionAndPriceBetween(searchModel.getSearchRequest(), searchModel.getDescription(), searchModel.getPriceLow(), searchModel.getPriceHigh(), pageable)
                     );
                 } else {
-                    return getSearchResultsAndMinMaxPrice(
-                            productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(
-                                    searchModel.getSearchRequest(), pageable),
-                            productService.findMinPriceProductByNameContainingIgnoreCaseAndArchivedFalse(
-                                    searchModel.getSearchRequest()),
-                            productService.findMaxPriceProductByNameContainingIgnoreCaseAndArchivedFalse(
-                                    searchModel.getSearchRequest())
-                    );
+                    if (isPriceFilterActiveAndValid(searchModel)) {
+                        return getSearchResultsAndMinMaxPrice(
+                                productService.findAllNonArchivedBySearchTermAndPriceBetween(searchModel.getSearchRequest(), searchModel.getPriceLow(), searchModel.getPriceHigh(), pageable),
+                                productService.findMinPriceProductNonArchivedBySearchTermAndPriceBetween(searchModel.getSearchRequest(), searchModel.getPriceLow(), searchModel.getPriceHigh()),
+                                productService.findMaxPriceProductNonArchivedBySearchTermAndPriceBetween(searchModel.getSearchRequest(), searchModel.getPriceLow(), searchModel.getPriceHigh())
+                        );
+                    } else {
+                        return getSearchResultsAndMinMaxPrice(
+                                productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchModel.getSearchRequest(), pageable),
+                                productService.findMinPriceProductByNameContainingIgnoreCaseAndArchivedFalse(searchModel.getSearchRequest()),
+                                productService.findMaxPriceProductByNameContainingIgnoreCaseAndArchivedFalse(searchModel.getSearchRequest())
+                        );
+                    }
                 }
             }
             if (StringUtils.hasText(searchModel.getDescription())) {
@@ -94,11 +95,27 @@ public class SearchServiceImpl implements SearchService {
         );
     }
 
-    private ProductPageAndMinMaxPrice getSearchResultsAndMinMaxPrice(Page<Product> searchResults, Page<Product> productWithMinPrice, Page<Product> productWithMaxPrice) {
-        return ProductPageAndMinMaxPrice.builder()
+    private ProductPage getSearchResultsAndMinMaxPrice(Page<Product> searchResults, Page<Product> productWithMinPrice, Page<Product> productWithMaxPrice) {
+        if(searchFoundNoProducts(searchResults)){
+            return ProductPage.builder()
+                    .productPage(productService.findAllByArchivedFalse(searchResults.getPageable()))
+                    .searchFailure(true)
+                    .build();
+        }
+        return ProductPage.builder()
                 .productPage(searchResults)
                 .minPrice(getProductPrice(productWithMinPrice))
                 .maxPrice(getProductPrice(productWithMaxPrice))
+                .build();
+    }
+
+    private boolean searchFoundNoProducts(Page<Product> searchResults) {
+        return searchResults.getContent().size() == 0;
+    }
+
+    private ProductPage getSearchResultsAndMinMaxPrice(Page<Product> searchResults) {
+        return ProductPage.builder()
+                .productPage(searchResults)
                 .build();
     }
 
@@ -119,8 +136,8 @@ public class SearchServiceImpl implements SearchService {
         if (paginationInfoPresent(searchModel)) {
             return searchModel;
         }
-        searchModel.setPageSize(paginationDefaultPageSize);
-        searchModel.setPageNumber(paginationDefaultPageNumber);
+        searchModel.setPageSize(defaultPageSize);
+        searchModel.setPageNumber(defaultPageNumber);
         return searchModel;
     }
 

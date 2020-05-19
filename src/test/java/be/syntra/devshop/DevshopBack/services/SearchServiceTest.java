@@ -12,10 +12,9 @@ import org.mockito.quality.Strictness;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.math.BigDecimal;
-
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.createDummyPageable;
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.createDummyProductPage;
+import static be.syntra.devshop.DevshopBack.testutilities.SearchModelUtils.getDummyDefaultSearchModel;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,14 +30,10 @@ class SearchServiceTest {
     @Test
     void findAllNonArchivedBySearchTermAndPriceBetween() {
         // given
-        SearchModel dummySearchModel = new SearchModel();
+        SearchModel dummySearchModel = getDummyDefaultSearchModel();
         dummySearchModel.setSearchResultView(true);
         dummySearchModel.setSearchRequest("test");
         dummySearchModel.setActiveFilters(true);
-        dummySearchModel.setPriceLow(BigDecimal.ZERO);
-        dummySearchModel.setPriceHigh(BigDecimal.TEN);
-        dummySearchModel.setPageNumber(0);
-        dummySearchModel.setPageSize(10);
         final Page<Product> dummyProductPage = createDummyProductPage();
         final Pageable dummyPageable = createDummyPageable();
         when(productService.findAllNonArchivedBySearchTermAndPriceBetween(dummySearchModel.getSearchRequest(), dummySearchModel.getPriceLow(), dummySearchModel.getPriceHigh(), dummyPageable)).thenReturn(dummyProductPage);
@@ -57,14 +52,10 @@ class SearchServiceTest {
     @Test
     void findAllByNameContainingIgnoreCaseAndArchivedFalse() {
         // given
-        SearchModel dummySearchModel = new SearchModel();
+        SearchModel dummySearchModel = getDummyDefaultSearchModel();
         dummySearchModel.setSearchResultView(true);
         dummySearchModel.setSearchRequest("test");
         dummySearchModel.setActiveFilters(false);
-        dummySearchModel.setPriceLow(BigDecimal.ZERO);
-        dummySearchModel.setPriceHigh(BigDecimal.TEN);
-        dummySearchModel.setPageNumber(0);
-        dummySearchModel.setPageSize(10);
         final Page<Product> dummyProductPage = createDummyProductPage();
         final Pageable dummyPageable = createDummyPageable();
         when(productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(dummySearchModel.getSearchRequest(), dummyPageable)).thenReturn(dummyProductPage);
@@ -83,15 +74,11 @@ class SearchServiceTest {
     @Test
     void findAllNonArchivedByDescriptionAndPriceBetween() {
         // given
-        SearchModel dummySearchModel = new SearchModel();
+        SearchModel dummySearchModel = getDummyDefaultSearchModel();
         dummySearchModel.setSearchResultView(true);
         dummySearchModel.setSearchRequest("");
         dummySearchModel.setDescription("test");
         dummySearchModel.setActiveFilters(true);
-        dummySearchModel.setPriceLow(BigDecimal.ZERO);
-        dummySearchModel.setPriceHigh(BigDecimal.TEN);
-        dummySearchModel.setPageNumber(0);
-        dummySearchModel.setPageSize(10);
         final Page<Product> dummyProductPage = createDummyProductPage();
         final Pageable dummyPageable = createDummyPageable();
         when(productService.findAllNonArchivedByDescriptionAndPriceBetween(dummySearchModel.getDescription(), dummySearchModel.getPriceLow(), dummySearchModel.getPriceHigh(), dummyPageable)).thenReturn(dummyProductPage);
@@ -110,15 +97,11 @@ class SearchServiceTest {
     @Test
     void findAllByDescriptionAndByArchivedFalse() {
         // given
-        SearchModel dummySearchModel = new SearchModel();
+        SearchModel dummySearchModel = getDummyDefaultSearchModel();
         dummySearchModel.setSearchResultView(true);
         dummySearchModel.setSearchRequest("");
         dummySearchModel.setDescription("test");
         dummySearchModel.setActiveFilters(false);
-        dummySearchModel.setPriceLow(BigDecimal.ZERO);
-        dummySearchModel.setPriceHigh(BigDecimal.TEN);
-        dummySearchModel.setPageNumber(0);
-        dummySearchModel.setPageSize(10);
         final Page<Product> dummyProductPage = createDummyProductPage();
         final Pageable dummyPageable = createDummyPageable();
         when(productService.findAllByDescriptionAndByArchivedFalse(dummySearchModel.getDescription(), dummyPageable)).thenReturn(dummyProductPage);
@@ -137,15 +120,11 @@ class SearchServiceTest {
     @Test
     void findAllArchivedFalseByPriceBetween() {
         // given
-        SearchModel dummySearchModel = new SearchModel();
+        SearchModel dummySearchModel = getDummyDefaultSearchModel();
         dummySearchModel.setSearchResultView(true);
         dummySearchModel.setSearchRequest("");
         dummySearchModel.setDescription("");
         dummySearchModel.setActiveFilters(true);
-        dummySearchModel.setPriceLow(BigDecimal.ZERO);
-        dummySearchModel.setPriceHigh(BigDecimal.TEN);
-        dummySearchModel.setPageNumber(0);
-        dummySearchModel.setPageSize(10);
         final Page<Product> dummyProductPage = createDummyProductPage();
         final Pageable dummyPageable = createDummyPageable();
         when(productService.findAllArchivedFalseByPriceBetween(dummySearchModel.getPriceLow(), dummySearchModel.getPriceHigh(), dummyPageable)).thenReturn(dummyProductPage);
@@ -164,15 +143,11 @@ class SearchServiceTest {
     @Test
     void findAllByArchivedTrue() {
         // given
-        SearchModel dummySearchModel = new SearchModel();
+        SearchModel dummySearchModel = getDummyDefaultSearchModel();
         dummySearchModel.setArchivedView(true);
         dummySearchModel.setSearchRequest("");
         dummySearchModel.setDescription("");
         dummySearchModel.setActiveFilters(true);
-        dummySearchModel.setPriceLow(BigDecimal.ZERO);
-        dummySearchModel.setPriceHigh(BigDecimal.TEN);
-        dummySearchModel.setPageNumber(0);
-        dummySearchModel.setPageSize(10);
         final Page<Product> dummyProductPage = createDummyProductPage();
         final Pageable dummyPageable = createDummyPageable();
         when(productService.findAllByArchivedTrue(dummyPageable)).thenReturn(dummyProductPage);
@@ -191,15 +166,11 @@ class SearchServiceTest {
     @Test
     void findAllByArchivedFalse() {
         // given
-        SearchModel dummySearchModel = new SearchModel();
+        SearchModel dummySearchModel = getDummyDefaultSearchModel();
         dummySearchModel.setArchivedView(false);
         dummySearchModel.setSearchRequest("");
         dummySearchModel.setDescription("");
         dummySearchModel.setActiveFilters(true);
-        dummySearchModel.setPriceLow(BigDecimal.ZERO);
-        dummySearchModel.setPriceHigh(BigDecimal.TEN);
-        dummySearchModel.setPageNumber(0);
-        dummySearchModel.setPageSize(10);
         final Page<Product> dummyProductPage = createDummyProductPage();
         final Pageable dummyPageable = createDummyPageable();
         when(productService.findAllByArchivedFalse(dummyPageable)).thenReturn(dummyProductPage);

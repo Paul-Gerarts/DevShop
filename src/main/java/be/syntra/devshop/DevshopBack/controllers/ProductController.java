@@ -114,13 +114,11 @@ public class ProductController {
 
     @PostMapping("/searching")
     public ResponseEntity<ProductList> retrieveAllProductsBySearchModel(@RequestBody SearchModelDto searchModelDto) {
-        final ProductPageAndMinMaxPrice productPageAndMinMaxPrice = searchService.applySearchModel(
-                searchModelMapper.convertToSearchModel(searchModelDto)
-        );
+        final ProductPage productPage = searchService.applySearchModel(
+                searchModelMapper.convertToSearchModel(searchModelDto));
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(productMapper.convertToProductListObject(productPageAndMinMaxPrice)
-                );
+                .body(productMapper.convertToProductListObject(productPage));
     }
 
     private void saveProduct(ProductDto productDto) {

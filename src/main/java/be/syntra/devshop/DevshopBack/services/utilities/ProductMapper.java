@@ -3,12 +3,10 @@ package be.syntra.devshop.DevshopBack.services.utilities;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.models.ProductList;
-import be.syntra.devshop.DevshopBack.models.ProductPageAndMinMaxPrice;
+import be.syntra.devshop.DevshopBack.models.ProductPage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import static java.util.stream.Collectors.toUnmodifiableList;
@@ -52,11 +50,12 @@ public class ProductMapper {
                 .collect(toUnmodifiableList());
     }
 
-    public ProductList convertToProductListObject(ProductPageAndMinMaxPrice productPageAndMinMaxPrice){
+    public ProductList convertToProductListObject(ProductPage productPage){
         return ProductList.builder()
-                .products(productPageAndMinMaxPrice.getProductPage().getContent())
-                .searchResultMinPrice(productPageAndMinMaxPrice.getMinPrice())
-                .searchResultMaxPrice(productPageAndMinMaxPrice.getMaxPrice())
+                .products(productPage.getProductPage().getContent())
+                .searchResultMinPrice(productPage.getMinPrice())
+                .searchResultMaxPrice(productPage.getMaxPrice())
+                .searchFailure(productPage.isSearchFailure())
                 .build();
     }
 

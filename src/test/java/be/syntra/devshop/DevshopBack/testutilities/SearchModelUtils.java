@@ -6,7 +6,7 @@ import be.syntra.devshop.DevshopBack.models.SearchModelDto;
 import java.math.BigDecimal;
 
 public class SearchModelUtils {
-    public static SearchModelDto getDummySearchModelDto(){
+    public static SearchModelDto getDummySearchModelDto() {
         return SearchModelDto.builder()
                 .searchFailure(false)
                 .searchRequest("")
@@ -22,7 +22,7 @@ public class SearchModelUtils {
                 .build();
     }
 
-    public static SearchModel getDummySearchModel(){
+    public static SearchModel getDummySearchModel() {
         return SearchModel.builder()
                 .searchFailure(false)
                 .searchRequest("")
@@ -35,6 +35,15 @@ public class SearchModelUtils {
                 .priceLow(BigDecimal.ZERO)
                 .sortAscendingName(false)
                 .sortAscendingPrice(false)
+                .build();
+    }
+
+    public static SearchModel getDummyDefaultSearchModel() {
+        return SearchModel.builder()
+                .priceLow(BigDecimal.ZERO)
+                .priceHigh(BigDecimal.TEN)
+                .pageNumber(0)
+                .pageSize(10)
                 .build();
     }
 }

@@ -3,7 +3,7 @@ package be.syntra.devshop.DevshopBack.testutilities;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
 import be.syntra.devshop.DevshopBack.models.ProductList;
-import be.syntra.devshop.DevshopBack.models.ProductPageAndMinMaxPrice;
+import be.syntra.devshop.DevshopBack.models.ProductPage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -90,8 +90,8 @@ public class ProductUtils {
     public static Page<Product> createDummyProductPage() {
         return new PageImpl<>(createProductList());
     }
-    public static ProductPageAndMinMaxPrice createProductPageAndMinMaxPrice(){
-        return ProductPageAndMinMaxPrice.builder()
+    public static ProductPage createProductPage(){
+        return ProductPage.builder()
                 .productPage(createDummyProductPage())
                 .minPrice(BigDecimal.ZERO)
                 .maxPrice(BigDecimal.TEN)
@@ -102,11 +102,4 @@ public class ProductUtils {
         return PageRequest.of(0, 10);
     }
 
-    public static ProductPageAndMinMaxPrice getDummyProductPageAndMinMaxPrice() {
-        return ProductPageAndMinMaxPrice.builder()
-                .productPage(createDummyProductPage())
-                .minPrice(BigDecimal.ZERO)
-                .maxPrice(BigDecimal.TEN)
-                .build();
-    }
 }

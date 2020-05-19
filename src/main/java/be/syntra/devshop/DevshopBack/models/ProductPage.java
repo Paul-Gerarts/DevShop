@@ -13,8 +13,9 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @Builder
-public class ProductPageAndMinMaxPrice {
-    Page<Product> productPage;
-    BigDecimal minPrice;
-    BigDecimal maxPrice;
+public class ProductPage {
+    private Page<Product> productPage;
+    private BigDecimal minPrice;
+    private BigDecimal maxPrice;
+    private boolean searchFailure;
 }

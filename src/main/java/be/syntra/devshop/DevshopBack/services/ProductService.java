@@ -42,8 +42,6 @@ public interface ProductService {
 
     Page<Product> findMinPriceProductByDescriptionAndByArchivedFalse(String description);
 
-    Page<Product> findAllByPriceBetween(BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable);
-
     Page<Product> findAllNonArchivedBySearchTermAndPriceBetween(String searchRequest,BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable);
 
     Page<Product> findMaxPriceProductNonArchivedBySearchTermAndPriceBetween(String searchRequest,BigDecimal priceLow, BigDecimal priceHigh);
@@ -61,4 +59,6 @@ public interface ProductService {
     Page<Product> findMaxPriceProductArchivedFalseByPriceBetween(BigDecimal priceLow, BigDecimal priceHigh);
 
     Page<Product> findMinPriceProductArchivedFalseByPriceBetween(BigDecimal priceLow, BigDecimal priceHigh);
+
+    Page<Product> findAllNonArchivedBySearchTermAndDescriptionAndPriceBetween(String searchTerm, String description, BigDecimal priceLow,BigDecimal priceHigh,Pageable pageable);
 }
