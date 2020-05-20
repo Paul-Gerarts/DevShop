@@ -4,7 +4,6 @@ import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.exceptions.ProductNotFoundException;
 import be.syntra.devshop.DevshopBack.models.CategoryChangeDto;
-import be.syntra.devshop.DevshopBack.models.ProductList;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
 import be.syntra.devshop.DevshopBack.services.utilities.ProductMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +11,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,26 +47,12 @@ class ProductServiceTest {
     }
 
     @Test
-    void getAllProductsTest() {
-        // given
-        List<Product> dummyProducts = createProductList();
-        when(productRepository.findAll()).thenReturn(dummyProducts);
-
-        // when
-        List<Product> resultProductList = productService.findAll();
-
-        // then
-        assertEquals(resultProductList, dummyProducts);
-        verify(productRepository, times(1)).findAll();
-    }
-
-    @Test
     void saveProductTest() {
         // given
-        Product product = createNonArchivedProduct();
+        final Product product = createNonArchivedProduct();
 
         // when
-        Product resultProduct = productService.save(product);
+        final Product resultProduct = productService.save(product);
 
         // then
         assertEquals(product, resultProduct);
@@ -72,11 +62,11 @@ class ProductServiceTest {
     @Test
     void canGetProductByIdTest() {
         // given
-        Product dummyProduct = createNonArchivedProduct();
+        final Product dummyProduct = createNonArchivedProduct();
         when(productRepository.findById(dummyProduct.getId())).thenReturn(Optional.of(dummyProduct));
 
         // when
-        Product resultProduct = productService.findById(dummyProduct.getId());
+        final Product resultProduct = productService.findById(dummyProduct.getId());
 
         // then
         assertThat(resultProduct).isEqualTo(dummyProduct);
@@ -84,34 +74,353 @@ class ProductServiceTest {
     }
 
     @Test
-    void canGetArchivedProductTest() {
+    void canGetNonArchivedProductTest() {
         // given
-        Product dummyActiveProduct = createArchivedProduct();
-        List<Product> dummyProductList = List.of(dummyActiveProduct);
-        when(productRepository.findAllByArchivedTrue()).thenReturn(dummyProductList);
+        final Page<Product> dummyProductPage = createDummyProductPage();
+        final Pageable dummyPageable = createDummyPageable();
+        when(productRepository.findAllByArchivedFalse(dummyPageable)).thenReturn(dummyProductPage);
 
         // when
-        List<Product> resultProductList = productService.findAllByArchivedTrue();
+        final Page<Product> resultProductList = productService.findAllByArchivedFalse(dummyPageable);
 
         // then
-        assertThat(resultProductList).isEqualTo(dummyProductList);
-        verify(productRepository, times(1)).findAllByArchivedTrue();
+        assertEquals(resultProductList, dummyProductPage);
+        verify(productRepository, times(1)).findAllByArchivedFalse(dummyPageable);
     }
 
     @Test
-    void canGetNonArchivedProductTest() {
+    void canFindMaxPriceProductByArchiveFalseTest() {
         // given
-        Product dummyArchivedProduct = createNonArchivedProduct();
-        List<Product> dummyProductList = List.of(dummyArchivedProduct);
-        when(productRepository.findAllByArchivedFalse()).thenReturn(dummyProductList);
-        when(productMapper.convertToProductListObject(dummyProductList)).thenReturn(new ProductList(dummyProductList));
+        final Page<Product> dummyProductPage = createDummyProductPage();
+        when(productRepository.findAllByArchivedFalse(PageRequest.of(0, 1, Sort.by("price").descending()))).thenReturn(dummyProductPage);
 
         // when
-        List<Product> resultProductList = productService.findAllByArchivedFalse();
+        final Page<Product> maxPriceProductByArchivedFalse = productService.findMaxPriceProductByArchivedFalse();
 
         // then
-        assertThat(resultProductList).isEqualTo(dummyProductList);
-        verify(productRepository, times(1)).findAllByArchivedFalse();
+        assertEquals(maxPriceProductByArchivedFalse, dummyProductPage);
+        verify(productRepository, times(1)).findAllByArchivedFalse(PageRequest.of(0, 1, Sort.by("price").descending()));
+    }
+
+    @Test
+    void canFindMinPriceProductByArchiveFalseTest() {
+        // given
+        final Page<Product> dummyProductPage = createDummyProductPage();
+        when(productRepository.findAllByArchivedFalse(PageRequest.of(0, 1, Sort.by("price").ascending()))).thenReturn(dummyProductPage);
+
+        // when
+        final Page<Product> resultPage = productService.findMinPriceProductByArchivedFalse();
+
+        // then
+        assertEquals(resultPage, dummyProductPage);
+        verify(productRepository, times(1)).findAllByArchivedFalse(PageRequest.of(0, 1, Sort.by("price").ascending()));
+    }
+
+    @Test
+    void canFindAllByNameContainingIgnoreCaseAndArchivedFalseTest() {
+        // given
+        final String searchRequest = "POst";
+        final Page<Product> dummyProductPage = createDummyProductPage();
+        final Pageable dummyPageable = createDummyPageable();
+        when(productRepository.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest, dummyPageable)).thenReturn(dummyProductPage);
+
+        // when
+        final Page<Product> resultProductPage = productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest, dummyPageable);
+
+        // then
+        assertEquals(resultProductPage, dummyProductPage);
+        verify(productRepository, times(1)).findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest, dummyPageable);
+    }
+
+    @Test
+    void canFindMaxPriceProductByNameContainingIgnoreCaseAndArchivedFalseTest() {
+        // given
+        final String searchRequest = "POst";
+        final Page<Product> dummyProductPage = createDummyProductPage();
+        when(productRepository.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest, PageRequest.of(0, 1, Sort.by("price").descending()))).thenReturn(dummyProductPage);
+
+        // when
+        final Page<Product> result = productService.findMaxPriceProductByNameContainingIgnoreCaseAndArchivedFalse(searchRequest);
+
+        // then
+        assertEquals(result, dummyProductPage);
+        verify(productRepository, times(1)).findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest, PageRequest.of(0, 1, Sort.by("price").descending()));
+    }
+
+    @Test
+    void canFindMinPriceProductByNameContainingIgnoreCaseAndArchivedFalseTest() {
+        // given
+        final String searchRequest = "POst";
+        final Page<Product> dummyProductPage = createDummyProductPage();
+        when(productRepository.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest, PageRequest.of(0, 1, Sort.by("price").ascending()))).thenReturn(dummyProductPage);
+
+        // when
+        final Page<Product> result = productService.findMinPriceProductByNameContainingIgnoreCaseAndArchivedFalse(searchRequest);
+
+        // then
+        assertEquals(result, dummyProductPage);
+        verify(productRepository, times(1)).findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest, PageRequest.of(0, 1, Sort.by("price").ascending()));
+    }
+
+    @Test
+    void canGetArchivedProductTest() {
+        // given
+        final Pageable dummyPageable = createDummyPageable();
+        final Page<Product> dummyProductPage = createDummyProductPage();
+        when(productRepository.findAllByArchivedTrue(dummyPageable)).thenReturn(dummyProductPage);
+
+        // when
+        final Page<Product> resultPage = productService.findAllByArchivedTrue(dummyPageable);
+
+        // then
+        assertThat(resultPage).isEqualTo(dummyProductPage);
+        verify(productRepository, times(1)).findAllByArchivedTrue(dummyPageable);
+    }
+
+    @Test
+    void canFindMaxPriceProductByArchivedTrueTest() {
+        // given
+        final Page<Product> dummyProductPage = createDummyProductPage();
+        when(productRepository.findAllByArchivedTrue(PageRequest.of(0, 1, Sort.by("price").descending()))).thenReturn(dummyProductPage);
+
+        // when
+        final Page<Product> resultPage = productService.findMaxPriceProductByArchivedTrue();
+
+        // then
+        assertThat(resultPage).isEqualTo(dummyProductPage);
+        verify(productRepository, times(1)).findAllByArchivedTrue(PageRequest.of(0, 1, Sort.by("price").descending()));
+    }
+
+    @Test
+    void canFindMinPriceProductByArchivedTrueTest() {
+        // given
+        final Page<Product> dummyProductPage = createDummyProductPage();
+        when(productRepository.findAllByArchivedTrue(PageRequest.of(0, 1, Sort.by("price").ascending()))).thenReturn(dummyProductPage);
+
+        // when
+        final Page<Product> resultPage = productService.findMinPriceProductByArchivedTrue();
+
+        // then
+        assertThat(resultPage).isEqualTo(dummyProductPage);
+        verify(productRepository, times(1)).findAllByArchivedTrue(PageRequest.of(0, 1, Sort.by("price").ascending()));
+    }
+
+    @Test
+    void canFindAllByDescriptionAndByArchivedFalseTest() {
+        // given
+        final Pageable dummyPageable = createDummyPageable();
+        final Page<Product> dummyProductPage = createDummyProductPage();
+        final String descriptionString = "description";
+        when(productRepository.findAllByDescriptionContainingIgnoreCaseAndArchivedFalse(descriptionString, dummyPageable)).thenReturn(dummyProductPage);
+
+        // when
+        final Page<Product> resultPage = productRepository.findAllByDescriptionContainingIgnoreCaseAndArchivedFalse(descriptionString, dummyPageable);
+
+        //then
+        assertEquals(resultPage, dummyProductPage);
+        verify(productRepository, times(1)).findAllByDescriptionContainingIgnoreCaseAndArchivedFalse(descriptionString, dummyPageable);
+    }
+
+    @Test
+    void canFindMaxPriceProductByDescriptionAndByArchivedFalseTest() {
+        // given
+        final String description = "description";
+        final Page<Product> dummyProductPage = createDummyProductPage();
+        when(productRepository.findAllByDescriptionContainingIgnoreCaseAndArchivedFalse(description, PageRequest.of(0, 1, Sort.by("price").descending()))).thenReturn(dummyProductPage);
+
+        // when
+        final Page<Product> resultPage = productService.findMaxPriceProductByDescriptionAndByArchivedFalse(description);
+
+        // then
+        assertEquals(resultPage, dummyProductPage);
+        verify(productRepository, times(1)).findAllByDescriptionContainingIgnoreCaseAndArchivedFalse(description, PageRequest.of(0, 1, Sort.by("price").descending()));
+    }
+
+    @Test
+    void canFindMinPriceProductByDescriptionAndByArchivedFalseTest() {
+        // given
+        final String description = "description";
+        final Page<Product> dummyProductPage = createDummyProductPage();
+        when(productRepository.findAllByDescriptionContainingIgnoreCaseAndArchivedFalse(description, PageRequest.of(0, 1, Sort.by("price").ascending()))).thenReturn(dummyProductPage);
+
+        // when
+        final Page<Product> resultPage = productService.findMinPriceProductByDescriptionAndByArchivedFalse(description);
+
+        // then
+        assertEquals(resultPage, dummyProductPage);
+        verify(productRepository, times(1)).findAllByDescriptionContainingIgnoreCaseAndArchivedFalse(description, PageRequest.of(0, 1, Sort.by("price").ascending()));
+    }
+
+    @Test
+    void canFindAllByPriceBetweenTest() {
+        // given
+        final Pageable dummyPageable = createDummyPageable();
+        final Page<Product> dummyProductPage = createDummyProductPage();
+        final BigDecimal priceMin = BigDecimal.ZERO;
+        final BigDecimal priceMax = BigDecimal.TEN;
+        when(productRepository.findAllByPriceIsBetween(priceMin, priceMax, dummyPageable)).thenReturn(dummyProductPage);
+
+        // when
+        Page<Product> resultPage = productRepository.findAllByPriceIsBetween(priceMin, priceMax, dummyPageable);
+
+        // then
+        assertEquals(resultPage, dummyProductPage);
+        verify(productRepository, times(1)).findAllByPriceIsBetween(priceMin, priceMax, dummyPageable);
+    }
+
+    @Test
+    void canFindAllNonArchivedBySearchTermAndPriceBetweenTest() {
+        // given
+        final String searchRequest = "searchRequest";
+        final Pageable dummyPageable = createDummyPageable();
+        final Page<Product> dummyProductPage = createDummyProductPage();
+        final BigDecimal priceMin = BigDecimal.ZERO;
+        final BigDecimal priceMax = BigDecimal.TEN;
+        when(productRepository.findAllByNameContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(searchRequest, priceMin, priceMax, dummyPageable)).thenReturn(dummyProductPage);
+
+        // when
+        final Page<Product> resultPage = productService.findAllNonArchivedBySearchTermAndPriceBetween(searchRequest, priceMin, priceMax, dummyPageable);
+
+        // then
+        assertEquals(resultPage, dummyProductPage);
+        verify(productRepository, times(1)).findAllByNameContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(searchRequest, priceMin, priceMax, dummyPageable);
+    }
+
+    @Test
+    void canFindMaxPriceProductNonArchivedBySearchTermAndPriceBetweenTest() {
+        // given
+        final String searchRequest = "searchRequest";
+        final Page<Product> dummyProductPage = createDummyProductPage();
+        final BigDecimal priceMin = BigDecimal.ZERO;
+        final BigDecimal priceMax = BigDecimal.TEN;
+        when(productRepository.findAllByNameContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(searchRequest, priceMin, priceMax, PageRequest.of(0, 1, Sort.by("price").descending()))).thenReturn(dummyProductPage);
+
+        // when
+        final Page<Product> resultPage = productService.findMaxPriceProductNonArchivedBySearchTermAndPriceBetween(searchRequest, priceMin, priceMax);
+
+        // then
+        assertEquals(resultPage, dummyProductPage);
+        verify(productRepository, times(1)).findAllByNameContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(searchRequest, priceMin, priceMax, PageRequest.of(0, 1, Sort.by("price").descending()));
+    }
+
+    @Test
+    void canFindMinPriceProductNonArchivedBySearchTermAndPriceBetweenTest() {
+        // given
+        final String searchRequest = "searchRequest";
+        final Page<Product> dummyProductPage = createDummyProductPage();
+        final BigDecimal priceMin = BigDecimal.ZERO;
+        final BigDecimal priceMax = BigDecimal.TEN;
+        when(productRepository.findAllByNameContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(searchRequest, priceMin, priceMax, PageRequest.of(0, 1, Sort.by("price").ascending()))).thenReturn(dummyProductPage);
+
+        // when
+        final Page<Product> resultPage = productService.findMinPriceProductNonArchivedBySearchTermAndPriceBetween(searchRequest, priceMin, priceMax);
+
+        // then
+        assertEquals(resultPage, dummyProductPage);
+        verify(productRepository, times(1)).findAllByNameContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(searchRequest, priceMin, priceMax, PageRequest.of(0, 1, Sort.by("price").ascending()));
+    }
+
+    @Test
+    void canFindAllNonArchivedByDescriptionAndPriceBetweenTest() {
+        // given
+        final String description = "description";
+        final Pageable dummyPageable = createDummyPageable();
+        final Page<Product> dummyProductPage = createDummyProductPage();
+        final BigDecimal priceLow = BigDecimal.ZERO;
+        final BigDecimal priceHigh = BigDecimal.TEN;
+        when(productRepository.findAllByDescriptionContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(description, priceLow, priceHigh, dummyPageable)).thenReturn(dummyProductPage);
+
+        // when
+        final Page<Product> resultPage = productService.findAllNonArchivedByDescriptionAndPriceBetween(description, priceLow, priceHigh, dummyPageable);
+
+        //then
+        assertEquals(resultPage, dummyProductPage);
+        verify(productRepository, times(1)).findAllByDescriptionContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(description, priceLow, priceHigh, dummyPageable);
+    }
+
+    @Test
+    void canFindMaxPriceProductNonArchivedByDescriptionAndPriceBetweenTest() {
+        // given
+        final String description = "description";
+        final Page<Product> dummyProductPage = createDummyProductPage();
+        final BigDecimal priceLow = BigDecimal.ZERO;
+        final BigDecimal priceHigh = BigDecimal.TEN;
+        when(productRepository.findAllByDescriptionContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(description, priceLow, priceHigh, PageRequest.of(0, 1, Sort.by("price").descending()))).thenReturn(dummyProductPage);
+
+        // when
+        final Page<Product> resultPage = productService.findMaxPriceProductNonArchivedByDescriptionAndPriceBetween(description, priceLow, priceHigh);
+
+        //then
+        assertEquals(resultPage, dummyProductPage);
+        verify(productRepository, times(1)).findAllByDescriptionContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(description, priceLow, priceHigh, PageRequest.of(0, 1, Sort.by("price").descending()));
+    }
+
+    @Test
+    void canFindMinPriceProductNonArchivedByDescriptionAndPriceBetweenTest() {
+        // given
+        final String description = "description";
+        final Page<Product> dummyProductPage = createDummyProductPage();
+        final BigDecimal priceLow = BigDecimal.ZERO;
+        final BigDecimal priceHigh = BigDecimal.TEN;
+        when(productRepository.findAllByDescriptionContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(description, priceLow, priceHigh, PageRequest.of(0, 1, Sort.by("price").ascending()))).thenReturn(dummyProductPage);
+
+        // when
+        final Page<Product> resultPage = productService.findMinPriceProductNonArchivedByDescriptionAndPriceBetween(description, priceLow, priceHigh);
+
+        //then
+        assertEquals(resultPage, dummyProductPage);
+        verify(productRepository, times(1)).findAllByDescriptionContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(description, priceLow, priceHigh, PageRequest.of(0, 1, Sort.by("price").ascending()));
+    }
+
+    @Test
+    void canFindAllArchivedFalseByPriceBetweenTest() {
+        // given
+        final Page<Product> dummyProductPage = createDummyProductPage();
+        final Pageable dummyPageable = createDummyPageable();
+        final BigDecimal priceLow = BigDecimal.ZERO;
+        final BigDecimal priceHigh = BigDecimal.TEN;
+        when(productRepository.findAllByPriceIsBetweenAndArchivedFalse(priceLow, priceHigh, dummyPageable)).thenReturn(dummyProductPage);
+
+        // when
+        final Page<Product> resultPage = productService.findAllArchivedFalseByPriceBetween(priceLow, priceHigh, dummyPageable);
+
+        // then
+        assertEquals(resultPage, dummyProductPage);
+        verify(productRepository, times(1)).findAllByPriceIsBetweenAndArchivedFalse(priceLow, priceHigh, dummyPageable);
+    }
+
+    @Test
+    void canFindMaxPriceProductArchivedFalseByPriceBetweenTest() {
+        // given
+        final Page<Product> dummyProductPage = createDummyProductPage();
+        final Pageable dummyPageable = createDummyPageable();
+        final BigDecimal priceLow = BigDecimal.ZERO;
+        final BigDecimal priceHigh = BigDecimal.TEN;
+        when(productRepository.findAllByPriceIsBetweenAndArchivedFalse(priceLow, priceHigh, PageRequest.of(0, 1, Sort.by("price").descending()))).thenReturn(dummyProductPage);
+
+        // when
+        final Page<Product> resultPage = productService.findMaxPriceProductArchivedFalseByPriceBetween(priceLow, priceHigh);
+
+        // then
+        assertEquals(resultPage, dummyProductPage);
+        verify(productRepository, times(1)).findAllByPriceIsBetweenAndArchivedFalse(priceLow, priceHigh, PageRequest.of(0, 1, Sort.by("price").descending()));
+    }
+
+    @Test
+    void canFindMinPriceProductArchivedFalseByPriceBetweenTest() {
+        // given
+        final Page<Product> dummyProductPage = createDummyProductPage();
+        final Pageable dummyPageable = createDummyPageable();
+        final BigDecimal priceLow = BigDecimal.ZERO;
+        final BigDecimal priceHigh = BigDecimal.TEN;
+        when(productRepository.findAllByPriceIsBetweenAndArchivedFalse(priceLow, priceHigh, PageRequest.of(0, 1, Sort.by("price").ascending()))).thenReturn(dummyProductPage);
+
+        // when
+        final Page<Product> resultPage = productService.findMinPriceProductArchivedFalseByPriceBetween(priceLow, priceHigh);
+
+        // then
+        assertEquals(resultPage, dummyProductPage);
+        verify(productRepository, times(1)).findAllByPriceIsBetweenAndArchivedFalse(priceLow, priceHigh, PageRequest.of(0, 1, Sort.by("price").ascending()));
     }
 
     @Test
@@ -122,21 +431,6 @@ class ProductServiceTest {
 
         // when - then
         assertThrows(ProductNotFoundException.class, () -> productRepository.findById(1L));
-    }
-
-    @Test
-    void canGetProductBySearchRequestTest() {
-        // given
-        String searchRequest = "POst";
-        List<Product> dummyProductList = List.of(createNonArchivedProduct());
-        when(productRepository.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest)).thenReturn(dummyProductList);
-
-        // when
-        List<Product> resultProductList = productService.findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest);
-
-        // then
-        assertEquals(resultProductList,dummyProductList);
-        verify(productRepository, times(1)).findAllByNameContainingIgnoreCaseAndArchivedFalse(searchRequest);
     }
 
     @Test

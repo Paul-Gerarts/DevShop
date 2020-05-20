@@ -14,8 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Slf4j
 @RestController
 @RequestMapping("/products")
@@ -116,14 +114,11 @@ public class ProductController {
 
     @PostMapping("/searching")
     public ResponseEntity<ProductList> retrieveAllProductsBySearchModel(@RequestBody SearchModelDto searchModelDto) {
-        log.info("retrieveAllProductsBySearchModel -> searchModel{}", searchModelDto);
-        final List<Product> productList = searchService.applySearchModel(
-                searchModelMapper.convertToSearchModel(searchModelDto)
-        );
+        final ProductPage productPage = searchService.applySearchModel(
+                searchModelMapper.convertToSearchModel(searchModelDto));
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(productMapper.convertToProductListObject(productList)
-                );
+                .body(productMapper.convertToProductListObject(productPage));
     }
 
     private void saveProduct(ProductDto productDto) {
