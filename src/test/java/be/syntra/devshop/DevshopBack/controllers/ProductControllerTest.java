@@ -169,11 +169,11 @@ class ProductControllerTest {
         // given
         final SearchModelDto searchModelDtoDummy = getDummySearchModelDto();
         final SearchModel searchModelDummy = getDummySearchModel();
-        final List<Product> dummyListOfProducts = createProductList();
         final ProductList productList = createDummyProductList();
+        final ProductPage dummyProductPage = createProductPage();
         when(searchModelMapper.convertToSearchModel(any())).thenReturn(searchModelDummy);
-        when(searchService.applySearchModel(any())).thenReturn(dummyListOfProducts);
-        when(productMapper.convertToProductListObject(any())).thenReturn(productList);
+        when(searchService.applySearchModel(any())).thenReturn(dummyProductPage);
+        when(productMapper.convertToProductListObject(any(ProductPage.class))).thenReturn(productList);
 
         // when
         ResultActions resultActions =
@@ -236,10 +236,11 @@ class ProductControllerTest {
     @WithMockUser
     void canFindProductsWithCorrespondingCategoryTest() throws Exception {
         // given
-        Category category = createCategory();
-        List<Product> dummyProductList = List.of(createNonArchivedProduct(), createArchivedProduct());
-        when(productService.findAllByCorrespondingCategory(category.getId())).thenReturn(dummyProductList);
-        when(productMapper.convertToProductListObject(dummyProductList)).thenReturn(new ProductList(dummyProductList));
+        final Category category = createCategory();
+        final List<Product> dummyList = List.of(createNonArchivedProduct(),createArchivedProduct());
+        final ProductList dummyProductList = ProductList.builder().products(dummyList).build();
+        when(productService.findAllByCorrespondingCategory(category.getId())).thenReturn(dummyList);
+        when(productMapper.convertToProductListObject(anyList())).thenReturn(dummyProductList);
 
         // when
         ResultActions resultActions = mockMvc.perform(get("/products/all/" + category.getId())

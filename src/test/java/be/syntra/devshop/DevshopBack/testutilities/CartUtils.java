@@ -13,12 +13,11 @@ import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.createDum
 public class CartUtils {
 
 
-    public static Cart createActiveCart() {
+    public static Cart createCart() {
         List<Product> products = createDummyNonArchivedProductList();
         return Cart.builder()
                 .products(products)
                 .cartCreationDateTime(LocalDateTime.now())
-                .activeCart(true)
                 .finalizedCart(false)
                 .paidCart(false)
                 .build();
@@ -30,7 +29,6 @@ public class CartUtils {
                 .user("Someone")
                 .products(products)
                 .cartCreationDateTime(LocalDateTime.now())
-                .activeCart(true)
                 .finalizedCart(false)
                 .paidCart(false)
                 .build();
@@ -42,7 +40,6 @@ public class CartUtils {
                 .id(1L)
                 .products(products)
                 .cartCreationDateTime(LocalDateTime.now())
-                .activeCart(true)
                 .finalizedCart(false)
                 .paidCart(false)
                 .build();
@@ -50,11 +47,10 @@ public class CartUtils {
 
     public static List<Cart> createDummyCartList() {
         List<Cart> carts = new ArrayList<>();
-        Cart cart1 = createActiveCart();
+        Cart cart1 = createCart();
         Cart cart2 = Cart.builder()
                 .cartCreationDateTime(LocalDateTime.now())
                 .products(createDummyNonArchivedProductList())
-                .activeCart(false)
                 .finalizedCart(true)
                 .paidCart(true)
                 .build();
@@ -69,7 +65,6 @@ public class CartUtils {
         CartDto cart2 = CartDto.builder()
                 .cartCreationDateTime(LocalDateTime.now())
                 .products(createDummyNonArchivedProductList())
-                .activeCart(false)
                 .finalizedCart(true)
                 .paidCart(true)
                 .build();

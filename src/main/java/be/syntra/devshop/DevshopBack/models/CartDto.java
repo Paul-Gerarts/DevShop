@@ -17,7 +17,6 @@ public class CartDto {
     private String user;
     private LocalDateTime cartCreationDateTime;
     private List<Product> products;
-    private boolean activeCart;
     private boolean finalizedCart;
     private boolean paidCart;
 }

@@ -21,7 +21,7 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class UserMapperTest {
+class UserMapperTest {
 
     @InjectMocks
     private UserMapper userMapper;
@@ -46,7 +46,7 @@ public class UserMapperTest {
         UserDto userDto = createUserDto();
         List<Product> dummyProductListFromUser = createDummyNonArchivedProductList();
         when(addressMapper.convertToAddress(any())).thenReturn(createAddress());
-        when(cartMapper.convertToCart(any())).thenReturn(createActiveCart());
+        when(cartMapper.convertToCart(any())).thenReturn(createCart());
         when(cartMapper.convertToCartList(any())).thenReturn(createDummyCartList());
         when(productMapper.convertToProductList(any())).thenReturn(dummyProductListFromUser);
 

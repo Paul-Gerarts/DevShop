@@ -18,5 +18,5 @@ public class UserDto {
     private String password;
     private AddressDto address;
     private List<CartDto> archivedCarts;
-    private CartDto activeCart;
+    private CartDto cartDto;
 }
