@@ -39,9 +39,6 @@ public class Cart {
             foreignKey = @ForeignKey(name = "product_fk"))
     private List<Product> products;
 
-    @Column(name = "active_cart")
-    private boolean activeCart;
-
     @Column(name = "finalized_cart")
     private boolean finalizedCart;
 

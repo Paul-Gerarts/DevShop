@@ -17,17 +17,15 @@ public class CartFactoryTest {
     void canCreateCartTest() {
         // given
         Product dummyProduct = createNonArchivedProduct();
-        boolean isActive = true;
         boolean isFinalized = false;
         boolean isPaid = false;
 
         // when
-        Cart resultCart = cartFactory.of(List.of(dummyProduct), isActive, isFinalized, isPaid);
+        Cart resultCart = cartFactory.of(List.of(dummyProduct), isFinalized, isPaid);
 
         // then
         assertThat(resultCart.getClass()).isEqualTo(Cart.class);
         assertThat(resultCart.getProducts()).isEqualTo(List.of(dummyProduct));
-        assertThat(resultCart.isActiveCart()).isEqualTo(isActive);
         assertThat(resultCart.isFinalizedCart()).isEqualTo(isFinalized);
         assertThat(resultCart.isPaidCart()).isEqualTo(isPaid);
     }

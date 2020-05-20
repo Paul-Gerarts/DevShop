@@ -34,14 +34,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Page<Product> findAllByArchivedFalse(Pageable pageable);
 
-    Page<Product> findAllByPriceIsBetween(BigDecimal priceLow,BigDecimal priceHigh,Pageable pageable);
+    Page<Product> findAllByPriceIsBetween(BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable);
 
-    Page<Product> findAllByNameContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(String searchRequest,BigDecimal priceLow,BigDecimal priceHigh,Pageable pageable);
+    Page<Product> findAllByNameContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(String searchRequest, BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable);
 
-    Page<Product> findAllByDescriptionContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(String description,BigDecimal priceLow,BigDecimal priceHigh,Pageable pageable);
+    Page<Product> findAllByDescriptionContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(String description, BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable);
 
-    Page<Product> findAllByPriceIsBetweenAndArchivedFalse(BigDecimal priceLow,BigDecimal priceHigh,Pageable pageable);
+    Page<Product> findAllByPriceIsBetweenAndArchivedFalse(BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable);
 
-    Page<Product> findAllByNameContainingIgnoreCaseAndDescriptionContainingIgnoreCaseAndPriceBetweenAndArchivedIsFalse(String searchRequest,String description,BigDecimal priceLow,BigDecimal priceHigh,Pageable pageable);
+    Page<Product> findAllByNameContainingIgnoreCaseAndDescriptionContainingIgnoreCaseAndPriceBetweenAndArchivedIsFalse(String searchRequest, String description, BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable);
 
 }

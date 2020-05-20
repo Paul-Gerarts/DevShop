@@ -9,7 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static be.syntra.devshop.DevshopBack.testutilities.CartUtils.createActiveCart;
+import static be.syntra.devshop.DevshopBack.testutilities.CartUtils.createCart;
 import static be.syntra.devshop.DevshopBack.testutilities.UserUtils.createUser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -33,7 +33,7 @@ public class CartServiceTest {
     @Test
     void saveCartToArchivedCartsTest() {
         // given
-        Cart dummyCart = createActiveCart();
+        Cart dummyCart = createCart();
         User dummyUser = createUser();
         String name = "one";
         when(userService.getUserByEmail(name)).thenReturn(dummyUser);

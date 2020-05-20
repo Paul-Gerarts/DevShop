@@ -14,7 +14,7 @@ import org.springframework.data.domain.Pageable;
 
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.createDummyPageable;
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.createDummyProductPage;
-import static be.syntra.devshop.DevshopBack.testutilities.SearchModelUtils.getDummyDefaultSearchModel;
+import static be.syntra.devshop.DevshopBack.testutilities.SearchModelUtils.getDummySearchModel;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,7 +30,7 @@ class SearchServiceTest {
     @Test
     void findAllNonArchivedBySearchTermAndPriceBetween() {
         // given
-        SearchModel dummySearchModel = getDummyDefaultSearchModel();
+        SearchModel dummySearchModel = getDummySearchModel();
         dummySearchModel.setSearchResultView(true);
         dummySearchModel.setSearchRequest("test");
         dummySearchModel.setActiveFilters(true);
@@ -52,7 +52,7 @@ class SearchServiceTest {
     @Test
     void findAllByNameContainingIgnoreCaseAndArchivedFalse() {
         // given
-        SearchModel dummySearchModel = getDummyDefaultSearchModel();
+        SearchModel dummySearchModel = getDummySearchModel();
         dummySearchModel.setSearchResultView(true);
         dummySearchModel.setSearchRequest("test");
         dummySearchModel.setActiveFilters(false);
@@ -74,7 +74,7 @@ class SearchServiceTest {
     @Test
     void findAllNonArchivedByDescriptionAndPriceBetween() {
         // given
-        SearchModel dummySearchModel = getDummyDefaultSearchModel();
+        SearchModel dummySearchModel = getDummySearchModel();
         dummySearchModel.setSearchResultView(true);
         dummySearchModel.setSearchRequest("");
         dummySearchModel.setDescription("test");
@@ -97,7 +97,7 @@ class SearchServiceTest {
     @Test
     void findAllByDescriptionAndByArchivedFalse() {
         // given
-        SearchModel dummySearchModel = getDummyDefaultSearchModel();
+        SearchModel dummySearchModel = getDummySearchModel();
         dummySearchModel.setSearchResultView(true);
         dummySearchModel.setSearchRequest("");
         dummySearchModel.setDescription("test");
@@ -120,7 +120,7 @@ class SearchServiceTest {
     @Test
     void findAllArchivedFalseByPriceBetween() {
         // given
-        SearchModel dummySearchModel = getDummyDefaultSearchModel();
+        SearchModel dummySearchModel = getDummySearchModel();
         dummySearchModel.setSearchResultView(true);
         dummySearchModel.setSearchRequest("");
         dummySearchModel.setDescription("");
@@ -143,7 +143,7 @@ class SearchServiceTest {
     @Test
     void findAllByArchivedTrue() {
         // given
-        SearchModel dummySearchModel = getDummyDefaultSearchModel();
+        SearchModel dummySearchModel = getDummySearchModel();
         dummySearchModel.setArchivedView(true);
         dummySearchModel.setSearchRequest("");
         dummySearchModel.setDescription("");
@@ -166,7 +166,7 @@ class SearchServiceTest {
     @Test
     void findAllByArchivedFalse() {
         // given
-        SearchModel dummySearchModel = getDummyDefaultSearchModel();
+        SearchModel dummySearchModel = getDummySearchModel();
         dummySearchModel.setArchivedView(false);
         dummySearchModel.setSearchRequest("");
         dummySearchModel.setDescription("");
