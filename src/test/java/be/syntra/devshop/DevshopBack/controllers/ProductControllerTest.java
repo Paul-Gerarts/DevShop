@@ -228,7 +228,7 @@ class ProductControllerTest {
         Category category = createCategory_Headphones();
         List<Product> dummyProductList = List.of(createNonArchivedProduct(), createArchivedProduct());
         when(productService.findAllByCorrespondingCategory(category.getId())).thenReturn(dummyProductList);
-        when(productMapper.convertToProductListObject(dummyProductList)).thenReturn(new ProductList(dummyProductList));
+        when(productMapper.convertToProductListObject(dummyProductList)).thenReturn(ProductList.builder().products(dummyProductList).build());
 
         // when
         ResultActions resultActions = mockMvc.perform(get("/products/all/" + category.getId())
