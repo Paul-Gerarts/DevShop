@@ -12,14 +12,12 @@ public class CartFactory {
 
     public Cart of(
             List<Product> products,
-            boolean isActive,
             boolean isFinalized,
             boolean isPaid
     ) {
         return Cart.builder()
                 .cartCreationDateTime(LocalDateTime.now())
                 .products(products)
-                .activeCart(isActive)
                 .finalizedCart(isFinalized)
                 .paidCart(isPaid)
                 .build();

@@ -16,7 +16,6 @@ public class CartMapper {
         return CartDto.builder()
                 .cartCreationDateTime(cart.getCartCreationDateTime())
                 .products(cart.getProducts())
-                .activeCart(cart.isActiveCart())
                 .finalizedCart(cart.isFinalizedCart())
                 .paidCart(cart.isPaidCart())
                 .build();
@@ -26,7 +25,6 @@ public class CartMapper {
         return Cart.builder()
                 .cartCreationDateTime(cartDto.getCartCreationDateTime())
                 .products(cartDto.getProducts())
-                .activeCart(cartDto.isActiveCart())
                 .finalizedCart(cartDto.isFinalizedCart())
                 .paidCart(cartDto.isPaidCart())
                 .build();

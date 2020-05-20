@@ -17,9 +17,34 @@ public class SearchModel {
     private BigDecimal priceHigh;
     private boolean sortAscendingName;
     private boolean sortAscendingPrice;
+    private boolean nameSortActive;
+    private boolean priceSortActive;
     private boolean archivedView;
     private boolean searchResultView;
     private boolean searchFailure;
     private boolean activeFilters;
     private String appliedFiltersHeader;
+    private Integer pageNumber;
+    private Integer pageSize;
+
+    @Override
+    public String toString() {
+        return "SearchModel{" + "\n" +
+                "searchRequest='" + searchRequest + '\'' + "\n" +
+                ", description='" + description + '\'' + "\n" +
+                ", priceLow=" + priceLow + "\n" +
+                ", priceHigh=" + priceHigh + "\n" +
+                ", sortAscendingName=" + sortAscendingName + "\n" +
+                ", sortAscendingPrice=" + sortAscendingPrice + "\n" +
+                ", nameSortActive=" + nameSortActive + "\n" +
+                ", priceSortActive=" + priceSortActive + "\n" +
+                ", archivedView=" + archivedView + "\n" +
+                ", searchResultView=" + searchResultView + "\n" +
+                ", searchFailure=" + searchFailure + "\n" +
+                ", activeFilters=" + activeFilters + "\n" +
+                ", appliedFiltersHeader='" + appliedFiltersHeader + '\'' + "\n" +
+                ", pageNumber=" + pageNumber + "\n" +
+                ", pageSize=" + pageSize + "\n" +
+                '}';
+    }
 }

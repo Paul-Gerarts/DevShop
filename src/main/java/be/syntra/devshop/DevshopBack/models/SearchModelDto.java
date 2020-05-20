@@ -17,10 +17,13 @@ public class SearchModelDto {
     private BigDecimal priceHigh;
     private boolean sortAscendingName;
     private boolean sortAscendingPrice;
+    private boolean nameSortActive;
+    private boolean priceSortActive;
     private boolean archivedView;
     private boolean searchResultView;
     private boolean searchFailure;
     private boolean activeFilters;
     private String appliedFiltersHeader;
-
+    private Integer pageNumber;
+    private Integer pageSize;
 }

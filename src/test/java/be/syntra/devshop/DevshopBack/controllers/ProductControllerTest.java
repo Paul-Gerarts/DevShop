@@ -158,11 +158,11 @@ class ProductControllerTest {
         // given
         final SearchModelDto searchModelDtoDummy = getDummySearchModelDto();
         final SearchModel searchModelDummy = getDummySearchModel();
-        final List<Product> dummyListOfProducts = createProductList();
         final ProductList productList = createDummyProductList();
+        final ProductPage dummyProductPage = createProductPage();
         when(searchModelMapper.convertToSearchModel(any())).thenReturn(searchModelDummy);
-        when(searchService.applySearchModel(any())).thenReturn(dummyListOfProducts);
-        when(productMapper.convertToProductListObject(any())).thenReturn(productList);
+        when(searchService.applySearchModel(any())).thenReturn(dummyProductPage);
+        when(productMapper.convertToProductListObject(any(ProductPage.class))).thenReturn(productList);
 
         // when
         ResultActions resultActions =
