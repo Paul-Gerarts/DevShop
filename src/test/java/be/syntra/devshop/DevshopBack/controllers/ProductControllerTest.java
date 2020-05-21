@@ -237,7 +237,7 @@ class ProductControllerTest {
     void canFindProductsWithCorrespondingCategoryTest() throws Exception {
         // given
         final Category category = createCategory();
-        final List<Product> dummyList = List.of(createNonArchivedProduct(),createArchivedProduct());
+        final List<Product> dummyList = List.of(createNonArchivedProduct(), createArchivedProduct());
         final ProductList dummyProductList = ProductList.builder().products(dummyList).build();
         when(productService.findAllByCorrespondingCategory(category.getId())).thenReturn(dummyList);
         when(productMapper.convertToProductListObject(anyList())).thenReturn(dummyProductList);
@@ -360,5 +360,35 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.userName").value(equalTo("lens.huygh@gmail.com")));
 
         verify(productService, times(1)).submitRating(any(), any());
+    }
+
+    @Test
+    @WithMockUser
+    void canGetRatingsFromProductTest() throws Exception {
+        // given
+        final Product dummyProduct = createNonArchivedProduct();
+        final Set<StarRating> ratings = createRatingList();
+        final StarRatingSet ratingsDto = new StarRatingSet(ratings);
+        when(productService.getAllRatingsFromProduct(dummyProduct.getId())).thenReturn(ratings);
+        when(starRatingMapper.mapToStarRatingSet(ratings)).thenReturn(ratingsDto);
+
+        // when
+        ResultActions resultActions =
+                mockMvc.perform(
+                        get("/products/ratings/" + dummyProduct.getId())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(jsonUtils.asJsonString(ratingsDto)));
+
+        // then
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.ratings", hasSize(3)))
+                .andExpect(jsonPath("$.ratings[0]").isNotEmpty())
+                .andExpect(jsonPath("$.ratings[1]").isNotEmpty())
+                .andExpect(jsonPath("$.ratings[2]").isNotEmpty());
+
+        verify(productService, times(1)).getAllRatingsFromProduct(dummyProduct.getId());
+        verify(starRatingMapper, times(1)).mapToStarRatingSet(ratings);
     }
 }

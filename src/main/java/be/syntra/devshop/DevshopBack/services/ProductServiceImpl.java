@@ -14,10 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -178,6 +175,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Double getProductRating(Long productId) {
         return productRepository.getProductRating(productId).orElse(0D);
+    }
+
+    @Override
+    public Set<StarRating> getAllRatingsFromProduct(Long productId) {
+        return productRepository.findAllStarRatingFromProduct(productId).orElse(Collections.emptySet());
     }
 
     @Override

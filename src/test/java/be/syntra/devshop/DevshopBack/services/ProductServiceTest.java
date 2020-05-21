@@ -521,4 +521,19 @@ class ProductServiceTest {
                 ? 4
                 : 3;
     }
+
+    @Test
+    void canFindRatingsForProductTest() {
+        // given
+        Set<StarRating> ratings = createRatingList();
+        when(productRepository.findAllStarRatingFromProduct(1L)).thenReturn(Optional.of(ratings));
+
+        // when
+        Set<StarRating> resultRatings = productService.getAllRatingsFromProduct(1L);
+
+        // then
+        assertThat(resultRatings.size()).isEqualTo(ratings.size());
+        assertThat(resultRatings.containsAll(ratings)).isTrue();
+        verify(productRepository, times(1)).findAllStarRatingFromProduct(1L);
+    }
 }

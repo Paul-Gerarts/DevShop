@@ -1,12 +1,13 @@
 package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
+import be.syntra.devshop.DevshopBack.entities.StarRating;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import be.syntra.devshop.DevshopBack.entities.StarRating;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 
 public interface ProductService {
@@ -66,4 +67,6 @@ public interface ProductService {
     Double getProductRating(Long productId);
 
     Product submitRating(StarRating rating, Long productId);
+
+    Set<StarRating> getAllRatingsFromProduct(Long productId);
 }
