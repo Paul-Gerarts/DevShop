@@ -100,12 +100,20 @@ public class SearchServiceImpl implements SearchService {
             return ProductPage.builder()
                     .productPage(productService.findAllByArchivedFalse(searchResults.getPageable()))
                     .searchFailure(true)
+                    .hasNext(searchResults.hasNext())
+                    .hasPrevious(searchResults.hasPrevious())
+                    .currentPage(searchResults.getNumber())
+                    .totalPages(searchResults.getTotalPages())
                     .build();
         }
         return ProductPage.builder()
                 .productPage(searchResults)
                 .minPrice(getProductPrice(productWithMinPrice))
                 .maxPrice(getProductPrice(productWithMaxPrice))
+                .hasNext(searchResults.hasNext())
+                .hasPrevious(searchResults.hasPrevious())
+                .currentPage(searchResults.getNumber())
+                .totalPages(searchResults.getTotalPages())
                 .build();
     }
 
