@@ -14,7 +14,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -174,12 +178,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Double getProductRating(Long productId) {
-        return productRepository.getProductRating(productId).orElse(0D);
+        return BigDecimal.valueOf(productRepository.getProductRating(productId).orElse(0D))
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
     }
 
     @Override
     public Set<StarRating> getAllRatingsFromProduct(Long productId) {
-        return productRepository.findAllStarRatingFromProduct(productId).orElse(Collections.emptySet());
+        return productRepository.findAllStarRatingFromProduct(productId);
     }
 
     @Override

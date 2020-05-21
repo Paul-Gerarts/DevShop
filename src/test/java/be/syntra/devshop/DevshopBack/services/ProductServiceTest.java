@@ -526,7 +526,7 @@ class ProductServiceTest {
     void canFindRatingsForProductTest() {
         // given
         Set<StarRating> ratings = createRatingList();
-        when(productRepository.findAllStarRatingFromProduct(1L)).thenReturn(Optional.of(ratings));
+        when(productRepository.findAllStarRatingFromProduct(1L)).thenReturn(ratings);
 
         // when
         Set<StarRating> resultRatings = productService.getAllRatingsFromProduct(1L);

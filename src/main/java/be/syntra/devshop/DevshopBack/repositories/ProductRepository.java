@@ -30,7 +30,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             + "LEFT JOIN p.ratings sr "
             + "WHERE p.id = :productId"
     )
-    Optional<Set<StarRating>> findAllStarRatingFromProduct(
+    Set<StarRating> findAllStarRatingFromProduct(
             @Param("productId") Long productId
     );
 
