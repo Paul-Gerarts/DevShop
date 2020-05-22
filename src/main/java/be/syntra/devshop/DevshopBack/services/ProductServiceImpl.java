@@ -192,8 +192,17 @@ public class ProductServiceImpl implements ProductService {
     public Product submitRating(StarRating rating, Long productId) {
         Product product = findById(productId);
         product.setRatings(update(product.getRatings(), rating));
+        product.setAverageRating(getAverageRating(product));
         productRepository.save(product);
         return product;
+    }
+
+    private double getAverageRating(Product product) {
+        return product.getRatings()
+                .parallelStream()
+                .mapToDouble(StarRating::getRating)
+                .average()
+                .orElse(0D);
     }
 
     private Set<StarRating> update(Set<StarRating> ratings, StarRating rating) {
