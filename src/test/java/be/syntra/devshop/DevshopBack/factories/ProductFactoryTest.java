@@ -46,9 +46,10 @@ public class ProductFactoryTest {
         String productDescription = "description";
         boolean archived = false;
         List<Category> categories = createCategoryList();
+        Double averageRating = 0D;
 
         // when
-        Product resultProduct = productFactory.of(productName, productPrice, productDescription, archived, categories, Collections.emptySet());
+        Product resultProduct = productFactory.of(productName, productPrice, productDescription, archived, categories, averageRating, Collections.emptySet());
 
         // then
         assertThat(resultProduct.getClass()).isEqualTo(Product.class);

@@ -196,6 +196,7 @@ public class DataFillerImpl {
                         "The MOST fancy mechanical keyboard of all times",
                         false,
                         retrieveCategoryBy("Accessories"),
+                        0D,
                         Collections.emptySet()),
                 productFactory.of(
                         "mousepad",
@@ -203,6 +204,7 @@ public class DataFillerImpl {
                         "The MOST non-waifu mousepad even your mom could approve",
                         false,
                         retrieveCategoryBy("Accessories"),
+                        0D,
                         Collections.emptySet()),
                 productFactory.of(
                         "gaming chair",
@@ -210,6 +212,7 @@ public class DataFillerImpl {
                         "The MOST comfortable chair for your aching back",
                         false,
                         retrieveCategoryBy("Office"),
+                        0D,
                         Collections.emptySet()),
                 productFactory.of(
                         "headphones",
@@ -217,6 +220,7 @@ public class DataFillerImpl {
                         "The MOST noise-cancelling headphones. You won't even hear your neighbours screaming",
                         false,
                         retrieveCategoryBy("Headphones"),
+                        0D,
                         Collections.emptySet()),
                 productFactory.of(
                         "Windows Pentium 3",
@@ -224,6 +228,7 @@ public class DataFillerImpl {
                         "The MOST redundant PC that isn't even in production anymore",
                         true,
                         retrieveCategoryBy("Desktops"),
+                        0D,
                         Collections.emptySet())
         );
     }

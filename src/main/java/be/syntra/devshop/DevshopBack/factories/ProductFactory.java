@@ -3,8 +3,8 @@ package be.syntra.devshop.DevshopBack.factories;
 import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.entities.StarRating;
-import be.syntra.devshop.DevshopBack.services.CategoryServiceImpl;
-import be.syntra.devshop.DevshopBack.services.StarRatingServiceImpl;
+import be.syntra.devshop.DevshopBack.services.CategoryService;
+import be.syntra.devshop.DevshopBack.services.StarRatingService;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,13 +20,13 @@ import java.util.stream.IntStream;
 @NoArgsConstructor
 public class ProductFactory {
 
-    private CategoryServiceImpl categoryService;
-    private StarRatingServiceImpl ratingService;
+    private CategoryService categoryService;
+    private StarRatingService ratingService;
 
     @Autowired
     public ProductFactory(
-            CategoryServiceImpl categoryService,
-            StarRatingServiceImpl ratingService
+            CategoryService categoryService,
+            StarRatingService ratingService
     ) {
         this.categoryService = categoryService;
         this.ratingService = ratingService;
@@ -38,6 +38,7 @@ public class ProductFactory {
             String description,
             boolean archived,
             List<Category> categories,
+            Double averageRating,
             Set<StarRating> ratings
     ) {
         return Product.builder()
@@ -46,6 +47,7 @@ public class ProductFactory {
                 .description(description)
                 .archived(archived)
                 .categories(categories)
+                .averageRating(averageRating)
                 .ratings(ratings)
                 .build();
     }
@@ -54,6 +56,10 @@ public class ProductFactory {
         List<Category> categories = categoryService.findAll();
         Set<StarRating> ratings = ratingService.findAll();
         List<Product> products = new ArrayList<>();
+        Double averageRating = ratings.parallelStream()
+                .mapToDouble(StarRating::getRating)
+                .average()
+                .orElse(0D);
 
         IntStream.range(1, amount).forEach(number -> {
             int randomCategory = new Random().nextInt(categories.size());
@@ -67,6 +73,7 @@ public class ProductFactory {
                     description,
                     randomizeArchivedProductBy(randomCategory),
                     List.of(category),
+                    averageRating,
                     ratings
             ));
         });

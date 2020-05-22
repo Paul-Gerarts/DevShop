@@ -320,10 +320,7 @@ class ProductControllerTest {
 
         // when
         ResultActions resultActions =
-                mockMvc.perform(
-                        get("/products/" + rating.getUserName() + "/ratings/" + dummyProduct.getId())
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(jsonUtils.asJsonString(ratingDto)));
+                mockMvc.perform(get("/products/" + rating.getUserName() + "/ratings/" + dummyProduct.getId()));
 
         // then
         resultActions
@@ -374,10 +371,7 @@ class ProductControllerTest {
 
         // when
         ResultActions resultActions =
-                mockMvc.perform(
-                        get("/products/ratings/" + dummyProduct.getId())
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(jsonUtils.asJsonString(ratingsDto)));
+                mockMvc.perform(get("/products/ratings/" + dummyProduct.getId()));
 
         // then
         resultActions
