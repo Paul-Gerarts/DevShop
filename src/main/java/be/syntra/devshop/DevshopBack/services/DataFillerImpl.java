@@ -2,12 +2,14 @@ package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
+import be.syntra.devshop.DevshopBack.entities.StarRating;
 import be.syntra.devshop.DevshopBack.factories.ProductFactory;
 import be.syntra.devshop.DevshopBack.factories.SecurityUserFactory;
 import be.syntra.devshop.DevshopBack.factories.UserFactory;
 import be.syntra.devshop.DevshopBack.factories.UserRoleFactory;
 import be.syntra.devshop.DevshopBack.repositories.CategoryRepository;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
+import be.syntra.devshop.DevshopBack.repositories.StarRatingRepository;
 import be.syntra.devshop.DevshopBack.repositories.UserRepository;
 import be.syntra.devshop.DevshopBack.security.entities.UserRole;
 import be.syntra.devshop.DevshopBack.security.repositories.SecurityUserRepository;
@@ -42,6 +44,7 @@ public class DataFillerImpl {
     private final SecurityUserRepository securityUserRepository;
     private final SecurityUserFactory securityUserFactory;
     private final CategoryRepository categoryRepository;
+    private final StarRatingRepository ratingRepository;
 
     @Autowired
     public DataFillerImpl(ProductRepository productRepository,
@@ -53,7 +56,8 @@ public class DataFillerImpl {
                           UserRoleService userRoleService,
                           SecurityUserRepository securityUserRepository,
                           SecurityUserFactory securityUserFactory,
-                          CategoryRepository categoryRepository
+                          CategoryRepository categoryRepository,
+                          StarRatingRepository ratingRepository
     ) {
         this.productRepository = productRepository;
         this.productFactory = productFactory;
@@ -65,6 +69,7 @@ public class DataFillerImpl {
         this.securityUserRepository = securityUserRepository;
         this.securityUserFactory = securityUserFactory;
         this.categoryRepository = categoryRepository;
+        this.ratingRepository = ratingRepository;
     }
 
     private UserRole retrieveAdminRole() {
@@ -102,6 +107,23 @@ public class DataFillerImpl {
                             new BCryptPasswordEncoder().encode(password),
                             Collections.singletonList(retrieveAdminRole())
                     ));
+        }
+
+        if (ratingRepository.count() == 0) {
+            ratingRepository.saveAll(List.of(
+                    StarRating.builder()
+                            .rating(4)
+                            .userName("lens.huygh@gmail.com")
+                            .build(),
+                    StarRating.builder()
+                            .rating(1)
+                            .userName("thomasf0n7a1n3@gmail.com")
+                            .build(),
+                    StarRating.builder()
+                            .rating(4)
+                            .userName("paul.gerarts@juvo.be")
+                            .build()
+            ));
         }
 
         if (categoryRepository.count() == 0) {
@@ -173,31 +195,41 @@ public class DataFillerImpl {
                         new BigDecimal(150),
                         "The MOST fancy mechanical keyboard of all times",
                         false,
-                        retrieveCategoryBy("Accessories")),
+                        retrieveCategoryBy("Accessories"),
+                        0D,
+                        Collections.emptySet()),
                 productFactory.of(
                         "mousepad",
                         new BigDecimal(3),
                         "The MOST non-waifu mousepad even your mom could approve",
                         false,
-                        retrieveCategoryBy("Accessories")),
+                        retrieveCategoryBy("Accessories"),
+                        0D,
+                        Collections.emptySet()),
                 productFactory.of(
                         "gaming chair",
                         new BigDecimal("1600.99"),
                         "The MOST comfortable chair for your aching back",
                         false,
-                        retrieveCategoryBy("Office")),
+                        retrieveCategoryBy("Office"),
+                        0D,
+                        Collections.emptySet()),
                 productFactory.of(
                         "headphones",
                         new BigDecimal(235),
                         "The MOST noise-cancelling headphones. You won't even hear your neighbours screaming",
                         false,
-                        retrieveCategoryBy("Headphones")),
+                        retrieveCategoryBy("Headphones"),
+                        0D,
+                        Collections.emptySet()),
                 productFactory.of(
                         "Windows Pentium 3",
                         new BigDecimal(80),
                         "The MOST redundant PC that isn't even in production anymore",
                         true,
-                        retrieveCategoryBy("Desktops"))
+                        retrieveCategoryBy("Desktops"),
+                        0D,
+                        Collections.emptySet())
         );
     }
 }

@@ -2,6 +2,7 @@ package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
+import be.syntra.devshop.DevshopBack.entities.StarRating;
 import be.syntra.devshop.DevshopBack.exceptions.ProductNotFoundException;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -13,8 +14,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -170,5 +174,42 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> findAllNonArchivedBySearchTermAndDescriptionAndPriceBetween(String searchTerm, String description, BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable) {
         return productRepository.findAllByNameContainingIgnoreCaseAndDescriptionContainingIgnoreCaseAndPriceBetweenAndArchivedIsFalse(searchTerm, description, priceLow, priceHigh, pageable);
+    }
+
+    @Override
+    public Double getProductRating(Long productId) {
+        return BigDecimal.valueOf(productRepository.getProductRating(productId).orElse(0D))
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
+    }
+
+    @Override
+    public Set<StarRating> getAllRatingsFromProduct(Long productId) {
+        return productRepository.findAllStarRatingFromProduct(productId);
+    }
+
+    @Override
+    public Product submitRating(StarRating rating, Long productId) {
+        Product product = findById(productId);
+        product.setRatings(update(product.getRatings(), rating));
+        product.setAverageRating(getAverageRating(product));
+        productRepository.save(product);
+        return product;
+    }
+
+    private double getAverageRating(Product product) {
+        return product.getRatings()
+                .parallelStream()
+                .mapToDouble(StarRating::getRating)
+                .average()
+                .orElse(0D);
+    }
+
+    private Set<StarRating> update(Set<StarRating> ratings, StarRating rating) {
+        Set<StarRating> allRatings = new HashSet<>();
+        allRatings.addAll(ratings);
+        allRatings.remove(rating);
+        allRatings.add(rating);
+        return allRatings;
     }
 }
