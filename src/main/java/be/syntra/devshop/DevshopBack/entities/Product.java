@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "product")
@@ -39,6 +40,17 @@ public class Product {
             inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "category_id")},
             foreignKey = @ForeignKey(name = "category_fk"))
     private List<Category> categories;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "PRODUCT_STAR_RATING",
+            joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")},
+            inverseJoinColumns = {@JoinColumn(name = "star_rating_id", referencedColumnName = "star_rating_id")},
+            foreignKey = @ForeignKey(name = "rating_fk"))
+    private Set<StarRating> ratings;
+
+    @PositiveOrZero
+    private Double averageRating;
 
     @NotBlank
     private String description;

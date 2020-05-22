@@ -2,12 +2,15 @@ package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
+import be.syntra.devshop.DevshopBack.entities.StarRating;
 import be.syntra.devshop.DevshopBack.exceptions.ProductNotFoundException;
 import be.syntra.devshop.DevshopBack.models.CategoryChangeDto;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
 import be.syntra.devshop.DevshopBack.services.utilities.ProductMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -19,9 +22,12 @@ import org.springframework.data.domain.Sort;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory;
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.*;
+import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRating;
+import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRatingList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -468,5 +474,66 @@ class ProductServiceTest {
         verify(productRepository, times(1)).findAllWithCorrespondingCategory(category.getId());
         verify(productRepository, times(1)).saveAll(any());
         verify(categoryService, times(1)).findById(categoryChangeDto.getCategoryToSet());
+    }
+
+    @Test
+    void canFindAverageRatingScoreForProductTest() {
+        // given
+        Set<StarRating> ratings = createRatingList();
+        when(productRepository.getProductRating(1L)).thenReturn(Optional.of(3D));
+
+        // when
+        Double result = productService.getProductRating(1L);
+        Double doubleCheck = ratings.parallelStream()
+                .mapToDouble(StarRating::getRating)
+                .average()
+                .orElse(Double.NaN);
+
+        // then
+        assertThat(result).isEqualTo(3D);
+        assertThat(result).isEqualTo(doubleCheck);
+        verify(productRepository, times(1)).getProductRating(1L);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"lens.huygh@gmail.com", "user@email.com"})
+    void canSubmitRatingWithOnlyUniqueUserNameTest(String userName) {
+        // given
+        Product product = createNonArchivedProduct();
+        Set<StarRating> ratings = createRatingList();
+        product.setRatings(ratings);
+        StarRating rating = createRating();
+        rating.setUserName(userName);
+        when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
+
+        // when
+        Product result = productService.submitRating(rating, product.getId());
+
+        // then
+        assertThat(result.getRatings().size()).isEqualTo(desiredSetSize(userName));
+        assertThat(result.getRatings().contains(rating)).isTrue();
+        verify(productRepository, times(1)).findById(product.getId());
+        verify(productRepository, times(1)).save(any());
+    }
+
+    private int desiredSetSize(String userName) {
+        return "user@email.com".equals(userName)
+                ? 4
+                : 3;
+    }
+
+    @Test
+    void canFindRatingsForProductTest() {
+        // given
+        Set<StarRating> ratings = createRatingList();
+        when(productRepository.findAllStarRatingFromProduct(1L)).thenReturn(ratings);
+
+        // when
+        Set<StarRating> resultRatings = productService.getAllRatingsFromProduct(1L);
+
+        // then
+        assertThat(resultRatings.size()).isEqualTo(ratings.size());
+        assertThat(resultRatings.containsAll(ratings)).isTrue();
+        verify(productRepository, times(1)).findAllStarRatingFromProduct(1L);
     }
 }
