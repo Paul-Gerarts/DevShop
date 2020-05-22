@@ -2,6 +2,7 @@ package be.syntra.devshop.DevshopBack.controllers;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
+import be.syntra.devshop.DevshopBack.entities.StarRating;
 import be.syntra.devshop.DevshopBack.factories.SecurityUserFactory;
 import be.syntra.devshop.DevshopBack.models.*;
 import be.syntra.devshop.DevshopBack.security.configuration.CorsConfiguration;
@@ -13,9 +14,11 @@ import be.syntra.devshop.DevshopBack.security.services.SecurityUserService;
 import be.syntra.devshop.DevshopBack.services.CategoryServiceImpl;
 import be.syntra.devshop.DevshopBack.services.ProductServiceImpl;
 import be.syntra.devshop.DevshopBack.services.SearchService;
+import be.syntra.devshop.DevshopBack.services.StarRatingService;
 import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapper;
 import be.syntra.devshop.DevshopBack.services.utilities.ProductMapper;
 import be.syntra.devshop.DevshopBack.services.utilities.SearchModelMapper;
+import be.syntra.devshop.DevshopBack.services.utilities.StarRatingMapper;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -31,12 +34,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
+import java.util.Set;
 
 import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategoryList;
 import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory_Headphones;
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.*;
 import static be.syntra.devshop.DevshopBack.testutilities.SearchModelUtils.getDummySearchModel;
 import static be.syntra.devshop.DevshopBack.testutilities.SearchModelUtils.getDummySearchModelDto;
+import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.mockito.Mockito.*;
@@ -63,7 +68,13 @@ class ProductControllerTest {
     private SearchService searchService;
 
     @MockBean
+    private StarRatingService ratingService;
+
+    @MockBean
     private SearchModelMapper searchModelMapper;
+
+    @MockBean
+    private StarRatingMapper starRatingMapper;
 
     @Mock
     private SecurityUserFactory securityUserFactory;
@@ -294,5 +305,83 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.newCategoryName").value(equalTo("Test")));
 
         verify(categoryService, times(1)).updateCategory(any(), any());
+    }
+
+    @Test
+    @WithMockUser
+    void canGetStarRatingFromUserTest() throws Exception {
+        // given
+        final Product dummyProduct = createNonArchivedProduct();
+        final StarRating rating = createRating();
+        final StarRatingDto ratingDto = createRatingDto();
+        when(ratingService.getRatingFromUser(dummyProduct.getId(), rating.getUserName())).thenReturn(rating);
+        when(starRatingMapper.mapToDto(rating)).thenReturn(ratingDto);
+
+        // when
+        ResultActions resultActions =
+                mockMvc.perform(get("/products/" + rating.getUserName() + "/ratings/" + dummyProduct.getId()));
+
+        // then
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.rating").value(equalTo(rating.getRating())))
+                .andExpect(jsonPath("$.userName").value(equalTo(rating.getUserName())));
+
+        verify(ratingService, times(1)).getRatingFromUser(dummyProduct.getId(), rating.getUserName());
+    }
+
+    @Test
+    @WithMockUser
+    void canSubmitRatingTest() throws Exception {
+        // given
+        Product dummyProduct = createNonArchivedProduct();
+        Set<StarRating> ratings = createRatingList();
+        StarRating rating = createRating();
+        StarRatingDto starRatingDto = createRatingDto();
+        dummyProduct.setRatings(ratings);
+        when(productService.submitRating(rating, dummyProduct.getId())).thenReturn(dummyProduct);
+        when(starRatingMapper.mapToStarRating(starRatingDto)).thenReturn(rating);
+
+        // when
+        ResultActions resultActions = mockMvc.perform(post("/products/ratings")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonUtils.asJsonString(rating)));
+
+        // then
+        resultActions
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.rating").value(equalTo(4.0)))
+                .andExpect(jsonPath("$.userName").value(equalTo("lens.huygh@gmail.com")));
+
+        verify(productService, times(1)).submitRating(any(), any());
+    }
+
+    @Test
+    @WithMockUser
+    void canGetRatingsFromProductTest() throws Exception {
+        // given
+        final Product dummyProduct = createNonArchivedProduct();
+        final Set<StarRating> ratings = createRatingList();
+        final StarRatingSet ratingsDto = new StarRatingSet(ratings);
+        when(productService.getAllRatingsFromProduct(dummyProduct.getId())).thenReturn(ratings);
+        when(starRatingMapper.mapToStarRatingSet(ratings)).thenReturn(ratingsDto);
+
+        // when
+        ResultActions resultActions =
+                mockMvc.perform(get("/products/ratings/" + dummyProduct.getId()));
+
+        // then
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.ratings", hasSize(3)))
+                .andExpect(jsonPath("$.ratings[0]").isNotEmpty())
+                .andExpect(jsonPath("$.ratings[1]").isNotEmpty())
+                .andExpect(jsonPath("$.ratings[2]").isNotEmpty());
+
+        verify(productService, times(1)).getAllRatingsFromProduct(dummyProduct.getId());
+        verify(starRatingMapper, times(1)).mapToStarRatingSet(ratings);
     }
 }

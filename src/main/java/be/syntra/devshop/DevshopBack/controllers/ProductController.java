@@ -5,9 +5,11 @@ import be.syntra.devshop.DevshopBack.models.*;
 import be.syntra.devshop.DevshopBack.services.CategoryService;
 import be.syntra.devshop.DevshopBack.services.ProductService;
 import be.syntra.devshop.DevshopBack.services.SearchService;
+import be.syntra.devshop.DevshopBack.services.StarRatingService;
 import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapper;
 import be.syntra.devshop.DevshopBack.services.utilities.ProductMapper;
 import be.syntra.devshop.DevshopBack.services.utilities.SearchModelMapper;
+import be.syntra.devshop.DevshopBack.services.utilities.StarRatingMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,25 +24,31 @@ public class ProductController {
     private final ProductService productService;
     private final CategoryService categoryService;
     private final SearchService searchService;
+    private final StarRatingService ratingService;
     private final SearchModelMapper searchModelMapper;
     private final ProductMapper productMapper;
     private final CategoryMapper categoryMapper;
+    private final StarRatingMapper starRatingMapper;
 
     @Autowired
     public ProductController(
             ProductService productService,
             CategoryService categoryService,
             SearchService searchService,
+            StarRatingService ratingService,
             SearchModelMapper searchModelMapper,
             ProductMapper productMapper,
-            CategoryMapper categoryMapper
+            CategoryMapper categoryMapper,
+            StarRatingMapper starRatingMapper
     ) {
         this.productService = productService;
         this.categoryService = categoryService;
         this.searchService = searchService;
+        this.ratingService = ratingService;
         this.searchModelMapper = searchModelMapper;
         this.productMapper = productMapper;
         this.categoryMapper = categoryMapper;
+        this.starRatingMapper = starRatingMapper;
     }
 
     @GetMapping("/all/{id}")
@@ -63,9 +71,33 @@ public class ProductController {
 
     @GetMapping("/details/{id}")
     public ResponseEntity<Product> findProductById(@PathVariable("id") Long id) {
+        Product product = productService.findById(id);
+        product.setAverageRating(productService.getProductRating(id));
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(productService.findById(id));
+                .body(product);
+    }
+
+    @GetMapping("{userName}/ratings/{id}")
+    public ResponseEntity<StarRatingDto> findBy(@PathVariable String userName, @PathVariable Long id) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(starRatingMapper.mapToDto(ratingService.getRatingFromUser(id, userName)));
+    }
+
+    @GetMapping("/ratings/{id}")
+    public ResponseEntity<StarRatingSet> findBy(@PathVariable Long id) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(starRatingMapper.mapToStarRatingSet(productService.getAllRatingsFromProduct(id)));
+    }
+
+    @PostMapping("/ratings")
+    public ResponseEntity<StarRatingDto> submitRating(@RequestBody StarRatingDto starRatingDto) {
+        productService.submitRating(starRatingMapper.mapToStarRating(starRatingDto), starRatingDto.getProductId());
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(starRatingDto);
     }
 
     @PostMapping("/update")

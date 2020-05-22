@@ -1,6 +1,7 @@
 package be.syntra.devshop.DevshopBack.repositories;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
+import be.syntra.devshop.DevshopBack.entities.StarRating;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
@@ -31,6 +33,23 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     )
     List<Product> findAllWithCorrespondingCategories(
             @Param("categoryId") Long categoryId
+    );
+
+    @Query("SELECT sr FROM Product p "
+            + "LEFT JOIN p.ratings sr "
+            + "WHERE p.id = :productId"
+    )
+    Set<StarRating> findAllStarRatingFromProduct(
+            @Param("productId") Long productId
+    );
+
+    @Query(value = "SELECT AVG(sr.RATING) FROM PRODUCT_STAR_RATING psr "
+            + "LEFT JOIN STAR_RATING sr ON psr.STAR_RATING_ID = sr.STAR_RATING_ID "
+            + "WHERE psr.PRODUCT_ID = :productId",
+            nativeQuery = true
+    )
+    Optional<Double> getProductRating(
+            @Param("productId") Long productId
     );
 
     Page<Product> findAllByArchivedTrue(Pageable pageable);
