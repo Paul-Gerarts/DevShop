@@ -66,6 +66,16 @@ public interface ProductService {
 
     Page<Product> findAllNonArchivedBySearchTermAndDescriptionAndPriceBetween(String searchTerm, String description, BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable);
 
+    Page<Product> findAllBySearchModel(
+            Pageable pageable,
+            String searchRequest,
+            String description,
+            BigDecimal priceLow,
+            BigDecimal priceHigh,
+            boolean archived,
+            List<String> selectedCategories,
+            int amountOfSelectedCategories);
+
     Double getProductRating(Long productId);
 
     Product submitRating(StarRating rating, Long productId);

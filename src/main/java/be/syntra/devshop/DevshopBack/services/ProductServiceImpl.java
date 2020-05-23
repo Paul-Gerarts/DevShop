@@ -187,6 +187,28 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Page<Product> findAllBySearchModel(
+            Pageable pageable,
+            String searchRequest,
+            String description,
+            BigDecimal priceLow,
+            BigDecimal priceHigh,
+            boolean archived,
+            List<String> selectedCategories,
+            int amountOfSelectedCategories
+    ) {
+        return productRepository.findAllBySearchModel(
+                pageable,
+                searchRequest,
+                description,
+                priceLow,
+                priceHigh,
+                archived,
+                selectedCategories,
+                amountOfSelectedCategories);
+    }
+
+    @Override
     public Double getProductRating(Long productId) {
         return BigDecimal.valueOf(productRepository.getProductRating(productId).orElse(0D))
                 .setScale(2, RoundingMode.HALF_UP)

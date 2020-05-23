@@ -5,6 +5,7 @@ import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.entities.StarRating;
 import be.syntra.devshop.DevshopBack.exceptions.ProductNotFoundException;
 import be.syntra.devshop.DevshopBack.models.CategoryChangeDto;
+import be.syntra.devshop.DevshopBack.models.SearchModel;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
 import be.syntra.devshop.DevshopBack.services.utilities.ProductMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,8 +26,8 @@ import java.util.Optional;
 import java.util.Set;
 
 import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory_Headphones;
-import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory_Headphones;
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.*;
+import static be.syntra.devshop.DevshopBack.testutilities.SearchModelUtils.getDummySearchModel;
 import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRating;
 import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRatingList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -400,7 +401,6 @@ class ProductServiceTest {
     void canFindMaxPriceProductArchivedFalseByPriceBetweenTest() {
         // given
         final Page<Product> dummyProductPage = createDummyProductPage();
-        final Pageable dummyPageable = createDummyPageable();
         final BigDecimal priceLow = BigDecimal.ZERO;
         final BigDecimal priceHigh = BigDecimal.TEN;
         when(productRepository.findAllByPriceIsBetweenAndArchivedFalse(priceLow, priceHigh, PageRequest.of(0, 1, Sort.by("price").descending()))).thenReturn(dummyProductPage);
@@ -417,7 +417,6 @@ class ProductServiceTest {
     void canFindMinPriceProductArchivedFalseByPriceBetweenTest() {
         // given
         final Page<Product> dummyProductPage = createDummyProductPage();
-        final Pageable dummyPageable = createDummyPageable();
         final BigDecimal priceLow = BigDecimal.ZERO;
         final BigDecimal priceHigh = BigDecimal.TEN;
         when(productRepository.findAllByPriceIsBetweenAndArchivedFalse(priceLow, priceHigh, PageRequest.of(0, 1, Sort.by("price").ascending()))).thenReturn(dummyProductPage);
@@ -428,6 +427,48 @@ class ProductServiceTest {
         // then
         assertEquals(resultPage, dummyProductPage);
         verify(productRepository, times(1)).findAllByPriceIsBetweenAndArchivedFalse(priceLow, priceHigh, PageRequest.of(0, 1, Sort.by("price").ascending()));
+    }
+
+    @Test
+    void canFindAllBySearchModelTest() {
+        // given
+        final Page<Product> dummyProductPage = createDummyProductPage();
+        final Pageable dummyPageable = createDummyPageable();
+        final SearchModel searchModel = getDummySearchModel();
+        searchModel.setSelectedCategories(List.of("Headphones"));
+        when(productRepository.findAllBySearchModel(
+                dummyPageable,
+                searchModel.getSearchRequest(),
+                searchModel.getDescription(),
+                searchModel.getPriceLow(),
+                searchModel.getPriceHigh(),
+                searchModel.isArchivedView(),
+                searchModel.getSelectedCategories(),
+                searchModel.getSelectedCategories().size()))
+                .thenReturn(dummyProductPage);
+
+        // when
+        final Page<Product> resultPage = productService.findAllBySearchModel(
+                dummyPageable,
+                searchModel.getSearchRequest(),
+                searchModel.getDescription(),
+                searchModel.getPriceLow(),
+                searchModel.getPriceHigh(),
+                searchModel.isArchivedView(),
+                searchModel.getSelectedCategories(),
+                searchModel.getSelectedCategories().size());
+
+        // then
+        assertEquals(resultPage, dummyProductPage);
+        verify(productRepository, times(1)).findAllBySearchModel(
+                dummyPageable,
+                searchModel.getSearchRequest(),
+                searchModel.getDescription(),
+                searchModel.getPriceLow(),
+                searchModel.getPriceHigh(),
+                searchModel.isArchivedView(),
+                searchModel.getSelectedCategories(),
+                searchModel.getSelectedCategories().size());
     }
 
     @Test

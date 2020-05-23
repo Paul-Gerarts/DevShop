@@ -3,6 +3,7 @@ package be.syntra.devshop.DevshopBack.models;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,6 +27,7 @@ public class SearchModel {
     private String appliedFiltersHeader;
     private Integer pageNumber;
     private Integer pageSize;
+    private List<String> selectedCategories;
 
     @Override
     public String toString() {

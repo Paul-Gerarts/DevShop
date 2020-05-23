@@ -52,6 +52,28 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             @Param("productId") Long productId
     );
 
+    @Query("SELECT p FROM Product p "
+            + "LEFT JOIN p.categories category "
+            + "WHERE p.name LIKE CONCAT('%', :searchRequest, '%') "
+            + "AND p.description LIKE CONCAT('%', :description, '%') "
+            + "AND p.price BETWEEN :priceLow AND :priceHigh "
+            + "AND p.archived = :archived "
+            + "AND category.name IN :selectedCategories "
+            + "GROUP BY p "
+            + "HAVING SIZE(p.categories) >= :amountOfSelectedCategories"
+
+    )
+    Page<Product> findAllBySearchModel(
+            Pageable pageable,
+            @Param("searchRequest") String searchRequest,
+            @Param("description") String description,
+            @Param("priceLow") BigDecimal priceLow,
+            @Param("priceHigh") BigDecimal priceHigh,
+            @Param("archived") boolean archived,
+            @Param("selectedCategories") List<String> selectedCategories,
+            @Param("amountOfSelectedCategories") int amountOfSelectedCategories
+    );
+
     Page<Product> findAllByArchivedTrue(Pageable pageable);
 
     Page<Product> findAllByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest, Pageable pageable);
