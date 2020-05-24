@@ -4,6 +4,7 @@ import be.syntra.devshop.DevshopBack.models.SearchModel;
 import be.syntra.devshop.DevshopBack.models.SearchModelDto;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 public class SearchModelUtils {
     public static SearchModelDto getDummySearchModelDto() {
@@ -39,6 +40,7 @@ public class SearchModelUtils {
                 .appliedFiltersHeader("")
                 .pageNumber(0)
                 .pageSize(10)
+                .selectedCategories(new ArrayList<>())
                 .build();
     }
 }

@@ -14,7 +14,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory;
+import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory_Headphones;
+import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createMutableCategoryList;
 
 public class ProductUtils {
 
@@ -34,7 +35,7 @@ public class ProductUtils {
                 .description("description")
                 .archived(false)
                 .price(BigDecimal.valueOf(1.00))
-                .categories(List.of(createCategory()))
+                .categories(List.of(createCategory_Headphones()))
                 .build();
     }
 
@@ -45,7 +46,7 @@ public class ProductUtils {
                 .description("description")
                 .archived(true)
                 .price(BigDecimal.valueOf(1.00))
-                .categories(List.of(createCategory()))
+                .categories(List.of(createCategory_Headphones()))
                 .build();
     }
 
@@ -66,8 +67,8 @@ public class ProductUtils {
     }
 
     public static List<Product> createDummyNonArchivedProductList() {
-        Product product1 = Product.builder().name("test").price(new BigDecimal("55.99")).build();
-        Product product2 = Product.builder().name("product").price(new BigDecimal("110")).build();
+        Product product1 = Product.builder().name("test").categories(createMutableCategoryList()).price(new BigDecimal("55.99")).build();
+        Product product2 = Product.builder().name("product").categories(createMutableCategoryList()).price(new BigDecimal("110")).build();
         List<Product> productList = new ArrayList<>();
         productList.add(product1);
         productList.add(product2);

@@ -14,8 +14,8 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
-import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory;
 import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategoryList;
+import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory_Headphones;
 import static java.util.Optional.of;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -85,7 +85,7 @@ public class CategoryServiceTest {
     @Test
     void deleteCategoryTest() {
         // given
-        Category category = createCategory();
+        Category category = createCategory_Headphones();
         doNothing().when(categoryRepository).delete(category);
         when(categoryRepository.findById(category.getId())).thenReturn(of(category));
 
@@ -99,7 +99,7 @@ public class CategoryServiceTest {
     @Test
     void canFindCategoryById() {
         // given
-        Category category = createCategory();
+        Category category = createCategory_Headphones();
         when(categoryRepository.findById(category.getId())).thenReturn(of(category));
 
         // when
@@ -113,7 +113,7 @@ public class CategoryServiceTest {
     @Test
     void canUpdateCategory() {
         // given
-        Category category = createCategory();
+        Category category = createCategory_Headphones();
         CategoryChangeDto categoryChangeDto = CategoryChangeDto.builder()
                 .categoryToDelete(1L)
                 .newCategoryName("Test")
@@ -131,7 +131,7 @@ public class CategoryServiceTest {
     @Test
     void willThrowExceptionWhenCategoryNotFoundTest() {
         // given
-        Category category = createCategory();
+        Category category = createCategory_Headphones();
         when(categoryRepository.findById(category.getId())).thenThrow(new CategoryNotFoundException("not found"));
 
         // when

@@ -24,6 +24,7 @@ public class SearchModelMapper {
                 .priceSortActive(searchModelDto.isPriceSortActive())
                 .pageNumber(searchModelDto.getPageNumber())
                 .pageSize(searchModelDto.getPageSize())
+                .selectedCategories(searchModelDto.getSelectedCategories())
                 .build();
     }
 }

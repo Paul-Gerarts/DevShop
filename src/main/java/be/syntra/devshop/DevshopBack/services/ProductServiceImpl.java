@@ -60,6 +60,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public void removeOneCategory(Long id) {
+        List<Product> productsToChange = productRepository.findAllWithCorrespondingCategories(id);
+        Category categoryToDelete = categoryService.findById(id);
+        if (!productsToChange.isEmpty()) {
+            productsToChange.forEach(product -> product.getCategories().remove(categoryToDelete));
+            productRepository.saveAll(productsToChange);
+        }
+    }
+
+    @Override
     public Product findById(Long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("The product with id: " + id + " is not found"));
@@ -174,6 +184,28 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> findAllNonArchivedBySearchTermAndDescriptionAndPriceBetween(String searchTerm, String description, BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable) {
         return productRepository.findAllByNameContainingIgnoreCaseAndDescriptionContainingIgnoreCaseAndPriceBetweenAndArchivedIsFalse(searchTerm, description, priceLow, priceHigh, pageable);
+    }
+
+    @Override
+    public Page<Product> findAllBySearchModel(
+            Pageable pageable,
+            String searchRequest,
+            String description,
+            BigDecimal priceLow,
+            BigDecimal priceHigh,
+            boolean archived,
+            List<String> selectedCategories,
+            int amountOfSelectedCategories
+    ) {
+        return productRepository.findAllBySearchModel(
+                pageable,
+                searchRequest,
+                description,
+                priceLow,
+                priceHigh,
+                archived,
+                selectedCategories,
+                amountOfSelectedCategories);
     }
 
     @Override
