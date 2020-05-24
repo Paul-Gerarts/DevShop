@@ -34,6 +34,19 @@ public class SearchServiceImpl implements SearchService {
         log.info("searchModel -> {}", searchModel);
         Pageable pageable = getSortingPageable(setDefaultPaginationValues(searchModel));
         if (searchModel.isSearchResultView()) {
+            if (!searchModel.getSelectedCategories().isEmpty()) {
+                return getSearchResultsAndMinMaxPrice(
+                        productService.findAllBySearchModel(
+                                pageable,
+                                StringUtils.hasText(searchModel.getSearchRequest()) ? "" : searchModel.getSearchRequest(),
+                                StringUtils.hasText(searchModel.getDescription()) ? "" : searchModel.getDescription(),
+                                searchModel.getPriceLow(),
+                                searchModel.getPriceHigh(),
+                                searchModel.isArchivedView(),
+                                searchModel.getSelectedCategories(),
+                                searchModel.getSelectedCategories().size())
+                );
+            }
             if (StringUtils.hasText(searchModel.getSearchRequest())) {
 
                 if (StringUtils.hasText(searchModel.getDescription())) {
@@ -122,7 +135,7 @@ public class SearchServiceImpl implements SearchService {
     }
 
     private boolean searchFoundNoProducts(Page<Product> searchResults) {
-        return searchResults.getContent().size() == 0;
+        return searchResults.getContent().isEmpty();
     }
 
     private ProductPage getSearchResultsAndMinMaxPrice(Page<Product> searchResults) {

@@ -14,8 +14,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     public CategoryServiceImpl(
-            CategoryRepository categoryRepository)
-    {
+            CategoryRepository categoryRepository
+    ) {
         this.categoryRepository = categoryRepository;
     }
 

@@ -36,8 +36,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.List;
 import java.util.Set;
 
-import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory;
 import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategoryList;
+import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory_Headphones;
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.*;
 import static be.syntra.devshop.DevshopBack.testutilities.SearchModelUtils.getDummySearchModel;
 import static be.syntra.devshop.DevshopBack.testutilities.SearchModelUtils.getDummySearchModelDto;
@@ -197,7 +197,7 @@ class ProductControllerTest {
     @WithMockUser
     void canDeleteCategoryTest() throws Exception {
         // given
-        Category category = createCategory();
+        Category category = createCategory_Headphones();
         doNothing().when(categoryService).delete(category.getId());
 
         // when
@@ -214,7 +214,7 @@ class ProductControllerTest {
     @WithMockUser
     void canFindCategoryByIdTest() throws Exception {
         // given
-        Category category = createCategory();
+        Category category = createCategory_Headphones();
         CategoryDto categoryDto = categoryMapper.mapToCategoryDto(category);
         when(categoryService.findById(category.getId())).thenReturn(category);
 
@@ -236,11 +236,10 @@ class ProductControllerTest {
     @WithMockUser
     void canFindProductsWithCorrespondingCategoryTest() throws Exception {
         // given
-        final Category category = createCategory();
-        final List<Product> dummyList = List.of(createNonArchivedProduct(), createArchivedProduct());
-        final ProductList dummyProductList = ProductList.builder().products(dummyList).build();
-        when(productService.findAllByCorrespondingCategory(category.getId())).thenReturn(dummyList);
-        when(productMapper.convertToProductListObject(anyList())).thenReturn(dummyProductList);
+        Category category = createCategory_Headphones();
+        List<Product> dummyProductList = List.of(createNonArchivedProduct(), createArchivedProduct());
+        when(productService.findAllByCorrespondingCategory(category.getId())).thenReturn(dummyProductList);
+        when(productMapper.convertToProductListObject(dummyProductList)).thenReturn(ProductList.builder().products(dummyProductList).build());
 
         // when
         ResultActions resultActions = mockMvc.perform(get("/products/all/" + category.getId())

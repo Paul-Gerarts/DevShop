@@ -124,6 +124,7 @@ public class ProductController {
 
     @DeleteMapping("/categories/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+        productService.removeOneCategory(id);
         categoryService.delete(id);
         return ResponseEntity.noContent().build();
     }
