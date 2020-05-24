@@ -109,17 +109,29 @@ public class SearchServiceImpl implements SearchService {
     }
 
     private ProductPage getSearchResultsAndMinMaxPrice(Page<Product> searchResults, Page<Product> productWithMinPrice, Page<Product> productWithMaxPrice) {
-        if (searchFoundNoProducts(searchResults)) {
+        log.info("getSearchResultsAndMinMaxPrice():");
+        if(searchFoundNoProducts(searchResults)){
+            log.info("getSearchResultsAndMinMaxPrice(): -> empty");
+            Page<Product> newResults = productService.findAllByArchivedFalse(searchResults.getPageable());
             return ProductPage.builder()
-                    .productPage(productService.findAllByArchivedFalse(searchResults.getPageable()))
+                    .productPage(newResults)
                     .searchFailure(true)
+                    .hasNext(newResults.hasNext())
+                    .hasPrevious(newResults.hasPrevious())
+                    .currentPage(newResults.getNumber())
+                    .totalPages(newResults.getTotalPages())
+                    .build();
+        } else {
+            return ProductPage.builder()
+                    .productPage(searchResults)
+                    .minPrice(getProductPrice(productWithMinPrice))
+                    .maxPrice(getProductPrice(productWithMaxPrice))
+                    .hasNext(searchResults.hasNext())
+                    .hasPrevious(searchResults.hasPrevious())
+                    .currentPage(searchResults.getNumber())
+                    .totalPages(searchResults.getTotalPages())
                     .build();
         }
-        return ProductPage.builder()
-                .productPage(searchResults)
-                .minPrice(getProductPrice(productWithMinPrice))
-                .maxPrice(getProductPrice(productWithMaxPrice))
-                .build();
     }
 
     private boolean searchFoundNoProducts(Page<Product> searchResults) {
@@ -129,6 +141,10 @@ public class SearchServiceImpl implements SearchService {
     private ProductPage getSearchResultsAndMinMaxPrice(Page<Product> searchResults) {
         return ProductPage.builder()
                 .productPage(searchResults)
+                .hasNext(searchResults.hasNext())
+                .hasPrevious(searchResults.hasPrevious())
+                .currentPage(searchResults.getNumber())
+                .totalPages(searchResults.getTotalPages())
                 .build();
     }
 

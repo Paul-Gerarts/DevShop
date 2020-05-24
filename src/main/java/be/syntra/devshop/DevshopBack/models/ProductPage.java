@@ -18,4 +18,8 @@ public class ProductPage {
     private BigDecimal minPrice;
     private BigDecimal maxPrice;
     private boolean searchFailure;
+    private boolean hasNext;
+    private boolean hasPrevious;
+    private int currentPage;
+    private int totalPages;
 }

@@ -58,6 +58,10 @@ public class ProductMapper {
                 .searchResultMinPrice(productPage.getMinPrice())
                 .searchResultMaxPrice(productPage.getMaxPrice())
                 .searchFailure(productPage.isSearchFailure())
+                .hasNext(productPage.isHasNext())
+                .hasPrevious(productPage.isHasPrevious())
+                .currentPage(productPage.getCurrentPage())
+                .totalPages(productPage.getTotalPages())
                 .build();
     }
 
