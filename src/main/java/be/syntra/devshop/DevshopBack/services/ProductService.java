@@ -1,6 +1,7 @@
 package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Product;
+import be.syntra.devshop.DevshopBack.entities.Review;
 import be.syntra.devshop.DevshopBack.entities.StarRating;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -81,4 +82,10 @@ public interface ProductService {
     Product submitRating(StarRating rating, Long productId);
 
     Set<StarRating> getAllRatingsFromProduct(Long productId);
+
+    Product submitReview(Review review, Long productId);
+
+    Product removeReview(Review review, Long productId);
+
+    Product updateReview(Review review, Long productId);
 }
