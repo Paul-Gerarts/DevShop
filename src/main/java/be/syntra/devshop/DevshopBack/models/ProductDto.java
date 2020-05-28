@@ -1,5 +1,6 @@
 package be.syntra.devshop.DevshopBack.models;
 
+import be.syntra.devshop.DevshopBack.entities.Review;
 import be.syntra.devshop.DevshopBack.entities.StarRating;
 import lombok.*;
 
@@ -22,4 +23,6 @@ public class ProductDto {
     private List<String> categoryNames;
     private Set<StarRating> ratings;
     private Double averageRating;
+    private Set<Review> reviews;
+
 }
