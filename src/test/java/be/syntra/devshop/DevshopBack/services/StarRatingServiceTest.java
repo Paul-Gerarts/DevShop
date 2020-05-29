@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.createNonArchivedProduct;
 import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRating;
 import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRatingList;
+import static java.util.Optional.of;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -52,7 +53,7 @@ public class StarRatingServiceTest {
         // given
         Product product = createNonArchivedProduct();
         StarRating rating = createRating();
-        when(ratingRepository.getRatingFromUser(product.getId(), rating.getUserName())).thenReturn(rating);
+        when(ratingRepository.getRatingFromUser(product.getId(), rating.getUserName())).thenReturn(of(rating));
 
         // when
         StarRating result = starRatingService.getRatingFromUser(product.getId(), rating.getUserName());

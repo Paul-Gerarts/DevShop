@@ -33,11 +33,11 @@ public class SearchServiceImpl implements SearchService {
         log.info("searchModel -> {}", searchModel);
         final boolean archived = searchModel.isArchivedView();
         final Pageable pageable = getSortingPageable(setDefaultPaginationValues(searchModel));
-        final double minPrice = getMinPrice(searchModel);
-        final double maxPrice = getMaxPrice(searchModel, archived);
+        final BigDecimal minPrice = getMinPrice(searchModel);
+        final BigDecimal maxPrice = getMaxPrice(searchModel, archived);
 
-        searchModel.setPriceLow(BigDecimal.valueOf(minPrice));
-        searchModel.setPriceHigh(BigDecimal.valueOf(maxPrice));
+        searchModel.setPriceLow(minPrice);
+        searchModel.setPriceHigh(maxPrice);
 
         return getProductPage(
                 productService.findAllBySearchModel(pageable, searchModel),
@@ -47,7 +47,7 @@ public class SearchServiceImpl implements SearchService {
         );
     }
 
-    private ProductPage getProductPage(Page<Product> searchResults, double minPrice, double maxPrice, boolean archived) {
+    private ProductPage getProductPage(Page<Product> searchResults, BigDecimal minPrice, BigDecimal maxPrice, boolean archived) {
 
         boolean searchFailure = searchResults.getContent().isEmpty();
 
@@ -57,8 +57,8 @@ public class SearchServiceImpl implements SearchService {
 
         return ProductPage.builder()
                 .productPage(result)
-                .minPrice(BigDecimal.valueOf(minPrice))
-                .maxPrice(BigDecimal.valueOf(maxPrice))
+                .minPrice(minPrice)
+                .maxPrice(maxPrice)
                 .searchFailure(searchFailure)
                 .hasNext(result.hasNext())
                 .hasPrevious(result.hasPrevious())
@@ -67,16 +67,16 @@ public class SearchServiceImpl implements SearchService {
                 .build();
     }
 
-    private double getMinPrice(SearchModel searchModel) {
+    private BigDecimal getMinPrice(SearchModel searchModel) {
         return hasPrice(searchModel)
-                ? 0D
-                : searchModel.getPriceLow().doubleValue();
+                ? BigDecimal.ZERO
+                : searchModel.getPriceLow();
     }
 
-    private double getMaxPrice(SearchModel searchModel, boolean archived) {
+    private BigDecimal getMaxPrice(SearchModel searchModel, boolean archived) {
         return hasPrice(searchModel)
-                ? productService.findRoundedMaxPrice(archived)
-                : searchModel.getPriceHigh().doubleValue();
+                ? BigDecimal.valueOf(productService.findRoundedMaxPrice(archived))
+                : searchModel.getPriceHigh();
     }
 
     private boolean hasPrice(SearchModel searchModel) {
