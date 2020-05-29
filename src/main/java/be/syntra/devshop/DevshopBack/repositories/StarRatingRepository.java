@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface StarRatingRepository extends JpaRepository<StarRating, Long> {
 
@@ -15,7 +17,7 @@ public interface StarRatingRepository extends JpaRepository<StarRating, Long> {
             + "AND sr.USER_NAME = :userName",
             nativeQuery = true
     )
-    StarRating getRatingFromUser(
+    Optional<StarRating> getRatingFromUser(
             @Param("productId") Long productId,
             @Param("userName") String userName
     );

@@ -27,6 +27,7 @@ public class StarRatingServiceImpl implements StarRatingService {
 
     @Override
     public StarRating getRatingFromUser(Long productId, String userName) {
-        return ratingRepository.getRatingFromUser(productId, userName);
+        return ratingRepository.getRatingFromUser(productId, userName)
+                .orElse(new StarRating());
     }
 }

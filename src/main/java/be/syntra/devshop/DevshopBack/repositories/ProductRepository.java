@@ -54,14 +54,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT p FROM Product p "
             + "LEFT JOIN p.categories category "
-            + "WHERE p.name LIKE CONCAT('%', :searchRequest, '%') "
-            + "AND p.description LIKE CONCAT('%', :description, '%') "
+            + "WHERE UPPER(p.name) LIKE UPPER(CONCAT('%', COALESCE(:searchRequest, ''), '%')) "
+            + "AND UPPER(p.description) LIKE UPPER(CONCAT('%', COALESCE(:description, ''), '%')) "
             + "AND p.price BETWEEN :priceLow AND :priceHigh "
+            + "AND p.averageRating >= :averageRating "
             + "AND p.archived = :archived "
-            + "AND category.name IN :selectedCategories "
+            + "AND ((category.name IN :selectedCategories) OR (:amountOfSelectedCategories = 0 AND category IN (SELECT c FROM Category c))) "
             + "GROUP BY p "
             + "HAVING SIZE(p.categories) >= :amountOfSelectedCategories"
-
     )
     Page<Product> findAllBySearchModel(
             Pageable pageable,
@@ -69,29 +69,21 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             @Param("description") String description,
             @Param("priceLow") BigDecimal priceLow,
             @Param("priceHigh") BigDecimal priceHigh,
+            @Param("averageRating") double averageRating,
             @Param("archived") boolean archived,
             @Param("selectedCategories") List<String> selectedCategories,
             @Param("amountOfSelectedCategories") int amountOfSelectedCategories
     );
 
-    Page<Product> findAllByArchivedTrue(Pageable pageable);
-
-    Page<Product> findAllByNameContainingIgnoreCaseAndArchivedFalse(String searchRequest, Pageable pageable);
-
-    Page<Product> findAllByDescriptionContainingIgnoreCaseAndArchivedFalse(String description, Pageable pageable);
+    @Query(value = "SELECT ROUND(MAX(p.price)) AS roundValue FROM Product p "
+            + "WHERE p.archived = :archived",
+            nativeQuery = true
+    )
+    Double findRoundedMaxPrice(
+            @Param("archived") boolean archived
+    );
 
     Optional<Product> findById(Long id);
 
-    Page<Product> findAllByArchivedFalse(Pageable pageable);
-
-    Page<Product> findAllByPriceIsBetween(BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable);
-
-    Page<Product> findAllByNameContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(String searchRequest, BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable);
-
-    Page<Product> findAllByDescriptionContainingIgnoreCaseAndPriceIsBetweenAndArchivedIsFalse(String description, BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable);
-
-    Page<Product> findAllByPriceIsBetweenAndArchivedFalse(BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable);
-
-    Page<Product> findAllByNameContainingIgnoreCaseAndDescriptionContainingIgnoreCaseAndPriceBetweenAndArchivedIsFalse(String searchRequest, String description, BigDecimal priceLow, BigDecimal priceHigh, Pageable pageable);
-
+    Page<Product> findAllByArchived(boolean archived, Pageable pageable);
 }
