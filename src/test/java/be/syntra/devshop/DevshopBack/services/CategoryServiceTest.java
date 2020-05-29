@@ -1,7 +1,7 @@
 package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
-import be.syntra.devshop.DevshopBack.exceptions.CategoryNotFoundException;
+import be.syntra.devshop.DevshopBack.exceptions.DeleteException;
 import be.syntra.devshop.DevshopBack.models.CategoryChangeDto;
 import be.syntra.devshop.DevshopBack.models.CategoryList;
 import be.syntra.devshop.DevshopBack.repositories.CategoryRepository;
@@ -129,14 +129,14 @@ public class CategoryServiceTest {
     }
 
     @Test
-    void willThrowExceptionWhenCategoryNotFoundTest() {
+    void canThrowExceptionWhenDeletionFailsTest() {
         // given
         Category category = createCategory_Headphones();
-        when(categoryRepository.findById(category.getId())).thenThrow(new CategoryNotFoundException("not found"));
+        doThrow(new DeleteException("deletion failed")).when(categoryRepository).delete(category);
 
         // when
 
         // then
-        assertThrows(CategoryNotFoundException.class, () -> categoryRepository.findById(category.getId()));
+        assertThrows(DeleteException.class, () -> categoryRepository.delete(category));
     }
 }

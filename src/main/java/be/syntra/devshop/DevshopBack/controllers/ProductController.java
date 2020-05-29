@@ -147,12 +147,11 @@ public class ProductController {
 
     @PostMapping("/searching")
     public ResponseEntity<ProductList> retrieveAllProductsBySearchModel(@RequestBody SearchModelDto searchModelDto) {
-        final ProductPage productPage = searchService.applySearchModel(
-                searchModelMapper.convertToSearchModel(searchModelDto));
-        log.info("sending to front -> totalPages : {}", productMapper.convertToProductListObject(productPage).getTotalPages());
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(productMapper.convertToProductListObject(productPage));
+                .body(productMapper.convertToProductListObject(
+                        searchService.applySearchModel(
+                                searchModelMapper.convertToSearchModel(searchModelDto))));
     }
 
     private void saveProduct(ProductDto productDto) {

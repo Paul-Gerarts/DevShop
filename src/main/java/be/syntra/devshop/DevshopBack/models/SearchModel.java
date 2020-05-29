@@ -16,6 +16,7 @@ public class SearchModel {
     private String description;
     private BigDecimal priceLow;
     private BigDecimal priceHigh;
+    private double averageRating;
     private boolean sortAscendingName;
     private boolean sortAscendingPrice;
     private boolean nameSortActive;
@@ -33,20 +34,22 @@ public class SearchModel {
     public String toString() {
         return "SearchModel{" + "\n" +
                 "searchRequest='" + searchRequest + '\'' + "\n" +
-                ", description='" + description + '\'' + "\n" +
-                ", priceLow=" + priceLow + "\n" +
-                ", priceHigh=" + priceHigh + "\n" +
-                ", sortAscendingName=" + sortAscendingName + "\n" +
-                ", sortAscendingPrice=" + sortAscendingPrice + "\n" +
-                ", nameSortActive=" + nameSortActive + "\n" +
-                ", priceSortActive=" + priceSortActive + "\n" +
-                ", archivedView=" + archivedView + "\n" +
-                ", searchResultView=" + searchResultView + "\n" +
-                ", searchFailure=" + searchFailure + "\n" +
-                ", activeFilters=" + activeFilters + "\n" +
-                ", appliedFiltersHeader='" + appliedFiltersHeader + '\'' + "\n" +
-                ", pageNumber=" + pageNumber + "\n" +
-                ", pageSize=" + pageSize + "\n" +
+                "description='" + description + '\'' + "\n" +
+                "priceLow=" + priceLow + "\n" +
+                "priceHigh=" + priceHigh + "\n" +
+                "averageRating=" + averageRating + "\n" +
+                "sortAscendingName=" + sortAscendingName + "\n" +
+                "sortAscendingPrice=" + sortAscendingPrice + "\n" +
+                "nameSortActive=" + nameSortActive + "\n" +
+                "priceSortActive=" + priceSortActive + "\n" +
+                "archivedView=" + archivedView + "\n" +
+                "searchResultView=" + searchResultView + "\n" +
+                "searchFailure=" + searchFailure + "\n" +
+                "activeFilters=" + activeFilters + "\n" +
+                "appliedFiltersHeader='" + appliedFiltersHeader + '\'' + "\n" +
+                "pageNumber=" + pageNumber + "\n" +
+                "pageSize=" + pageSize + "\n" +
+                "selectedCategories=" + selectedCategories + "\n" +
                 '}';
     }
 }

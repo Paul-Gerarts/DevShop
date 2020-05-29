@@ -1,8 +1,10 @@
 package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
+import be.syntra.devshop.DevshopBack.exceptions.DeleteException;
 import be.syntra.devshop.DevshopBack.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,6 +53,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void delete(Long id) {
         Category categoryToDelete = findById(id);
-        categoryRepository.delete(categoryToDelete);
+        try {
+            categoryRepository.delete(categoryToDelete);
+        } catch (DataIntegrityViolationException sql) {
+            throw new DeleteException("Could not delete category");
+        }
     }
 }
