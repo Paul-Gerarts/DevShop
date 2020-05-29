@@ -15,10 +15,7 @@ import be.syntra.devshop.DevshopBack.services.CategoryServiceImpl;
 import be.syntra.devshop.DevshopBack.services.ProductServiceImpl;
 import be.syntra.devshop.DevshopBack.services.SearchService;
 import be.syntra.devshop.DevshopBack.services.StarRatingService;
-import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapper;
-import be.syntra.devshop.DevshopBack.services.utilities.ProductMapper;
-import be.syntra.devshop.DevshopBack.services.utilities.SearchModelMapper;
-import be.syntra.devshop.DevshopBack.services.utilities.StarRatingMapper;
+import be.syntra.devshop.DevshopBack.services.utilities.*;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -84,6 +81,9 @@ class ProductControllerTest {
 
     @MockBean
     private ProductMapper productMapper;
+
+    @MockBean
+    private ReviewMapper reviewMapper;
 
     @Autowired
     private CategoryMapper categoryMapper;
