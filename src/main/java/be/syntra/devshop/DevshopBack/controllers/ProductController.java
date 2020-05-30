@@ -166,17 +166,17 @@ public class ProductController {
                 .body(reviewDto);
     }
 
-    @DeleteMapping("/reviews")
-    public ResponseEntity<ReviewDto> removeReview(@RequestBody ReviewDto reviewDto) {
-        productService.removeReview(reviewMapper.mapToReview(reviewDto), reviewDto.getProductId());
+    @PutMapping("/reviews")
+    public ResponseEntity<ReviewDto> updateReview(@RequestBody ReviewDto reviewDto) {
+        productService.updateReview(reviewMapper.mapToReview(reviewDto), reviewDto.getProductId());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(reviewDto);
     }
 
-    @PutMapping("/reviews")
-    public ResponseEntity<ReviewDto> updateReview(@RequestBody ReviewDto reviewDto) {
-        productService.updateReview(reviewMapper.mapToReview(reviewDto), reviewDto.getProductId());
+    @DeleteMapping("/reviews")
+    public ResponseEntity<ReviewDto> removeReview(@RequestBody ReviewDto reviewDto) {
+        productService.removeReview(reviewMapper.mapToReview(reviewDto), reviewDto.getProductId());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(reviewDto);

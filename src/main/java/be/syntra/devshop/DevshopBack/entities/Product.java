@@ -61,7 +61,6 @@ public class Product {
             joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")},
             inverseJoinColumns = {@JoinColumn(name = "review_id", referencedColumnName = "review_id")},
             foreignKey = @ForeignKey(name = "review_fk"))
-
     private Set<Review> reviews;
 
     @NotBlank
