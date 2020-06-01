@@ -38,8 +38,7 @@ import java.util.Set;
 import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategoryList;
 import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory_Headphones;
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.*;
-import static be.syntra.devshop.DevshopBack.testutilities.ReviewUtils.getDummyReview;
-import static be.syntra.devshop.DevshopBack.testutilities.ReviewUtils.getDummyReviewDto;
+import static be.syntra.devshop.DevshopBack.testutilities.ReviewUtils.*;
 import static be.syntra.devshop.DevshopBack.testutilities.SearchModelUtils.getDummySearchModel;
 import static be.syntra.devshop.DevshopBack.testutilities.SearchModelUtils.getDummySearchModelDto;
 import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.*;
@@ -394,9 +393,7 @@ class ProductControllerTest {
     void canSubmitReviewTest() throws Exception {
         // given
         Product dummyProduct = createNonArchivedProduct();
-        Set<Review> reviewSet = new HashSet<>();
-        reviewSet.add(getDummyReview());
-        dummyProduct.setReviews(reviewSet);
+        dummyProduct.setReviews(getReviewSetWithDummyReview());
         ReviewDto dummyReviewDto = getDummyReviewDto();
         final Review dummyReview = getDummyReview();
         when(productService.submitReview(dummyReview, 1L)).thenReturn(dummyProduct);

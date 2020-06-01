@@ -3,6 +3,9 @@ package be.syntra.devshop.DevshopBack.testutilities;
 import be.syntra.devshop.DevshopBack.entities.Review;
 import be.syntra.devshop.DevshopBack.models.ReviewDto;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class ReviewUtils {
 
     public static ReviewDto getDummyReviewDto() {
@@ -25,5 +28,16 @@ public class ReviewUtils {
                 .userName("user@dummy.org")
                 .reviewText("a non realistic review")
                 .build();
+    }
+
+    public static Set<Review> getReviewSetWithDummyReview() {
+        return Set.of(getDummyReview());
+    }
+
+    public static Set<Review> getReviewSetWithDummyOtherReview() {
+        Set<Review> reviewSet = new HashSet<>();
+        reviewSet.add(getDummyOtherReview());
+        return reviewSet;
+        //return Set.of(getDummyOtherReview());
     }
 }

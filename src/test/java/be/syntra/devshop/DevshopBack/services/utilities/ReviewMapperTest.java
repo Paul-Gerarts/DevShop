@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ReviewMapperTest {
 
-    private ReviewMapper reviewMapper = new ReviewMapper();
+    private final ReviewMapper reviewMapper = new ReviewMapper();
 
     @Test
     void convertToReviewTest() {

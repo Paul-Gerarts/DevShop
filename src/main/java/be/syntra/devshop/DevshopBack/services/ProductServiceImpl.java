@@ -158,9 +158,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private Set<Review> updateReviews(Set<Review> reviews, Review review) {
-        Set<Review> reviewSet = new HashSet<>(reviews);
-        reviewSet.remove(review);
-        reviewSet.add(review);
-        return reviewSet;
+        reviews.remove(review);
+        reviews.add(review);
+        return reviews;
     }
 }

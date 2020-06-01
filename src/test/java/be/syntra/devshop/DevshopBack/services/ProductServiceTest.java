@@ -26,8 +26,7 @@ import java.util.Set;
 
 import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory_Headphones;
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.*;
-import static be.syntra.devshop.DevshopBack.testutilities.ReviewUtils.getDummyOtherReview;
-import static be.syntra.devshop.DevshopBack.testutilities.ReviewUtils.getDummyReview;
+import static be.syntra.devshop.DevshopBack.testutilities.ReviewUtils.*;
 import static be.syntra.devshop.DevshopBack.testutilities.SearchModelUtils.getDummySearchModel;
 import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRating;
 import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRatingList;
@@ -278,10 +277,7 @@ class ProductServiceTest {
         // given
         Product dummyProduct = createNonArchivedProduct();
         final Review dummyReview = getDummyReview();
-        final Review dummyOtherReview = getDummyOtherReview();
-        Set<Review> reviewSet = new HashSet<>();
-        reviewSet.add(dummyOtherReview);
-        dummyProduct.setReviews(reviewSet);
+        dummyProduct.setReviews(getReviewSetWithDummyOtherReview());
         when(productRepository.findById(dummyProduct.getId())).thenReturn(Optional.of(dummyProduct));
         when(productRepository.save(any(Product.class))).thenReturn(dummyProduct);
         // when
