@@ -2,6 +2,7 @@ package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
+import be.syntra.devshop.DevshopBack.entities.Review;
 import be.syntra.devshop.DevshopBack.entities.StarRating;
 import be.syntra.devshop.DevshopBack.exceptions.ProductNotFoundException;
 import be.syntra.devshop.DevshopBack.models.SearchModel;
@@ -111,7 +112,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product submitRating(StarRating rating, Long productId) {
         Product product = findById(productId);
-        product.setRatings(update(product.getRatings(), rating));
+        product.setRatings(updateStarRating(product.getRatings(), rating));
         product.setAverageRating(getAverageRating(product));
         productRepository.save(product);
         return product;
@@ -125,11 +126,40 @@ public class ProductServiceImpl implements ProductService {
                 .orElse(0D);
     }
 
-    private Set<StarRating> update(Set<StarRating> ratings, StarRating rating) {
-        Set<StarRating> allRatings = new HashSet<>();
-        allRatings.addAll(ratings);
-        allRatings.remove(rating);
-        allRatings.add(rating);
-        return allRatings;
+    private Set<StarRating> updateStarRating(Set<StarRating> ratings, StarRating rating) {
+        Set<StarRating> starRatings = new HashSet<>(ratings);
+        starRatings.remove(rating);
+        starRatings.add(rating);
+        return starRatings;
+    }
+
+    @Override
+    public Product submitReview(Review review, Long productId) {
+        Product product = findById(productId);
+        product.getReviews().add(review);
+        productRepository.save(product);
+        return product;
+    }
+
+    @Override
+    public Product removeReview(Review review, Long productId) {
+        Product product = findById(productId);
+        product.getReviews().remove(review);
+        productRepository.save(product);
+        return product;
+    }
+
+    @Override
+    public Product updateReview(Review review, Long productId) {
+        Product product = findById(productId);
+        product.setReviews(updateReviews(product.getReviews(), review));
+        productRepository.save(product);
+        return product;
+    }
+
+    private Set<Review> updateReviews(Set<Review> reviews, Review review) {
+        reviews.remove(review);
+        reviews.add(review);
+        return reviews;
     }
 }

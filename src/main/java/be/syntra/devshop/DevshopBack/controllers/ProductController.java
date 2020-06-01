@@ -6,10 +6,7 @@ import be.syntra.devshop.DevshopBack.services.CategoryService;
 import be.syntra.devshop.DevshopBack.services.ProductService;
 import be.syntra.devshop.DevshopBack.services.SearchService;
 import be.syntra.devshop.DevshopBack.services.StarRatingService;
-import be.syntra.devshop.DevshopBack.services.utilities.CategoryMapper;
-import be.syntra.devshop.DevshopBack.services.utilities.ProductMapper;
-import be.syntra.devshop.DevshopBack.services.utilities.SearchModelMapper;
-import be.syntra.devshop.DevshopBack.services.utilities.StarRatingMapper;
+import be.syntra.devshop.DevshopBack.services.utilities.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +26,7 @@ public class ProductController {
     private final ProductMapper productMapper;
     private final CategoryMapper categoryMapper;
     private final StarRatingMapper starRatingMapper;
+    private final ReviewMapper reviewMapper;
 
     @Autowired
     public ProductController(
@@ -39,7 +37,8 @@ public class ProductController {
             SearchModelMapper searchModelMapper,
             ProductMapper productMapper,
             CategoryMapper categoryMapper,
-            StarRatingMapper starRatingMapper
+            StarRatingMapper starRatingMapper,
+            ReviewMapper reviewMapper
     ) {
         this.productService = productService;
         this.categoryService = categoryService;
@@ -49,6 +48,7 @@ public class ProductController {
         this.productMapper = productMapper;
         this.categoryMapper = categoryMapper;
         this.starRatingMapper = starRatingMapper;
+        this.reviewMapper = reviewMapper;
     }
 
     @GetMapping("/all/{id}")
@@ -156,5 +156,32 @@ public class ProductController {
 
     private void saveProduct(ProductDto productDto) {
         productService.save(productMapper.convertToProduct(productDto));
+    }
+
+    @PostMapping("/reviews")
+    public ResponseEntity<ReviewDto> submitReview(@RequestBody ReviewDto reviewDto) {
+        log.info("submitReview() -> {}", reviewDto.getReviewText());
+        productService.submitReview(reviewMapper.mapToReview(reviewDto), reviewDto.getProductId());
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(reviewDto);
+    }
+
+    @PutMapping("/reviews")
+    public ResponseEntity<ReviewDto> updateReview(@RequestBody ReviewDto reviewDto) {
+        log.info("updateReview() -> {}", reviewDto.getReviewText());
+        productService.updateReview(reviewMapper.mapToReview(reviewDto), reviewDto.getProductId());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(reviewDto);
+    }
+
+    @DeleteMapping("/reviews")
+    public ResponseEntity<ReviewDto> removeReview(@RequestBody ReviewDto reviewDto) {
+        log.info("removeReview() -> {}", reviewDto.getReviewText());
+        productService.removeReview(reviewMapper.mapToReview(reviewDto), reviewDto.getProductId());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(reviewDto);
     }
 }

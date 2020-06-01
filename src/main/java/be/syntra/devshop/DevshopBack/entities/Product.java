@@ -52,6 +52,17 @@ public class Product {
     @PositiveOrZero
     private Double averageRating;
 
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true)
+    @JoinTable(
+            name = "PRODUCT_REVIEW",
+            joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")},
+            inverseJoinColumns = {@JoinColumn(name = "review_id", referencedColumnName = "review_id")},
+            foreignKey = @ForeignKey(name = "review_fk"))
+    private Set<Review> reviews;
+
     @NotBlank
     private String description;
 
