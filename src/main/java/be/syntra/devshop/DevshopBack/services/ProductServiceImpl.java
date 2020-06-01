@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -126,9 +127,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private Set<StarRating> updateStarRating(Set<StarRating> ratings, StarRating rating) {
-        ratings.remove(rating);
-        ratings.add(rating);
-        return ratings;
+        Set<StarRating> starRatings = new HashSet<>(ratings);
+        starRatings.remove(rating);
+        starRatings.add(rating);
+        return starRatings;
     }
 
     @Override
@@ -156,8 +158,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private Set<Review> updateReviews(Set<Review> reviews, Review review) {
-        reviews.remove(review);
-        reviews.add(review);
-        return reviews;
+        Set<Review> reviewSet = new HashSet<>(reviews);
+        reviewSet.remove(review);
+        reviewSet.add(review);
+        return reviewSet;
     }
 }

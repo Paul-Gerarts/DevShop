@@ -160,6 +160,7 @@ public class ProductController {
 
     @PostMapping("/reviews")
     public ResponseEntity<ReviewDto> submitReview(@RequestBody ReviewDto reviewDto) {
+        log.info("submitReview() -> {}", reviewDto.getReviewText());
         productService.submitReview(reviewMapper.mapToReview(reviewDto), reviewDto.getProductId());
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -168,6 +169,7 @@ public class ProductController {
 
     @PutMapping("/reviews")
     public ResponseEntity<ReviewDto> updateReview(@RequestBody ReviewDto reviewDto) {
+        log.info("updateReview() -> {}", reviewDto.getReviewText());
         productService.updateReview(reviewMapper.mapToReview(reviewDto), reviewDto.getProductId());
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -176,6 +178,7 @@ public class ProductController {
 
     @DeleteMapping("/reviews")
     public ResponseEntity<ReviewDto> removeReview(@RequestBody ReviewDto reviewDto) {
+        log.info("removeReview() -> {}", reviewDto.getReviewText());
         productService.removeReview(reviewMapper.mapToReview(reviewDto), reviewDto.getProductId());
         return ResponseEntity
                 .status(HttpStatus.OK)

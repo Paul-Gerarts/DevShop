@@ -2,6 +2,7 @@ package be.syntra.devshop.DevshopBack.services;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
+import be.syntra.devshop.DevshopBack.entities.Review;
 import be.syntra.devshop.DevshopBack.entities.StarRating;
 import be.syntra.devshop.DevshopBack.exceptions.ProductNotFoundException;
 import be.syntra.devshop.DevshopBack.models.CategoryChangeDto;
@@ -18,12 +19,15 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory_Headphones;
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.*;
+import static be.syntra.devshop.DevshopBack.testutilities.ReviewUtils.getDummyOtherReview;
+import static be.syntra.devshop.DevshopBack.testutilities.ReviewUtils.getDummyReview;
 import static be.syntra.devshop.DevshopBack.testutilities.SearchModelUtils.getDummySearchModel;
 import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRating;
 import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRatingList;
@@ -268,4 +272,59 @@ class ProductServiceTest {
         assertThat(roundedResult).isEqualTo(price);
         verify(productRepository, times(1)).findRoundedMaxPrice(archived);
     }
+
+    @Test
+    void canSubmitReviewTest() {
+        // given
+        Product dummyProduct = createNonArchivedProduct();
+        final Review dummyReview = getDummyReview();
+        final Review dummyOtherReview = getDummyOtherReview();
+        Set<Review> reviewSet = new HashSet<>();
+        reviewSet.add(dummyOtherReview);
+        dummyProduct.setReviews(reviewSet);
+        when(productRepository.findById(dummyProduct.getId())).thenReturn(Optional.of(dummyProduct));
+        when(productRepository.save(any(Product.class))).thenReturn(dummyProduct);
+        // when
+        Product resultProduct = productService.submitReview(dummyReview, dummyProduct.getId());
+
+        // then
+        assertEquals(dummyProduct.getReviews(), resultProduct.getReviews());
+    }
+
+    @Test
+    void canRemoveReviewTest() {
+        // given
+        Product dummyProduct = createNonArchivedProduct();
+        final Review dummyReview = getDummyReview();
+        Set<Review> reviewSet = new HashSet<>();
+        reviewSet.add(dummyReview);
+        dummyProduct.setReviews(reviewSet);
+        when(productRepository.findById(dummyProduct.getId())).thenReturn(Optional.of(dummyProduct));
+        when(productRepository.save(any(Product.class))).thenReturn(dummyProduct);
+        // when
+        Product resultProduct = productService.removeReview(dummyReview, dummyProduct.getId());
+
+        // then
+        assertEquals(dummyProduct.getReviews(), resultProduct.getReviews());
+    }
+
+    @Test
+    void canUpdateReviewTest() {
+        // given
+        Product dummyProduct = createNonArchivedProduct();
+        Review dummyReview = getDummyReview();
+        Review dummyOtherReview = getDummyOtherReview();
+        dummyOtherReview.setUserName(dummyReview.getUserName());
+        Set<Review> reviewSet = new HashSet<>();
+        reviewSet.add(dummyReview);
+        dummyProduct.setReviews(reviewSet);
+        when(productRepository.findById(dummyProduct.getId())).thenReturn(Optional.of(dummyProduct));
+        when(productRepository.save(any(Product.class))).thenReturn(dummyProduct);
+        // when
+        Product resultProduct = productService.updateReview(dummyOtherReview, dummyProduct.getId());
+
+        // then
+        assertEquals(((Review) resultProduct.getReviews().toArray()[0]).getReviewText(), dummyOtherReview.getReviewText());
+    }
+
 }

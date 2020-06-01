@@ -2,6 +2,7 @@ package be.syntra.devshop.DevshopBack.controllers;
 
 import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
+import be.syntra.devshop.DevshopBack.entities.Review;
 import be.syntra.devshop.DevshopBack.entities.StarRating;
 import be.syntra.devshop.DevshopBack.factories.SecurityUserFactory;
 import be.syntra.devshop.DevshopBack.models.*;
@@ -30,12 +31,15 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategoryList;
 import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategory_Headphones;
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.*;
+import static be.syntra.devshop.DevshopBack.testutilities.ReviewUtils.getDummyReview;
+import static be.syntra.devshop.DevshopBack.testutilities.ReviewUtils.getDummyReviewDto;
 import static be.syntra.devshop.DevshopBack.testutilities.SearchModelUtils.getDummySearchModel;
 import static be.syntra.devshop.DevshopBack.testutilities.SearchModelUtils.getDummySearchModelDto;
 import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.*;
@@ -383,5 +387,90 @@ class ProductControllerTest {
 
         verify(productService, times(1)).getAllRatingsFromProduct(dummyProduct.getId());
         verify(starRatingMapper, times(1)).mapToStarRatingSet(ratings);
+    }
+
+    @Test
+    @WithMockUser
+    void canSubmitReviewTest() throws Exception {
+        // given
+        Product dummyProduct = createNonArchivedProduct();
+        Set<Review> reviewSet = new HashSet<>();
+        reviewSet.add(getDummyReview());
+        dummyProduct.setReviews(reviewSet);
+        ReviewDto dummyReviewDto = getDummyReviewDto();
+        final Review dummyReview = getDummyReview();
+        when(productService.submitReview(dummyReview, 1L)).thenReturn(dummyProduct);
+        when(reviewMapper.mapToReview(any(ReviewDto.class))).thenReturn(getDummyReview());
+
+        // when
+        ResultActions resultActions = mockMvc.perform(post("/products/reviews")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonUtils.asJsonString(dummyReviewDto)));
+
+        // then
+        resultActions
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.userName").value(equalTo(dummyReviewDto.getUserName())))
+                .andExpect(jsonPath("$.reviewText").value(equalTo(dummyReviewDto.getReviewText())));
+
+        verify(productService, times(1)).submitReview(any(), any());
+    }
+
+    @Test
+    @WithMockUser
+    void canUpdateReviewTest() throws Exception {
+        // given
+        Product dummyProduct = createNonArchivedProduct();
+        Set<Review> reviewSet = new HashSet<>();
+        reviewSet.add(getDummyReview());
+        dummyProduct.setReviews(reviewSet);
+        ReviewDto dummyReviewDto = getDummyReviewDto();
+        final Review dummyReview = getDummyReview();
+        when(productService.updateReview(dummyReview, 1L)).thenReturn(dummyProduct);
+        when(reviewMapper.mapToReview(any(ReviewDto.class))).thenReturn(getDummyReview());
+
+        // when
+        ResultActions resultActions = mockMvc.perform(put("/products/reviews")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonUtils.asJsonString(dummyReviewDto)));
+
+        // then
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.userName").value(equalTo(dummyReviewDto.getUserName())))
+                .andExpect(jsonPath("$.reviewText").value(equalTo(dummyReviewDto.getReviewText())));
+
+        verify(productService, times(1)).updateReview(any(), any());
+    }
+
+
+    @Test
+    @WithMockUser
+    void canRemoveReviewTest() throws Exception {
+        // given
+        Product dummyProduct = createNonArchivedProduct();
+        Set<Review> reviewSet = new HashSet<>();
+        reviewSet.add(getDummyReview());
+        dummyProduct.setReviews(reviewSet);
+        ReviewDto dummyReviewDto = getDummyReviewDto();
+        final Review dummyReview = getDummyReview();
+        when(productService.removeReview(dummyReview, 1L)).thenReturn(dummyProduct);
+        when(reviewMapper.mapToReview(any(ReviewDto.class))).thenReturn(getDummyReview());
+
+        // when
+        ResultActions resultActions = mockMvc.perform(delete("/products/reviews")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonUtils.asJsonString(dummyReviewDto)));
+
+        // then
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.userName").value(equalTo(dummyReviewDto.getUserName())))
+                .andExpect(jsonPath("$.reviewText").value(equalTo(dummyReviewDto.getReviewText())));
+
+        verify(productService, times(1)).removeReview(any(), any());
     }
 }
