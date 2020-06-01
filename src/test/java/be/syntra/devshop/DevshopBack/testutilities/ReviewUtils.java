@@ -38,6 +38,5 @@ public class ReviewUtils {
         Set<Review> reviewSet = new HashSet<>();
         reviewSet.add(getDummyOtherReview());
         return reviewSet;
-        //return Set.of(getDummyOtherReview());
     }
 }
