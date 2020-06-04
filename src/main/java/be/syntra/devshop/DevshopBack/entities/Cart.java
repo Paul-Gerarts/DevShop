@@ -52,4 +52,13 @@ public class Cart {
                 ", cartCreationDateTime=" + cartCreationDateTime +
                 '}';
     }
+
+    @OneToOne(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true)
+    @JoinColumn(
+            name = "CART_DETAIL_ID",
+            referencedColumnName = "id")
+    private CartDetail cartDetail;
 }
