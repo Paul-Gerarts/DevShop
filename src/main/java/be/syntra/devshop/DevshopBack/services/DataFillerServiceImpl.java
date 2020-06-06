@@ -1,16 +1,8 @@
 package be.syntra.devshop.DevshopBack.services;
 
-import be.syntra.devshop.DevshopBack.entities.Category;
-import be.syntra.devshop.DevshopBack.entities.Product;
-import be.syntra.devshop.DevshopBack.entities.StarRating;
-import be.syntra.devshop.DevshopBack.factories.ProductFactory;
-import be.syntra.devshop.DevshopBack.factories.SecurityUserFactory;
-import be.syntra.devshop.DevshopBack.factories.UserFactory;
-import be.syntra.devshop.DevshopBack.factories.UserRoleFactory;
-import be.syntra.devshop.DevshopBack.repositories.CategoryRepository;
-import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
-import be.syntra.devshop.DevshopBack.repositories.StarRatingRepository;
-import be.syntra.devshop.DevshopBack.repositories.UserRepository;
+import be.syntra.devshop.DevshopBack.entities.*;
+import be.syntra.devshop.DevshopBack.factories.*;
+import be.syntra.devshop.DevshopBack.repositories.*;
 import be.syntra.devshop.DevshopBack.security.entities.UserRole;
 import be.syntra.devshop.DevshopBack.security.repositories.SecurityUserRepository;
 import be.syntra.devshop.DevshopBack.security.repositories.UserRoleRepository;
@@ -21,14 +13,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import static be.syntra.devshop.DevshopBack.security.entities.UserRoles.ROLE_ADMIN;
 import static be.syntra.devshop.DevshopBack.security.entities.UserRoles.ROLE_USER;
 
 @Service
-public class DataFillerImpl {
+public class DataFillerServiceImpl {
 
     @Value("${frontend.userName}")
     private String userName;
@@ -37,27 +31,35 @@ public class DataFillerImpl {
     private final ProductRepository productRepository;
     private final ProductFactory productFactory;
     private final UserRoleRepository userRoleRepository;
-    private final UserRoleFactory userRoleFactory;
     private final UserRepository userRepository;
-    private final UserFactory userFactory;
     private final UserRoleService userRoleService;
     private final SecurityUserRepository securityUserRepository;
-    private final SecurityUserFactory securityUserFactory;
     private final CategoryRepository categoryRepository;
     private final StarRatingRepository ratingRepository;
+    private final CartRepository cartRepository;
+    private final UserRoleFactory userRoleFactory;
+    private final UserFactory userFactory;
+    private final SecurityUserFactory securityUserFactory;
+    private final CartFactory cartFactory;
+    private final CartContentFactory cartContentFactory;
+
 
     @Autowired
-    public DataFillerImpl(ProductRepository productRepository,
-                          ProductFactory productFactory,
-                          UserRoleRepository userRoleRepository,
-                          UserRoleFactory userRoleFactory,
-                          UserRepository userRepository,
-                          UserFactory userFactory,
-                          UserRoleService userRoleService,
-                          SecurityUserRepository securityUserRepository,
-                          SecurityUserFactory securityUserFactory,
-                          CategoryRepository categoryRepository,
-                          StarRatingRepository ratingRepository
+    public DataFillerServiceImpl(ProductRepository productRepository,
+                                 ProductFactory productFactory,
+                                 UserRoleRepository userRoleRepository,
+                                 UserRoleFactory userRoleFactory,
+                                 UserRepository userRepository,
+                                 UserFactory userFactory,
+                                 UserRoleService userRoleService,
+                                 SecurityUserRepository securityUserRepository,
+                                 SecurityUserFactory securityUserFactory,
+                                 CategoryRepository categoryRepository,
+                                 StarRatingRepository ratingRepository,
+                                 CartRepository cartRepository,
+                                 CartFactory cartFactory,
+                                 CartContentFactory cartContentFactory
+
     ) {
         this.productRepository = productRepository;
         this.productFactory = productFactory;
@@ -70,6 +72,9 @@ public class DataFillerImpl {
         this.securityUserFactory = securityUserFactory;
         this.categoryRepository = categoryRepository;
         this.ratingRepository = ratingRepository;
+        this.cartRepository = cartRepository;
+        this.cartFactory = cartFactory;
+        this.cartContentFactory = cartContentFactory;
     }
 
     private UserRole retrieveAdminRole() {
@@ -180,6 +185,35 @@ public class DataFillerImpl {
                             "admin@emaill.com")
             ));
         }
+
+        if (cartRepository.count() == 0) {
+            userRepository.findAll().forEach(this::setArchivedCartsAndSave);
+            userRepository.flush();
+        }
+    }
+
+    private void setArchivedCartsAndSave(User user) {
+        user.setArchivedCarts(List.of(createCart()));
+    }
+
+    private Cart createCart() {
+        return cartFactory.of(getListOfRandomProducts(), true, true, createCartContents());
+    }
+
+    private List<Product> getListOfRandomProducts() {
+        List<Product> products = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            products.add(productRepository.findAll().get(new Random().nextInt(productRepository.findAll().size())));
+        }
+        return products;
+    }
+
+    private List<CartContent> createCartContents() {
+        List<CartContent> cartContentList = new ArrayList<>();
+        for (int i = 0; i < new Random().nextInt(10) + 1; i++) {
+            cartContentList.add(cartContentFactory.of());
+        }
+        return cartContentList;
     }
 
     private List<Product> getTestProducts() {

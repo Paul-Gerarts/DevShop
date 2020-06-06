@@ -19,4 +19,5 @@ public class CartDto {
     private List<Product> products;
     private boolean finalizedCart;
     private boolean paidCart;
+    private List<CartContentDto> cartContentDtoList;
 }

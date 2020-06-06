@@ -53,12 +53,14 @@ public class Cart {
                 '}';
     }
 
-    @OneToOne(
+    @OneToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             orphanRemoval = true)
-    @JoinColumn(
-            name = "CART_DETAIL_ID",
-            referencedColumnName = "id")
-    private CartDetail cartDetail;
+    @JoinTable(
+            name = "CART_CONTENTS",
+            joinColumns = {@JoinColumn(name = "cart_id", referencedColumnName = "cart_id")},
+            inverseJoinColumns = {@JoinColumn(name = "cart_content_id", referencedColumnName = "cart_content_id")},
+            foreignKey = @ForeignKey(name = "cart_detail_fk"))
+    private List<CartContent> cartContents;
 }
