@@ -1,6 +1,5 @@
 package be.syntra.devshop.DevshopBack.controllers;
 
-import be.syntra.devshop.DevshopBack.entities.Cart;
 import be.syntra.devshop.DevshopBack.models.CartDto;
 import be.syntra.devshop.DevshopBack.services.CartService;
 import be.syntra.devshop.DevshopBack.services.utilities.CartMapper;
@@ -30,11 +29,11 @@ public class CartController {
     @PostMapping
     public ResponseEntity<CartDto> createArchivedCart(@RequestBody CartDto cartDto) {
         log.info("cart() -> {}", cartDto);
-        Cart cart = cartMapper.convertToCart(cartDto);
-        cartService.saveCartToArchivedCarts(cart, cartDto.getUser());
+        /*Cart cart = cartMapper.convertToCart(cartDto);
+        cartService.saveCartToArchivedCarts(cart, cartDto.getUser());*/
+        cartService.saveCartToArchivedCarts(cartMapper.convertToNewCart(cartDto), cartDto.getUser());
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(cartDto);
     }
-
 }

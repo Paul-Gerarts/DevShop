@@ -197,7 +197,7 @@ public class DataFillerServiceImpl {
     }
 
     private Cart createCart() {
-        return cartFactory.of(getListOfRandomProducts(), true, true, createCartContents());
+        return cartFactory.of(getListOfRandomProducts(), true, true, getCartContent());
     }
 
     private List<Product> getListOfRandomProducts() {
@@ -208,7 +208,7 @@ public class DataFillerServiceImpl {
         return products;
     }
 
-    private List<CartContent> createCartContents() {
+    private List<CartContent> getCartContent() {
         List<CartContent> cartContentList = new ArrayList<>();
         for (int i = 0; i < new Random().nextInt(10) + 1; i++) {
             cartContentList.add(cartContentFactory.of());

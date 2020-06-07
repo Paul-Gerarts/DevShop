@@ -5,7 +5,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class Cart {
             (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime cartCreationDateTime;
 
-    @Size(min = 1)
+    /*@Size(min = 1)
     @Column(name = "products")
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
@@ -37,7 +36,7 @@ public class Cart {
             joinColumns = {@JoinColumn(name = "cart_id", referencedColumnName = "cart_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")},
             foreignKey = @ForeignKey(name = "product_fk"))
-    private List<Product> products;
+    private List<Product> products;*/
 
     @Column(name = "finalized_cart")
     private boolean finalizedCart;

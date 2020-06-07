@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class CartContentDto {
+public class CartContentProductDto {
     private Long id;
     private Long productId;
     private Integer count;

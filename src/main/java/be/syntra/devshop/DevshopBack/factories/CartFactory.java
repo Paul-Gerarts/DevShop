@@ -19,7 +19,7 @@ public class CartFactory {
     ) {
         return Cart.builder()
                 .cartCreationDateTime(LocalDateTime.now())
-                .products(products)
+                //.products(products)
                 .finalizedCart(isFinalized)
                 .paidCart(isPaid)
                 .cartContents(cartContentList)
