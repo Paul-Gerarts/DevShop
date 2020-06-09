@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.createDummyNonArchivedProductList;
+import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.createProductDto;
 
 public class CartUtils {
 
@@ -35,7 +36,8 @@ public class CartUtils {
                 .user("Someone")
                 //.products(products)
                 .cartContentDtoList(
-                        products.stream().map(product -> CartContentDto.builder().productId(product.getId()).count(1).build()).collect(Collectors.toList())
+                        //products.stream().map(product -> CartContentDto.builder().productId(product.getId()).count(1).build()).collect(Collectors.toList())
+                        products.stream().map(product -> CartContentDto.builder().productDto(createProductDto()).count(1).build()).collect(Collectors.toList())
                 )
                 .cartCreationDateTime(LocalDateTime.now())
                 .finalizedCart(false)
@@ -81,7 +83,7 @@ public class CartUtils {
                 .cartCreationDateTime(LocalDateTime.now())
                 //.products(createDummyNonArchivedProductList())
                 .cartContentDtoList(
-                        createDummyNonArchivedProductList().stream().map(product -> CartContentDto.builder().productId(product.getId()).count(1).build()).collect(Collectors.toList())
+                        createDummyNonArchivedProductList().stream().map(product -> CartContentDto.builder().productDto(createProductDto()).count(1).build()).collect(Collectors.toList())
                 )
                 .finalizedCart(true)
                 .paidCart(true)

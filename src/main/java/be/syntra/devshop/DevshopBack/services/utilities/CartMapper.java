@@ -2,6 +2,7 @@ package be.syntra.devshop.DevshopBack.services.utilities;
 
 import be.syntra.devshop.DevshopBack.entities.Cart;
 import be.syntra.devshop.DevshopBack.entities.CartContent;
+import be.syntra.devshop.DevshopBack.models.CartContentDto;
 import be.syntra.devshop.DevshopBack.models.CartDto;
 import org.springframework.stereotype.Component;
 
@@ -29,8 +30,23 @@ public class CartMapper {
                 //.products(cartDto.getProducts())
                 .finalizedCart(cartDto.isFinalizedCart())
                 .paidCart(cartDto.isPaidCart())
+                .cartContents(convertToCartContentList(cartDto.getCartContentDtoList()))
                 .build();
     }
+
+    private List<CartContent> convertToCartContentList(List<CartContentDto> cartContentDtoList) {
+        return cartContentDtoList.stream()
+                .map(this::convertToCartContent)
+                .collect(Collectors.toList());
+    }
+
+    private CartContent convertToCartContent(CartContentDto cartContentDto) {
+        return CartContent.builder()
+                .productId(cartContentDto.getProductDto().getId())
+                .count(cartContentDto.getCount())
+                .build();
+    }
+
 
     public List<CartDto> convertToCartDtoList(List<Cart> carts) {
         return carts.stream()
@@ -49,14 +65,14 @@ public class CartMapper {
                 .cartCreationDateTime(cartDto.getCartCreationDateTime())
                 .paidCart(cartDto.isPaidCart())
                 .finalizedCart(cartDto.isFinalizedCart())
-                .cartContents(
+                /*.cartContents(
                         cartDto.getProductDtos().stream()
                                 .map(p ->
                                         CartContent.builder()
                                                 .productId(p.getId())
                                                 .count(p.getTotalInCart())
                                                 .build())
-                                .collect(Collectors.toList()))
+                                .collect(Collectors.toList()))*/
                 .build();
     }
 }
