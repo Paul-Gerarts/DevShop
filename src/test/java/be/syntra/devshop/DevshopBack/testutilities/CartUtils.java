@@ -1,8 +1,8 @@
 package be.syntra.devshop.DevshopBack.testutilities;
 
-import be.syntra.devshop.DevshopBack.entities.Cart;
-import be.syntra.devshop.DevshopBack.entities.CartContent;
+import be.syntra.devshop.DevshopBack.entities.OrderContent;
 import be.syntra.devshop.DevshopBack.entities.Product;
+import be.syntra.devshop.DevshopBack.entities.ShopOrder;
 import be.syntra.devshop.DevshopBack.models.CartContentDto;
 import be.syntra.devshop.DevshopBack.models.CartDto;
 
@@ -17,16 +17,23 @@ import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.createPro
 public class CartUtils {
 
 
-    public static Cart createCart() {
+    public static ShopOrder createCart() {
         List<Product> products = createDummyNonArchivedProductList();
-        return Cart.builder()
+        return ShopOrder.builder()
                 //.products(products)
-                .cartContents(
-                        products.stream().map(product -> CartContent.builder().productId(product.getId()).count(1).build()).collect(Collectors.toList())
+                .orderContents(
+                        //products.stream().map(product -> OrderContent.builder().productId(product.getId()).count(1).build()).collect(Collectors.toList())
+                        products.stream()
+                                .map(product -> OrderContent.builder()
+                                        //.productId(product.getId())
+                                        .product(product)
+                                        .count(1)
+                                        .build())
+                                .collect(Collectors.toList())
                 )
-                .cartCreationDateTime(LocalDateTime.now())
-                .finalizedCart(false)
-                .paidCart(false)
+                .shopOrderCreationDateTime(LocalDateTime.now())
+                .finalizedShopOrder(false)
+                .paidShopOrder(false)
                 .build();
     }
 
@@ -45,35 +52,49 @@ public class CartUtils {
                 .build();
     }
 
-    public static Cart createCartWithId() {
+    public static ShopOrder createCartWithId() {
         List<Product> products = createDummyNonArchivedProductList();
-        return Cart.builder()
+        return ShopOrder.builder()
                 .id(1L)
                 //.products(products)
-                .cartContents(
-                        products.stream().map(product -> CartContent.builder().productId(product.getId()).count(1).build()).collect(Collectors.toList())
+                .orderContents(
+                        //products.stream().map(product -> OrderContent.builder().productId(product.getId()).count(1).build()).collect(Collectors.toList())
+                        products.stream()
+                                .map(product -> OrderContent.builder()
+                                        //.productId(product.getId())
+                                        .product(product)
+                                        .count(1)
+                                        .build())
+                                .collect(Collectors.toList())
                 )
-                .cartCreationDateTime(LocalDateTime.now())
-                .finalizedCart(false)
-                .paidCart(false)
+                .shopOrderCreationDateTime(LocalDateTime.now())
+                .finalizedShopOrder(false)
+                .paidShopOrder(false)
                 .build();
     }
 
-    public static List<Cart> createDummyCartList() {
-        List<Cart> carts = new ArrayList<>();
-        Cart cart1 = createCart();
-        Cart cart2 = Cart.builder()
-                .cartCreationDateTime(LocalDateTime.now())
+    public static List<ShopOrder> createDummyCartList() {
+        List<ShopOrder> shopOrders = new ArrayList<>();
+        ShopOrder shopOrder1 = createCart();
+        ShopOrder shopOrder2 = ShopOrder.builder()
+                .shopOrderCreationDateTime(LocalDateTime.now())
                 //.products(createDummyNonArchivedProductList())
-                .cartContents(
-                        createDummyNonArchivedProductList().stream().map(product -> CartContent.builder().productId(product.getId()).count(1).build()).collect(Collectors.toList())
+                .orderContents(
+                        //createDummyNonArchivedProductList().stream().map(product -> OrderContent.builder().productId(product.getId()).count(1).build()).collect(Collectors.toList())
+                        createDummyNonArchivedProductList().stream()
+                                .map(product -> OrderContent.builder()
+                                        //.productId(product.getId())
+                                        .product(product)
+                                        .count(1)
+                                        .build())
+                                .collect(Collectors.toList())
                 )
-                .finalizedCart(true)
-                .paidCart(true)
+                .finalizedShopOrder(true)
+                .paidShopOrder(true)
                 .build();
-        carts.add(cart1);
-        carts.add(cart2);
-        return carts;
+        shopOrders.add(shopOrder1);
+        shopOrders.add(shopOrder2);
+        return shopOrders;
     }
 
     public static List<CartDto> createDummyCartDtoList() {

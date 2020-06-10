@@ -29,7 +29,7 @@ public class CartController {
     @PostMapping
     public ResponseEntity<CartDto> createArchivedCart(@RequestBody CartDto cartDto) {
         log.info("cart() -> {}", cartDto);
-        /*Cart cart = cartMapper.convertToCart(cartDto);
+        /*ShopOrder cart = cartMapper.convertToCart(cartDto);
         cartService.saveCartToArchivedCarts(cart, cartDto.getUser());*/
         //cartService.saveCartToArchivedCarts(cartMapper.convertToNewCart(cartDto), cartDto.getUser());
         cartService.saveCartToArchivedCarts(cartMapper.convertToCart(cartDto), cartDto.getUser());

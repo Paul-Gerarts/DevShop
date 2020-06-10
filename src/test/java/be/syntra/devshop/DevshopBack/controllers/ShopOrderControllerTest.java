@@ -1,6 +1,6 @@
 package be.syntra.devshop.DevshopBack.controllers;
 
-import be.syntra.devshop.DevshopBack.entities.Cart;
+import be.syntra.devshop.DevshopBack.entities.ShopOrder;
 import be.syntra.devshop.DevshopBack.factories.SecurityUserFactory;
 import be.syntra.devshop.DevshopBack.models.CartDto;
 import be.syntra.devshop.DevshopBack.security.configuration.CorsConfiguration;
@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Import({JsonUtils.class, WebSecurityConfig.class, CorsConfiguration.class, JWTTokenProvider.class, JWTAuthenticationEntryPoint.class, JWTAccessDeniedHandler.class})
 @WebMvcTest(CartController.class)
-public class CartControllerTest {
+public class ShopOrderControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -69,13 +69,13 @@ public class CartControllerTest {
         SecurityUser frontendAuthentication = securityUserFactory.of(userName, password, List.of(UserRole.builder().name(ROLE_ADMIN.name()).build()));
         when(securityUserService.findByUserName(userName)).thenReturn(frontendAuthentication);
         CartDto cartDto = createCartDto();
-        Cart cart = cartMapper.convertToCart(cartDto);
-        when(cartService.saveCartToArchivedCarts(cart, cartDto.getUser())).thenReturn(cart);
-        when(cartMapper.convertToCart(cartDto)).thenReturn(cart);
+        ShopOrder shopOrder = cartMapper.convertToCart(cartDto);
+        when(cartService.saveCartToArchivedCarts(shopOrder, cartDto.getUser())).thenReturn(shopOrder);
+        when(cartMapper.convertToCart(cartDto)).thenReturn(shopOrder);
         // when
         ResultActions resultActions =
                 mockMvc.perform(
-                        post("/cart")
+                        post("/shopOrder")
                                 .contentType(APPLICATION_JSON)
                                 .content(jsonUtils.asJsonString(cartDto))
 

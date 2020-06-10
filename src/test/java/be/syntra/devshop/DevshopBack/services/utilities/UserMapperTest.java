@@ -64,10 +64,10 @@ class UserMapperTest {
         assertEquals(mappedUser.getAddress().getPostalCode(), userDto.getAddress().getPostalCode());
         assertEquals(mappedUser.getAddress().getCity(), userDto.getAddress().getCity());
         assertEquals(mappedUser.getAddress().getCountry(), userDto.getAddress().getCountry());
-        assertEquals(mappedUser.getArchivedCarts().get(0).getCartCreationDateTime().getHour(), userDto.getArchivedCarts().get(0).getCartCreationDateTime().getHour());
-        assertEquals(mappedUser.getArchivedCarts().get(0).getCartCreationDateTime().getMinute(), userDto.getArchivedCarts().get(0).getCartCreationDateTime().getMinute());
-        /*assertEquals(mappedUser.getArchivedCarts().get(0).getProducts().get(0).getName(), userDto.getArchivedCarts().get(0).getProducts().get(0).getName());
-        assertEquals(mappedUser.getArchivedCarts().get(0).getProducts().get(0).getPrice(), userDto.getArchivedCarts().get(0).getProducts().get(0).getPrice());*/
+        assertEquals(mappedUser.getArchivedShopOrders().get(0).getShopOrderCreationDateTime().getHour(), userDto.getArchivedCarts().get(0).getCartCreationDateTime().getHour());
+        assertEquals(mappedUser.getArchivedShopOrders().get(0).getShopOrderCreationDateTime().getMinute(), userDto.getArchivedCarts().get(0).getCartCreationDateTime().getMinute());
+        /*assertEquals(mappedUser.getArchivedShopOrders().get(0).getProducts().get(0).getName(), userDto.getArchivedShopOrders().get(0).getProducts().get(0).getName());
+        assertEquals(mappedUser.getArchivedShopOrders().get(0).getProducts().get(0).getPrice(), userDto.getArchivedShopOrders().get(0).getProducts().get(0).getPrice());*/
 
     }
 
@@ -93,7 +93,7 @@ class UserMapperTest {
         assertEquals(mappedUserDto.getAddress().getPostalCode(), user.getAddress().getPostalCode());
         assertEquals(mappedUserDto.getAddress().getCity(), user.getAddress().getCity());
         assertEquals(mappedUserDto.getAddress().getCountry(), user.getAddress().getCountry());
-        assertEquals(mappedUserDto.getArchivedCarts().get(0).getCartCreationDateTime().getHour(), user.getArchivedCarts().get(0).getCartCreationDateTime().getHour());
-        assertEquals(mappedUserDto.getArchivedCarts().get(0).getCartCreationDateTime().getMinute(), user.getArchivedCarts().get(0).getCartCreationDateTime().getMinute());
+        assertEquals(mappedUserDto.getArchivedCarts().get(0).getCartCreationDateTime().getHour(), user.getArchivedShopOrders().get(0).getShopOrderCreationDateTime().getHour());
+        assertEquals(mappedUserDto.getArchivedCarts().get(0).getCartCreationDateTime().getMinute(), user.getArchivedShopOrders().get(0).getShopOrderCreationDateTime().getMinute());
     }
 }

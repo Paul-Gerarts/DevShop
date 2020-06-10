@@ -1,7 +1,7 @@
 package be.syntra.devshop.DevshopBack.services;
 
 
-import be.syntra.devshop.DevshopBack.entities.Cart;
+import be.syntra.devshop.DevshopBack.entities.ShopOrder;
 import be.syntra.devshop.DevshopBack.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,11 +20,11 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart saveCartToArchivedCarts(Cart cart, String email) {
+    public ShopOrder saveCartToArchivedCarts(ShopOrder shopOrder, String email) {
         User user = userService.getUserByEmail(email);
-        user.getArchivedCarts().add(cart);
+        user.getArchivedShopOrders().add(shopOrder);
         userService.save(user);
-        return cart;
+        return shopOrder;
     }
 
 }

@@ -7,7 +7,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
-
 @Entity
 @Table
 @Getter
@@ -46,11 +45,11 @@ public class User {
     @Column(name = "archived_carts")
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "USER_CART",
+            name = "USER_SHOPORDER",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "cart_id", referencedColumnName = "cart_id")},
-            foreignKey = @ForeignKey(name = "cart_fk"))
-    private List<Cart> archivedCarts;
+            inverseJoinColumns = {@JoinColumn(name = "shoporder_id", referencedColumnName = "shoporder_id")},
+            foreignKey = @ForeignKey(name = "shoporder_fk"))
+    private List<ShopOrder> archivedShopOrders;
 
     @Override
     public String toString() {

@@ -1,6 +1,6 @@
 package be.syntra.devshop.DevshopBack.factories;
 
-import be.syntra.devshop.DevshopBack.entities.CartContent;
+import be.syntra.devshop.DevshopBack.entities.OrderContent;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
 import lombok.NoArgsConstructor;
@@ -9,25 +9,25 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 @Component
 @NoArgsConstructor
-public class CartContentFactory {
+public class OrderContentFactory {
     private ProductRepository productRepository;
 
     @Autowired
-    public CartContentFactory(ProductRepository productRepository) {
+    public OrderContentFactory(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
-    public CartContent of() {
-        List<Long> productIdList = productRepository.findAll().stream()
+    public OrderContent of() {
+        List<Product> productList = productRepository.findAll()/*.stream()
                 .map(Product::getId)
-                .collect(Collectors.toList());
-        int productIdListLength = productIdList.size();
-        return CartContent.builder()
-                .productId(productIdList.get(new Random().nextInt(productIdListLength)))
+                .collect(Collectors.toList())*/;
+        int productListLength = productList.size();
+        return OrderContent.builder()
+                //.productId(productIdList.get(new Random().nextInt(productIdListLength)))
+                .product(productList.get(new Random().nextInt(productListLength)))
                 .count(new Random().nextInt(20) + 1)
                 .build();
     }

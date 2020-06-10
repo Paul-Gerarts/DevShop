@@ -40,8 +40,8 @@ public class DataFillerServiceImpl {
     private final UserRoleFactory userRoleFactory;
     private final UserFactory userFactory;
     private final SecurityUserFactory securityUserFactory;
-    private final CartFactory cartFactory;
-    private final CartContentFactory cartContentFactory;
+    private final ShopOrderFactory shopOrderFactory;
+    private final OrderContentFactory orderContentFactory;
 
 
     @Autowired
@@ -57,8 +57,8 @@ public class DataFillerServiceImpl {
                                  CategoryRepository categoryRepository,
                                  StarRatingRepository ratingRepository,
                                  CartRepository cartRepository,
-                                 CartFactory cartFactory,
-                                 CartContentFactory cartContentFactory
+                                 ShopOrderFactory shopOrderFactory,
+                                 OrderContentFactory orderContentFactory
 
     ) {
         this.productRepository = productRepository;
@@ -73,8 +73,8 @@ public class DataFillerServiceImpl {
         this.categoryRepository = categoryRepository;
         this.ratingRepository = ratingRepository;
         this.cartRepository = cartRepository;
-        this.cartFactory = cartFactory;
-        this.cartContentFactory = cartContentFactory;
+        this.shopOrderFactory = shopOrderFactory;
+        this.orderContentFactory = orderContentFactory;
     }
 
     private UserRole retrieveAdminRole() {
@@ -193,11 +193,11 @@ public class DataFillerServiceImpl {
     }
 
     private void setArchivedCartsAndSave(User user) {
-        user.setArchivedCarts(List.of(createCart()));
+        user.setArchivedShopOrders(List.of(createCart()));
     }
 
-    private Cart createCart() {
-        return cartFactory.of(getListOfRandomProducts(), true, true, getCartContent());
+    private ShopOrder createCart() {
+        return shopOrderFactory.of(getListOfRandomProducts(), true, true, getCartContent());
     }
 
     private List<Product> getListOfRandomProducts() {
@@ -208,12 +208,12 @@ public class DataFillerServiceImpl {
         return products;
     }
 
-    private List<CartContent> getCartContent() {
-        List<CartContent> cartContentList = new ArrayList<>();
+    private List<OrderContent> getCartContent() {
+        List<OrderContent> orderContentList = new ArrayList<>();
         for (int i = 0; i < new Random().nextInt(10) + 1; i++) {
-            cartContentList.add(cartContentFactory.of());
+            orderContentList.add(orderContentFactory.of());
         }
-        return cartContentList;
+        return orderContentList;
     }
 
     private List<Product> getTestProducts() {

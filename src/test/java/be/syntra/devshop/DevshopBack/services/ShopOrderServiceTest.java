@@ -1,6 +1,6 @@
 package be.syntra.devshop.DevshopBack.services;
 
-import be.syntra.devshop.DevshopBack.entities.Cart;
+import be.syntra.devshop.DevshopBack.entities.ShopOrder;
 import be.syntra.devshop.DevshopBack.entities.User;
 import be.syntra.devshop.DevshopBack.services.utilities.CartMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +14,7 @@ import static be.syntra.devshop.DevshopBack.testutilities.UserUtils.createUser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-public class CartServiceTest {
+public class ShopOrderServiceTest {
 
     @Mock
     private UserServiceImpl userService;
@@ -33,23 +33,23 @@ public class CartServiceTest {
     @Test
     void saveCartToArchivedCartsTest() {
         // given
-        Cart dummyCart = createCart();
+        ShopOrder dummyShopOrder = createCart();
         User dummyUser = createUser();
         String name = "one";
         when(userService.getUserByEmail(name)).thenReturn(dummyUser);
         when(userService.save(dummyUser)).thenReturn(dummyUser);
 
         // when
-        Cart resultCart = cartService.saveCartToArchivedCarts(dummyCart, name);
+        ShopOrder resultShopOrder = cartService.saveCartToArchivedCarts(dummyShopOrder, name);
 
         // then
-        assertEquals(dummyCart.getCartCreationDateTime(), resultCart.getCartCreationDateTime());
-        /*assertEquals(dummyCart.getProducts().get(0).getName(), resultCart.getProducts().get(0).getName());
-        assertEquals(dummyCart.getProducts().get(0).getPrice(), resultCart.getProducts().get(0).getPrice());
-        assertEquals(dummyCart.getProducts().get(1).getName(), resultCart.getProducts().get(1).getName());
-        assertEquals(dummyCart.getProducts().get(1).getPrice(), resultCart.getProducts().get(1).getPrice());
-        assertEquals(dummyUser.getArchivedCarts().get(2).getProducts().get(0).getName(), dummyCart.getProducts().get(0).getName());
-        assertEquals(dummyUser.getArchivedCarts().get(2).getProducts().get(0).getPrice(), dummyCart.getProducts().get(0).getPrice());*/
+        assertEquals(dummyShopOrder.getShopOrderCreationDateTime(), resultShopOrder.getShopOrderCreationDateTime());
+        /*assertEquals(dummyShopOrder.getProducts().get(0).getName(), resultShopOrder.getProducts().get(0).getName());
+        assertEquals(dummyShopOrder.getProducts().get(0).getPrice(), resultShopOrder.getProducts().get(0).getPrice());
+        assertEquals(dummyShopOrder.getProducts().get(1).getName(), resultShopOrder.getProducts().get(1).getName());
+        assertEquals(dummyShopOrder.getProducts().get(1).getPrice(), resultShopOrder.getProducts().get(1).getPrice());
+        assertEquals(dummyUser.getArchivedShopOrders().get(2).getProducts().get(0).getName(), dummyShopOrder.getProducts().get(0).getName());
+        assertEquals(dummyUser.getArchivedShopOrders().get(2).getProducts().get(0).getPrice(), dummyShopOrder.getProducts().get(0).getPrice());*/
 
         verify(userService, times(1)).getUserByEmail(name);
         verify(userService, times(1)).save(any());
