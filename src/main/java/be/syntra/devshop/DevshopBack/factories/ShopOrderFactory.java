@@ -19,7 +19,6 @@ public class ShopOrderFactory {
     ) {
         return ShopOrder.builder()
                 .shopOrderCreationDateTime(LocalDateTime.now())
-                //.products(products)
                 .finalizedShopOrder(isFinalized)
                 .paidShopOrder(isPaid)
                 .orderContents(orderContentList)
