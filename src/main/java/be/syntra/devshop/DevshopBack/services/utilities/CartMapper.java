@@ -24,7 +24,6 @@ public class CartMapper {
     public CartDto convertToCartDto(ShopOrder shopOrder) {
         return CartDto.builder()
                 .cartCreationDateTime(shopOrder.getShopOrderCreationDateTime())
-                //.products(shopOrder.getProducts())
                 .finalizedCart(shopOrder.isFinalizedShopOrder())
                 .paidCart(shopOrder.isPaidShopOrder())
                 .build();
@@ -33,7 +32,6 @@ public class CartMapper {
     public ShopOrder convertToCart(CartDto cartDto) {
         return ShopOrder.builder()
                 .shopOrderCreationDateTime(cartDto.getCartCreationDateTime())
-                //.products(cartDto.getProducts())
                 .finalizedShopOrder(cartDto.isFinalizedCart())
                 .paidShopOrder(cartDto.isPaidCart())
                 .orderContents(convertToCartContentList(cartDto.getCartContentDtoList()))
@@ -48,38 +46,21 @@ public class CartMapper {
 
     private OrderContent convertToCartContent(CartContentDto cartContentDto) {
         return OrderContent.builder()
-                //.productId(cartContentDto.getProductDto().getId())
                 .product(productMapper.convertToProduct(cartContentDto.getProductDto()))
                 .count(cartContentDto.getCount())
                 .build();
     }
 
 
-    public List<CartDto> convertToCartDtoList(List<ShopOrder> shopOrders) {
+    List<CartDto> convertToCartDtoList(List<ShopOrder> shopOrders) {
         return shopOrders.stream()
                 .map(this::convertToCartDto)
                 .collect(toUnmodifiableList());
     }
 
-    public List<ShopOrder> convertToCartList(List<CartDto> cartDtoList) {
+    List<ShopOrder> convertToCartList(List<CartDto> cartDtoList) {
         return cartDtoList.stream()
                 .map(this::convertToCart)
                 .collect(toUnmodifiableList());
-    }
-
-    public ShopOrder convertToNewCart(CartDto cartDto) {
-        return ShopOrder.builder()
-                .shopOrderCreationDateTime(cartDto.getCartCreationDateTime())
-                .paidShopOrder(cartDto.isPaidCart())
-                .finalizedShopOrder(cartDto.isFinalizedCart())
-                /*.orderContents(
-                        cartDto.getProductDtos().stream()
-                                .map(p ->
-                                        OrderContent.builder()
-                                                .productId(p.getId())
-                                                .count(p.getTotalInCart())
-                                                .build())
-                                .collect(Collectors.toList()))*/
-                .build();
     }
 }

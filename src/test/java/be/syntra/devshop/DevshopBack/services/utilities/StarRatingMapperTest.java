@@ -2,7 +2,10 @@ package be.syntra.devshop.DevshopBack.services.utilities;
 
 import be.syntra.devshop.DevshopBack.entities.StarRating;
 import be.syntra.devshop.DevshopBack.models.StarRatingDto;
+import be.syntra.devshop.DevshopBack.models.StarRatingSet;
 import org.junit.jupiter.api.Test;
+
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -40,5 +43,25 @@ public class StarRatingMapperTest {
         // then
         assertThat(result.getRating()).isEqualTo(rating.getRating());
         assertThat(result.getUserName()).isEqualTo(rating.getUserName());
+    }
+
+    @Test
+    void canMapToStarRatingSet() {
+        // given
+        Set<StarRating> setOfStarRatings = Set.of(
+                StarRating.builder()
+                        .rating(4D)
+                        .userName("paul.gerarts@juvo.be")
+                        .build(),
+                StarRating.builder()
+                        .rating(3D)
+                        .userName("lens.huygh@gmail.com")
+                        .build());
+
+        // when
+        StarRatingSet result = starRatingMapper.mapToStarRatingSet(setOfStarRatings);
+
+        // then
+        assertThat(result.getRatings()).containsSequence(setOfStarRatings);
     }
 }

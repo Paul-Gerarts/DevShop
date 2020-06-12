@@ -75,7 +75,7 @@ public class ShopOrderControllerTest {
         // when
         ResultActions resultActions =
                 mockMvc.perform(
-                        post("/shopOrder")
+                        post("/cart")
                                 .contentType(APPLICATION_JSON)
                                 .content(jsonUtils.asJsonString(cartDto))
 
