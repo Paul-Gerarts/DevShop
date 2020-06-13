@@ -2,8 +2,8 @@ package be.syntra.devshop.DevshopBack.services.utilities;
 
 import be.syntra.devshop.DevshopBack.entities.OrderContent;
 import be.syntra.devshop.DevshopBack.entities.ShopOrder;
-import be.syntra.devshop.DevshopBack.models.CartContentDto;
 import be.syntra.devshop.DevshopBack.models.CartDto;
+import be.syntra.devshop.DevshopBack.models.CartProductDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,41 +21,26 @@ public class CartMapper {
         this.productMapper = productMapper;
     }
 
-    public CartDto convertToCartDto(ShopOrder shopOrder) {
-        return CartDto.builder()
-                .cartCreationDateTime(shopOrder.getShopOrderCreationDateTime())
-                .finalizedCart(shopOrder.isFinalizedShopOrder())
-                .paidCart(shopOrder.isPaidShopOrder())
-                .build();
-    }
-
     public ShopOrder convertToCart(CartDto cartDto) {
         return ShopOrder.builder()
                 .shopOrderCreationDateTime(cartDto.getCartCreationDateTime())
                 .finalizedShopOrder(cartDto.isFinalizedCart())
                 .paidShopOrder(cartDto.isPaidCart())
-                .orderContents(convertToCartContentList(cartDto.getCartContentDtoList()))
+                .orderContents(convertToCartContentList(cartDto.getCartProductDtoList()))
                 .build();
     }
 
-    private List<OrderContent> convertToCartContentList(List<CartContentDto> cartContentDtoList) {
-        return cartContentDtoList.stream()
+    private List<OrderContent> convertToCartContentList(List<CartProductDto> cartProductDtoList) {
+        return cartProductDtoList.stream()
                 .map(this::convertToCartContent)
                 .collect(Collectors.toList());
     }
 
-    private OrderContent convertToCartContent(CartContentDto cartContentDto) {
+    private OrderContent convertToCartContent(CartProductDto cartProductDto) {
         return OrderContent.builder()
-                .product(productMapper.convertToProduct(cartContentDto.getProductDto()))
-                .count(cartContentDto.getCount())
+                .product(productMapper.convertToProduct(cartProductDto.getProductDto()))
+                .count(cartProductDto.getCount())
                 .build();
-    }
-
-
-    List<CartDto> convertToCartDtoList(List<ShopOrder> shopOrders) {
-        return shopOrders.stream()
-                .map(this::convertToCartDto)
-                .collect(toUnmodifiableList());
     }
 
     List<ShopOrder> convertToCartList(List<CartDto> cartDtoList) {

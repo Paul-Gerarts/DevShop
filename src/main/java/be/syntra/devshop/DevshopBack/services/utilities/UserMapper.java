@@ -16,16 +16,6 @@ public class UserMapper {
     @Autowired
     private CartMapper cartMapper;
 
-    public UserDto convertToUserDto(User user) {
-        return UserDto.builder()
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .fullName(capitalizeFully(user.getFullName(), ' ', '-'))
-                .address(addressMapper.convertToAddressDto(user.getAddress()))
-                .archivedCarts(cartMapper.convertToCartDtoList(user.getArchivedShopOrders()))
-                .build();
-    }
-
     public User convertToUser(UserDto userDto) {
         return User.builder()
                 .firstName(userDto.getFirstName())

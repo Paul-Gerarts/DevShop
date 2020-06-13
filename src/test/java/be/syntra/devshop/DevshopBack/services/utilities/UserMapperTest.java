@@ -11,10 +11,9 @@ import org.mockito.Mock;
 import java.util.List;
 
 import static be.syntra.devshop.DevshopBack.testutilities.AddressUtils.createAddress;
-import static be.syntra.devshop.DevshopBack.testutilities.AddressUtils.createAddressDto;
-import static be.syntra.devshop.DevshopBack.testutilities.CartUtils.*;
+import static be.syntra.devshop.DevshopBack.testutilities.CartUtils.createCart;
+import static be.syntra.devshop.DevshopBack.testutilities.CartUtils.createDummyCartList;
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.createDummyNonArchivedProductList;
-import static be.syntra.devshop.DevshopBack.testutilities.UserUtils.createUser;
 import static be.syntra.devshop.DevshopBack.testutilities.UserUtils.createUserDto;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.any;
@@ -66,34 +65,6 @@ class UserMapperTest {
         assertEquals(mappedUser.getAddress().getCountry(), userDto.getAddress().getCountry());
         assertEquals(mappedUser.getArchivedShopOrders().get(0).getShopOrderCreationDateTime().getHour(), userDto.getArchivedCarts().get(0).getCartCreationDateTime().getHour());
         assertEquals(mappedUser.getArchivedShopOrders().get(0).getShopOrderCreationDateTime().getMinute(), userDto.getArchivedCarts().get(0).getCartCreationDateTime().getMinute());
-        /*assertEquals(mappedUser.getArchivedShopOrders().get(0).getProducts().get(0).getName(), userDto.getArchivedShopOrders().get(0).getProducts().get(0).getName());
-        assertEquals(mappedUser.getArchivedShopOrders().get(0).getProducts().get(0).getPrice(), userDto.getArchivedShopOrders().get(0).getProducts().get(0).getPrice());*/
-
-    }
-
-    @Test
-    void convertToUserDtoTest() {
-        // given
-        User user = createUser();
-        when(addressMapper.convertToAddressDto(any())).thenReturn(createAddressDto());
-        when(cartMapper.convertToCartDto(any())).thenReturn(createCartDto());
-        when(cartMapper.convertToCartDtoList(any())).thenReturn(createDummyCartDtoList());
-
-        // when
-        UserDto mappedUserDto = userMapper.convertToUserDto(user);
-
-        // then
-        assertEquals(mappedUserDto.getClass(), UserDto.class);
-        assertEquals(mappedUserDto.getFirstName(), user.getFirstName());
-        assertEquals(mappedUserDto.getLastName(), user.getLastName());
-        assertEquals(mappedUserDto.getFullName(), user.getFullName());
-        assertEquals(mappedUserDto.getAddress().getStreet(), user.getAddress().getStreet());
-        assertEquals(mappedUserDto.getAddress().getNumber(), user.getAddress().getNumber());
-        assertEquals(mappedUserDto.getAddress().getBoxNumber(), user.getAddress().getBoxNumber());
-        assertEquals(mappedUserDto.getAddress().getPostalCode(), user.getAddress().getPostalCode());
-        assertEquals(mappedUserDto.getAddress().getCity(), user.getAddress().getCity());
-        assertEquals(mappedUserDto.getAddress().getCountry(), user.getAddress().getCountry());
-        assertEquals(mappedUserDto.getArchivedCarts().get(0).getCartCreationDateTime().getHour(), user.getArchivedShopOrders().get(0).getShopOrderCreationDateTime().getHour());
-        assertEquals(mappedUserDto.getArchivedCarts().get(0).getCartCreationDateTime().getMinute(), user.getArchivedShopOrders().get(0).getShopOrderCreationDateTime().getMinute());
+        assertEquals(mappedUser.getArchivedShopOrders().size(), userDto.getArchivedCarts().size());
     }
 }

@@ -44,12 +44,13 @@ public class ShopOrderServiceTest {
 
         // then
         assertEquals(dummyShopOrder.getShopOrderCreationDateTime(), resultShopOrder.getShopOrderCreationDateTime());
-        /*assertEquals(dummyShopOrder.getProducts().get(0).getName(), resultShopOrder.getProducts().get(0).getName());
-        assertEquals(dummyShopOrder.getProducts().get(0).getPrice(), resultShopOrder.getProducts().get(0).getPrice());
-        assertEquals(dummyShopOrder.getProducts().get(1).getName(), resultShopOrder.getProducts().get(1).getName());
-        assertEquals(dummyShopOrder.getProducts().get(1).getPrice(), resultShopOrder.getProducts().get(1).getPrice());
-        assertEquals(dummyUser.getArchivedShopOrders().get(2).getProducts().get(0).getName(), dummyShopOrder.getProducts().get(0).getName());
-        assertEquals(dummyUser.getArchivedShopOrders().get(2).getProducts().get(0).getPrice(), dummyShopOrder.getProducts().get(0).getPrice());*/
+
+        assertEquals(dummyShopOrder.getOrderContents().get(0).getProduct().getName(), resultShopOrder.getOrderContents().get(0).getProduct().getName());
+        assertEquals(dummyShopOrder.getOrderContents().get(0).getProduct().getPrice(), resultShopOrder.getOrderContents().get(0).getProduct().getPrice());
+        assertEquals(dummyShopOrder.getOrderContents().get(1).getProduct().getName(), resultShopOrder.getOrderContents().get(1).getProduct().getName());
+        assertEquals(dummyShopOrder.getOrderContents().get(1).getProduct().getPrice(), resultShopOrder.getOrderContents().get(1).getProduct().getPrice());
+        assertEquals(dummyUser.getArchivedShopOrders().get(2).getOrderContents().get(0).getProduct().getName(), dummyShopOrder.getOrderContents().get(0).getProduct().getName());
+        assertEquals(dummyUser.getArchivedShopOrders().get(2).getOrderContents().get(0).getProduct().getPrice(), dummyShopOrder.getOrderContents().get(0).getProduct().getPrice());
 
         verify(userService, times(1)).getUserByEmail(name);
         verify(userService, times(1)).save(any());

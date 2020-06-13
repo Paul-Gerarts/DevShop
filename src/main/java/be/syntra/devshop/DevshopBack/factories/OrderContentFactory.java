@@ -21,12 +21,9 @@ public class OrderContentFactory {
     }
 
     public OrderContent of() {
-        List<Product> productList = productRepository.findAll()/*.stream()
-                .map(Product::getId)
-                .collect(Collectors.toList())*/;
+        List<Product> productList = productRepository.findAll();
         int productListLength = productList.size();
         return OrderContent.builder()
-                //.productId(productIdList.get(new Random().nextInt(productIdListLength)))
                 .product(productList.get(new Random().nextInt(productListLength)))
                 .count(new Random().nextInt(20) + 1)
                 .build();

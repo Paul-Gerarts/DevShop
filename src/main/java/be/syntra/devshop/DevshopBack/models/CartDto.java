@@ -17,5 +17,5 @@ public class CartDto {
     private LocalDateTime cartCreationDateTime;
     private boolean finalizedCart;
     private boolean paidCart;
-    private List<CartContentDto> cartContentDtoList;
+    private List<CartProductDto> cartProductDtoList;
 }

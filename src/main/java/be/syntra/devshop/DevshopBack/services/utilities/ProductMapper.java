@@ -32,13 +32,14 @@ public class ProductMapper {
     }
 
     public ProductDto convertToProductDto(Product product) {
-        return ProductDto.builder()
+        ProductDto productDto = ProductDto.builder()
                 .id(product.getId())
                 .name(product.getName())
                 .price(product.getPrice())
                 .description(product.getDescription())
                 .archived(product.isArchived())
                 .build();
+        return productDto;
     }
 
     List<Product> convertToProductList(List<ProductDto> productDtoList) {

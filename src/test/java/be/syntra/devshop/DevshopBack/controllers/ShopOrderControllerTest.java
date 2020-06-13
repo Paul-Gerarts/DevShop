@@ -84,10 +84,10 @@ public class ShopOrderControllerTest {
         resultActions
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                /*.andExpect(jsonPath("$.products[0].name").value(cartDto.getProducts().get(0).getName()))
-                .andExpect(jsonPath("$.products[0].price").value(cartDto.getProducts().get(0).getPrice()))
-                .andExpect(jsonPath("$.products[1].name").value(cartDto.getProducts().get(1).getName()))
-                .andExpect(jsonPath("$.products[1].price").value(cartDto.getProducts().get(1).getPrice()))*/
+                .andExpect(jsonPath("$.cartProductDtoList[0].productDto.name").value(cartDto.getCartProductDtoList().get(0).getProductDto().getName()))
+                .andExpect(jsonPath("$.cartProductDtoList[0].productDto.price").value(cartDto.getCartProductDtoList().get(0).getProductDto().getPrice()))
+                .andExpect(jsonPath("$.cartProductDtoList[1].productDto.name").value(cartDto.getCartProductDtoList().get(1).getProductDto().getName()))
+                .andExpect(jsonPath("$.cartProductDtoList[1].productDto.price").value(cartDto.getCartProductDtoList().get(1).getProductDto().getPrice()))
                 .andExpect(jsonPath("$.finalizedCart").value(cartDto.isFinalizedCart()))
                 .andExpect(jsonPath("$.paidCart").value(cartDto.isPaidCart()));
 

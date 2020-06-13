@@ -89,8 +89,8 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.password").value(userDtoDummy.getPassword()))
                 .andExpect(jsonPath("$.address.number").value(userDtoDummy.getAddress().getNumber()))
                 .andExpect(jsonPath("$.address.postalCode").value(userDtoDummy.getAddress().getPostalCode()))
-                /*.andExpect(jsonPath("$.archivedShopOrders[0].products[0].name").value(userDtoDummy.getArchivedShopOrders().get(0).getProducts().get(0).getName()))
-                .andExpect(jsonPath("$.archivedShopOrders[0].products[0].price").value(userDtoDummy.getArchivedShopOrders().get(0).getProducts().get(0).getPrice()))*/;
+                .andExpect(jsonPath("$.archivedCarts[0].cartProductDtoList[0].productDto.name").value(userDtoDummy.getArchivedCarts().get(0).getCartProductDtoList().get(0).getProductDto().getName()))
+                .andExpect(jsonPath("$.archivedCarts[0].cartProductDtoList[0].productDto.price").value(userDtoDummy.getArchivedCarts().get(0).getCartProductDtoList().get(0).getProductDto().getPrice()));
 
         verify(userService, times(1)).save(any());
     }
