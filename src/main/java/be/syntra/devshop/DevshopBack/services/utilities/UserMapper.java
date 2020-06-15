@@ -14,7 +14,7 @@ public class UserMapper {
     private AddressMapper addressMapper;
 
     @Autowired
-    private CartMapper cartMapper;
+    private ShopOrderMapper shopOrderMapper;
 
     public User convertToUser(UserDto userDto) {
         return User.builder()
@@ -22,7 +22,7 @@ public class UserMapper {
                 .lastName(userDto.getLastName())
                 .fullName(capitalizeFully(userDto.getFullName(), ' ', '-'))
                 .address(addressMapper.convertToAddress(userDto.getAddress()))
-                .archivedShopOrders(cartMapper.convertToCartList(userDto.getArchivedCarts()))
+                .shopOrders(shopOrderMapper.convertToCartList(userDto.getArchivedCarts()))
                 .build();
     }
 

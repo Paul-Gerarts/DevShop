@@ -22,12 +22,8 @@ public class CartUtils {
         return ShopOrder.builder()
                 .orderContents(
                         products.stream()
-                                .map(product -> OrderContent.builder()
-                                        .product(product)
-                                        .count(1)
-                                        .build())
-                                .collect(Collectors.toList())
-                )
+                                .map(CartUtils::createOrderContentFromProduct)
+                                .collect(Collectors.toList()))
                 .shopOrderCreationDateTime(LocalDateTime.now())
                 .finalizedShopOrder(false)
                 .paidShopOrder(false)
@@ -39,8 +35,12 @@ public class CartUtils {
         return CartDto.builder()
                 .user("Someone")
                 .cartProductDtoList(
-                        products.stream().map(product -> CartProductDto.builder().productDto(createProductDto()).count(1).build()).collect(Collectors.toList())
-                )
+                        products.stream()
+                                .map(product -> CartProductDto.builder()
+                                        .productDto(createProductDto())
+                                        .count(1)
+                                        .build())
+                                .collect(Collectors.toList()))
                 .cartCreationDateTime(LocalDateTime.now())
                 .finalizedCart(false)
                 .paidCart(false)
@@ -54,12 +54,8 @@ public class CartUtils {
                 .shopOrderCreationDateTime(LocalDateTime.now())
                 .orderContents(
                         createDummyNonArchivedProductList().stream()
-                                .map(product -> OrderContent.builder()
-                                        .product(product)
-                                        .count(1)
-                                        .build())
-                                .collect(Collectors.toList())
-                )
+                                .map(CartUtils::createOrderContentFromProduct)
+                                .collect(Collectors.toList()))
                 .finalizedShopOrder(true)
                 .paidShopOrder(true)
                 .build();
@@ -74,13 +70,24 @@ public class CartUtils {
         CartDto cart2 = CartDto.builder()
                 .cartCreationDateTime(LocalDateTime.now())
                 .cartProductDtoList(
-                        createDummyNonArchivedProductList().stream().map(product -> CartProductDto.builder().productDto(createProductDto()).count(1).build()).collect(Collectors.toList())
-                )
+                        createDummyNonArchivedProductList().stream()
+                                .map(product -> CartProductDto.builder()
+                                        .productDto(createProductDto())
+                                        .count(1)
+                                        .build())
+                                .collect(Collectors.toList()))
                 .finalizedCart(true)
                 .paidCart(true)
                 .build();
         carts.add(cart1);
         carts.add(cart2);
         return carts;
+    }
+
+    private static OrderContent createOrderContentFromProduct(Product product) {
+        return OrderContent.builder()
+                .product(product)
+                .count(1)
+                .build();
     }
 }

@@ -32,7 +32,7 @@ class UserMapperTest {
     private AddressMapper addressMapper;
 
     @Mock
-    private CartMapper cartMapper;
+    private ShopOrderMapper shopOrderMapper;
 
     @BeforeEach
     public void setUp() {
@@ -45,8 +45,8 @@ class UserMapperTest {
         UserDto userDto = createUserDto();
         List<Product> dummyProductListFromUser = createDummyNonArchivedProductList();
         when(addressMapper.convertToAddress(any())).thenReturn(createAddress());
-        when(cartMapper.convertToCart(any())).thenReturn(createCart());
-        when(cartMapper.convertToCartList(any())).thenReturn(createDummyCartList());
+        when(shopOrderMapper.convertToShopOrder(any())).thenReturn(createCart());
+        when(shopOrderMapper.convertToCartList(any())).thenReturn(createDummyCartList());
         when(productMapper.convertToProductList(any())).thenReturn(dummyProductListFromUser);
 
         // when
@@ -63,8 +63,8 @@ class UserMapperTest {
         assertEquals(mappedUser.getAddress().getPostalCode(), userDto.getAddress().getPostalCode());
         assertEquals(mappedUser.getAddress().getCity(), userDto.getAddress().getCity());
         assertEquals(mappedUser.getAddress().getCountry(), userDto.getAddress().getCountry());
-        assertEquals(mappedUser.getArchivedShopOrders().get(0).getShopOrderCreationDateTime().getHour(), userDto.getArchivedCarts().get(0).getCartCreationDateTime().getHour());
-        assertEquals(mappedUser.getArchivedShopOrders().get(0).getShopOrderCreationDateTime().getMinute(), userDto.getArchivedCarts().get(0).getCartCreationDateTime().getMinute());
-        assertEquals(mappedUser.getArchivedShopOrders().size(), userDto.getArchivedCarts().size());
+        assertEquals(mappedUser.getShopOrders().get(0).getShopOrderCreationDateTime().getHour(), userDto.getArchivedCarts().get(0).getCartCreationDateTime().getHour());
+        assertEquals(mappedUser.getShopOrders().get(0).getShopOrderCreationDateTime().getMinute(), userDto.getArchivedCarts().get(0).getCartCreationDateTime().getMinute());
+        assertEquals(mappedUser.getShopOrders().size(), userDto.getArchivedCarts().size());
     }
 }

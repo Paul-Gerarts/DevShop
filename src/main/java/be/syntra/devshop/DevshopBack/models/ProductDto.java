@@ -23,7 +23,5 @@ public class ProductDto {
     private List<String> categoryNames;
     private Set<StarRating> ratings;
     private Double averageRating;
-    private int totalInCart;
     private Set<Review> reviews;
-
 }

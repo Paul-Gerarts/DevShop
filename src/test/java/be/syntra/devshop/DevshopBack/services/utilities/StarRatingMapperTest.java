@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
+import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRatingSet;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class StarRatingMapperTest {
@@ -48,15 +49,7 @@ public class StarRatingMapperTest {
     @Test
     void canMapToStarRatingSet() {
         // given
-        Set<StarRating> setOfStarRatings = Set.of(
-                StarRating.builder()
-                        .rating(4D)
-                        .userName("paul.gerarts@juvo.be")
-                        .build(),
-                StarRating.builder()
-                        .rating(3D)
-                        .userName("lens.huygh@gmail.com")
-                        .build());
+        Set<StarRating> setOfStarRatings = createRatingSet();
 
         // when
         StarRatingSet result = starRatingMapper.mapToStarRatingSet(setOfStarRatings);

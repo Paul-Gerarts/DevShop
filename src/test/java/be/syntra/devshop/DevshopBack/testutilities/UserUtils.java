@@ -17,7 +17,7 @@ public class UserUtils {
                 .fullName("Someone First")
                 .email("test@email.com")
                 .address(AddressUtils.createAddress())
-                .archivedShopOrders(CartUtils.createDummyCartList())
+                .shopOrders(CartUtils.createDummyCartList())
                 .build();
     }
 
@@ -54,7 +54,7 @@ public class UserUtils {
                 .lastName("First")
                 .fullName("Someone First")
                 .address(AddressUtils.createAddress())
-                .archivedShopOrders(CartUtils.createDummyCartList())
+                .shopOrders(CartUtils.createDummyCartList())
                 .build();
     }
 

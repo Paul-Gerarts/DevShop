@@ -8,21 +8,21 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class CartServiceImpl implements CartService {
+public class ShopOrderServiceImpl implements ShopOrderService {
 
     private final UserServiceImpl userService;
 
     @Autowired
-    public CartServiceImpl(
+    public ShopOrderServiceImpl(
             UserServiceImpl userService
     ) {
         this.userService = userService;
     }
 
     @Override
-    public ShopOrder saveCartToArchivedCarts(ShopOrder shopOrder, String email) {
+    public ShopOrder saveShopOrder(ShopOrder shopOrder, String email) {
         User user = userService.getUserByEmail(email);
-        user.getArchivedShopOrders().add(shopOrder);
+        user.getShopOrders().add(shopOrder);
         userService.save(user);
         return shopOrder;
     }

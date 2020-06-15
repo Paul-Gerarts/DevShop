@@ -23,11 +23,10 @@ public class ShopOrderFactoryTest {
         OrderContent dummyOrderContent = OrderContent.builder().count(2).product(dummyProduct).build();
 
         // when
-        ShopOrder resultShopOrder = shopOrderFactory.of(List.of(dummyProduct), isFinalized, isPaid, List.of(dummyOrderContent));
+        ShopOrder resultShopOrder = shopOrderFactory.of(isFinalized, isPaid, List.of(dummyOrderContent));
 
         // then
         assertThat(resultShopOrder.getClass()).isEqualTo(ShopOrder.class);
-        //assertThat(resultShopOrder.getProducts()).isEqualTo(List.of(dummyProduct));
         assertThat(resultShopOrder.isFinalizedShopOrder()).isEqualTo(isFinalized);
         assertThat(resultShopOrder.isPaidShopOrder()).isEqualTo(isPaid);
         assertThat(resultShopOrder.getOrderContents().get(0)).isEqualTo(dummyOrderContent);

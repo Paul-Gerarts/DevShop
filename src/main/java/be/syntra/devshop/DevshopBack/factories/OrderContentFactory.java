@@ -22,10 +22,13 @@ public class OrderContentFactory {
 
     public OrderContent of() {
         List<Product> productList = productRepository.findAll();
-        int productListLength = productList.size();
         return OrderContent.builder()
-                .product(productList.get(new Random().nextInt(productListLength)))
-                .count(new Random().nextInt(20) + 1)
+                .product(productList.get(getNextRandomInt(productList.size())))
+                .count(getNextRandomInt(20) + 1)
                 .build();
+    }
+
+    private int getNextRandomInt(int upperBound) {
+        return new Random().nextInt(upperBound);
     }
 }

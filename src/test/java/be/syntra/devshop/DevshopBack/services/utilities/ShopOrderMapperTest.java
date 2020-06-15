@@ -1,6 +1,5 @@
 package be.syntra.devshop.DevshopBack.services.utilities;
 
-import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.entities.ShopOrder;
 import be.syntra.devshop.DevshopBack.models.CartDto;
 import be.syntra.devshop.DevshopBack.models.ProductDto;
@@ -12,7 +11,6 @@ import org.mockito.Mock;
 
 import java.util.List;
 
-import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.createDummyNonArchivedProductList;
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.createDummyProductDtoList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.any;
@@ -23,7 +21,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class ShopOrderMapperTest {
 
     @InjectMocks
-    private CartMapper cartMapper;
+    private ShopOrderMapper shopOrderMapper;
 
     @Mock
     private ProductMapper productMapper;
@@ -43,7 +41,7 @@ public class ShopOrderMapperTest {
         when(productMapper.convertToProductDtoList(any())).thenReturn(dummyProductDtoList);
 
         // when
-        ShopOrder mappedShopOrder = cartMapper.convertToCart(cartDto);
+        ShopOrder mappedShopOrder = shopOrderMapper.convertToShopOrder(cartDto);
 
         // then
         assertEquals(mappedShopOrder.getClass(), ShopOrder.class);
@@ -51,18 +49,17 @@ public class ShopOrderMapperTest {
         assertEquals(mappedShopOrder.getShopOrderCreationDateTime().getHour(), shopOrder.getShopOrderCreationDateTime().getHour());
         assertEquals(mappedShopOrder.getShopOrderCreationDateTime().getMinute(), shopOrder.getShopOrderCreationDateTime().getMinute());
         assertEquals(mappedShopOrder.toString(), shopOrder.toString());
-        assertFalse(mappedShopOrder.isFinalizedShopOrder() && cartDto.isFinalizedCart());
-        assertFalse(mappedShopOrder.isPaidShopOrder() && cartDto.isPaidCart());
+        assertEquals(mappedShopOrder.isFinalizedShopOrder(), cartDto.isFinalizedCart());
+        assertEquals(mappedShopOrder.isPaidShopOrder(), cartDto.isPaidCart());
     }
 
     @Test
     void convertToCartList() {
         // given
         List<CartDto> dummyCartDtoList = CartUtils.createDummyCartDtoList();
-        List<Product> dummyProductList = createDummyNonArchivedProductList();
 
         // when
-        List<ShopOrder> mappedToShopOrderList = cartMapper.convertToCartList(dummyCartDtoList);
+        List<ShopOrder> mappedToShopOrderList = shopOrderMapper.convertToCartList(dummyCartDtoList);
 
         // then
         assertEquals(mappedToShopOrderList.get(0).getClass(), ShopOrder.class);

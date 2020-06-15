@@ -86,7 +86,7 @@ public class UserServiceTest {
         assertThat(registeredUser.getFirstName()).isEqualTo(dummyUser.getFirstName());
         assertThat(registeredUser.getLastName()).isEqualTo(dummyUser.getLastName());
         assertThat(registeredUser.getFullName()).isEqualTo(dummyUser.getFullName());
-        assertThat(registeredUser.getArchivedShopOrders()).isEqualTo(dummyUser.getArchivedShopOrders());
+        assertThat(registeredUser.getShopOrders()).isEqualTo(dummyUser.getShopOrders());
         assertThat(registeredUser.getAddress()).isEqualTo(dummyUser.getAddress());
         assertAllGettersCalled(registeredUser);
         verify(userRepository, times(1)).save(any());

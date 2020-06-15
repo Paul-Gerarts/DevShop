@@ -18,7 +18,7 @@ import java.util.Random;
 import java.util.Set;
 
 import static be.syntra.devshop.DevshopBack.testutilities.CategoryUtils.createCategoryList;
-import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRatingList;
+import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRatingSet;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -65,7 +65,7 @@ public class ProductFactoryTest {
         // given
         int amountOfProductsToGenerate = new Random().nextInt(100);
         List<Category> categories = createCategoryList();
-        Set<StarRating> ratings = createRatingList();
+        Set<StarRating> ratings = createRatingSet();
         when(categoryService.findAll()).thenReturn(categories);
         when(ratingService.findAll()).thenReturn(ratings);
 

@@ -49,7 +49,7 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "shoporder_id", referencedColumnName = "shoporder_id")},
             foreignKey = @ForeignKey(name = "shoporder_fk"))
-    private List<ShopOrder> archivedShopOrders;
+    private List<ShopOrder> shopOrders;
 
     @Override
     public String toString() {

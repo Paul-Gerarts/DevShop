@@ -13,39 +13,39 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toUnmodifiableList;
 
 @Component
-public class CartMapper {
+public class ShopOrderMapper {
     private final ProductMapper productMapper;
 
     @Autowired
-    public CartMapper(ProductMapper productMapper) {
+    public ShopOrderMapper(ProductMapper productMapper) {
         this.productMapper = productMapper;
     }
 
-    public ShopOrder convertToCart(CartDto cartDto) {
+    public ShopOrder convertToShopOrder(CartDto cartDto) {
         return ShopOrder.builder()
                 .shopOrderCreationDateTime(cartDto.getCartCreationDateTime())
                 .finalizedShopOrder(cartDto.isFinalizedCart())
                 .paidShopOrder(cartDto.isPaidCart())
-                .orderContents(convertToCartContentList(cartDto.getCartProductDtoList()))
+                .orderContents(convertToOrderContentList(cartDto.getCartProductDtoList()))
                 .build();
     }
 
-    private List<OrderContent> convertToCartContentList(List<CartProductDto> cartProductDtoList) {
+    private List<OrderContent> convertToOrderContentList(List<CartProductDto> cartProductDtoList) {
         return cartProductDtoList.stream()
-                .map(this::convertToCartContent)
+                .map(this::convertToOrderContent)
                 .collect(Collectors.toList());
     }
 
-    private OrderContent convertToCartContent(CartProductDto cartProductDto) {
+    private OrderContent convertToOrderContent(CartProductDto cartProductDto) {
         return OrderContent.builder()
                 .product(productMapper.convertToProduct(cartProductDto.getProductDto()))
                 .count(cartProductDto.getCount())
                 .build();
     }
 
-    List<ShopOrder> convertToCartList(List<CartDto> cartDtoList) {
+    public List<ShopOrder> convertToCartList(List<CartDto> cartDtoList) {
         return cartDtoList.stream()
-                .map(this::convertToCart)
+                .map(this::convertToShopOrder)
                 .collect(toUnmodifiableList());
     }
 }

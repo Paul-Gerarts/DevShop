@@ -29,7 +29,7 @@ import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.*;
 import static be.syntra.devshop.DevshopBack.testutilities.ReviewUtils.*;
 import static be.syntra.devshop.DevshopBack.testutilities.SearchModelUtils.getDummySearchModel;
 import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRating;
-import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRatingList;
+import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRatingSet;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -199,7 +199,7 @@ class ProductServiceTest {
     @Test
     void canFindAverageRatingScoreForProductTest() {
         // given
-        Set<StarRating> ratings = createRatingList();
+        Set<StarRating> ratings = createRatingSet();
         when(productRepository.getProductRating(1L)).thenReturn(Optional.of(3D));
 
         // when
@@ -220,7 +220,7 @@ class ProductServiceTest {
     void canSubmitRatingWithOnlyUniqueUserNameTest(String userName) {
         // given
         Product product = createNonArchivedProduct();
-        Set<StarRating> ratings = createRatingList();
+        Set<StarRating> ratings = createRatingSet();
         product.setRatings(ratings);
         StarRating rating = createRating();
         rating.setUserName(userName);
@@ -245,7 +245,7 @@ class ProductServiceTest {
     @Test
     void canFindRatingsForProductTest() {
         // given
-        Set<StarRating> ratings = createRatingList();
+        Set<StarRating> ratings = createRatingSet();
         when(productRepository.findAllStarRatingFromProduct(1L)).thenReturn(ratings);
 
         // when

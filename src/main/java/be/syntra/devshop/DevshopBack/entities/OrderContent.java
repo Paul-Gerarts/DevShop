@@ -19,8 +19,7 @@ public class OrderContent {
     @Column(name = "ordercontent_id")
     private Long id;
 
-    @OneToOne(
-            fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "product_id",
             foreignKey = @ForeignKey(name = "ordercontent_product_id"))

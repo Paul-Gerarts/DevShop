@@ -3,7 +3,7 @@ package be.syntra.devshop.DevshopBack.services;
 import be.syntra.devshop.DevshopBack.entities.ShopOrder;
 
 
-public interface CartService {
+public interface ShopOrderService {
 
-    ShopOrder saveCartToArchivedCarts(ShopOrder shopOrder, String name);
+    ShopOrder saveShopOrder(ShopOrder shopOrder, String email);
 }

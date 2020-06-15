@@ -36,7 +36,7 @@ public class DataFillerServiceImpl {
     private final SecurityUserRepository securityUserRepository;
     private final CategoryRepository categoryRepository;
     private final StarRatingRepository ratingRepository;
-    private final CartRepository cartRepository;
+    private final ShopOrderRepository shopOrderRepository;
     private final UserRoleFactory userRoleFactory;
     private final UserFactory userFactory;
     private final SecurityUserFactory securityUserFactory;
@@ -56,7 +56,7 @@ public class DataFillerServiceImpl {
                                  SecurityUserFactory securityUserFactory,
                                  CategoryRepository categoryRepository,
                                  StarRatingRepository ratingRepository,
-                                 CartRepository cartRepository,
+                                 ShopOrderRepository shopOrderRepository,
                                  ShopOrderFactory shopOrderFactory,
                                  OrderContentFactory orderContentFactory
 
@@ -72,7 +72,7 @@ public class DataFillerServiceImpl {
         this.securityUserFactory = securityUserFactory;
         this.categoryRepository = categoryRepository;
         this.ratingRepository = ratingRepository;
-        this.cartRepository = cartRepository;
+        this.shopOrderRepository = shopOrderRepository;
         this.shopOrderFactory = shopOrderFactory;
         this.orderContentFactory = orderContentFactory;
     }
@@ -186,29 +186,20 @@ public class DataFillerServiceImpl {
             ));
         }
 
-        if (cartRepository.count() == 0) {
-            userRepository.findAll().forEach(this::setArchivedCartsAndSave);
-            userRepository.flush();
+        if (shopOrderRepository.count() == 0) {
+            userRepository.findAll().forEach(this::setArchivedShopOrderAndSave);
         }
     }
 
-    private void setArchivedCartsAndSave(User user) {
-        user.setArchivedShopOrders(List.of(createCart()));
+    private void setArchivedShopOrderAndSave(User user) {
+        user.setShopOrders(List.of(createShopOrder()));
     }
 
-    private ShopOrder createCart() {
-        return shopOrderFactory.of(getListOfRandomProducts(), true, true, getCartContent());
+    private ShopOrder createShopOrder() {
+        return shopOrderFactory.of(true, true, getShopOrderContent());
     }
 
-    private List<Product> getListOfRandomProducts() {
-        List<Product> products = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            products.add(productRepository.findAll().get(new Random().nextInt(productRepository.findAll().size())));
-        }
-        return products;
-    }
-
-    private List<OrderContent> getCartContent() {
+    private List<OrderContent> getShopOrderContent() {
         List<OrderContent> orderContentList = new ArrayList<>();
         for (int i = 0; i < new Random().nextInt(10) + 1; i++) {
             orderContentList.add(orderContentFactory.of());

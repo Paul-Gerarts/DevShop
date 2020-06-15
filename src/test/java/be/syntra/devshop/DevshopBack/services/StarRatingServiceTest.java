@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.createNonArchivedProduct;
 import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRating;
-import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRatingList;
+import static be.syntra.devshop.DevshopBack.testutilities.StarRatingUtils.createRatingSet;
 import static java.util.Optional.of;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -35,7 +35,7 @@ public class StarRatingServiceTest {
     @Test
     void canFindAllStarRatingsTest() {
         // given
-        Set<StarRating> ratings = createRatingList();
+        Set<StarRating> ratings = createRatingSet();
         when(ratingRepository.findAll()).thenReturn(ratings.stream().collect(Collectors.toUnmodifiableList()));
 
         // when
