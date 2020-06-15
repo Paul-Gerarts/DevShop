@@ -22,6 +22,7 @@ public class SearchModel {
     private boolean nameSortActive;
     private boolean priceSortActive;
     private boolean archivedView;
+    private boolean archivedSearchSwitch;
     private boolean searchResultView;
     private boolean searchFailure;
     private boolean activeFilters;

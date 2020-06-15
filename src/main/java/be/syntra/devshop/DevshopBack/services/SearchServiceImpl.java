@@ -31,7 +31,7 @@ public class SearchServiceImpl implements SearchService {
     @Override
     public ProductPage applySearchModel(SearchModel searchModel) {
         log.info("searchModel -> {}", searchModel);
-        final boolean archived = searchModel.isArchivedView();
+        final boolean archived = searchModel.isArchivedView() || searchModel.isArchivedSearchSwitch();
         final Pageable pageable = getSortingPageable(setDefaultPaginationValues(searchModel));
         final BigDecimal minPrice = getMinPrice(searchModel);
         final BigDecimal maxPrice = getMaxPrice(searchModel, archived);
