@@ -23,7 +23,7 @@ public class CartUtils {
                 .orderContents(
                         products.stream()
                                 .map(CartUtils::createOrderContentFromProduct)
-                                .collect(Collectors.toList()))
+                                .collect(Collectors.toSet()))
                 .shopOrderCreationDateTime(LocalDateTime.now())
                 .finalizedShopOrder(false)
                 .paidShopOrder(false)
@@ -34,13 +34,13 @@ public class CartUtils {
         List<Product> products = createDummyNonArchivedProductList();
         return CartDto.builder()
                 .user("Someone")
-                .cartProductDtoList(
+                .cartProductDtoSet(
                         products.stream()
                                 .map(product -> CartProductDto.builder()
                                         .productDto(createProductDto())
                                         .count(1)
                                         .build())
-                                .collect(Collectors.toList()))
+                                .collect(Collectors.toSet()))
                 .cartCreationDateTime(LocalDateTime.now())
                 .finalizedCart(false)
                 .paidCart(false)
@@ -55,7 +55,7 @@ public class CartUtils {
                 .orderContents(
                         createDummyNonArchivedProductList().stream()
                                 .map(CartUtils::createOrderContentFromProduct)
-                                .collect(Collectors.toList()))
+                                .collect(Collectors.toSet()))
                 .finalizedShopOrder(true)
                 .paidShopOrder(true)
                 .build();
@@ -69,13 +69,13 @@ public class CartUtils {
         CartDto cart1 = createCartDto();
         CartDto cart2 = CartDto.builder()
                 .cartCreationDateTime(LocalDateTime.now())
-                .cartProductDtoList(
+                .cartProductDtoSet(
                         createDummyNonArchivedProductList().stream()
                                 .map(product -> CartProductDto.builder()
                                         .productDto(createProductDto())
                                         .count(1)
                                         .build())
-                                .collect(Collectors.toList()))
+                                .collect(Collectors.toSet()))
                 .finalizedCart(true)
                 .paidCart(true)
                 .build();

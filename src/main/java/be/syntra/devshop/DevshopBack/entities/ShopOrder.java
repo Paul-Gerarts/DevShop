@@ -6,7 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "shoporder")
@@ -43,7 +43,7 @@ public class ShopOrder {
             joinColumns = {@JoinColumn(name = "shoporder_id", referencedColumnName = "shoporder_id")},
             inverseJoinColumns = {@JoinColumn(name = "ordercontent_id", referencedColumnName = "ordercontent_id")},
             foreignKey = @ForeignKey(name = "shoporder_ordercontent_fk"))
-    private List<OrderContent> orderContents;
+    private Set<OrderContent> orderContents;
 
     @Override
     public String toString() {

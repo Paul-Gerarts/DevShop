@@ -84,10 +84,10 @@ public class ShopOrderControllerTest {
         resultActions
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$.cartProductDtoList[0].productDto.name").value(cartDto.getCartProductDtoList().get(0).getProductDto().getName()))
-                .andExpect(jsonPath("$.cartProductDtoList[0].productDto.price").value(cartDto.getCartProductDtoList().get(0).getProductDto().getPrice()))
-                .andExpect(jsonPath("$.cartProductDtoList[1].productDto.name").value(cartDto.getCartProductDtoList().get(1).getProductDto().getName()))
-                .andExpect(jsonPath("$.cartProductDtoList[1].productDto.price").value(cartDto.getCartProductDtoList().get(1).getProductDto().getPrice()))
+                .andExpect(jsonPath("$.cartProductDtoSet[0].productDto.name").value(cartDto.getCartProductDtoSet().iterator().next().getProductDto().getName()))
+                .andExpect(jsonPath("$.cartProductDtoSet[0].productDto.price").value(cartDto.getCartProductDtoSet().iterator().next().getProductDto().getPrice()))
+                .andExpect(jsonPath("$.cartProductDtoSet[1].productDto.name").value(cartDto.getCartProductDtoSet().iterator().next().getProductDto().getName()))
+                .andExpect(jsonPath("$.cartProductDtoSet[1].productDto.price").value(cartDto.getCartProductDtoSet().iterator().next().getProductDto().getPrice()))
                 .andExpect(jsonPath("$.finalizedCart").value(cartDto.isFinalizedCart()))
                 .andExpect(jsonPath("$.paidCart").value(cartDto.isPaidCart()));
 

@@ -36,6 +36,6 @@ class ShopOrderFactoryTest {
         assertThat(resultShopOrder.getClass()).isEqualTo(ShopOrder.class);
         assertThat(resultShopOrder.isFinalizedShopOrder()).isEqualTo(true);
         assertThat(resultShopOrder.isPaidShopOrder()).isEqualTo(true);
-        assertThat(resultShopOrder.getOrderContents().get(0)).isEqualTo(dummyOrderContent);
+        assertThat(resultShopOrder.getOrderContents().iterator().next()).isEqualTo(dummyOrderContent);
     }
 }

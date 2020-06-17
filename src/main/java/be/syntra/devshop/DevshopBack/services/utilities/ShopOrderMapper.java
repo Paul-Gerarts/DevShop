@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toUnmodifiableList;
@@ -26,14 +27,14 @@ public class ShopOrderMapper {
                 .shopOrderCreationDateTime(cartDto.getCartCreationDateTime())
                 .finalizedShopOrder(cartDto.isFinalizedCart())
                 .paidShopOrder(cartDto.isPaidCart())
-                .orderContents(convertToOrderContentList(cartDto.getCartProductDtoList()))
+                .orderContents(convertToOrderContentList(cartDto.getCartProductDtoSet()))
                 .build();
     }
 
-    private List<OrderContent> convertToOrderContentList(List<CartProductDto> cartProductDtoList) {
+    private Set<OrderContent> convertToOrderContentList(Set<CartProductDto> cartProductDtoList) {
         return cartProductDtoList.stream()
                 .map(this::convertToOrderContent)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     private OrderContent convertToOrderContent(CartProductDto cartProductDto) {

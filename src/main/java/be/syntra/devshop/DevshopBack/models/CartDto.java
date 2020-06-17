@@ -4,7 +4,7 @@ package be.syntra.devshop.DevshopBack.models;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -17,5 +17,5 @@ public class CartDto {
     private LocalDateTime cartCreationDateTime;
     private boolean finalizedCart;
     private boolean paidCart;
-    private List<CartProductDto> cartProductDtoList;
+    private Set<CartProductDto> cartProductDtoSet;
 }

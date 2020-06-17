@@ -44,12 +44,10 @@ public class ShopOrderServiceTest {
         // then
         assertEquals(dummyShopOrder.getShopOrderCreationDateTime(), resultShopOrder.getShopOrderCreationDateTime());
 
-        assertEquals(dummyShopOrder.getOrderContents().get(0).getProduct().getName(), resultShopOrder.getOrderContents().get(0).getProduct().getName());
-        assertEquals(dummyShopOrder.getOrderContents().get(0).getProduct().getPrice(), resultShopOrder.getOrderContents().get(0).getProduct().getPrice());
-        assertEquals(dummyShopOrder.getOrderContents().get(1).getProduct().getName(), resultShopOrder.getOrderContents().get(1).getProduct().getName());
-        assertEquals(dummyShopOrder.getOrderContents().get(1).getProduct().getPrice(), resultShopOrder.getOrderContents().get(1).getProduct().getPrice());
-        assertEquals(dummyUser.getShopOrders().get(2).getOrderContents().get(0).getProduct().getName(), dummyShopOrder.getOrderContents().get(0).getProduct().getName());
-        assertEquals(dummyUser.getShopOrders().get(2).getOrderContents().get(0).getProduct().getPrice(), dummyShopOrder.getOrderContents().get(0).getProduct().getPrice());
+        assertEquals(dummyShopOrder.getOrderContents().iterator().next().getProduct().getName(), resultShopOrder.getOrderContents().iterator().next().getProduct().getName());
+        assertEquals(dummyShopOrder.getOrderContents().iterator().next().getProduct().getPrice(), resultShopOrder.getOrderContents().iterator().next().getProduct().getPrice());
+        assertEquals(dummyUser.getShopOrders().get(2).getOrderContents().iterator().next().getProduct().getName(), dummyShopOrder.getOrderContents().iterator().next().getProduct().getName());
+        assertEquals(dummyUser.getShopOrders().get(2).getOrderContents().iterator().next().getProduct().getPrice(), dummyShopOrder.getOrderContents().iterator().next().getProduct().getPrice());
 
         verify(userService, times(1)).getUserByEmail(dummyUser.getEmail());
         verify(userService, times(1)).save(any());

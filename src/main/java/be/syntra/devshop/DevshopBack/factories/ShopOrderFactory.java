@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 @Component
 public class ShopOrderFactory {
@@ -29,12 +29,12 @@ public class ShopOrderFactory {
                 .build();
     }
 
-    private List<OrderContent> getShopOrderContentList() {
-        List<OrderContent> orderContentList = new ArrayList<>();
+    private Set<OrderContent> getShopOrderContentList() {
+        Set<OrderContent> orderContentSet = new HashSet<>();
         for (int i = 0; i < new Random().nextInt(10) + 1; i++) {
-            orderContentList.add(orderContentFactory.of());
+            orderContentSet.add(orderContentFactory.of());
         }
-        return orderContentList;
+        return orderContentSet;
     }
 
 }
