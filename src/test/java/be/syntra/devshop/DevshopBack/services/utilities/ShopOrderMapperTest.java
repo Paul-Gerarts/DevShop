@@ -12,7 +12,7 @@ import org.mockito.Mock;
 import java.util.List;
 
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.createDummyProductDtoList;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -66,9 +66,9 @@ public class ShopOrderMapperTest {
         assertEquals(dummyCartDtoList.size(), mappedToShopOrderList.size());
         assertEquals(mappedToShopOrderList.get(0).getShopOrderCreationDateTime(), dummyCartDtoList.get(0).getCartCreationDateTime());
         assertEquals(mappedToShopOrderList.get(1).getShopOrderCreationDateTime(), dummyCartDtoList.get(1).getCartCreationDateTime());
-        assertFalse(mappedToShopOrderList.get(0).isFinalizedShopOrder() && dummyCartDtoList.get(0).isFinalizedCart());
-        assertTrue(mappedToShopOrderList.get(1).isFinalizedShopOrder() && dummyCartDtoList.get(1).isFinalizedCart());
-        assertFalse(mappedToShopOrderList.get(0).isPaidShopOrder() && dummyCartDtoList.get(0).isPaidCart());
-        assertTrue(mappedToShopOrderList.get(1).isPaidShopOrder() && dummyCartDtoList.get(1).isPaidCart());
+        assertEquals(mappedToShopOrderList.get(0).isFinalizedShopOrder(), dummyCartDtoList.get(0).isFinalizedCart());
+        assertEquals(mappedToShopOrderList.get(1).isFinalizedShopOrder(), dummyCartDtoList.get(1).isFinalizedCart());
+        assertEquals(mappedToShopOrderList.get(0).isPaidShopOrder(), dummyCartDtoList.get(0).isPaidCart());
+        assertEquals(mappedToShopOrderList.get(1).isPaidShopOrder(), dummyCartDtoList.get(1).isPaidCart());
     }
 }

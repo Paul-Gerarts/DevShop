@@ -1,6 +1,9 @@
 package be.syntra.devshop.DevshopBack.services;
 
-import be.syntra.devshop.DevshopBack.entities.*;
+import be.syntra.devshop.DevshopBack.entities.Category;
+import be.syntra.devshop.DevshopBack.entities.Product;
+import be.syntra.devshop.DevshopBack.entities.StarRating;
+import be.syntra.devshop.DevshopBack.entities.User;
 import be.syntra.devshop.DevshopBack.factories.*;
 import be.syntra.devshop.DevshopBack.repositories.*;
 import be.syntra.devshop.DevshopBack.security.entities.UserRole;
@@ -13,10 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import static be.syntra.devshop.DevshopBack.security.entities.UserRoles.ROLE_ADMIN;
 import static be.syntra.devshop.DevshopBack.security.entities.UserRoles.ROLE_USER;
@@ -192,19 +193,7 @@ public class DataFillerServiceImpl {
     }
 
     private void setArchivedShopOrderAndSave(User user) {
-        user.setShopOrders(List.of(createShopOrder()));
-    }
-
-    private ShopOrder createShopOrder() {
-        return shopOrderFactory.of(true, true, getShopOrderContent());
-    }
-
-    private List<OrderContent> getShopOrderContent() {
-        List<OrderContent> orderContentList = new ArrayList<>();
-        for (int i = 0; i < new Random().nextInt(10) + 1; i++) {
-            orderContentList.add(orderContentFactory.of());
-        }
-        return orderContentList;
+        user.setShopOrders(List.of(shopOrderFactory.of()));
     }
 
     private List<Product> getTestProducts() {

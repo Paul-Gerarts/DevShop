@@ -4,31 +4,38 @@ import be.syntra.devshop.DevshopBack.entities.OrderContent;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.entities.ShopOrder;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.createNonArchivedProduct;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
-public class ShopOrderFactoryTest {
+@ExtendWith(MockitoExtension.class)
+class ShopOrderFactoryTest {
 
-    private final ShopOrderFactory shopOrderFactory = new ShopOrderFactory();
+    @InjectMocks
+    ShopOrderFactory shopOrderFactory;
+
+    @Mock
+    OrderContentFactory orderContentFactory;
 
     @Test
     void canCreateCartTest() {
         // given
         Product dummyProduct = createNonArchivedProduct();
-        boolean isFinalized = false;
-        boolean isPaid = false;
         OrderContent dummyOrderContent = OrderContent.builder().count(2).product(dummyProduct).build();
+        when(orderContentFactory.of()).thenReturn(dummyOrderContent);
 
         // when
-        ShopOrder resultShopOrder = shopOrderFactory.of(isFinalized, isPaid, List.of(dummyOrderContent));
+        ShopOrder resultShopOrder = shopOrderFactory.of();
 
         // then
         assertThat(resultShopOrder.getClass()).isEqualTo(ShopOrder.class);
-        assertThat(resultShopOrder.isFinalizedShopOrder()).isEqualTo(isFinalized);
-        assertThat(resultShopOrder.isPaidShopOrder()).isEqualTo(isPaid);
+        assertThat(resultShopOrder.isFinalizedShopOrder()).isEqualTo(true);
+        assertThat(resultShopOrder.isPaidShopOrder()).isEqualTo(true);
         assertThat(resultShopOrder.getOrderContents().get(0)).isEqualTo(dummyOrderContent);
     }
 }
