@@ -1,6 +1,6 @@
 package be.syntra.devshop.DevshopBack.controllers;
 
-import be.syntra.devshop.DevshopBack.entities.Cart;
+import be.syntra.devshop.DevshopBack.entities.ShopOrder;
 import be.syntra.devshop.DevshopBack.factories.SecurityUserFactory;
 import be.syntra.devshop.DevshopBack.models.CartDto;
 import be.syntra.devshop.DevshopBack.security.configuration.CorsConfiguration;
@@ -11,8 +11,8 @@ import be.syntra.devshop.DevshopBack.security.jwt.JWTAccessDeniedHandler;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTAuthenticationEntryPoint;
 import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
 import be.syntra.devshop.DevshopBack.security.services.SecurityUserService;
-import be.syntra.devshop.DevshopBack.services.CartService;
-import be.syntra.devshop.DevshopBack.services.utilities.CartMapper;
+import be.syntra.devshop.DevshopBack.services.ShopOrderService;
+import be.syntra.devshop.DevshopBack.services.utilities.ShopOrderMapper;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Import({JsonUtils.class, WebSecurityConfig.class, CorsConfiguration.class, JWTTokenProvider.class, JWTAuthenticationEntryPoint.class, JWTAccessDeniedHandler.class})
 @WebMvcTest(CartController.class)
-public class CartControllerTest {
+public class ShopOrderControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -54,10 +54,10 @@ public class CartControllerTest {
     private SecurityUserFactory securityUserFactory;
 
     @MockBean
-    private CartService cartService;
+    private ShopOrderService shopOrderService;
 
     @MockBean
-    private CartMapper cartMapper;
+    private ShopOrderMapper shopOrderMapper;
 
     @MockBean
     private SecurityUserService securityUserService;
@@ -69,9 +69,9 @@ public class CartControllerTest {
         SecurityUser frontendAuthentication = securityUserFactory.of(userName, password, List.of(UserRole.builder().name(ROLE_ADMIN.name()).build()));
         when(securityUserService.findByUserName(userName)).thenReturn(frontendAuthentication);
         CartDto cartDto = createCartDto();
-        Cart cart = cartMapper.convertToCart(cartDto);
-        when(cartService.saveCartToArchivedCarts(cart, cartDto.getUser())).thenReturn(cart);
-        when(cartMapper.convertToCart(cartDto)).thenReturn(cart);
+        ShopOrder shopOrder = shopOrderMapper.convertToShopOrder(cartDto);
+        when(shopOrderService.saveShopOrder(shopOrder, cartDto.getUser())).thenReturn(shopOrder);
+        when(shopOrderMapper.convertToShopOrder(cartDto)).thenReturn(shopOrder);
         // when
         ResultActions resultActions =
                 mockMvc.perform(
@@ -84,13 +84,13 @@ public class CartControllerTest {
         resultActions
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$.products[0].name").value(cartDto.getProducts().get(0).getName()))
-                .andExpect(jsonPath("$.products[0].price").value(cartDto.getProducts().get(0).getPrice()))
-                .andExpect(jsonPath("$.products[1].name").value(cartDto.getProducts().get(1).getName()))
-                .andExpect(jsonPath("$.products[1].price").value(cartDto.getProducts().get(1).getPrice()))
+                .andExpect(jsonPath("$.cartProductDtoSet[0].productDto.name").value(cartDto.getCartProductDtoSet().iterator().next().getProductDto().getName()))
+                .andExpect(jsonPath("$.cartProductDtoSet[0].productDto.price").value(cartDto.getCartProductDtoSet().iterator().next().getProductDto().getPrice()))
+                .andExpect(jsonPath("$.cartProductDtoSet[1].productDto.name").value(cartDto.getCartProductDtoSet().iterator().next().getProductDto().getName()))
+                .andExpect(jsonPath("$.cartProductDtoSet[1].productDto.price").value(cartDto.getCartProductDtoSet().iterator().next().getProductDto().getPrice()))
                 .andExpect(jsonPath("$.finalizedCart").value(cartDto.isFinalizedCart()))
                 .andExpect(jsonPath("$.paidCart").value(cartDto.isPaidCart()));
 
-        verify(cartService, times(1)).saveCartToArchivedCarts(any(), anyString());
+        verify(shopOrderService, times(1)).saveShopOrder(any(), anyString());
     }
 }

@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class StarRatingUtils {
 
-    public static Set<StarRating> createRatingList() {
+    public static Set<StarRating> createRatingSet() {
         return Set.of(
                 createRating(),
                 StarRating.builder()

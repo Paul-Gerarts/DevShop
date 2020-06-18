@@ -339,7 +339,7 @@ class ProductControllerTest {
     void canSubmitRatingTest() throws Exception {
         // given
         Product dummyProduct = createNonArchivedProduct();
-        Set<StarRating> ratings = createRatingList();
+        Set<StarRating> ratings = createRatingSet();
         StarRating rating = createRating();
         StarRatingDto starRatingDto = createRatingDto();
         dummyProduct.setRatings(ratings);
@@ -366,7 +366,7 @@ class ProductControllerTest {
     void canGetRatingsFromProductTest() throws Exception {
         // given
         final Product dummyProduct = createNonArchivedProduct();
-        final Set<StarRating> ratings = createRatingList();
+        final Set<StarRating> ratings = createRatingSet();
         final StarRatingSet ratingsDto = new StarRatingSet(ratings);
         when(productService.getAllRatingsFromProduct(dummyProduct.getId())).thenReturn(ratings);
         when(starRatingMapper.mapToStarRatingSet(ratings)).thenReturn(ratingsDto);

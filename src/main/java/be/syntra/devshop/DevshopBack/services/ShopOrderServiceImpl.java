@@ -1,30 +1,30 @@
 package be.syntra.devshop.DevshopBack.services;
 
 
-import be.syntra.devshop.DevshopBack.entities.Cart;
+import be.syntra.devshop.DevshopBack.entities.ShopOrder;
 import be.syntra.devshop.DevshopBack.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class CartServiceImpl implements CartService {
+public class ShopOrderServiceImpl implements ShopOrderService {
 
     private final UserServiceImpl userService;
 
     @Autowired
-    public CartServiceImpl(
+    public ShopOrderServiceImpl(
             UserServiceImpl userService
     ) {
         this.userService = userService;
     }
 
     @Override
-    public Cart saveCartToArchivedCarts(Cart cart, String email) {
+    public ShopOrder saveShopOrder(ShopOrder shopOrder, String email) {
         User user = userService.getUserByEmail(email);
-        user.getArchivedCarts().add(cart);
+        user.getShopOrders().add(shopOrder);
         userService.save(user);
-        return cart;
+        return shopOrder;
     }
 
 }

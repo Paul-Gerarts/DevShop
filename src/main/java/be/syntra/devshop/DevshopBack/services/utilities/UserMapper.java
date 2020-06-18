@@ -14,17 +14,7 @@ public class UserMapper {
     private AddressMapper addressMapper;
 
     @Autowired
-    private CartMapper cartMapper;
-
-    public UserDto convertToUserDto(User user) {
-        return UserDto.builder()
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .fullName(capitalizeFully(user.getFullName(), ' ', '-'))
-                .address(addressMapper.convertToAddressDto(user.getAddress()))
-                .archivedCarts(cartMapper.convertToCartDtoList(user.getArchivedCarts()))
-                .build();
-    }
+    private ShopOrderMapper shopOrderMapper;
 
     public User convertToUser(UserDto userDto) {
         return User.builder()
@@ -32,7 +22,7 @@ public class UserMapper {
                 .lastName(userDto.getLastName())
                 .fullName(capitalizeFully(userDto.getFullName(), ' ', '-'))
                 .address(addressMapper.convertToAddress(userDto.getAddress()))
-                .archivedCarts(cartMapper.convertToCartList(userDto.getArchivedCarts()))
+                .shopOrders(shopOrderMapper.convertToCartList(userDto.getArchivedCarts()))
                 .build();
     }
 

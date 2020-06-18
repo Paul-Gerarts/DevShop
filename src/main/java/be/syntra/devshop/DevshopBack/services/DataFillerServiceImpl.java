@@ -3,14 +3,9 @@ package be.syntra.devshop.DevshopBack.services;
 import be.syntra.devshop.DevshopBack.entities.Category;
 import be.syntra.devshop.DevshopBack.entities.Product;
 import be.syntra.devshop.DevshopBack.entities.StarRating;
-import be.syntra.devshop.DevshopBack.factories.ProductFactory;
-import be.syntra.devshop.DevshopBack.factories.SecurityUserFactory;
-import be.syntra.devshop.DevshopBack.factories.UserFactory;
-import be.syntra.devshop.DevshopBack.factories.UserRoleFactory;
-import be.syntra.devshop.DevshopBack.repositories.CategoryRepository;
-import be.syntra.devshop.DevshopBack.repositories.ProductRepository;
-import be.syntra.devshop.DevshopBack.repositories.StarRatingRepository;
-import be.syntra.devshop.DevshopBack.repositories.UserRepository;
+import be.syntra.devshop.DevshopBack.entities.User;
+import be.syntra.devshop.DevshopBack.factories.*;
+import be.syntra.devshop.DevshopBack.repositories.*;
 import be.syntra.devshop.DevshopBack.security.entities.UserRole;
 import be.syntra.devshop.DevshopBack.security.repositories.SecurityUserRepository;
 import be.syntra.devshop.DevshopBack.security.repositories.UserRoleRepository;
@@ -28,7 +23,7 @@ import static be.syntra.devshop.DevshopBack.security.entities.UserRoles.ROLE_ADM
 import static be.syntra.devshop.DevshopBack.security.entities.UserRoles.ROLE_USER;
 
 @Service
-public class DataFillerImpl {
+public class DataFillerServiceImpl {
 
     @Value("${frontend.userName}")
     private String userName;
@@ -37,27 +32,35 @@ public class DataFillerImpl {
     private final ProductRepository productRepository;
     private final ProductFactory productFactory;
     private final UserRoleRepository userRoleRepository;
-    private final UserRoleFactory userRoleFactory;
     private final UserRepository userRepository;
-    private final UserFactory userFactory;
     private final UserRoleService userRoleService;
     private final SecurityUserRepository securityUserRepository;
-    private final SecurityUserFactory securityUserFactory;
     private final CategoryRepository categoryRepository;
     private final StarRatingRepository ratingRepository;
+    private final ShopOrderRepository shopOrderRepository;
+    private final UserRoleFactory userRoleFactory;
+    private final UserFactory userFactory;
+    private final SecurityUserFactory securityUserFactory;
+    private final ShopOrderFactory shopOrderFactory;
+    private final OrderContentFactory orderContentFactory;
+
 
     @Autowired
-    public DataFillerImpl(ProductRepository productRepository,
-                          ProductFactory productFactory,
-                          UserRoleRepository userRoleRepository,
-                          UserRoleFactory userRoleFactory,
-                          UserRepository userRepository,
-                          UserFactory userFactory,
-                          UserRoleService userRoleService,
-                          SecurityUserRepository securityUserRepository,
-                          SecurityUserFactory securityUserFactory,
-                          CategoryRepository categoryRepository,
-                          StarRatingRepository ratingRepository
+    public DataFillerServiceImpl(ProductRepository productRepository,
+                                 ProductFactory productFactory,
+                                 UserRoleRepository userRoleRepository,
+                                 UserRoleFactory userRoleFactory,
+                                 UserRepository userRepository,
+                                 UserFactory userFactory,
+                                 UserRoleService userRoleService,
+                                 SecurityUserRepository securityUserRepository,
+                                 SecurityUserFactory securityUserFactory,
+                                 CategoryRepository categoryRepository,
+                                 StarRatingRepository ratingRepository,
+                                 ShopOrderRepository shopOrderRepository,
+                                 ShopOrderFactory shopOrderFactory,
+                                 OrderContentFactory orderContentFactory
+
     ) {
         this.productRepository = productRepository;
         this.productFactory = productFactory;
@@ -70,6 +73,9 @@ public class DataFillerImpl {
         this.securityUserFactory = securityUserFactory;
         this.categoryRepository = categoryRepository;
         this.ratingRepository = ratingRepository;
+        this.shopOrderRepository = shopOrderRepository;
+        this.shopOrderFactory = shopOrderFactory;
+        this.orderContentFactory = orderContentFactory;
     }
 
     private UserRole retrieveAdminRole() {
@@ -180,6 +186,14 @@ public class DataFillerImpl {
                             "admin@emaill.com")
             ));
         }
+
+        if (shopOrderRepository.count() == 0) {
+            userRepository.findAll().forEach(this::setArchivedShopOrderAndSave);
+        }
+    }
+
+    private void setArchivedShopOrderAndSave(User user) {
+        user.setShopOrders(List.of(shopOrderFactory.of()));
     }
 
     private List<Product> getTestProducts() {
