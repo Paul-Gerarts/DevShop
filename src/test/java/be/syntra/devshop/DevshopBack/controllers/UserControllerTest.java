@@ -11,8 +11,8 @@ import be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider;
 import be.syntra.devshop.DevshopBack.security.services.SecurityUserService;
 import be.syntra.devshop.DevshopBack.services.UserServiceImpl;
 import be.syntra.devshop.DevshopBack.services.utilities.AddressMapper;
-import be.syntra.devshop.DevshopBack.services.utilities.CartMapper;
 import be.syntra.devshop.DevshopBack.services.utilities.ProductMapper;
+import be.syntra.devshop.DevshopBack.services.utilities.ShopOrderMapper;
 import be.syntra.devshop.DevshopBack.services.utilities.UserMapper;
 import be.syntra.devshop.DevshopBack.testutilities.JsonUtils;
 import org.junit.jupiter.api.Test;
@@ -30,6 +30,7 @@ import java.util.List;
 
 import static be.syntra.devshop.DevshopBack.testutilities.UserUtils.createUserDto;
 import static be.syntra.devshop.DevshopBack.testutilities.UserUtils.createUserList;
+import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.mockito.Mockito.*;
@@ -61,7 +62,7 @@ public class UserControllerTest {
     private AddressMapper addressMapper;
 
     @MockBean
-    private CartMapper cartMapper;
+    private ShopOrderMapper shopOrderMapper;
 
     @MockBean
     private ProductMapper productMapper;
@@ -89,8 +90,8 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.password").value(userDtoDummy.getPassword()))
                 .andExpect(jsonPath("$.address.number").value(userDtoDummy.getAddress().getNumber()))
                 .andExpect(jsonPath("$.address.postalCode").value(userDtoDummy.getAddress().getPostalCode()))
-                .andExpect(jsonPath("$.archivedCarts[0].products[0].name").value(userDtoDummy.getArchivedCarts().get(0).getProducts().get(0).getName()))
-                .andExpect(jsonPath("$.archivedCarts[0].products[0].price").value(userDtoDummy.getArchivedCarts().get(0).getProducts().get(0).getPrice()));
+                .andExpect(jsonPath("$.archivedCarts[0].cartProductDtoSet[0].productDto.name").value(userDtoDummy.getArchivedCarts().get(0).getCartProductDtoSet().iterator().next().getProductDto().getName()))
+                .andExpect(jsonPath("$.archivedCarts[0].cartProductDtoSet[0].productDto.price").value(userDtoDummy.getArchivedCarts().get(0).getCartProductDtoSet().iterator().next().getProductDto().getPrice()));
 
         verify(userService, times(1)).save(any());
     }
@@ -121,18 +122,18 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$[0].address.postalCode").value(equalTo("1234")))
                 .andExpect(jsonPath("$[0].address.city").value(equalTo("Somewhere")))
                 .andExpect(jsonPath("$[0].address.country").value(equalTo("Belgium")))
-                .andExpect(jsonPath("$[0].archivedCarts[0].products[0].name").value(equalTo("test")))
-                .andExpect(jsonPath("$[0].archivedCarts[0].products[0].price").value(equalTo(55.99)))
-                .andExpect(jsonPath("$[0].archivedCarts[0].products[1].name").value(equalTo("product")))
-                .andExpect(jsonPath("$[0].archivedCarts[0].products[1].price").value(equalTo(110)))
-                .andExpect(jsonPath("$[0].archivedCarts[0].finalizedCart").value(equalTo(false)))
-                .andExpect(jsonPath("$[0].archivedCarts[0].paidCart").value(equalTo(false)))
-                .andExpect(jsonPath("$[0].archivedCarts[1].products[0].name").value(equalTo("test")))
-                .andExpect(jsonPath("$[0].archivedCarts[1].products[0].price").value(equalTo(55.99)))
-                .andExpect(jsonPath("$[0].archivedCarts[1].products[1].name").value(equalTo("product")))
-                .andExpect(jsonPath("$[0].archivedCarts[1].products[1].price").value(equalTo(110)))
-                .andExpect(jsonPath("$[0].archivedCarts[1].finalizedCart").value(equalTo(true)))
-                .andExpect(jsonPath("$[0].archivedCarts[1].paidCart").value(equalTo(true)))
+                .andExpect(jsonPath("$[0].shopOrders[0].orderContents[0].product.name", anyOf(equalTo("test"), equalTo("product"))))
+                .andExpect(jsonPath("$[0].shopOrders[0].orderContents[0].product.price", anyOf(equalTo(55.99), equalTo(110.00))))
+                .andExpect(jsonPath("$[0].shopOrders[0].orderContents[1].product.name", anyOf(equalTo("test"), equalTo("product"))))
+                .andExpect(jsonPath("$[0].shopOrders[0].orderContents[1].product.price", anyOf(equalTo(55.99), equalTo(110.00))))
+                .andExpect(jsonPath("$[0].shopOrders[0].finalizedShopOrder").value(equalTo(false)))
+                .andExpect(jsonPath("$[0].shopOrders[0].paidShopOrder").value(equalTo(false)))
+                .andExpect(jsonPath("$[0].shopOrders[1].orderContents[0].product.name", anyOf(equalTo("test"), equalTo("product"))))
+                .andExpect(jsonPath("$[0].shopOrders[1].orderContents[0].product.price", anyOf(equalTo(55.99), equalTo(110.00))))
+                .andExpect(jsonPath("$[0].shopOrders[1].orderContents[1].product.name", anyOf(equalTo("test"), equalTo("product"))))
+                .andExpect(jsonPath("$[0].shopOrders[1].orderContents[1].product.price", anyOf(equalTo(55.99), equalTo(110.00))))
+                .andExpect(jsonPath("$[0].shopOrders[1].finalizedShopOrder").value(equalTo(true)))
+                .andExpect(jsonPath("$[0].shopOrders[1].paidShopOrder").value(equalTo(true)))
                 .andExpect(jsonPath("$[1].firstName").value(equalTo("Someone")))
                 .andExpect(jsonPath("$[1].lastName").value(equalTo("First")))
                 .andExpect(jsonPath("$[1].fullName").value(equalTo("Someone First")))
@@ -142,18 +143,18 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$[1].address.postalCode").value(equalTo("1234")))
                 .andExpect(jsonPath("$[1].address.city").value(equalTo("Somewhere")))
                 .andExpect(jsonPath("$[1].address.country").value(equalTo("Belgium")))
-                .andExpect(jsonPath("$[1].archivedCarts[0].products[0].name").value(equalTo("test")))
-                .andExpect(jsonPath("$[1].archivedCarts[0].products[0].price").value(equalTo(55.99)))
-                .andExpect(jsonPath("$[1].archivedCarts[0].products[1].name").value(equalTo("product")))
-                .andExpect(jsonPath("$[1].archivedCarts[0].products[1].price").value(equalTo(110)))
-                .andExpect(jsonPath("$[1].archivedCarts[0].finalizedCart").value(equalTo(false)))
-                .andExpect(jsonPath("$[1].archivedCarts[0].paidCart").value(equalTo(false)))
-                .andExpect(jsonPath("$[1].archivedCarts[1].products[0].name").value(equalTo("test")))
-                .andExpect(jsonPath("$[1].archivedCarts[1].products[0].price").value(equalTo(55.99)))
-                .andExpect(jsonPath("$[1].archivedCarts[1].products[1].name").value(equalTo("product")))
-                .andExpect(jsonPath("$[1].archivedCarts[1].products[1].price").value(equalTo(110)))
-                .andExpect(jsonPath("$[1].archivedCarts[1].finalizedCart").value(equalTo(true)))
-                .andExpect(jsonPath("$[1].archivedCarts[1].paidCart").value(equalTo(true)))
+                .andExpect(jsonPath("$[1].shopOrders[0].orderContents[0].product.name", anyOf(equalTo("test"), equalTo("product"))))
+                .andExpect(jsonPath("$[1].shopOrders[0].orderContents[0].product.price", anyOf(equalTo(55.99), equalTo(110.00))))
+                .andExpect(jsonPath("$[1].shopOrders[0].orderContents[1].product.name", anyOf(equalTo("test"), equalTo("product"))))
+                .andExpect(jsonPath("$[1].shopOrders[0].orderContents[1].product.price", anyOf(equalTo(55.99), equalTo(110.00))))
+                .andExpect(jsonPath("$[1].shopOrders[0].finalizedShopOrder").value(equalTo(false)))
+                .andExpect(jsonPath("$[1].shopOrders[0].paidShopOrder").value(equalTo(false)))
+                .andExpect(jsonPath("$[1].shopOrders[1].orderContents[0].product.name", anyOf(equalTo("test"), equalTo("product"))))
+                .andExpect(jsonPath("$[1].shopOrders[1].orderContents[0].product.price", anyOf(equalTo(55.99), equalTo(110.00))))
+                .andExpect(jsonPath("$[1].shopOrders[1].orderContents[1].product.name", anyOf(equalTo("test"), equalTo("product"))))
+                .andExpect(jsonPath("$[1].shopOrders[1].orderContents[1].product.price", anyOf(equalTo(55.99), equalTo(110.00))))
+                .andExpect(jsonPath("$[1].shopOrders[1].finalizedShopOrder").value(equalTo(true)))
+                .andExpect(jsonPath("$[1].shopOrders[1].paidShopOrder").value(equalTo(true)))
                 .andExpect(jsonPath("$[2].firstName").value(equalTo("Someone")))
                 .andExpect(jsonPath("$[2].lastName").value(equalTo("First")))
                 .andExpect(jsonPath("$[2].fullName").value(equalTo("Someone First")))
@@ -163,18 +164,18 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$[2].address.postalCode").value(equalTo("1234")))
                 .andExpect(jsonPath("$[2].address.city").value(equalTo("Somewhere")))
                 .andExpect(jsonPath("$[2].address.country").value(equalTo("Belgium")))
-                .andExpect(jsonPath("$[2].archivedCarts[0].products[0].name").value(equalTo("test")))
-                .andExpect(jsonPath("$[2].archivedCarts[0].products[0].price").value(equalTo(55.99)))
-                .andExpect(jsonPath("$[2].archivedCarts[0].products[1].name").value(equalTo("product")))
-                .andExpect(jsonPath("$[2].archivedCarts[0].products[1].price").value(equalTo(110)))
-                .andExpect(jsonPath("$[2].archivedCarts[0].finalizedCart").value(equalTo(false)))
-                .andExpect(jsonPath("$[2].archivedCarts[0].paidCart").value(equalTo(false)))
-                .andExpect(jsonPath("$[2].archivedCarts[1].products[0].name").value(equalTo("test")))
-                .andExpect(jsonPath("$[2].archivedCarts[1].products[0].price").value(equalTo(55.99)))
-                .andExpect(jsonPath("$[2].archivedCarts[1].products[1].name").value(equalTo("product")))
-                .andExpect(jsonPath("$[2].archivedCarts[1].products[1].price").value(equalTo(110)))
-                .andExpect(jsonPath("$[2].archivedCarts[1].finalizedCart").value(equalTo(true)))
-                .andExpect(jsonPath("$[2].archivedCarts[1].paidCart").value(equalTo(true)));
+                .andExpect(jsonPath("$[2].shopOrders[0].orderContents[0].product.name", anyOf(equalTo("test"), equalTo("product"))))
+                .andExpect(jsonPath("$[2].shopOrders[0].orderContents[0].product.price", anyOf(equalTo(55.99), equalTo(110.00))))
+                .andExpect(jsonPath("$[2].shopOrders[0].orderContents[1].product.name", anyOf(equalTo("test"), equalTo("product"))))
+                .andExpect(jsonPath("$[2].shopOrders[0].orderContents[1].product.price", anyOf(equalTo(55.99), equalTo(110.00))))
+                .andExpect(jsonPath("$[2].shopOrders[0].finalizedShopOrder").value(equalTo(false)))
+                .andExpect(jsonPath("$[2].shopOrders[0].paidShopOrder").value(equalTo(false)))
+                .andExpect(jsonPath("$[2].shopOrders[1].orderContents[0].product.name", anyOf(equalTo("test"), equalTo("product"))))
+                .andExpect(jsonPath("$[2].shopOrders[1].orderContents[0].product.price", anyOf(equalTo(55.99), equalTo(110.00))))
+                .andExpect(jsonPath("$[2].shopOrders[1].orderContents[1].product.name", anyOf(equalTo("test"), equalTo("product"))))
+                .andExpect(jsonPath("$[2].shopOrders[1].orderContents[1].product.price", anyOf(equalTo(55.99), equalTo(110.00))))
+                .andExpect(jsonPath("$[2].shopOrders[1].finalizedShopOrder").value(equalTo(true)))
+                .andExpect(jsonPath("$[2].shopOrders[1].paidShopOrder").value(equalTo(true)));
         verify(userService, times(1)).findAll();
     }
 }

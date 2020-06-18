@@ -24,5 +24,4 @@ public class ProductDto {
     private Set<StarRating> ratings;
     private Double averageRating;
     private Set<Review> reviews;
-
 }

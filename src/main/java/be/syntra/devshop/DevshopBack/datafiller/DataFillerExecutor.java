@@ -1,7 +1,7 @@
 package be.syntra.devshop.DevshopBack.datafiller;
 
-import be.syntra.devshop.DevshopBack.services.DataFillerImpl;
 import be.syntra.devshop.DevshopBack.services.DataFillerService;
+import be.syntra.devshop.DevshopBack.services.DataFillerServiceImpl;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -15,10 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 @NoArgsConstructor
 public class DataFillerExecutor implements DataFillerService, ApplicationRunner {
 
-    private DataFillerImpl dataFiller;
+    private DataFillerServiceImpl dataFiller;
 
     @Autowired
-    public DataFillerExecutor(DataFillerImpl dataFiller) {
+    public DataFillerExecutor(DataFillerServiceImpl dataFiller) {
         this.dataFiller = dataFiller;
     }
 

@@ -68,7 +68,7 @@ public class ProductUtils {
 
     public static List<Product> createDummyNonArchivedProductList() {
         Product product1 = Product.builder().name("test").categories(createMutableCategoryList()).price(new BigDecimal("55.99")).build();
-        Product product2 = Product.builder().name("product").categories(createMutableCategoryList()).price(new BigDecimal("110")).build();
+        Product product2 = Product.builder().name("product").categories(createMutableCategoryList()).price(new BigDecimal("110.00")).build();
         List<Product> productList = new ArrayList<>();
         productList.add(product1);
         productList.add(product2);
@@ -77,7 +77,7 @@ public class ProductUtils {
 
     public static List<ProductDto> createDummyProductDtoList() {
         ProductDto product1 = ProductDto.builder().name("test").price(new BigDecimal("55.99")).build();
-        ProductDto product2 = ProductDto.builder().name("product").price(new BigDecimal("110")).build();
+        ProductDto product2 = ProductDto.builder().name("product").price(new BigDecimal("110.00")).build();
         List<ProductDto> productList = new ArrayList<>();
         productList.add(product1);
         productList.add(product2);
