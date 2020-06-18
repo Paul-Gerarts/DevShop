@@ -27,6 +27,7 @@ public class SearchModelMapper {
                 .pageSize(searchModelDto.getPageSize())
                 .selectedCategories(searchModelDto.getSelectedCategories())
                 .averageRating(searchModelDto.getAverageRating())
+                .starRatingValues(searchModelDto.getStarRatingValues())
                 .build();
     }
 }

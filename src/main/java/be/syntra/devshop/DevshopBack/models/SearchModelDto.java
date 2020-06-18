@@ -29,5 +29,6 @@ public class SearchModelDto {
     private Integer pageNumber;
     private Integer pageSize;
     private List<String> selectedCategories;
+    private List<Integer> starRatingValues;
     private double averageRating;
 }

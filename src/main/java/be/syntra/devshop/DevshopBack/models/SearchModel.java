@@ -30,6 +30,7 @@ public class SearchModel {
     private Integer pageNumber;
     private Integer pageSize;
     private List<String> selectedCategories;
+    private List<Integer> starRatingValues;
 
     @Override
     public String toString() {
