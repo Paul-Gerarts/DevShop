@@ -44,6 +44,7 @@ public class SearchModel {
                 "nameSortActive=" + nameSortActive + "\n" +
                 "priceSortActive=" + priceSortActive + "\n" +
                 "archivedView=" + archivedView + "\n" +
+                "archivedSearchSwitch=" + archivedSearchSwitch + "\n" +
                 "searchResultView=" + searchResultView + "\n" +
                 "searchFailure=" + searchFailure + "\n" +
                 "activeFilters=" + activeFilters + "\n" +

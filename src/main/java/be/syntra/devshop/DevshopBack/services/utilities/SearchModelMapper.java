@@ -12,6 +12,7 @@ public class SearchModelMapper {
                 .activeFilters(searchModelDto.isActiveFilters())
                 .appliedFiltersHeader(searchModelDto.getAppliedFiltersHeader())
                 .archivedView(searchModelDto.isArchivedView())
+                .archivedSearchSwitch(searchModelDto.isArchivedSearchSwitch())
                 .description(searchModelDto.getDescription())
                 .priceHigh(searchModelDto.getPriceHigh())
                 .priceLow(searchModelDto.getPriceLow())
@@ -25,6 +26,7 @@ public class SearchModelMapper {
                 .pageNumber(searchModelDto.getPageNumber())
                 .pageSize(searchModelDto.getPageSize())
                 .selectedCategories(searchModelDto.getSelectedCategories())
+                .averageRating(searchModelDto.getAverageRating())
                 .build();
     }
 }
