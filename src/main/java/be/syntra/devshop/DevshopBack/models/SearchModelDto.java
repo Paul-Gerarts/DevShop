@@ -21,6 +21,7 @@ public class SearchModelDto {
     private boolean nameSortActive;
     private boolean priceSortActive;
     private boolean archivedView;
+    private boolean archivedSearchSwitch;
     private boolean searchResultView;
     private boolean searchFailure;
     private boolean activeFilters;
@@ -28,4 +29,6 @@ public class SearchModelDto {
     private Integer pageNumber;
     private Integer pageSize;
     private List<String> selectedCategories;
+    private List<Integer> starRatingValues;
+    private double averageRating;
 }

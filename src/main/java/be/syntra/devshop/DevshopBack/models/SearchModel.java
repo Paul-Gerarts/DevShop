@@ -22,6 +22,7 @@ public class SearchModel {
     private boolean nameSortActive;
     private boolean priceSortActive;
     private boolean archivedView;
+    private boolean archivedSearchSwitch;
     private boolean searchResultView;
     private boolean searchFailure;
     private boolean activeFilters;
@@ -29,6 +30,7 @@ public class SearchModel {
     private Integer pageNumber;
     private Integer pageSize;
     private List<String> selectedCategories;
+    private List<Integer> starRatingValues;
 
     @Override
     public String toString() {
@@ -43,6 +45,7 @@ public class SearchModel {
                 "nameSortActive=" + nameSortActive + "\n" +
                 "priceSortActive=" + priceSortActive + "\n" +
                 "archivedView=" + archivedView + "\n" +
+                "archivedSearchSwitch=" + archivedSearchSwitch + "\n" +
                 "searchResultView=" + searchResultView + "\n" +
                 "searchFailure=" + searchFailure + "\n" +
                 "activeFilters=" + activeFilters + "\n" +

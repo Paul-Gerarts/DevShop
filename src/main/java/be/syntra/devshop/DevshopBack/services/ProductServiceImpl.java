@@ -92,7 +92,7 @@ public class ProductServiceImpl implements ProductService {
                 searchModel.getPriceLow(),
                 searchModel.getPriceHigh(),
                 searchModel.getAverageRating(),
-                searchModel.isArchivedView(),
+                searchModel.isArchivedView() || searchModel.isArchivedSearchSwitch(),
                 searchModel.getSelectedCategories(),
                 searchModel.getSelectedCategories().size());
     }
