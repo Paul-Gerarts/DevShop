@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static be.syntra.devshop.DevshopBack.testutilities.ProductUtils.createNonArchivedProduct;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -34,8 +35,8 @@ class ShopOrderFactoryTest {
 
         // then
         assertThat(resultShopOrder.getClass()).isEqualTo(ShopOrder.class);
-        assertThat(resultShopOrder.isFinalizedShopOrder()).isEqualTo(true);
-        assertThat(resultShopOrder.isPaidShopOrder()).isEqualTo(true);
+        assertTrue(resultShopOrder.isFinalizedShopOrder());
+        assertTrue(resultShopOrder.isPaidShopOrder());
         assertThat(resultShopOrder.getOrderContents().iterator().next()).isEqualTo(dummyOrderContent);
     }
 }

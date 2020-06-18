@@ -19,8 +19,7 @@ public class ShopOrderFactory {
         this.orderContentFactory = orderContentFactory;
     }
 
-    public ShopOrder of(
-    ) {
+    public ShopOrder of() {
         return ShopOrder.builder()
                 .shopOrderCreationDateTime(LocalDateTime.now())
                 .finalizedShopOrder(true)
@@ -36,5 +35,4 @@ public class ShopOrderFactory {
         }
         return orderContentSet;
     }
-
 }
