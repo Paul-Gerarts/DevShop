@@ -1,0 +1,310 @@
+typeSearchIndex = [{
+    "p": "be.syntra.devshop.DevshopBack.entities",
+    "l": "Address"
+}, {"p": "be.syntra.devshop.DevshopBack.models", "l": "AddressDto"}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "l": "AddressFactory"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "l": "AddressFactoryTest"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "l": "AddressMapper"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "l": "AddressMapperTest"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.repositories",
+    "l": "AddressRepository"
+}, {"p": "be.syntra.devshop.DevshopBack.testutilities", "l": "AddressUtils"}, {
+    "l": "All Classes",
+    "url": "allclasses-index.html"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.controllers",
+    "l": "AuthorizationController"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "l": "AuthorizationControllerTest"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "l": "CartController"
+}, {"p": "be.syntra.devshop.DevshopBack.models", "l": "CartDto"}, {
+    "p": "be.syntra.devshop.DevshopBack.models",
+    "l": "CartProductDto"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "l": "CartUtils"
+}, {"p": "be.syntra.devshop.DevshopBack.entities", "l": "Category"}, {
+    "p": "be.syntra.devshop.DevshopBack.models",
+    "l": "CategoryChangeDto"
+}, {"p": "be.syntra.devshop.DevshopBack.models", "l": "CategoryDto"}, {
+    "p": "be.syntra.devshop.DevshopBack.models",
+    "l": "CategoryList"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "l": "CategoryMapper"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "l": "CategoryMapperTest"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.repositories",
+    "l": "CategoryRepository"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "l": "CategoryService"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "l": "CategoryServiceImpl"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "l": "CategoryServiceTest"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "l": "CategoryUtils"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.configuration",
+    "l": "CorsConfiguration"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.exceptions",
+    "l": "CustomException"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.exceptions",
+    "l": "CustomGlobalExceptionHandler"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.datafiller",
+    "l": "DataFillerExecutor"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "l": "DataFillerService"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "l": "DataFillerServiceImpl"
+}, {"p": "be.syntra.devshop.DevshopBack.exceptions", "l": "DeleteException"}, {
+    "p": "be.syntra.devshop.DevshopBack",
+    "l": "DevshopBackApplication"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "l": "JsonUtils"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.jwt",
+    "l": "JWTAccessDeniedHandler"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.jwt",
+    "l": "JWTAuthenticationEntryPoint"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.jwt",
+    "l": "JWTConfigurer"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.jwt",
+    "l": "JWTFilter"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.entities",
+    "l": "JWTToken"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.jwt",
+    "l": "JWTTokenProvider"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.controllers.dtos",
+    "l": "LogInDto"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.entities",
+    "l": "OrderContent"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "l": "OrderContentFactory"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.controllers.dtos",
+    "l": "PasswordChangeDto"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.services",
+    "l": "PasswordEncoderService"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "l": "PasswordEncoderServiceTest"
+}, {"p": "be.syntra.devshop.DevshopBack.entities", "l": "Product"}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "l": "ProductController"
+}, {"p": "be.syntra.devshop.DevshopBack.models", "l": "ProductDto"}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "l": "ProductFactory"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "l": "ProductFactoryTest"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.models",
+    "l": "ProductList"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "l": "ProductMapper"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.exceptions",
+    "l": "ProductNotFoundException"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.models",
+    "l": "ProductPage"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.repositories",
+    "l": "ProductRepository"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "l": "ProductService"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "l": "ProductServiceImpl"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "l": "ProductUtils"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.controllers.dtos",
+    "l": "RegisterDto"
+}, {"p": "be.syntra.devshop.DevshopBack.entities", "l": "Review"}, {
+    "p": "be.syntra.devshop.DevshopBack.models",
+    "l": "ReviewDto"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "l": "ReviewMapper"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "l": "ReviewUtils"
+}, {"p": "be.syntra.devshop.DevshopBack.models", "l": "SearchModel"}, {
+    "p": "be.syntra.devshop.DevshopBack.models",
+    "l": "SearchModelDto"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "l": "SearchModelMapper"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "l": "SearchModelUtils"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "l": "SearchService"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "l": "SearchServiceImpl"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.entities",
+    "l": "SecurityUser"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "l": "SecurityUserFactory"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.repositories",
+    "l": "SecurityUserRepository"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.services",
+    "l": "SecurityUserService"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "l": "SecurityUserServiceTest"
+}, {"p": "be.syntra.devshop.DevshopBack.entities", "l": "ShopOrder"}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "l": "ShopOrderControllerTest"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "l": "ShopOrderFactory"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "l": "ShopOrderMapper"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "l": "ShopOrderMapperTest"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.repositories",
+    "l": "ShopOrderRepository"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "l": "ShopOrderService"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "l": "ShopOrderServiceImpl"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "l": "ShopOrderServiceTest"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "l": "SpyHelper"
+}, {"p": "be.syntra.devshop.DevshopBack.entities", "l": "StarRating"}, {
+    "p": "be.syntra.devshop.DevshopBack.models",
+    "l": "StarRatingDto"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "l": "StarRatingMapper"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "l": "StarRatingMapperTest"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.repositories",
+    "l": "StarRatingRepository"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "l": "StarRatingService"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "l": "StarRatingServiceImpl"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "l": "StarRatingServiceTest"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.models",
+    "l": "StarRatingSet"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "l": "StarRatingUtils"
+}, {"p": "be.syntra.devshop.DevshopBack.entities", "l": "User"}, {
+    "p": "be.syntra.devshop.DevshopBack.exceptions",
+    "l": "UserAlreadyRegisteredException"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "l": "UserController"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "l": "UserControllerTest"
+}, {"p": "be.syntra.devshop.DevshopBack.models", "l": "UserDto"}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "l": "UserFactory"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "l": "UserFactoryTest"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "l": "UserMapper"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.exceptions",
+    "l": "UserNotFoundException"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.repositories",
+    "l": "UserRepository"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.entities",
+    "l": "UserRole"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "l": "UserRoleFactory"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "l": "UserRoleFactoryTest"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.exceptions",
+    "l": "UserRoleNotFoundException"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.repositories",
+    "l": "UserRoleRepository"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.entities",
+    "l": "UserRoles"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.services",
+    "l": "UserRoleService"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "l": "UserRoleServiceTest"
+}, {"p": "be.syntra.devshop.DevshopBack.services", "l": "UserService"}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "l": "UserServiceImpl"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "l": "UserServiceTest"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "l": "UserUtils"
+}, {"p": "be.syntra.devshop.DevshopBack.security.configuration", "l": "WebSecurityConfig"}]

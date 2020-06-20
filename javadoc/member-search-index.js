@@ -1,0 +1,1518 @@
+memberSearchIndex = [{
+    "p": "be.syntra.devshop.DevshopBack.entities",
+    "c": "Address",
+    "l": "Address()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.models",
+    "c": "AddressDto",
+    "l": "AddressDto()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "c": "AddressFactory",
+    "l": "AddressFactory()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "c": "AddressFactoryTest",
+    "l": "AddressFactoryTest()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "AddressMapper",
+    "l": "AddressMapper()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "AddressMapperTest",
+    "l": "AddressMapperTest()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "AddressUtils",
+    "l": "AddressUtils()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.jwt",
+    "c": "JWTTokenProvider",
+    "l": "afterPropertiesSet()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "SearchService",
+    "l": "applySearchModel(SearchModel)",
+    "url": "applySearchModel(be.syntra.devshop.DevshopBack.models.SearchModel)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "SearchServiceImpl",
+    "l": "applySearchModel(SearchModel)",
+    "url": "applySearchModel(be.syntra.devshop.DevshopBack.models.SearchModel)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "JsonUtils",
+    "l": "asJsonString(Object)",
+    "url": "asJsonString(java.lang.Object)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "SpyHelper",
+    "l": "assertAllGettersCalled(Object)",
+    "url": "assertAllGettersCalled(java.lang.Object)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.controllers",
+    "c": "AuthorizationController",
+    "l": "AuthorizationController(UserService)",
+    "url": "%3Cinit%3E(be.syntra.devshop.DevshopBack.services.UserService)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "AuthorizationControllerTest",
+    "l": "AuthorizationControllerTest()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "CartController",
+    "l": "CartController(ShopOrderService, ShopOrderMapper)",
+    "url": "%3Cinit%3E(be.syntra.devshop.DevshopBack.services.ShopOrderService,be.syntra.devshop.DevshopBack.services.utilities.ShopOrderMapper)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.models",
+    "c": "CartDto",
+    "l": "CartDto()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.models",
+    "c": "CartProductDto",
+    "l": "CartProductDto()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "CartUtils",
+    "l": "CartUtils()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.entities",
+    "c": "Category",
+    "l": "Category()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.models",
+    "c": "CategoryChangeDto",
+    "l": "CategoryChangeDto()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.models",
+    "c": "CategoryDto",
+    "l": "CategoryDto()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.models",
+    "c": "CategoryList",
+    "l": "CategoryList()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "CategoryMapper",
+    "l": "CategoryMapper()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "CategoryMapperTest",
+    "l": "CategoryMapperTest()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "CategoryServiceImpl",
+    "l": "CategoryServiceImpl(CategoryRepository)",
+    "url": "%3Cinit%3E(be.syntra.devshop.DevshopBack.repositories.CategoryRepository)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "CategoryServiceTest",
+    "l": "CategoryServiceTest()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "CategoryUtils",
+    "l": "CategoryUtils()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.jwt",
+    "c": "JWTAuthenticationEntryPoint",
+    "l": "commence(HttpServletRequest, HttpServletResponse, AuthenticationException)",
+    "url": "commence(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,org.springframework.security.core.AuthenticationException)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.configuration",
+    "c": "WebSecurityConfig",
+    "l": "configure(HttpSecurity)",
+    "url": "configure(org.springframework.security.config.annotation.web.builders.HttpSecurity)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.jwt",
+    "c": "JWTConfigurer",
+    "l": "configure(HttpSecurity)",
+    "url": "configure(org.springframework.security.config.annotation.web.builders.HttpSecurity)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.configuration",
+    "c": "WebSecurityConfig",
+    "l": "configure(WebSecurity)",
+    "url": "configure(org.springframework.security.config.annotation.web.builders.WebSecurity)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "AddressMapper",
+    "l": "convertToAddress(AddressDto)",
+    "url": "convertToAddress(be.syntra.devshop.DevshopBack.models.AddressDto)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "AddressMapper",
+    "l": "convertToAddressDto(Address)",
+    "url": "convertToAddressDto(be.syntra.devshop.DevshopBack.entities.Address)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "ShopOrderMapper",
+    "l": "convertToCartList(List<CartDto>)",
+    "url": "convertToCartList(java.util.List)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "CategoryMapper",
+    "l": "convertToCategoryList(List<Category>)",
+    "url": "convertToCategoryList(java.util.List)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "ProductMapper",
+    "l": "convertToProduct(ProductDto)",
+    "url": "convertToProduct(be.syntra.devshop.DevshopBack.models.ProductDto)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "ProductMapper",
+    "l": "convertToProductDto(Product)",
+    "url": "convertToProductDto(be.syntra.devshop.DevshopBack.entities.Product)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "ProductMapper",
+    "l": "convertToProductListObject(List<Product>)",
+    "url": "convertToProductListObject(java.util.List)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "ProductMapper",
+    "l": "convertToProductListObject(ProductPage)",
+    "url": "convertToProductListObject(be.syntra.devshop.DevshopBack.models.ProductPage)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "SearchModelMapper",
+    "l": "convertToSearchModel(SearchModelDto)",
+    "url": "convertToSearchModel(be.syntra.devshop.DevshopBack.models.SearchModelDto)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "ShopOrderMapper",
+    "l": "convertToShopOrder(CartDto)",
+    "url": "convertToShopOrder(be.syntra.devshop.DevshopBack.models.CartDto)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "UserMapper",
+    "l": "convertToUser(UserDto)",
+    "url": "convertToUser(be.syntra.devshop.DevshopBack.models.UserDto)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.configuration",
+    "c": "CorsConfiguration",
+    "l": "CorsConfiguration()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.configuration",
+    "c": "CorsConfiguration",
+    "l": "corsFilter()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "AddressUtils",
+    "l": "createAddress()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "AddressUtils",
+    "l": "createAddressDto()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "AddressUtils",
+    "l": "createAddressWithId()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "CartController",
+    "l": "createArchivedCart(CartDto)",
+    "url": "createArchivedCart(be.syntra.devshop.DevshopBack.models.CartDto)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "ProductUtils",
+    "l": "createArchivedProduct()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "CartUtils",
+    "l": "createCart()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "CartUtils",
+    "l": "createCartDto()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "CategoryUtils",
+    "l": "createCategory_Headphones()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "CategoryUtils",
+    "l": "createCategory_Offices()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "CategoryUtils",
+    "l": "createCategoryList()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "CartUtils",
+    "l": "createDummyCartDtoList()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "CartUtils",
+    "l": "createDummyCartList()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "ProductUtils",
+    "l": "createDummyNonArchivedProductList()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "ProductUtils",
+    "l": "createDummyPageable()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "ProductUtils",
+    "l": "createDummyProductDtoList()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "ProductUtils",
+    "l": "createDummyProductList()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "ProductUtils",
+    "l": "createDummyProductPage()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "CategoryUtils",
+    "l": "createMutableCategoryList()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "ProductUtils",
+    "l": "createNonArchivedProduct()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "ProductController",
+    "l": "createProduct(ProductDto)",
+    "url": "createProduct(be.syntra.devshop.DevshopBack.models.ProductDto)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "ProductUtils",
+    "l": "createProductDto()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "ProductUtils",
+    "l": "createProductList()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "ProductUtils",
+    "l": "createProductPage()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "ProductUtils",
+    "l": "createProductWithId()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "StarRatingUtils",
+    "l": "createRating()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "StarRatingUtils",
+    "l": "createRatingDto()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "StarRatingUtils",
+    "l": "createRatingSet()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "UserUtils",
+    "l": "createRegisterDto()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.jwt",
+    "c": "JWTTokenProvider",
+    "l": "createToken(Authentication)",
+    "url": "createToken(org.springframework.security.core.Authentication)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "UserUtils",
+    "l": "createUser()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "UserController",
+    "l": "createUser(UserDto)",
+    "url": "createUser(be.syntra.devshop.DevshopBack.models.UserDto)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "UserUtils",
+    "l": "createUserDto()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "UserUtils",
+    "l": "createUserList()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "UserUtils",
+    "l": "createUserWithId(Long)",
+    "url": "createUserWithId(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.exceptions",
+    "c": "CustomException",
+    "l": "CustomException(HttpStatus, String)",
+    "url": "%3Cinit%3E(org.springframework.http.HttpStatus,java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.exceptions",
+    "c": "CustomGlobalExceptionHandler",
+    "l": "CustomGlobalExceptionHandler()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.datafiller",
+    "c": "DataFillerExecutor",
+    "l": "DataFillerExecutor(DataFillerServiceImpl)",
+    "url": "%3Cinit%3E(be.syntra.devshop.DevshopBack.services.DataFillerServiceImpl)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "DataFillerServiceImpl",
+    "l": "DataFillerServiceImpl(ProductRepository, ProductFactory, UserRoleRepository, UserRoleFactory, UserRepository, UserFactory, UserRoleService, SecurityUserRepository, SecurityUserFactory, CategoryRepository, StarRatingRepository, ShopOrderRepository, ShopOrderFactory, OrderContentFactory)",
+    "url": "%3Cinit%3E(be.syntra.devshop.DevshopBack.repositories.ProductRepository,be.syntra.devshop.DevshopBack.factories.ProductFactory,be.syntra.devshop.DevshopBack.security.repositories.UserRoleRepository,be.syntra.devshop.DevshopBack.factories.UserRoleFactory,be.syntra.devshop.DevshopBack.repositories.UserRepository,be.syntra.devshop.DevshopBack.factories.UserFactory,be.syntra.devshop.DevshopBack.security.services.UserRoleService,be.syntra.devshop.DevshopBack.security.repositories.SecurityUserRepository,be.syntra.devshop.DevshopBack.factories.SecurityUserFactory,be.syntra.devshop.DevshopBack.repositories.CategoryRepository,be.syntra.devshop.DevshopBack.repositories.StarRatingRepository,be.syntra.devshop.DevshopBack.repositories.ShopOrderRepository,be.syntra.devshop.DevshopBack.factories.ShopOrderFactory,be.syntra.devshop.DevshopBack.factories.OrderContentFactory)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "CategoryService",
+    "l": "delete(Long)",
+    "url": "delete(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "CategoryServiceImpl",
+    "l": "delete(Long)",
+    "url": "delete(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "ProductController",
+    "l": "deleteCategory(Long)",
+    "url": "deleteCategory(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.exceptions",
+    "c": "DeleteException",
+    "l": "DeleteException(String)",
+    "url": "%3Cinit%3E(java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack",
+    "c": "DevshopBackApplication",
+    "l": "DevshopBackApplication()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.jwt",
+    "c": "JWTFilter",
+    "l": "doFilter(ServletRequest, ServletResponse, FilterChain)",
+    "url": "doFilter(javax.servlet.ServletRequest,javax.servlet.ServletResponse,javax.servlet.FilterChain)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.services",
+    "c": "PasswordEncoderService",
+    "l": "encode(String)",
+    "url": "encode(java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.entities",
+    "c": "Review",
+    "l": "equals(Object)",
+    "url": "equals(java.lang.Object)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.entities",
+    "c": "StarRating",
+    "l": "equals(Object)",
+    "url": "equals(java.lang.Object)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.services",
+    "c": "UserRoleService",
+    "l": "findAll()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "CategoryService",
+    "l": "findAll()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "CategoryServiceImpl",
+    "l": "findAll()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "StarRatingService",
+    "l": "findAll()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "StarRatingServiceImpl",
+    "l": "findAll()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "UserService",
+    "l": "findAll()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "UserServiceImpl",
+    "l": "findAll()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "CategoryService",
+    "l": "findAllBy(String)",
+    "url": "findAllBy(java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "CategoryServiceImpl",
+    "l": "findAllBy(String)",
+    "url": "findAllBy(java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.repositories",
+    "c": "ProductRepository",
+    "l": "findAllByArchived(boolean, Pageable)",
+    "url": "findAllByArchived(boolean,org.springframework.data.domain.Pageable)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductService",
+    "l": "findAllByArchived(boolean, Pageable)",
+    "url": "findAllByArchived(boolean,org.springframework.data.domain.Pageable)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductServiceImpl",
+    "l": "findAllByArchived(boolean, Pageable)",
+    "url": "findAllByArchived(boolean,org.springframework.data.domain.Pageable)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductService",
+    "l": "findAllByCorrespondingCategory(Long)",
+    "url": "findAllByCorrespondingCategory(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductServiceImpl",
+    "l": "findAllByCorrespondingCategory(Long)",
+    "url": "findAllByCorrespondingCategory(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.repositories",
+    "c": "CategoryRepository",
+    "l": "findAllByName(String)",
+    "url": "findAllByName(java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.repositories",
+    "c": "CategoryRepository",
+    "l": "findAllByOrderByNameAsc()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductService",
+    "l": "findAllBySearchModel(Pageable, SearchModel)",
+    "url": "findAllBySearchModel(org.springframework.data.domain.Pageable,be.syntra.devshop.DevshopBack.models.SearchModel)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductServiceImpl",
+    "l": "findAllBySearchModel(Pageable, SearchModel)",
+    "url": "findAllBySearchModel(org.springframework.data.domain.Pageable,be.syntra.devshop.DevshopBack.models.SearchModel)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.repositories",
+    "c": "ProductRepository",
+    "l": "findAllBySearchModel(Pageable, String, String, BigDecimal, BigDecimal, double, boolean, List<String>, int)",
+    "url": "findAllBySearchModel(org.springframework.data.domain.Pageable,java.lang.String,java.lang.String,java.math.BigDecimal,java.math.BigDecimal,double,boolean,java.util.List,int)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.repositories",
+    "c": "ProductRepository",
+    "l": "findAllStarRatingFromProduct(Long)",
+    "url": "findAllStarRatingFromProduct(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.repositories",
+    "c": "ProductRepository",
+    "l": "findAllWithCorrespondingCategories(Long)",
+    "url": "findAllWithCorrespondingCategories(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.repositories",
+    "c": "ProductRepository",
+    "l": "findAllWithCorrespondingCategory(Long)",
+    "url": "findAllWithCorrespondingCategory(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "ProductController",
+    "l": "findBy(Long)",
+    "url": "findBy(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "ProductController",
+    "l": "findBy(String, Long)",
+    "url": "findBy(java.lang.String,java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.repositories",
+    "c": "ProductRepository",
+    "l": "findById(Long)",
+    "url": "findById(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "CategoryService",
+    "l": "findById(Long)",
+    "url": "findById(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "CategoryServiceImpl",
+    "l": "findById(Long)",
+    "url": "findById(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductService",
+    "l": "findById(Long)",
+    "url": "findById(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductServiceImpl",
+    "l": "findById(Long)",
+    "url": "findById(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.services",
+    "c": "UserRoleService",
+    "l": "findByRoleName(String)",
+    "url": "findByRoleName(java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.repositories",
+    "c": "SecurityUserRepository",
+    "l": "findByUserName(String)",
+    "url": "findByUserName(java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.services",
+    "c": "SecurityUserService",
+    "l": "findByUserName(String)",
+    "url": "findByUserName(java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "ProductController",
+    "l": "findCategoryBy(Long)",
+    "url": "findCategoryBy(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.repositories",
+    "c": "CategoryRepository",
+    "l": "findOneByName(String)",
+    "url": "findOneByName(java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "CategoryService",
+    "l": "findOneByName(String)",
+    "url": "findOneByName(java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "CategoryServiceImpl",
+    "l": "findOneByName(String)",
+    "url": "findOneByName(java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "ProductController",
+    "l": "findProductById(Long)",
+    "url": "findProductById(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.repositories",
+    "c": "ProductRepository",
+    "l": "findRoundedMaxPrice(boolean)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductService",
+    "l": "findRoundedMaxPrice(boolean)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductServiceImpl",
+    "l": "findRoundedMaxPrice(boolean)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.repositories",
+    "c": "UserRepository",
+    "l": "findUserByEmail(String)",
+    "url": "findUserByEmail(java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.repositories",
+    "c": "UserRoleRepository",
+    "l": "findUserRoleByName(String)",
+    "url": "findUserRoleByName(java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "AuthorizationControllerTest",
+    "l": "frontendCanLoginTest()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductService",
+    "l": "getAllRatingsFromProduct(Long)",
+    "url": "getAllRatingsFromProduct(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductServiceImpl",
+    "l": "getAllRatingsFromProduct(Long)",
+    "url": "getAllRatingsFromProduct(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.jwt",
+    "c": "JWTTokenProvider",
+    "l": "getAuthentication(String)",
+    "url": "getAuthentication(java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.entities",
+    "c": "SecurityUser",
+    "l": "getAuthorities()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "ReviewUtils",
+    "l": "getDummyOtherReview()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "ReviewUtils",
+    "l": "getDummyReview()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "ReviewUtils",
+    "l": "getDummyReviewDto()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "SearchModelUtils",
+    "l": "getDummySearchModel()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "SearchModelUtils",
+    "l": "getDummySearchModelDto()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "UserService",
+    "l": "getNewJwtToken(String, String)",
+    "url": "getNewJwtToken(java.lang.String,java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "UserServiceImpl",
+    "l": "getNewJwtToken(String, String)",
+    "url": "getNewJwtToken(java.lang.String,java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.entities",
+    "c": "SecurityUser",
+    "l": "getPassword()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.repositories",
+    "c": "ProductRepository",
+    "l": "getProductRating(Long)",
+    "url": "getProductRating(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductService",
+    "l": "getProductRating(Long)",
+    "url": "getProductRating(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductServiceImpl",
+    "l": "getProductRating(Long)",
+    "url": "getProductRating(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.repositories",
+    "c": "StarRatingRepository",
+    "l": "getRatingFromUser(Long, String)",
+    "url": "getRatingFromUser(java.lang.Long,java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "StarRatingService",
+    "l": "getRatingFromUser(Long, String)",
+    "url": "getRatingFromUser(java.lang.Long,java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "StarRatingServiceImpl",
+    "l": "getRatingFromUser(Long, String)",
+    "url": "getRatingFromUser(java.lang.Long,java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "ReviewUtils",
+    "l": "getReviewSetWithDummyOtherReview()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "ReviewUtils",
+    "l": "getReviewSetWithDummyReview()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "UserService",
+    "l": "getUserByEmail(String)",
+    "url": "getUserByEmail(java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "UserServiceImpl",
+    "l": "getUserByEmail(String)",
+    "url": "getUserByEmail(java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "UserService",
+    "l": "getUserById(Long)",
+    "url": "getUserById(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "UserServiceImpl",
+    "l": "getUserById(Long)",
+    "url": "getUserById(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.entities",
+    "c": "SecurityUser",
+    "l": "getUsername()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.exceptions",
+    "c": "CustomGlobalExceptionHandler",
+    "l": "giveHttpStatus(CustomException)",
+    "url": "giveHttpStatus(be.syntra.devshop.DevshopBack.exceptions.CustomException)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.jwt",
+    "c": "JWTAccessDeniedHandler",
+    "l": "handle(HttpServletRequest, HttpServletResponse, AccessDeniedException)",
+    "url": "handle(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,org.springframework.security.access.AccessDeniedException)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.entities",
+    "c": "Review",
+    "l": "hashCode()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.entities",
+    "c": "StarRating",
+    "l": "hashCode()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.datafiller",
+    "c": "DataFillerExecutor",
+    "l": "importData()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "DataFillerService",
+    "l": "importData()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "c": "ProductFactoryTest",
+    "l": "init()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "CategoryServiceTest",
+    "l": "init()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "SecurityUserServiceTest",
+    "l": "init()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ShopOrderServiceTest",
+    "l": "init()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "StarRatingServiceTest",
+    "l": "init()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "UserRoleServiceTest",
+    "l": "init()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "UserServiceTest",
+    "l": "init()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "CategoryMapperTest",
+    "l": "init()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "DataFillerServiceImpl",
+    "l": "initialize()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.entities",
+    "c": "SecurityUser",
+    "l": "isAccountNonExpired()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.entities",
+    "c": "SecurityUser",
+    "l": "isAccountNonLocked()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.entities",
+    "c": "SecurityUser",
+    "l": "isCredentialsNonExpired()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.entities",
+    "c": "SecurityUser",
+    "l": "isEnabled()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "JsonUtils",
+    "l": "JsonUtils(ObjectMapper)",
+    "url": "%3Cinit%3E(com.fasterxml.jackson.databind.ObjectMapper)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.jwt",
+    "c": "JWTAccessDeniedHandler",
+    "l": "JWTAccessDeniedHandler()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.jwt",
+    "c": "JWTAuthenticationEntryPoint",
+    "l": "JWTAuthenticationEntryPoint()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.jwt",
+    "c": "JWTConfigurer",
+    "l": "JWTConfigurer(JWTTokenProvider)",
+    "url": "%3Cinit%3E(be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.jwt",
+    "c": "JWTFilter",
+    "l": "JWTFilter(JWTTokenProvider)",
+    "url": "%3Cinit%3E(be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.entities",
+    "c": "JWTToken",
+    "l": "JWTToken()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.jwt",
+    "c": "JWTTokenProvider",
+    "l": "JWTTokenProvider(String, Long, SecurityUserService)",
+    "url": "%3Cinit%3E(java.lang.String,java.lang.Long,be.syntra.devshop.DevshopBack.security.services.SecurityUserService)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.jwt",
+    "c": "JWTTokenProvider",
+    "l": "key"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.services",
+    "c": "SecurityUserService",
+    "l": "loadUserByUsername(String)",
+    "url": "loadUserByUsername(java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.controllers",
+    "c": "AuthorizationController",
+    "l": "login(LogInDto)",
+    "url": "login(be.syntra.devshop.DevshopBack.security.controllers.dtos.LogInDto)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.controllers.dtos",
+    "c": "LogInDto",
+    "l": "LogInDto()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack",
+    "c": "DevshopBackApplication",
+    "l": "main(String[])",
+    "url": "main(java.lang.String[])"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "CategoryMapper",
+    "l": "mapToCategory(List<String>)",
+    "url": "mapToCategory(java.util.List)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "CategoryMapper",
+    "l": "mapToCategoryDto(Category)",
+    "url": "mapToCategoryDto(be.syntra.devshop.DevshopBack.entities.Category)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "StarRatingMapper",
+    "l": "mapToDto(StarRating)",
+    "url": "mapToDto(be.syntra.devshop.DevshopBack.entities.StarRating)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "ReviewMapper",
+    "l": "mapToReview(ReviewDto)",
+    "url": "mapToReview(be.syntra.devshop.DevshopBack.models.ReviewDto)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "StarRatingMapper",
+    "l": "mapToStarRating(StarRatingDto)",
+    "url": "mapToStarRating(be.syntra.devshop.DevshopBack.models.StarRatingDto)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "StarRatingMapper",
+    "l": "mapToStarRatingSet(Set<StarRating>)",
+    "url": "mapToStarRatingSet(java.util.Set)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "c": "OrderContentFactory",
+    "l": "of()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "c": "ShopOrderFactory",
+    "l": "of()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "c": "ProductFactory",
+    "l": "of(String, BigDecimal, String, boolean, List<Category>, Double, Set<StarRating>)",
+    "url": "of(java.lang.String,java.math.BigDecimal,java.lang.String,boolean,java.util.List,java.lang.Double,java.util.Set)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "c": "SecurityUserFactory",
+    "l": "of(String, String, List<UserRole>)",
+    "url": "of(java.lang.String,java.lang.String,java.util.List)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "c": "AddressFactory",
+    "l": "of(String, String, String, String, String, String)",
+    "url": "of(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "c": "UserRoleFactory",
+    "l": "of(String)",
+    "url": "of(java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "c": "ProductFactory",
+    "l": "ofRandomProducts(int)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "c": "UserFactory",
+    "l": "ofRegisterDto(RegisterDto)",
+    "url": "ofRegisterDto(be.syntra.devshop.DevshopBack.security.controllers.dtos.RegisterDto)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "c": "UserFactory",
+    "l": "ofSecurity(String, String, String)",
+    "url": "ofSecurity(java.lang.String,java.lang.String,java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.entities",
+    "c": "OrderContent",
+    "l": "OrderContent()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "c": "OrderContentFactory",
+    "l": "OrderContentFactory(ProductRepository)",
+    "url": "%3Cinit%3E(be.syntra.devshop.DevshopBack.repositories.ProductRepository)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.controllers.dtos",
+    "c": "PasswordChangeDto",
+    "l": "PasswordChangeDto()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.configuration",
+    "c": "WebSecurityConfig",
+    "l": "passwordEncoder()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.services",
+    "c": "PasswordEncoderService",
+    "l": "PasswordEncoderService()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "PasswordEncoderServiceTest",
+    "l": "PasswordEncoderServiceTest()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.entities",
+    "c": "Product",
+    "l": "Product()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "ProductController",
+    "l": "ProductController(ProductService, CategoryService, SearchService, StarRatingService, SearchModelMapper, ProductMapper, CategoryMapper, StarRatingMapper, ReviewMapper)",
+    "url": "%3Cinit%3E(be.syntra.devshop.DevshopBack.services.ProductService,be.syntra.devshop.DevshopBack.services.CategoryService,be.syntra.devshop.DevshopBack.services.SearchService,be.syntra.devshop.DevshopBack.services.StarRatingService,be.syntra.devshop.DevshopBack.services.utilities.SearchModelMapper,be.syntra.devshop.DevshopBack.services.utilities.ProductMapper,be.syntra.devshop.DevshopBack.services.utilities.CategoryMapper,be.syntra.devshop.DevshopBack.services.utilities.StarRatingMapper,be.syntra.devshop.DevshopBack.services.utilities.ReviewMapper)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.models",
+    "c": "ProductDto",
+    "l": "ProductDto()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "c": "ProductFactory",
+    "l": "ProductFactory(CategoryService, StarRatingService)",
+    "url": "%3Cinit%3E(be.syntra.devshop.DevshopBack.services.CategoryService,be.syntra.devshop.DevshopBack.services.StarRatingService)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "c": "ProductFactoryTest",
+    "l": "ProductFactoryTest()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.models",
+    "c": "ProductList",
+    "l": "ProductList()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "ProductMapper",
+    "l": "ProductMapper()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.exceptions",
+    "c": "ProductNotFoundException",
+    "l": "ProductNotFoundException(String)",
+    "url": "%3Cinit%3E(java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.models",
+    "c": "ProductPage",
+    "l": "ProductPage()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductServiceImpl",
+    "l": "ProductServiceImpl(ProductRepository, CategoryService)",
+    "url": "%3Cinit%3E(be.syntra.devshop.DevshopBack.repositories.ProductRepository,be.syntra.devshop.DevshopBack.services.CategoryService)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "ProductUtils",
+    "l": "ProductUtils()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "JsonUtils",
+    "l": "readValue(String, Class<?>)",
+    "url": "readValue(java.lang.String,java.lang.Class)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.controllers.dtos",
+    "c": "RegisterDto",
+    "l": "RegisterDto()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.controllers",
+    "c": "AuthorizationController",
+    "l": "registerNewCustomer(RegisterDto)",
+    "url": "registerNewCustomer(be.syntra.devshop.DevshopBack.security.controllers.dtos.RegisterDto)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "UserService",
+    "l": "registerUser(RegisterDto)",
+    "url": "registerUser(be.syntra.devshop.DevshopBack.security.controllers.dtos.RegisterDto)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "UserServiceImpl",
+    "l": "registerUser(RegisterDto)",
+    "url": "registerUser(be.syntra.devshop.DevshopBack.security.controllers.dtos.RegisterDto)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductService",
+    "l": "removeOneCategory(Long)",
+    "url": "removeOneCategory(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductServiceImpl",
+    "l": "removeOneCategory(Long)",
+    "url": "removeOneCategory(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductService",
+    "l": "removeReview(Review, Long)",
+    "url": "removeReview(be.syntra.devshop.DevshopBack.entities.Review,java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductServiceImpl",
+    "l": "removeReview(Review, Long)",
+    "url": "removeReview(be.syntra.devshop.DevshopBack.entities.Review,java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "ProductController",
+    "l": "removeReview(ReviewDto)",
+    "url": "removeReview(be.syntra.devshop.DevshopBack.models.ReviewDto)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "ProductController",
+    "l": "retrieveAllCategories()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "ProductController",
+    "l": "retrieveAllProductsBySearchModel(SearchModelDto)",
+    "url": "retrieveAllProductsBySearchModel(be.syntra.devshop.DevshopBack.models.SearchModelDto)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "UserController",
+    "l": "retrieveAllUsers()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "ProductController",
+    "l": "retrieveAllWithCorrespondingCategory(Long)",
+    "url": "retrieveAllWithCorrespondingCategory(java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.entities",
+    "c": "Review",
+    "l": "Review()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.models",
+    "c": "ReviewDto",
+    "l": "ReviewDto()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "ReviewMapper",
+    "l": "ReviewMapper()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "ReviewUtils",
+    "l": "ReviewUtils()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.entities",
+    "c": "UserRoles",
+    "l": "ROLE_ADMIN"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.entities",
+    "c": "UserRoles",
+    "l": "ROLE_USER"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.datafiller",
+    "c": "DataFillerExecutor",
+    "l": "run(ApplicationArguments)",
+    "url": "run(org.springframework.boot.ApplicationArguments)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductService",
+    "l": "save(Product)",
+    "url": "save(be.syntra.devshop.DevshopBack.entities.Product)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductServiceImpl",
+    "l": "save(Product)",
+    "url": "save(be.syntra.devshop.DevshopBack.entities.Product)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "UserService",
+    "l": "save(User)",
+    "url": "save(be.syntra.devshop.DevshopBack.entities.User)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "UserServiceImpl",
+    "l": "save(User)",
+    "url": "save(be.syntra.devshop.DevshopBack.entities.User)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ShopOrderService",
+    "l": "saveShopOrder(ShopOrder, String)",
+    "url": "saveShopOrder(be.syntra.devshop.DevshopBack.entities.ShopOrder,java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ShopOrderServiceImpl",
+    "l": "saveShopOrder(ShopOrder, String)",
+    "url": "saveShopOrder(be.syntra.devshop.DevshopBack.entities.ShopOrder,java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.models",
+    "c": "SearchModel",
+    "l": "SearchModel()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.models",
+    "c": "SearchModelDto",
+    "l": "SearchModelDto()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "SearchModelMapper",
+    "l": "SearchModelMapper()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "SearchModelUtils",
+    "l": "SearchModelUtils()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "SearchServiceImpl",
+    "l": "SearchServiceImpl(ProductService)",
+    "url": "%3Cinit%3E(be.syntra.devshop.DevshopBack.services.ProductService)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.entities",
+    "c": "SecurityUser",
+    "l": "SecurityUser()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "c": "SecurityUserFactory",
+    "l": "SecurityUserFactory()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.services",
+    "c": "SecurityUserService",
+    "l": "SecurityUserService(SecurityUserRepository)",
+    "url": "%3Cinit%3E(be.syntra.devshop.DevshopBack.security.repositories.SecurityUserRepository)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "SecurityUserServiceTest",
+    "l": "SecurityUserServiceTest()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductService",
+    "l": "setNewCategory(Long, Long)",
+    "url": "setNewCategory(java.lang.Long,java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductServiceImpl",
+    "l": "setNewCategory(Long, Long)",
+    "url": "setNewCategory(java.lang.Long,java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "ProductController",
+    "l": "setNewCategoryForProducts(CategoryChangeDto)",
+    "url": "setNewCategoryForProducts(be.syntra.devshop.DevshopBack.models.CategoryChangeDto)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.entities",
+    "c": "SecurityUser",
+    "l": "setPassword(String)",
+    "url": "setPassword(java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "AuthorizationControllerTest",
+    "l": "setUp()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "ShopOrderMapperTest",
+    "l": "setUp()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.entities",
+    "c": "ShopOrder",
+    "l": "ShopOrder()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "ShopOrderControllerTest",
+    "l": "ShopOrderControllerTest()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "c": "ShopOrderFactory",
+    "l": "ShopOrderFactory(OrderContentFactory)",
+    "url": "%3Cinit%3E(be.syntra.devshop.DevshopBack.factories.OrderContentFactory)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "ShopOrderMapper",
+    "l": "ShopOrderMapper(ProductMapper)",
+    "url": "%3Cinit%3E(be.syntra.devshop.DevshopBack.services.utilities.ProductMapper)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "ShopOrderMapperTest",
+    "l": "ShopOrderMapperTest()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ShopOrderServiceImpl",
+    "l": "ShopOrderServiceImpl(UserServiceImpl)",
+    "url": "%3Cinit%3E(be.syntra.devshop.DevshopBack.services.UserServiceImpl)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ShopOrderServiceTest",
+    "l": "ShopOrderServiceTest()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "SpyHelper",
+    "l": "SpyHelper()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.entities",
+    "c": "StarRating",
+    "l": "StarRating()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.models",
+    "c": "StarRatingDto",
+    "l": "StarRatingDto()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "StarRatingMapper",
+    "l": "StarRatingMapper()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "StarRatingMapperTest",
+    "l": "StarRatingMapperTest()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "StarRatingServiceImpl",
+    "l": "StarRatingServiceImpl(StarRatingRepository)",
+    "url": "%3Cinit%3E(be.syntra.devshop.DevshopBack.repositories.StarRatingRepository)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "StarRatingServiceTest",
+    "l": "StarRatingServiceTest()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.models",
+    "c": "StarRatingSet",
+    "l": "StarRatingSet()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "StarRatingUtils",
+    "l": "StarRatingUtils()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductService",
+    "l": "submitRating(StarRating, Long)",
+    "url": "submitRating(be.syntra.devshop.DevshopBack.entities.StarRating,java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductServiceImpl",
+    "l": "submitRating(StarRating, Long)",
+    "url": "submitRating(be.syntra.devshop.DevshopBack.entities.StarRating,java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "ProductController",
+    "l": "submitRating(StarRatingDto)",
+    "url": "submitRating(be.syntra.devshop.DevshopBack.models.StarRatingDto)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductService",
+    "l": "submitReview(Review, Long)",
+    "url": "submitReview(be.syntra.devshop.DevshopBack.entities.Review,java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductServiceImpl",
+    "l": "submitReview(Review, Long)",
+    "url": "submitReview(be.syntra.devshop.DevshopBack.entities.Review,java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "ProductController",
+    "l": "submitReview(ReviewDto)",
+    "url": "submitReview(be.syntra.devshop.DevshopBack.models.ReviewDto)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.entities",
+    "c": "Product",
+    "l": "toString()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.entities",
+    "c": "ShopOrder",
+    "l": "toString()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.entities",
+    "c": "User",
+    "l": "toString()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.models",
+    "c": "SearchModel",
+    "l": "toString()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "ProductController",
+    "l": "updateCategory(CategoryChangeDto)",
+    "url": "updateCategory(be.syntra.devshop.DevshopBack.models.CategoryChangeDto)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "CategoryService",
+    "l": "updateCategory(String, Long)",
+    "url": "updateCategory(java.lang.String,java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "CategoryServiceImpl",
+    "l": "updateCategory(String, Long)",
+    "url": "updateCategory(java.lang.String,java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "ProductController",
+    "l": "updateProduct(ProductDto)",
+    "url": "updateProduct(be.syntra.devshop.DevshopBack.models.ProductDto)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductService",
+    "l": "updateReview(Review, Long)",
+    "url": "updateReview(be.syntra.devshop.DevshopBack.entities.Review,java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "ProductServiceImpl",
+    "l": "updateReview(Review, Long)",
+    "url": "updateReview(be.syntra.devshop.DevshopBack.entities.Review,java.lang.Long)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "ProductController",
+    "l": "updateReview(ReviewDto)",
+    "url": "updateReview(be.syntra.devshop.DevshopBack.models.ReviewDto)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.entities",
+    "c": "User",
+    "l": "User()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.exceptions",
+    "c": "UserAlreadyRegisteredException",
+    "l": "UserAlreadyRegisteredException(String)",
+    "url": "%3Cinit%3E(java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "AuthorizationControllerTest",
+    "l": "userCannotRegisterTwice()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "AuthorizationControllerTest",
+    "l": "userCanRegister()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "UserController",
+    "l": "UserController(UserService, UserMapper)",
+    "url": "%3Cinit%3E(be.syntra.devshop.DevshopBack.services.UserService,be.syntra.devshop.DevshopBack.services.utilities.UserMapper)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.controllers",
+    "c": "UserControllerTest",
+    "l": "UserControllerTest()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.models",
+    "c": "UserDto",
+    "l": "UserDto()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "c": "UserFactory",
+    "l": "UserFactory()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "c": "UserFactoryTest",
+    "l": "UserFactoryTest()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services.utilities",
+    "c": "UserMapper",
+    "l": "UserMapper()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.exceptions",
+    "c": "UserNotFoundException",
+    "l": "UserNotFoundException(String)",
+    "url": "%3Cinit%3E(java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.entities",
+    "c": "UserRole",
+    "l": "UserRole()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "c": "UserRoleFactory",
+    "l": "UserRoleFactory()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.factories",
+    "c": "UserRoleFactoryTest",
+    "l": "UserRoleFactoryTest()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.exceptions",
+    "c": "UserRoleNotFoundException",
+    "l": "UserRoleNotFoundException(String)",
+    "url": "%3Cinit%3E(java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.services",
+    "c": "UserRoleService",
+    "l": "UserRoleService(UserRoleRepository)",
+    "url": "%3Cinit%3E(be.syntra.devshop.DevshopBack.security.repositories.UserRoleRepository)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "UserRoleServiceTest",
+    "l": "UserRoleServiceTest()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "UserServiceImpl",
+    "l": "UserServiceImpl(UserRepository, AuthenticationManagerBuilder, JWTTokenProvider, UserFactory)",
+    "url": "%3Cinit%3E(be.syntra.devshop.DevshopBack.repositories.UserRepository,org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder,be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider,be.syntra.devshop.DevshopBack.factories.UserFactory)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.services",
+    "c": "UserServiceTest",
+    "l": "UserServiceTest()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.testutilities",
+    "c": "UserUtils",
+    "l": "UserUtils()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.jwt",
+    "c": "JWTTokenProvider",
+    "l": "validateToken(String)",
+    "url": "validateToken(java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.entities",
+    "c": "UserRoles",
+    "l": "valueOf(String)",
+    "url": "valueOf(java.lang.String)"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.entities",
+    "c": "UserRoles",
+    "l": "values()"
+}, {
+    "p": "be.syntra.devshop.DevshopBack.security.configuration",
+    "c": "WebSecurityConfig",
+    "l": "WebSecurityConfig(CorsFilter, JWTTokenProvider, JWTAuthenticationEntryPoint, JWTAccessDeniedHandler)",
+    "url": "%3Cinit%3E(org.springframework.web.filter.CorsFilter,be.syntra.devshop.DevshopBack.security.jwt.JWTTokenProvider,be.syntra.devshop.DevshopBack.security.jwt.JWTAuthenticationEntryPoint,be.syntra.devshop.DevshopBack.security.jwt.JWTAccessDeniedHandler)"
+}]
